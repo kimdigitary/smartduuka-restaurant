@@ -1,0 +1,11 @@
+WEB & APP LOGIN CREDENTIALS
+Admin
+email: admin@example.com
+password: 123456
+Branch Manager
+email: branchmanager@example.com
+password: 123456
+
+Pos Operator
+email: posoperator@example.com
+password: 123456

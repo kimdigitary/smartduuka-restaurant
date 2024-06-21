@@ -1,6 +1,10 @@
 <?php
 
 
+use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\ExpensePaymentController;
+use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OtpController;
@@ -69,23 +73,17 @@ use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController
 use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
 use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
-
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
+
+Route::apiResource('expense-categories', ExpenseCategoryController::class);
+Route::apiResource('subscriptions', SubscriptionController::class);
+
+Route::resource('expenses', ExpensesController::class);
+Route::get('expense-category/depth-tree', [ExpenseCategoryController::class, 'depthTree']);
+Route::resource('expense-payments', ExpensePaymentController::class);
+Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
 
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
 
