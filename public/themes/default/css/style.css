@@ -1084,7 +1084,7 @@ body {
 
 .paper-link:hover svg,
     .paper-link:hover span {
-  stroke: #1772FF;
+  stroke: #F23E1D;
   --tw-text-opacity: 1;
   color: rgb(23 114 255/ var(--tw-text-opacity));
 }
@@ -1124,7 +1124,7 @@ body {
 }
 
 .info-btn:hover svg {
-  fill: #1772FF;
+  fill: #F23E1D;
 }
 
 .profile-paper {
@@ -1244,7 +1244,7 @@ body {
   position: absolute;
   top: 0.625rem;
   left: 0.625rem;
-  accent-color: #1772FF;
+  accent-color: #F23E1D;
 }
 
 .payment-label img {
@@ -5532,7 +5532,7 @@ input:checked + div svg {
 }
 
 .fill-primary {
-  fill: #1772FF;
+  fill: #F23E1D;
 }
 
 .fill-paragraph {
@@ -6254,7 +6254,7 @@ input:checked + div svg {
 }
 
 .accent-primary {
-  accent-color: #1772FF;
+  accent-color: #F23E1D;
 }
 
 .opacity-0 {
@@ -6844,7 +6844,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .hover\:fill-primary:hover {
-  fill: #1772FF;
+  fill: #F23E1D;
 }
 
 .hover\:text-white:hover {
@@ -7130,7 +7130,7 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 
   .sm\:stroke-primary {
-    stroke: #1772FF;
+    stroke: #F23E1D;
   }
 
   .sm\:p-5 {
