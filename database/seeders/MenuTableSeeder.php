@@ -117,6 +117,39 @@ class MenuTableSeeder extends Seeder
                 ]
             ],
             [
+                'name'       => 'Expenses & Categories',
+                'language'   => 'expenses',
+                'url'        => '#',
+                'icon'       => 'lab lab-item',
+                'priority'   => 100,
+                'status'     => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'name'       => 'Categories',
+                        'language'   => 'categories',
+                        'url'        => 'categories',
+                        'icon'       => 'lab lab-line-items',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+
+                    ],
+                    [
+                        'name'       => 'Expenses',
+                        'url'        => 'expenses',
+                        'language'   => 'expenses',
+                        'icon'       => 'lab lab-line-add-purchase',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ],
+                ]
+            ],
+            [
                 'name'       => 'Users',
                 'language'   => 'users',
                 'url'        => '#',
@@ -224,6 +257,28 @@ class MenuTableSeeder extends Seeder
                         'updated_at' => now()
                     ]
 
+                ]
+            ],
+            [
+                'name'       => 'Payments',
+                'language'   => 'subscriptions',
+                'url'        => '#',
+                'icon'       => 'lab ',
+                'priority'   => 100,
+                'status'     => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'name'       => 'Subscriptions',
+                        'language'   => 'subscriptions',
+                        'url'        => 'subscriptions',
+                        'icon'       => 'lab lab-line-settings',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
                 ]
             ],
             [

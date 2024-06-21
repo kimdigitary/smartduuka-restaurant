@@ -22,6 +22,10 @@ import creditBalanceReportRoutes from "./modules/creditBalanceReportRoutes";
 import tableOrderRoutes from "./modules/tableOrderRoutes";
 import adminTableOrderRoutes from "./modules/adminTableOrderRoutes";
 import diningTableRoutes from "./modules/diningTableRoutes";
+import SubscriptionListComponent from "../components/admin/Subscription/SubscriptionListComponent.vue";
+import SubscriptionCreateComponent from "../components/admin/Subscription/SubscriptionCreateComponent.vue";
+import expensesRoutes from "./modules/expensesRoutes";
+import categoriesRoutes from "./modules/categoriesRoutes";
 
 
 const baseRoutes = [
@@ -54,6 +58,28 @@ const baseRoutes = [
             breadcrumb: "dashboard",
         },
     },
+    {
+        path: "/admin/subscriptions",
+        component: SubscriptionListComponent,
+        name: "admin.subscriptions",
+        meta: {
+            isFrontend: false,
+            auth: true,
+            permissionUrl: "dashboard",
+            breadcrumb: "dashboard",
+        },
+    },
+    {
+        path: "/admin/subscriptions/create",
+        component: SubscriptionCreateComponent,
+        name: "admin.subscriptions.create",
+        meta: {
+            isFrontend: false,
+            auth: true,
+            permissionUrl: "dashboard",
+            breadcrumb: "dashboard",
+        },
+    },
 ];
 
 const routes = baseRoutes.concat(
@@ -73,7 +99,8 @@ const routes = baseRoutes.concat(
     creditBalanceReportRoutes,
     tableOrderRoutes,
     adminTableOrderRoutes,
-    diningTableRoutes
+    diningTableRoutes,
+    expensesRoutes, categoriesRoutes
 );
 
 const permission = store.getters.authPermission;
