@@ -400,28 +400,27 @@ video {
         --client-font: 'Rubik', sans-serif;
         --admin-font: 'Public Sans', sans-serif;
     }
-    
     a,
     button,
     label,
     span {
   display: inline-block; font-style: initial;
 }
-    
+
     input,
     select,
     textarea {
   background-color: transparent;
   font-size: 15px;
 }
-    
+
     input::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {
   font-size: 0.875rem;
   line-height: 1.25rem;
   --tw-text-opacity: 1;
   color: rgb(160 163 189 / var(--tw-text-opacity));
 }
-    
+
     input::placeholder,
     select::placeholder,
     textarea::placeholder {
@@ -430,7 +429,7 @@ video {
   --tw-text-opacity: 1;
   color: rgb(160 163 189 / var(--tw-text-opacity));
 }
-    
+
     input:focus-within,
     select:focus-within,
     textarea:focus-within {
@@ -5117,11 +5116,11 @@ input:checked + div svg {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 input[type=number] {
-    -moz-appearance:textfield; 
+    -moz-appearance:textfield;
 }
 
 input[type="search"]::-webkit-search-decoration,
@@ -6064,5 +6063,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     left: 1.25rem;
   }
 }
+
 
 /*# sourceMappingURL=app.css.map*/
