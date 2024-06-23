@@ -64,7 +64,7 @@ class OrderService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_by') ?? 'desc';
 
-            return Order::with('transaction', 'orderItems')->where(function ($query) use ($requests) {
+            return Order::with('transaction', 'orderItems.orderItem.variations','orderItems.orderItem.extras')->where(function ($query) use ($requests) {
                 if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = Date('Y-m-d', strtotime($requests['from_date']));
                     $last_date  = Date('Y-m-d', strtotime($requests['to_date']));

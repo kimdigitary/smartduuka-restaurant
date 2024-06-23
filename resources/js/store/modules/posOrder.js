@@ -86,6 +86,29 @@ export const posOrder = {
                 });
             });
         },
+        // edit: function (context, payload) {
+        //     return new Promise((resolve, reject) => {
+        //         axios.get(`admin/pos-order/edit/${payload}`).then((res) => {
+        //             resolve(res);
+        //         }).catch((err) => {
+        //             reject(err);
+        //         })
+        //     })
+        // },
+        // edit: function (context, payload) {
+        //     context.commit('temp', payload);
+        // },
+        edit: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.get(`admin/pos-order/show/${payload}`).then((res) => {
+                    context.commit('edit', res.data.data);
+                    context.commit('temp', payload);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        },
         destroy: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.delete(`admin/pos-order/${payload.id}`).then((res) => {
@@ -177,6 +200,10 @@ export const posOrder = {
         reset: function(state) {
             state.temp.temp_id = null;
             state.temp.isEditing = false;
-        }
+        },
+        temp: function (state, payload) {
+            state.temp.temp_id = payload;
+            state.temp.isEditing = true;
+        },
     },
 }
