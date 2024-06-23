@@ -3656,15 +3656,15 @@ input:checked + div svg {
 .h-\[calc\(100vh_-_75px\)\] {
   height: calc(100vh - 75px);
 }
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
 .h-full {
   height: 100%;
 }
 .h-screen {
   height: 100vh;
-}
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
 }
 .min-h-0 {
   min-height: 0px;
@@ -3672,6 +3672,9 @@ input:checked + div svg {
 .\!w-fit {
   width: -moz-fit-content !important;
   width: fit-content !important;
+}
+.w-1\/2 {
+  width: 50%;
 }
 .w-11 {
   width: 2.75rem;
@@ -3766,15 +3769,6 @@ input:checked + div svg {
 }
 .w-screen {
   width: 100vw;
-}
-.w-1\/2 {
-  width: 50%;
-}
-.w-52 {
-  width: 13rem;
-}
-.w-10 {
-  width: 2.5rem;
 }
 .min-w-\[120px\] {
   min-width: 120px;
@@ -4321,18 +4315,6 @@ input:checked + div svg {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.bg-violet-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(109 40 217 / var(--tw-bg-opacity));
-}
-.bg-violet-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(124 58 237 / var(--tw-bg-opacity));
-}
-.bg-violet-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(139 92 246 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));

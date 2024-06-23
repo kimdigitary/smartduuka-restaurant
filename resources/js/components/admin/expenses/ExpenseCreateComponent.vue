@@ -21,17 +21,22 @@
                     <label for="searchStartDate" class="db-field-title after:hidden required">{{
                             $t('label.date')
                         }}</label>
-                    <DatePickerComponent @update:modelValue="handleDate" :range="false" inputStyle="filter"
-                                         v-model="props.form.date"/>
+<!--                    <DatePickerComponent @update:modelValue="handleDate" :range="false" inputStyle="filter"-->
+<!--                                         v-model="props.form.date"/>-->
+                    <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="false"
+                                :is24="false" :monthChangeOnScroll="false" utc="false">
+                        <template #am-pm-button="{ toggle, value }">
+                            <button @click="toggle">{{ value }}</button>
+                        </template>
+                    </Datepicker>
                     <small class="db-field-alert" v-if="errors.date">{{ errors.date }}</small>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="product_category_id" class="db-field-title required">
+                    <label for="expense_category_id" class="db-field-title required">
                         {{ $t("label.category") }}
                     </label>
-                    {{categories}}
-                    <vue-select ref="product_category_id" class="db-field-control f-b-custom-select"
-                                id="product_category_id" v-bind:class="errors.category ? 'invalid' : ''"
+                    <vue-select ref="expense_category_id" class="db-field-control f-b-custom-select"
+                                id="expense_category_id" v-bind:class="errors.category ? 'invalid' : ''"
                                 v-model="props.form.category" :options="categories" label-by="option"
                                 value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                                 placeholder="--"
@@ -125,8 +130,14 @@
                     </div>
                     <div class="">
                         <label for="searchStartDate" class="db-field-title after:hidden">Paid On</label>
-                        <DatePickerComponent @update:modelValue="handlePaidOnDate" :range="false" inputStyle="filter"
-                                             v-model="props.form.paidOn"/>
+<!--                        <DatePickerComponent @update:modelValue="handlePaidOnDate" :range="false" inputStyle="filter"-->
+<!--                                             v-model="props.form.paidOn"/>-->
+                        <Datepicker hideInputIcon autoApply v-model="props.form.paidOn" :enableTimePicker="false"
+                                    :is24="false" :monthChangeOnScroll="false" utc="false">
+                            <template #am-pm-button="{ toggle, value }">
+                                <button @click="toggle">{{ value }}</button>
+                            </template>
+                        </Datepicker>
                         <small class="db-field-alert" v-if="errors.paidOn">{{ errors.paidOn }}</small>
                     </div>
                     <div class="">
@@ -185,10 +196,11 @@ import askEnum from "../../../enums/modules/askEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import isRecurringEnum from "../../../enums/modules/isRecuringEnum";
 import {paymentMethods, recurringOptions} from "../../../utils/data";
+import Datepicker from "@vuepic/vue-datepicker";
 
 export default {
     name: "ExpenseCreateComponent",
-    components: {DatePickerComponent, SmSidebarModalCreateComponent, LoadingComponent, quillEditor},
+    components: {Datepicker, DatePickerComponent, SmSidebarModalCreateComponent, LoadingComponent, quillEditor},
     // props: ['props'],
     data() {
         return {
@@ -251,18 +263,6 @@ export default {
         this.expenseInfo();
 
         this.$store.dispatch('expenseCategory/depthTrees', {
-        }).then((res) => {
-            this.categories = res.data.data;
-            console.log(this.categories)
-            this.loading.isActive = false;
-        }).catch((error) => {
-            this.loading.isActive = false;
-        });
-
-        this.loading.isActive = true;
-        this.$store.dispatch('expenseCategory/lists', {
-            order_column: 'id',
-            order_type: 'asc'
         }).then((res) => {
             this.categories = res.data.data;
             this.loading.isActive = false;
