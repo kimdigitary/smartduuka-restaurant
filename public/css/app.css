@@ -3767,6 +3767,15 @@ input:checked + div svg {
 .w-screen {
   width: 100vw;
 }
+.w-1\/2 {
+  width: 50%;
+}
+.w-52 {
+  width: 13rem;
+}
+.w-10 {
+  width: 2.5rem;
+}
 .min-w-\[120px\] {
   min-width: 120px;
 }

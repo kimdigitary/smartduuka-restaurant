@@ -382,12 +382,14 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
 
     Route::prefix('pos')->name('pos.')->group(function () {
         Route::post('/', [PosController::class, 'store']);
+        Route::post('/update', [PosController::class, 'update']);
         Route::post('/customer', [PosController::class, 'storeCustomer']);
     });
 
     Route::prefix('pos-order')->name('posOrder.')->group(function () {
         Route::get('/', [PosOrderController::class, 'index']);
         Route::get('show/{order}', [PosOrderController::class, 'show']);
+        Route::post('edit/{order}', [PosOrderController::class, 'edit']);
         Route::delete('/{order}', [PosOrderController::class, 'destroy']);
         Route::get('/export', [PosOrderController::class, 'export']);
         Route::post('/change-status/{order}', [PosOrderController::class, 'changeStatus']);
