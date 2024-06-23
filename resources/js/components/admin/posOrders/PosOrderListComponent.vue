@@ -110,8 +110,10 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                         v-if="permissionChecker('pos-orders')" />
+<!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
+<!--                                        v-if="permissionChecker('pos-orders')" /> -->
                                     <SmIconDeleteComponent @click="destroy(order.id)"
-                                        v-if="permissionChecker('pos-orders')" />
+                                        v-if="permissionChecker('pos_orders_delete')" />
                                 </div>
                             </td>
                         </tr>

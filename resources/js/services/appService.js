@@ -67,11 +67,14 @@ export default {
     },
 
     currencyFormat(amount, decimal, currency, position) {
-        if (position === currencyPositionEnum.LEFT) {
-            return currency + parseFloat(amount).toFixed(decimal);
-        } else {
-            return parseFloat(amount).toFixed(decimal) + currency;
-        }
+        // return `UGX ${parseFloat(amount).toFixed(0).toLocaleString()}`;
+        return `UGX ${new Intl.NumberFormat('en-UG', { maximumFractionDigits: 0 }).format(amount)}`;
+        // if (position === currencyPositionEnum.LEFT) {
+        //     // return currency + parseFloat(amount).toFixed(decimal);
+        //     return `UGX ${parseFloat(amount).toFixed(0).toLocaleString()}`;
+        // } else {
+        //     return parseFloat(amount).toFixed(decimal) + currency;
+        // }
     },
 
     destroyConfirmation: function () {

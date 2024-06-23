@@ -123,6 +123,47 @@ class PermissionTableSeeder extends Seeder
                 'url'        => 'pos-orders',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'POS Orders Create',
+                        'name'       => 'pos_orders_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'dining-table/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'POS Orders Edit',
+                        'name'       => 'pos_orders_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'dining-table/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'POS Orders Delete',
+                        'name'       => 'pos_orders_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'dining-tables/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'POS Orders Show',
+                        'name'       => 'pos_orders_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'dining-tables/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ], [
+                        'title'      => 'POS Orders Cancel',
+                        'name'       => 'pos_orders_cancel',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'dining-tables/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
             ],
             [
                 'title'      => 'Table Orders',
