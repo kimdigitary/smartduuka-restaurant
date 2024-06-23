@@ -152,7 +152,6 @@
                             {{ errors.paymentMethod }}
                         </small>
                     </div>
-
                     <div class=""
                          v-show="props.form.paymentMethod===2 || props.form.paymentMethod===3 || props.form.paymentMethod===4 ">
                         <label for="maximum_purchase_quantity" class="db-field-title required">{{
