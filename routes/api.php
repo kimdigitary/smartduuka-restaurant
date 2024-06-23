@@ -80,11 +80,6 @@ Route::match(['get', 'post'], '/login', function () {
 Route::apiResource('expense-categories', ExpenseCategoryController::class);
 Route::apiResource('subscriptions', SubscriptionController::class);
 
-Route::resource('expenses', ExpensesController::class);
-Route::get('expense-category/depth-tree', [ExpenseCategoryController::class, 'depthTree']);
-Route::resource('expense-payments', ExpensePaymentController::class);
-Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
-
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
 
 Route::prefix('auth')->middleware(['installed', 'apiKey', 'localization'])->name('auth.')->namespace('Auth')->group(function () {
@@ -135,6 +130,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/', [DefaultAccessController::class, 'index']);
         Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
     });
+    Route::get('expense-category/depth-tree', [ExpenseCategoryController::class, 'depthTree']);
+    Route::resource('expenses', ExpensesController::class);
+    Route::resource('expense-payments', ExpensePaymentController::class);
+    Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {
