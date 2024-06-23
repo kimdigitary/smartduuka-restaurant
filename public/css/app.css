@@ -3662,6 +3662,13 @@ input:checked + div svg {
 .h-screen {
   height: 100vh;
 }
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.min-h-0 {
+  min-height: 0px;
+}
 .\!w-fit {
   width: -moz-fit-content !important;
   width: fit-content !important;
@@ -4305,6 +4312,18 @@ input:checked + div svg {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.bg-violet-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(109 40 217 / var(--tw-bg-opacity));
+}
+.bg-violet-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(124 58 237 / var(--tw-bg-opacity));
+}
+.bg-violet-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(139 92 246 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));

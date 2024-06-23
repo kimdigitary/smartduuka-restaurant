@@ -1,20 +1,25 @@
 <template>
     <div
-        class="grid gap-3 sm:gap-[18px] grid-cols-[repeat(auto-fill,_minmax(140px,_1fr))] sm:grid-cols-[repeat(auto-fill,_minmax(185px,_1fr))] mb-8 md:mb-0" >
+        class="grid gap-3 sm:gap-[18px] grid-cols-[repeat(auto-fill,_minmax(140px,_1fr))] sm:grid-cols-[repeat(auto-fill,_minmax(185px,_1fr))] mb-8 md:mb-0">
         <div v-for="item in items" :key="item"
-            class="pos-card-height rounded-2xl border transition border-[#EFF0F6] hover:shadow-xs bg-white" >
+             class="pos-card-height rounded-2xl border transition border-[#EFF0F6] hover:shadow-xs bg-white h-fit">
             <img class="pos-image-height w-full rounded-t-2xl" :src="item.thumb" alt="item">
-            <div class="py-3 px-3 rounded-b-2xl">
-                <h3 class="text-sm mb-3 font-medium font-rubik capitalize text-ellipsis whitespace-nowrap overflow-hidden">
-                    {{ textShortener(item.name, 25) }}</h3>
-<!--                <div class="flex items-center justify-between gap-2">-->
-                <div class="flex flex-col">
-                    <h4 class="font-rubik">{{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
-                    <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"
-                            class="db-product-cart pos-add-button flex items-center gap-1.5 rounded-3xl capitalize text-sm font-medium font-rubik py-1 px-2 shadow-cardCart transition bg-white hover:bg-primary w-full">
-                        <i class="lab lab-bag-2 font-fill-primary transition lab-font-size-14"></i>
-                        <span class="text-xs font-rubik text-primary transition">{{ $t('button.add') }} to Cart</span>
-                    </button>
+            <div class="min-h-0">
+                <div class="py-3 px-3 rounded-b-2xl">
+                    <h3 class="text-sm mb-3 font-medium font-rubik capitalize text-ellipsis whitespace-nowrap overflow-hidden">
+                        {{ textShortener(item.name, 25) }}</h3>
+                    <!--                <div class="flex items-center justify-between gap-2">-->
+                    <div class="flex flex-col">
+                        <h4 class="font-rubik">
+                            {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
+                        <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"
+                                class="db-product-cart pos-add-button flex items-center gap-1.5 rounded-3xl capitalize text-sm font-medium font-rubik py-1 px-2 shadow-cardCart transition bg-white hover:bg-primary w-full">
+                            <i class="lab lab-bag-2 font-fill-primary transition lab-font-size-14"></i>
+                            <span class="text-xs font-rubik text-primary transition">{{
+                                    $t('button.add')
+                                }} to Cart</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,21 +44,23 @@
         <div class="modal-dialog max-w-[647px]" v-if="item">
             <div class="modal-header items-start border-none pb-0">
                 <div class="flex gap-4">
-                    <img class="flex-shrink-0 w-[72px] h-[72px] object-cover rounded-lg" :src="item.thumb" alt="thumbnail">
+                    <img class="flex-shrink-0 w-[72px] h-[72px] object-cover rounded-lg" :src="item.thumb"
+                         alt="thumbnail">
                     <div class="flex-auto">
                         <div class="flex items-start gap-2 mb-1">
                             <h3 class="text-sm font-semibold capitalize">{{ item.name }}</h3>
                             <button type="button" class="info-btn mt-0.5" data-modal="#item-info-modal"
-                                @click.prevent="infoModalShow(item.name, item.caution)">
+                                    @click.prevent="infoModalShow(item.name, item.caution)">
                                 <i class="lab lab-information font-fill-paragraph transition lab-font-size-16"></i>
                             </button>
                         </div>
                         <p class="text-xs mb-2">{{ item.description }}</p>
-                        <h4 class="text-sm font-semibold">{{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
+                        <h4 class="text-sm font-semibold">
+                            {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
                     </div>
                 </div>
                 <button class="modal-close lab-close-circle-line font-fill-danger lab-font-size-24"
-                    @click.prevent="variationModalHide"></button>
+                        @click.prevent="variationModalHide"></button>
             </div>
             <div class="modal-body">
                 <div class="flex items-center gap-2 mb-4">
@@ -61,11 +68,12 @@
                         {{ $t('label.quantity') }}:</h3>
                     <div class="flex items-center indec-group py-1 px-2 rounded-xl bg-[#F7F7FC]">
                         <button @click.prevent="quantityDecrement"
-                            class="fa-solid fa-minus text-[10px] w-[18px] h-[18px] leading-4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
+                                class="fa-solid fa-minus text-[10px] w-[18px] h-[18px] leading-4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
                         <input type="number" v-on:keypress="onlyNumber($event)" v-on:keyup="quantityUp"
-                            v-model="temp.quantity" class="text-center w-7 text-xs font-semibold text-heading indec-value">
+                               v-model="temp.quantity"
+                               class="text-center w-7 text-xs font-semibold text-heading indec-value">
                         <button @click.prevent="quantityIncrement"
-                            class="fa-solid fa-plus text-[10px] w-[18px] h-[18px] leading4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
+                                class="fa-solid fa-plus text-[10px] w-[18px] h-[18px] leading4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
                     </div>
                 </div>
                 <div class="mb-4" v-if="item.itemAttributes.length > 1">
@@ -82,7 +90,7 @@
                                     v-model="temp.item_variations.variations[itemAttribute.id]"
                                     class="text-xs capitalize rounded-lg h-10 w-full py-1.5 px-2.5 appearance-none transition border border-[#EFF0F6] text-heading hover:border-primary/30">
                                     <option :value="variation.id" v-for="variation in item.variations[itemAttribute.id]"
-                                        :key="variation">{{ variation.name }} +{{ variation.currency_price }}
+                                            :key="variation">{{ variation.name }} + {{ variation.currency_price }}
                                     </option>
                                 </select>
                             </div>
@@ -96,24 +104,26 @@
                     <div class="swiper size-swiper">
                         <div class="size-tabs">
                             <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
-                                <SwiperSlide class="!w-fit" v-for="variation in item.variations[item.itemAttributes[0].id]"
-                                    :key="variation">
+                                <SwiperSlide class="!w-fit"
+                                             v-for="variation in item.variations[item.itemAttributes[0].id]"
+                                             :key="variation">
                                     <label
                                         :class="temp.item_variations.variations[variation.item_attribute_id] === variation.id ? 'active' : ''"
                                         :for="variation.item_attribute_id + '-' + variation.name"
                                         class="variation-margin-right w-full h-[52px] cursor-pointer py-2 px-3 gap-2 rounded-lg flex items-center border transition border-[#F7F7FC] bg-[#F7F7FC]">
                                         <div class="custom-radio sm">
                                             <input :value="variation.id"
-                                                @click="changeVariation(variation.item_attribute_id, variation.id, variation.name, variation.convert_price)"
-                                                v-model="temp.item_variations.variations[variation.item_attribute_id]"
-                                                type="radio" :id="variation.item_attribute_id + '-' + variation.name"
-                                                class="custom-radio-field">
+                                                   @click="changeVariation(variation.item_attribute_id, variation.id, variation.name, variation.convert_price)"
+                                                   v-model="temp.item_variations.variations[variation.item_attribute_id]"
+                                                   type="radio" :id="variation.item_attribute_id + '-' + variation.name"
+                                                   class="custom-radio-field">
                                             <span class="custom-radio-span"></span>
                                         </div>
                                         <div>
                                             <h3 class="block capitalize text-xs text-heading">
                                                 {{ textShortener(variation.name, 15) }}</h3>
-                                            <h4 v-if="variation.price > 0" class="block text-xs font-medium text-heading">
+                                            <h4 v-if="variation.price > 0"
+                                                class="block text-xs font-medium text-heading">
                                                 +{{ variation.currency_price }}
                                             </h4>
                                         </div>
@@ -126,26 +136,27 @@
                 <div class="mb-4" v-if="item.extras.length > 0">
                     <h3 class="text-sm leading-6 font-medium capitalize mb-2 text-heading">{{ $t('label.extras') }}</h3>
                     <div class="extra-swiper">
-                            <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
+                        <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
                             <SwiperSlide v-for="extra in item.extras" :key="extra" class="!w-fit !relative">
-                                    <label :for="extra.id + extra.name"
-                                        class="extra w-full h-[52px] cursor-pointer py-2 px-3 gap-3 rounded-lg flex items-center border transition border-[#F7F7FC] bg-[#F7F7FC]">
-                                        <div class="custom-checkbox w-3 h-3">
-                                            <input :id="extra.id + extra.name"
-                                                @change.prevent="changeExtra($event, extra.id, extra.name)" :value="extra.id"
-                                                 type="checkbox" class="custom-checkbox-field">
-                                            <i
-                                                class="fa-solid fa-check custom-checkbox-icon leading-[9px] text-[9px] rounded-[3px]"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="block capitalize mb-1 text-xs text-heading">
-                                                {{ textShortener(extra.name, 15) }}</h3>
-                                            <h4 class="block text-xs font-medium text-heading">+{{
+                                <label :for="extra.id + extra.name"
+                                       class="extra w-full h-[52px] cursor-pointer py-2 px-3 gap-3 rounded-lg flex items-center border transition border-[#F7F7FC] bg-[#F7F7FC]">
+                                    <div class="custom-checkbox w-3 h-3">
+                                        <input :id="extra.id + extra.name"
+                                               @change.prevent="changeExtra($event, extra.id, extra.name)"
+                                               :value="extra.id"
+                                               type="checkbox" class="custom-checkbox-field">
+                                        <i
+                                            class="fa-solid fa-check custom-checkbox-icon leading-[9px] text-[9px] rounded-[3px]"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="block capitalize mb-1 text-xs text-heading">
+                                            {{ textShortener(extra.name, 15) }}</h3>
+                                        <h4 class="block text-xs font-medium text-heading">+{{
                                                 extra.currency_price
                                             }}</h4>
-                                        </div>
-                                    </label>
-                                </SwiperSlide>
+                                    </div>
+                                </label>
+                            </SwiperSlide>
                         </Swiper>
                     </div>
                 </div>
@@ -155,49 +166,51 @@
                     <div class="swiper addon-swiper">
                         <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
                             <SwiperSlide v-for="addon in item.addons" :key="addon">
-                                    <div class="!w-fit !relative">
-                                        <div @click.prevent="changeAddon(addon)"
-                                            class="addon cursor-pointer w-fit min-w-[200px] h-[70px] rounded-lg flex border border-[#EFF0F6]">
-                                            <img class="w-[68px] h-full object-cover ltr:rounded-l-lg rtl:rounded-r-lg flex-shrink-0"
-                                                :src="addon.thumb" alt="thumbnail">
-                                                <div class="ltr:rounded-r-lg rtl:rounded-l-lg w-full py-1 px-2">
+                                <div class="!w-fit !relative">
+                                    <div @click.prevent="changeAddon(addon)"
+                                         class="addon cursor-pointer w-fit min-w-[200px] h-[70px] rounded-lg flex border border-[#EFF0F6]">
+                                        <img
+                                            class="w-[68px] h-full object-cover ltr:rounded-l-lg rtl:rounded-r-lg flex-shrink-0"
+                                            :src="addon.thumb" alt="thumbnail">
+                                        <div class="ltr:rounded-r-lg rtl:rounded-l-lg w-full py-1 px-2">
                                                 <span
                                                     class="block text-xs text-ellipsis whitespace-nowrap overflow-hidden w-fit max-w-[100px] capitalize text-heading">
                                                     {{ addon.addon_item_name }}
                                                 </span>
-                                                <p v-if="addon.variation_names.length > 0"
-                                                    class=" text-left text-[10px] leading-4 capitalize mb-1.5 cursor-pointer">
+                                            <p v-if="addon.variation_names.length > 0"
+                                               class=" text-left text-[10px] leading-4 capitalize mb-1.5 cursor-pointer">
                                                     <span v-for="variation in addon.variation_names">
                                                         {{ textShortener(variation.name, 8) }}, &nbsp;
                                                     </span>
-                                                </p>
-                                                <span
+                                            </p>
+                                            <span
                                                 class="block text-xs font-semibold text-heading ltr:text-left rtl:text-right">
                                                     {{ addon.total_currency_price }}
                                                 </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                        class="flex flex-col items-end justify-between h-full absolute top-0 ltr:right-0 rtl:left-0 z-10 p-2">
-                                            <button type="button" class="info-btn" data-modal="#item-info-modal"
-                                                @click.prevent="infoModalShow(addon.addon_item_name, addon.caution)">
-                                                <i
-                                                    class="lab lab-information font-fill-paragraph transition lab-font-size-16"></i>
-                                            </button>
-
-                                            <div class="flex items-center indec-group">
-                                                <button @click.prevent="addonQuantityDecrement(addon.id)"
-                                                    class="fa-solid fa-minus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
-                                                <input v-on:keypress="onlyNumber($event)"
-                                                    v-on:keyup="addonQuantityUp(addon.id)" v-model="addonQuantity[addon.id]"
-                                                    type="number"
-                                                    class="text-center w-5 text-xs font-semibold text-heading indec-value">
-                                                <button @click.prevent="addonQuantityIncrement(addon.id)"
-                                                    class="fa-solid fa-plus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
-                                            </div>
                                         </div>
                                     </div>
-                                </SwiperSlide>
+                                    <div
+                                        class="flex flex-col items-end justify-between h-full absolute top-0 ltr:right-0 rtl:left-0 z-10 p-2">
+                                        <button type="button" class="info-btn" data-modal="#item-info-modal"
+                                                @click.prevent="infoModalShow(addon.addon_item_name, addon.caution)">
+                                            <i
+                                                class="lab lab-information font-fill-paragraph transition lab-font-size-16"></i>
+                                        </button>
+
+                                        <div class="flex items-center indec-group">
+                                            <button @click.prevent="addonQuantityDecrement(addon.id)"
+                                                    class="fa-solid fa-minus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
+                                            <input v-on:keypress="onlyNumber($event)"
+                                                   v-on:keyup="addonQuantityUp(addon.id)"
+                                                   v-model="addonQuantity[addon.id]"
+                                                   type="number"
+                                                   class="text-center w-5 text-xs font-semibold text-heading indec-value">
+                                            <button @click.prevent="addonQuantityIncrement(addon.id)"
+                                                    class="fa-solid fa-plus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
                         </Swiper>
                     </div>
                 </div>
@@ -207,10 +220,10 @@
                         {{ $t('label.special_instructions') }}
                     </h3>
                     <textarea v-model="temp.instruction" :placeholder="$t('message.add_note')"
-                        class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
+                              class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
                 </div>
                 <button type="button" :disabled="temp.total_price <= 0" @click.prevent="addToCart"
-                    class="flex items-center justify-center gap-3 rounded-3xl text-base py-3 px-3 font-medium w-full text-white bg-primary">
+                        class="flex items-center justify-center gap-3 rounded-3xl text-base py-3 px-3 font-medium w-full text-white bg-primary">
                     <i class="icon-bag-2"></i>
                     <span>
                         {{ $t('button.add_to_cart') }} -
@@ -230,8 +243,9 @@
 import appService from "../../../services/appService";
 import _ from "lodash";
 import alertService from "../../../services/alertService";
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+
 export default {
     name: "itemComponent",
     components: {
