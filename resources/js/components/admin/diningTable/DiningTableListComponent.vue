@@ -94,8 +94,11 @@
                                         v-if="permissionChecker('dining_tables_show')" />
                                     <SmIconSidebarModalEditComponent @click="edit(diningTable)"
                                         v-if="permissionChecker('dining_tables_edit')" />
+<!--                                    <SmIconDeleteComponent @click="destroy(diningTable.id)"-->
+<!--                                        v-if="permissionChecker('dining_tables_delete') && demoChecker(diningTable.id)" />-->
+
                                     <SmIconDeleteComponent @click="destroy(diningTable.id)"
-                                        v-if="permissionChecker('dining_tables_delete') && demoChecker(diningTable.id)" />
+                                        v-if="permissionChecker('dining_tables_delete')" />
                                 </div>
                             </td>
                         </tr>

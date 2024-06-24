@@ -38,6 +38,7 @@ class OrderResource extends JsonResource
             'status_name'                    => trans('orderStatus.' . $this->status),
             'customer'                       => new OrderUserResource($this->user),
             'transaction'                    => new TransactionResource($this->transaction),
+            'orderItems'                    => $this->orderItems,
         ];
     }
 }

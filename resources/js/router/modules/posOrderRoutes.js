@@ -1,6 +1,7 @@
 import PosOrderComponent from "../../components/admin/posOrders/PosOrderComponent";
 import PosOrderListComponent from "../../components/admin/posOrders/PosOrderListComponent";
 import PosOrderShowComponent from "../../components/admin/posOrders/PosOrderShowComponent";
+import PosOrderEditComponent from "../../components/admin/posOrders/PosOrderEditComponent.vue";
 
 export default [
     {
@@ -35,6 +36,16 @@ export default [
                     auth: true,
                     permissionUrl: "pos",
                     breadcrumb: "view",
+                },
+            },{
+                path: "edit/:id",
+                component: PosOrderEditComponent,
+                name: "admin.pos.orders.edit",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "pos",
+                    breadcrumb: "edit",
                 },
             }
         ],

@@ -83,6 +83,11 @@
                         <i class="lab lab-printer-line lab-font-size-16 text-white"></i>
                         <span class="text-sm capitalize text-white">{{ $t('button.print_invoice') }}</span>
                     </button>
+                    <button v-if="permissionChecker('pos_orders_cancel')" type="button" @click="reasonModal" data-modal="#reasonModal"
+                            class="flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]">
+                        <i class="lab lab-close"></i>
+                        <span class="text-sm capitalize text-white">Cancel</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -185,6 +190,44 @@
             </div>
         </div>
     </div>
+    <div id="reasonModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ $t("label.reason") }}</h3>
+                <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
+                        @click.prevent="resetModal"></button>
+            </div>
+            <div class="modal-body">
+                <form @submit.prevent="rejectOrder">
+                    <div class="form-row">
+                        <div class="form-col-12">
+                            <label for="name" class="db-field-title">
+                                {{ $t("label.reason") }}
+                            </label>
+                            <input v-model="form.reason" v-bind:class="error ? 'invalid' : ''" type="text" id="name"
+                                   class="db-field-control" />
+                            <small class="db-field-alert" v-if="error">
+                                {{ error }}
+                            </small>
+                        </div>
+                        <div class="form-col-12">
+                            <div class="modal-btns">
+                                <button type="button" class="modal-btn-outline modal-close" @click.prevent="resetModal">
+                                    <i class="lab lab-close"></i>
+                                    <span>{{ $t("button.close") }}</span>
+                                </button>
+
+                                <button type="submit" class="db-btn py-2 text-white bg-primary">
+                                    <i class="lab lab-save"></i>
+                                    <span>{{ $t("button.save") }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <PosOrderReceiptComponent :order="order" />
 </template>
@@ -200,10 +243,12 @@ import TableLimitComponent from "../components/TableLimitComponent";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import print from "vue3-print-nb";
 import PosOrderReceiptComponent from "./PosOrderReceiptComponent";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 
 export default {
     name: "PosOrderShowComponent",
     components: {
+        SmIconDeleteComponent,
         TableLimitComponent,
         PaginationSMBox,
         PaginationBox,
@@ -231,6 +276,7 @@ export default {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
+                    [orderStatusEnum.CANCELED]: this.$t("label.canceled"),
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
@@ -262,7 +308,11 @@ export default {
                 ],
             },
             payment_status: null,
-            order_status: null
+            order_status: null,
+            form: {
+                reason: "",
+            },
+            error: "",
         }
     },
     mounted() {
@@ -287,14 +337,25 @@ export default {
         }
     },
     methods: {
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
+        },
         statusClass: function (status) {
             return appService.statusClass(status);
+        },
+        reasonModal: function () {
+            appService.modalShow("#reasonModal");
         },
         orderStatusClass: function (status) {
             return appService.orderStatusClass(status);
         },
         textShortener: function (text, number = 30) {
             return appService.textShortener(text, number);
+        },
+        resetModal: function () {
+            appService.modalHide("#reasonModal");
+            this.form.reason = "";
+            this.error = "";
         },
         orderStatus: function (e) {
             try {
@@ -312,6 +373,33 @@ export default {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);
                 });
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err.response.data.message);
+            }
+        },
+        rejectOrder: function () {
+            try {
+                this.loading.isActive = true;
+                this.$store
+                    .dispatch("posOrder/changeStatus", {
+                        id: this.$route.params.id,
+                        status: orderStatusEnum.CANCELED,
+                        reason: this.form.reason,
+                    })
+                    .then((res) => {
+                        this.loading.isActive = false;
+                        appService.modalHide();
+                        this.form = {
+                            reason: "",
+                        };
+                        this.error = "";
+                        alertService.successFlip(1, this.$t("label.status"));
+                    })
+                    .catch((err) => {
+                        this.loading.isActive = false;
+                        this.error = err.response.data.message;
+                    });
             } catch (err) {
                 this.loading.isActive = false;
                 alertService.error(err.response.data.message);

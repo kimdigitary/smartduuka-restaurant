@@ -17,6 +17,7 @@
                                 <th class="db-table-head-th">{{ $t('label.update') }}</th>
                                 <th class="db-table-head-th">{{ $t('label.delete') }}</th>
                                 <th class="db-table-head-th">{{ $t('label.view') }}</th>
+                                <th class="db-table-head-th">{{ $t('label.cancel') }}</th>
                             </tr>
                         </thead>
                         <tbody v-if="permissions.length > 0" class="db-table-body">
