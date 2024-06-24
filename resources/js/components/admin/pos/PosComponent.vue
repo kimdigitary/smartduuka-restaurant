@@ -1,14 +1,14 @@
 <template>
-    <LoadingComponent :props="loading" />
-    <PoscustomerComponent v-on:onCustomverCreate="onCustomverCreate" />
+    <LoadingComponent :props="loading"/>
+    <PoscustomerComponent v-on:onCustomverCreate="onCustomverCreate"/>
 
     <div class="md:w-[calc(100%-340px)] lg:w-[calc(100%-320px)] xl:w-[calc(100%-377px)]">
         <form @submit.prevent="search"
-            class="flex items-center w-full h-[38px] leading-[38px] mb-4 rounded-lg bg-white">
+              class="flex items-center w-full h-[38px] leading-[38px] mb-4 rounded-lg bg-white">
             <input type="text" v-model="props.search.name" :placeholder="$t('label.search_by_menu_item')"
-                class="w-full px-5 rounded-tl-lg rounded-bl-lg border placeholder:text-xs placeholder:font-rubik placeholder:text-[#A0A3BD] border-[#EFF0F6]">
+                   class="w-full px-5 rounded-tl-lg rounded-bl-lg border placeholder:text-xs placeholder:font-rubik placeholder:text-[#A0A3BD] border-[#EFF0F6]">
             <button type="submit"
-                class="flex-shrink-0 w-[38px] h-full text-center ltr:rounded-tr-lg ltr:rounded-br-lg rtl:rounded-tl-lg rtl:rounded-bl-lg bg-primary">
+                    class="flex-shrink-0 w-[38px] h-full text-center ltr:rounded-tr-lg ltr:rounded-br-lg rtl:rounded-tl-lg rtl:rounded-bl-lg bg-primary">
                 <i class="lab lab-search-normal text-white"></i>
             </button>
         </form>
@@ -16,21 +16,21 @@
         <div class="swiper pos-menu-swiper mb-6" v-if="categories.length > 1">
             <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16" class="menu-slides">
                 <SwiperSlide class="!w-fit" v-for="(category, index) in categories" :key="category"
-                    :class="category.id === props.search.item_category_id || (category.id === 0 && props.search.item_category_id === '') ? 'pos-group' : ''">
-                        <router-link v-if="index === 0" to="#" @click.prevent="allCategory"
-                            class="w-28 flex flex-col items-center text-center gap-4 py-4 px-3 rounded-lg border-b-2 border-transparent transition hover:bg-primary-light hover:border-primary bg-white">
-                            <img class="h-7 drop-shadow-category" :src="category.thumb" alt="category">
-                            <h3 class="text-xs leading-[16px] font-medium font-rubik">{{ category.name }}</h3>
-                        </router-link>
-                        <router-link v-else to="#" @click.prevent="setCategory(category.id)"
-                            class="w-28 flex flex-col items-center text-center gap-4 py-4 px-3 rounded-lg border-b-2 border-transparent transition hover:bg-primary-light hover:border-primary bg-white">
-                            <img class="h-7 drop-shadow-category" :src="category.thumb" alt="category">
-                            <h3 class="text-xs leading-[16px] font-medium font-rubik">{{ category.name }}</h3>
-                        </router-link>
-                    </SwiperSlide>
+                             :class="category.id === props.search.item_category_id || (category.id === 0 && props.search.item_category_id === '') ? 'pos-group' : ''">
+                    <router-link v-if="index === 0" to="#" @click.prevent="allCategory"
+                                 class="w-28 flex flex-col items-center text-center gap-4 py-4 px-3 rounded-lg border-b-2 border-transparent transition hover:bg-primary-light hover:border-primary bg-white">
+                        <img class="h-7 drop-shadow-category" :src="category.thumb" alt="category">
+                        <h3 class="text-xs leading-[16px] font-medium font-rubik">{{ category.name }}</h3>
+                    </router-link>
+                    <router-link v-else to="#" @click.prevent="setCategory(category.id)"
+                                 class="w-28 flex flex-col items-center text-center gap-4 py-4 px-3 rounded-lg border-b-2 border-transparent transition hover:bg-primary-light hover:border-primary bg-white">
+                        <img class="h-7 drop-shadow-category" :src="category.thumb" alt="category">
+                        <h3 class="text-xs leading-[16px] font-medium font-rubik">{{ category.name }}</h3>
+                    </router-link>
+                </SwiperSlide>
             </Swiper>
         </div>
-        <ItemComponent :items="items" />
+        <ItemComponent :items="items"/>
     </div>
 
     <div
@@ -46,108 +46,108 @@
                     class="db-field-control w-full flex-auto text-sm rounded-lg appearance-none text-heading border-[#D9DBE9]"
                     id="customer" v-model="checkoutProps.form.customer_id" :options="customers" label-by="name"
                     value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                    :placeholder="$t('label.select_customer')" :search-placeholder="$t('label.search_customer')" />
+                    :placeholder="$t('label.select_customer')" :search-placeholder="$t('label.search_customer')"/>
 
                 <button @click="addCustomer" type="button"
-                    class="flex items-center justify-center gap-1.5 px-3 h-10 rounded-lg text-white bg-primary">
+                        class="flex items-center justify-center gap-1.5 px-3 h-10 rounded-lg text-white bg-primary">
                     <i class="lab lab-add-circle-line"></i>
                     <span class="capitalize text-sm font-bold">{{ $t('button.add') }}</span>
                 </button>
             </div>
             <div class="db-field">
                 <input class="db-field-control text-sm rounded-lg appearance-none text-heading border-[#D9DBE9]"
-                    id="token" v-model="checkoutProps.form.token" :placeholder="$t('label.token_no')" />
+                       id="token" v-model="checkoutProps.form.token" :placeholder="$t('label.token_no')"/>
             </div>
         </div>
         <table class="w-full">
             <thead class="bg-primary-light">
-                <tr class="h-9">
-                    <th class="capitalize text-xs font-normal font-rubik text-left pl-3 text-heading"></th>
-                    <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
-                        {{ $t('label.item') }}
-                    </th>
-                    <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
-                        {{ $t('label.qty') }}
-                    </th>
-                    <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
-                        {{ $t('label.price') }}
-                    </th>
-                </tr>
+            <tr class="h-9">
+                <th class="capitalize text-xs font-normal font-rubik text-left pl-3 text-heading"></th>
+                <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
+                    {{ $t('label.item') }}
+                </th>
+                <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
+                    {{ $t('label.qty') }}
+                </th>
+                <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
+                    {{ $t('label.price') }}
+                </th>
+            </tr>
             </thead>
             <tbody>
-                <tr v-for="(cart, index) in carts">
-                    <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
-                        <button @click.prevent="deleteCartItem(index)">
-                            <i class="lab lab-trash-line-2 font-fill-danger"></i>
-                        </button>
-                    </td>
-                    <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
-                        <h3 class="capitalize text-xs font-rubik text-[#2E2F38]">{{ cart.name }}</h3>
-                        <p v-if="Object.keys(cart.item_variations.variations).length !== 0">
+            <tr v-for="(cart, index) in carts">
+                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
+                    <button @click.prevent="deleteCartItem(index)">
+                        <i class="lab lab-trash-line-2 font-fill-danger"></i>
+                    </button>
+                </td>
+                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
+                    <h3 class="capitalize text-xs font-rubik text-[#2E2F38]">{{ cart.name }}</h3>
+                    <p v-if="Object.keys(cart.item_variations.variations).length !== 0">
                             <span v-for="(variation, variationName) in cart.item_variations.names">
                                 <span class="capitalize text-[10px] leading-4 font-rubik text-heading">{{
-        variationName
-    }}:
+                                        variationName
+                                    }}:
                                     &nbsp;</span>
                                 <span class="capitalize text-[10px] leading-4 font-rubik">{{ variation }}, &nbsp;</span>
                             </span>
-                        </p>
-                        <ul v-if="cart.item_extras.extras.length > 0 || cart.instruction !== ''">
-                            <li v-if="cart.item_extras.extras.length > 0" class="leading-4">
+                    </p>
+                    <ul v-if="cart.item_extras.extras.length > 0 || cart.instruction !== ''">
+                        <li v-if="cart.item_extras.extras.length > 0" class="leading-4">
                                 <span class="capitalize text-[10px] leading-4 font-rubik text-heading">
                                     {{ $t('label.extras') }}:
                                 </span>
-                                <p class="capitalize text-[10px] leading-4 font-rubik">
+                            <p class="capitalize text-[10px] leading-4 font-rubik">
                                     <span v-for="extra in cart.item_extras.names">
                                         {{ extra }}, &nbsp;
                                     </span>
-                                </p>
-                            </li>
-                            <li v-if="cart.instruction !== ''" class="leading-4">
+                            </p>
+                        </li>
+                        <li v-if="cart.instruction !== ''" class="leading-4">
                                 <span class="capitalize text-[10px] leading-4 font-rubik text-heading">
                                     {{ $t('label.instruction') }}:
                                 </span>
-                                <span class="capitalize text-[10px] leading-4 font-rubik">
+                            <span class="capitalize text-[10px] leading-4 font-rubik">
                                     {{ cart.instruction }}
                                 </span>
-                            </li>
-                        </ul>
-                    </td>
-                    <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
-                        <div class="flex items-center indec-group">
-                            <button @click.prevent="cartQuantityDecrement(index)"
+                        </li>
+                    </ul>
+                </td>
+                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
+                    <div class="flex items-center indec-group">
+                        <button @click.prevent="cartQuantityDecrement(index)"
                                 :class="cart.quantity === 1 ? 'fa-trash-can' : 'fa-minus'"
                                 class="fa-solid text-[10px] w-[18px] h-[18px] leading-4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
-                            <input v-on:keypress="onlyNumber($event)" v-on:keyup="cartQuantityUp(index, $event)"
-                                type="number" :value="cart.quantity"
-                                class="text-center w-7 text-xs font-semibold text-heading indec-value">
-                            <button @click.prevent="cartQuantityIncrement(index)"
+                        <input v-on:keypress="onlyNumber($event)" v-on:keyup="cartQuantityUp(index, $event)"
+                               type="number" :value="cart.quantity"
+                               class="text-center w-7 text-xs font-semibold text-heading indec-value">
+                        <button @click.prevent="cartQuantityIncrement(index)"
                                 class="fa-solid fa-plus text-[10px] w-[18px] h-[18px] leading4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
-                        </div>
-                    </td>
-                    <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6] text-xs font-rubik text-heading">
-                        {{
-        currencyFormat(cart.total, setting.site_digit_after_decimal_point,
-            setting.site_default_currency_symbol, setting.site_currency_position)
-    }}
-                    </td>
-                </tr>
+                    </div>
+                </td>
+                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6] text-xs font-rubik text-heading">
+                    {{
+                        currencyFormat(cart.total, setting.site_digit_after_decimal_point,
+                            setting.site_default_currency_symbol, setting.site_currency_position)
+                    }}
+                </td>
+            </tr>
             </tbody>
         </table>
         <div class="p-4">
             <div class="flex h-[38px]" v-if="carts.length > 0">
                 <div class="db-field-down-arrow">
                     <select v-model="discountType"
-                        class="w-[120px] h-full text-sm font-rubik rounded-tl rounded-bl appearance-none border pl-3 text-heading border-[#EFF0F6]">
+                            class="w-[120px] h-full text-sm font-rubik rounded-tl rounded-bl appearance-none border pl-3 text-heading border-[#EFF0F6]">
                         <option :value="discountTypeEnum.PERCENTAGE">{{ $t("label.percentage") }}</option>
                         <option :value="discountTypeEnum.FIXED">{{ $t("label.fixed") }}</option>
                     </select>
                 </div>
                 <input v-on:keypress="floatNumber($event)" v-model="discount" type="text"
-                    :placeholder="$t('label.add_discount')"
-                    class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
+                       :placeholder="$t('label.add_discount')"
+                       class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
                 <button @click.prevent="applyDiscount" type="submit"
-                    class="flex-shrink-0 w-16 h-full text-sm font-medium font-rubik capitalize ltr:rounded-tr-lg ltr:rounded-br-lg rtl:rounded-tl-lg rtl:rounded-bl-lg  text-white bg-[#008BBA]">
+                        class="flex-shrink-0 w-16 h-full text-sm font-medium font-rubik capitalize ltr:rounded-tr-lg ltr:rounded-br-lg rtl:rounded-tl-lg rtl:rounded-bl-lg  text-white bg-[#008BBA]">
                     {{ $t('button.apply') }}
                 </button>
             </div>
@@ -159,18 +159,18 @@
                     </span>
                     <span class="text-sm font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-        currencyFormat(subtotal, setting.site_digit_after_decimal_point,
-            setting.site_default_currency_symbol, setting.site_currency_position)
-    }}
+                            currencyFormat(subtotal, setting.site_digit_after_decimal_point,
+                                setting.site_default_currency_symbol, setting.site_currency_position)
+                        }}
                     </span>
                 </li>
                 <li class="flex items-center justify-between">
                     <span class="text-sm font-rubik capitalize leading-6">{{ $t("label.discount") }}</span>
                     <span class="text-sm font-rubik capitalize leading-6">{{
-        currencyFormat(posDiscount,
-            setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-            setting.site_currency_position)
-    }}</span>
+                            currencyFormat(posDiscount,
+                                setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                                setting.site_currency_position)
+                        }}</span>
                 </li>
                 <li class="flex items-center justify-between">
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
@@ -178,20 +178,20 @@
                     </span>
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-        currencyFormat(subtotal - posDiscount,
-            setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-            setting.site_currency_position)
-    }}
+                            currencyFormat(subtotal - posDiscount,
+                                setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                                setting.site_currency_position)
+                        }}
                     </span>
                 </li>
             </ul>
             <div class="flex items-center justify-center gap-6" v-if="carts.length > 0">
                 <button @click.prevent="resetCart"
-                    class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">
+                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">
                     {{ $t('button.cancel') }}
                 </button>
                 <button @click.prevent="orderSubmit"
-                    class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#1AB759]">
+                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#1AB759]">
                     {{ $t('button.order') }}
                 </button>
             </div>
@@ -203,14 +203,14 @@
         <i class="lab lab-bag-2 lab-font-size-13 text-white"></i>
         <span class="text-base font-medium font-rubik text-white">
             {{ totalItems() }} {{ $t('label.items') }} - {{
-        currencyFormat(subtotal - posDiscount,
-            setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-            setting.site_currency_position)
-    }}
+                currencyFormat(subtotal - posDiscount,
+                    setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                    setting.site_currency_position)
+            }}
         </span>
     </button>
 
-    <ReceiptComponent :order="order" />
+    <ReceiptComponent :order="order"/>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -226,7 +226,7 @@ import discountTypeEnum from "../../../enums/modules/discountTypeEnum";
 import alertService from "../../../services/alertService";
 import ReceiptComponent from "./ReceiptComponent";
 import PoscustomerComponent from './PosCustomerComponent';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 
 export default {
@@ -503,17 +503,17 @@ export default {
         },
         cartQuantityUp: function (id, e) {
             if (e.target.value > 0) {
-                this.$store.dispatch('posCart/quantity', { id: id, status: e.target.value }).then().catch();
+                this.$store.dispatch('posCart/quantity', {id: id, status: e.target.value}).then().catch();
             }
         },
         cartQuantityIncrement: function (id) {
-            this.$store.dispatch('posCart/quantity', { id: id, status: "increment" }).then().catch();
+            this.$store.dispatch('posCart/quantity', {id: id, status: "increment"}).then().catch();
         },
         cartQuantityDecrement: function (id) {
-            this.$store.dispatch('posCart/quantity', { id: id, status: "decrement" }).then().catch();
+            this.$store.dispatch('posCart/quantity', {id: id, status: "decrement"}).then().catch();
         },
         deleteCartItem: function (id) {
-            this.$store.dispatch('posCart/deleteCartItem', { id: id, status: "decrement" }).then().catch();
+            this.$store.dispatch('posCart/deleteCartItem', {id: id, status: "decrement"}).then().catch();
         },
         applyDiscount: function () {
             this.discountErrorMessage = "";
