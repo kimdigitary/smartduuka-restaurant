@@ -3,7 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
-#.env
+.env
 resources/js/config/env.js
 .env.backup
 .phpunit.result.cache
@@ -22,7 +22,6 @@ storage/debugbar
 /public/mix-manifest.json
 /public/js/app.js
 public/js/app.js
-
 public/js
 public/js/*
 package-lock.json
