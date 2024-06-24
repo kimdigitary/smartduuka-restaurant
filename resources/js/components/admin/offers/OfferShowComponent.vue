@@ -1,7 +1,6 @@
 <template>
     <LoadingComponent :props="loading" />
 
-
     <div class="col-12">
         <div class="grid grid-cols-1 sm:grid-cols-3 mb-4 sm:mb-0">
             <button type="button" class="db-tabBtn active" data-tab="#information"><i

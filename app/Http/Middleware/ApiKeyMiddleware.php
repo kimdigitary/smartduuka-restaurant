@@ -18,7 +18,7 @@ class ApiKeyMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ($request->hasHeader('x-api-key')) {
-            if ($request->header('x-api-key') == env('MIX_API_KEY')) {
+            if ($request->header('x-api-key') == 'b6d68vy2-m7g5-20r0-5275-h103w73453q120') {
                 return $next($request);
             }
         }

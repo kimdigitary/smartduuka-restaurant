@@ -121,13 +121,16 @@
                     <p class="text-[11px] leading-[14px] capitalize text-heading">
                         {{ $t('message.please_come_again') }}
                     </p>
+                    <h5 class="text-[8px] font-normal leading-[10px]">
+                        {{ $t('label.powered_by') }} <span class="border-t border-b border-dashed">Kim Digitary</span>
+                    </h5>
                 </div>
-                <div class="flex flex-col items-end">
+                <!-- <div class="flex flex-col items-end">
                     <h5 class="text-[8px] font-normal text-left w-[46px] leading-[10px]">
                         {{ $t('label.powered_by') }}
                     </h5>
                     <h6 class="text-xs font-normal leading-4">{{ company.company_name }}</h6>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

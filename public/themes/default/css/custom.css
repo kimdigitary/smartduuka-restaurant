@@ -148,7 +148,7 @@
 }
 
 .font-fill-primary-toggle {
-    color: #1772FF;
+    color: #F23E1D;
 }
 
 @media (max-width: 639px) {
@@ -162,7 +162,7 @@
 }
 @media (max-width: 639px) {
     .font-fill-paragraph-toggle {
-        color: #1772FF !important;
+        color: #F23E1D !important;
     }
 }
 
@@ -174,7 +174,7 @@
 }
 
 .font-fill-primary {
-    color: #1772FF;
+    color: #F23E1D;
 }
 
 .font-fill-paragraph {
@@ -196,7 +196,7 @@
 }
 
 .info-btn:hover .font-fill-paragraph {
-    color: #1772FF;
+    color: #F23E1D;
 }
 
 .lab-font-bold {

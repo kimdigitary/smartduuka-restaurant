@@ -17,67 +17,6 @@
                 </div>
             </div>
 
-            <div class="table-filter-div">
-                <form class="p-4 sm:p-5 mb-5" @submit.prevent="search">
-                    <div class="row">
-                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
-                            <label for="order_id" class="db-field-title after:hidden">{{ $t('label.order_id') }}</label>
-                            <input id="order_id" v-model="props.search.order_serial_no" type="text"
-                                class="db-field-control">
-                        </div>
-
-                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
-                            <label for="searchStatus" class="db-field-title after:hidden">
-                                {{ $t('label.status') }}
-                            </label>
-                            <vue-select class="db-field-control f-b-custom-select" id="searchStatus"
-                                v-model="props.search.status" :options="[
-                                    { id: enums.orderStatusEnum.ACCEPT, name: $t('label.accept') },
-                                    { id: enums.orderStatusEnum.PROCESSING, name: $t('label.processing') },
-                                    { id: enums.orderStatusEnum.DELIVERED, name: $t('label.delivered') },
-                                ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                :clearOnClose="true" placeholder="--" search-placeholder="--" />
-                        </div>
-
-                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
-                            <label for="user_id" class="db-field-title">
-                                {{ $t("label.customer") }}
-                            </label>
-                            <vue-select class="db-field-control f-b-custom-select" id="user_id"
-                                v-model="props.search.user_id" :options="customers" label-by="name" value-by="id"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
-                        </div>
-
-                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
-                            <label for="searchStartDate" class="db-field-title after:hidden">
-                                {{ $t('label.date') }}
-                            </label>
-                            <Datepicker hideInputIcon autoApply :enableTimePicker="false" utc="false"
-                                @update:modelValue="handleDate" v-model="props.form.date" range
-                                :preset-ranges="presetRanges">
-                                <template #yearly="{ label, range, presetDateRange }">
-                                    <span @click="presetDateRange(range)">{{ label }}</span>
-                                </template>
-                            </Datepicker>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="flex flex-wrap gap-3 mt-4">
-                                <button class="db-btn py-2 text-white bg-primary">
-                                    <i class="lab lab-search-line lab-font-size-16"></i>
-                                    <span>{{ $t('button.search') }}</span>
-                                </button>
-                                <button class="db-btn py-2 text-white bg-gray-600" @click="clear">
-                                    <i class="lab lab-cross-line-2 lab-font-size-22"></i>
-                                    <span>{{ $t('button.clear') }}</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print" :dir="direction">
                     <thead class="db-table-head">
@@ -110,8 +49,12 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                         v-if="permissionChecker('pos-orders')" />
+<!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
+<!--                                        v-if="permissionChecker('pos-orders')" /> -->
+                                    <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
+                                                         v-if="permissionChecker('pos-orders')" />
                                     <SmIconDeleteComponent @click="destroy(order.id)"
-                                        v-if="permissionChecker('pos-orders')" />
+                                        v-if="permissionChecker('pos_orders_delete')" />
                                 </div>
                             </td>
                         </tr>
@@ -147,14 +90,22 @@ import PrintComponent from "../components/buttons/export/PrintComponent";
 import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref } from 'vue';
-import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
+import {ref} from 'vue';
+import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
 import statusEnum from "../../../enums/modules/statusEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
+import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
+import ItemCreateComponent from "../items/ItemCreateComponent.vue";
+import PosOrderEditComponent from "./PosOrderEditComponent.vue";
 
 export default {
     name: "PosOrderListComponent",
     components: {
+        PosOrderEditComponent,
+        ItemCreateComponent,
+        SmIconSidebarModalEditComponent,
+        SmIconEditComponent,
         TableLimitComponent,
         PaginationSMBox,
         PaginationBox,
@@ -261,6 +212,19 @@ export default {
     methods: {
         permissionChecker(e) {
             return appService.permissionChecker(e);
+        },
+        // edit: function (product) {
+        //     this.loading.isActive = true;
+        //     appService.sideDrawerShow();
+        //     this.$store.dispatch('posOrder/edit', product.id);
+        //     this.loading.isActive = false;
+        //     this.props.form.name = product.name;
+        // },
+
+        edit: function (product) {
+            this.loading.isActive = true;
+            this.$store.dispatch('posOrder/edit', product.id);
+            this.loading.isActive = false;
         },
         statusClass: function (status) {
             return appService.statusClass(status);

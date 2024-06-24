@@ -1,6 +1,10 @@
 <?php
 
 
+use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\ExpensePaymentController;
+use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OtpController;
@@ -69,23 +73,12 @@ use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController
 use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
 use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
-
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
+
+Route::apiResource('expense-categories', ExpenseCategoryController::class);
+Route::apiResource('subscriptions', SubscriptionController::class);
 
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
 
@@ -137,6 +130,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/', [DefaultAccessController::class, 'index']);
         Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
     });
+    Route::get('expense-category/depth-tree', [ExpenseCategoryController::class, 'depthTree']);
+    Route::resource('expenses', ExpensesController::class);
+    Route::resource('expense-payments', ExpensePaymentController::class);
+    Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {
@@ -384,12 +381,14 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
 
     Route::prefix('pos')->name('pos.')->group(function () {
         Route::post('/', [PosController::class, 'store']);
+        Route::post('/update', [PosController::class, 'update']);
         Route::post('/customer', [PosController::class, 'storeCustomer']);
     });
 
     Route::prefix('pos-order')->name('posOrder.')->group(function () {
         Route::get('/', [PosOrderController::class, 'index']);
         Route::get('show/{order}', [PosOrderController::class, 'show']);
+        Route::post('edit/{order}', [PosOrderController::class, 'edit']);
         Route::delete('/{order}', [PosOrderController::class, 'destroy']);
         Route::get('/export', [PosOrderController::class, 'export']);
         Route::post('/change-status/{order}', [PosOrderController::class, 'changeStatus']);
