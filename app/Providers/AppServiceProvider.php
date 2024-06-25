@@ -19,7 +19,7 @@ AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        info(env('DB_DATABASE'));
+//        info(env('DB_DATABASE'));
 //        Menu::truncate();
 
 //        Artisan::call('db:seed --class=MenuTableSeeder');
