@@ -23,14 +23,14 @@ class UserTableSeeder extends Seeder
         $envService = new EnvEditor();
         $admin      = User::create([
             'name'              => 'John Doe',
-            'email'             => 'admin@example.com',
+            'email'             => 'macussbentley@gmail.com',
             'phone'             => '1254875855',
             'username'          => 'admin',
             'email_verified_at' => now(),
-            'password'          => bcrypt('123456'),
+            'password'          => bcrypt('Admin@123'),
             'branch_id'         => 0,
             'status'            => Status::ACTIVE,
-            'country_code'      => '+880',
+            'country_code'      => '+256',
             'is_guest'          => Ask::NO
         ]);
         $admin->assignRole(EnumRole::ADMIN);
@@ -63,7 +63,7 @@ class UserTableSeeder extends Seeder
             'password'          => bcrypt('123456'),
             'branch_id'         => 0,
             'status'            => Status::ACTIVE,
-            'country_code'      => '+880',
+            'country_code'      => '+256',
             'is_guest'          => Ask::NO
         ]);
         $customer->assignRole(EnumRole::CUSTOMER);
@@ -97,7 +97,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 0,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $customerOne->assignRole(EnumRole::CUSTOMER);
@@ -126,7 +126,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 1,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $employeeOne->assignRole(EnumRole::BRANCH_MANAGER);
@@ -156,7 +156,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 2,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $employeeTwo->assignRole(EnumRole::BRANCH_MANAGER);
@@ -186,7 +186,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 1,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $posOperatorOne->assignRole(EnumRole::POS_OPERATOR);
@@ -216,7 +216,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 2,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $posOperatorTwo->assignRole(EnumRole::POS_OPERATOR);
@@ -246,7 +246,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 1,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $stuffOne->assignRole(EnumRole::STUFF);
@@ -276,7 +276,7 @@ class UserTableSeeder extends Seeder
                 'password'          => bcrypt('123456'),
                 'branch_id'         => 2,
                 'status'            => Status::ACTIVE,
-                'country_code'      => '+880',
+                'country_code'      => '+256',
                 'is_guest'          => Ask::NO
             ]);
             $stuffTwo->assignRole(EnumRole::STUFF);

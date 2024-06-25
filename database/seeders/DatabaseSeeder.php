@@ -40,19 +40,19 @@ class DatabaseSeeder extends Seeder
         $this->call(AnalyticTableSeeder::class);
         $this->call(TaxTableSeeder::class);
         $this->call(PageTableSeeder::class);
-        $this->call(ItemCategoryTableSeeder::class);
-        $this->call(ItemAttributeTableSeeder::class);
+//        $this->call(ItemCategoryTableSeeder::class);
+//        $this->call(ItemAttributeTableSeeder::class);
         $this->call(PaymentGatewayDataTableSeeder::class);
-        $this->call(ItemTableSeeder::class);
-        $this->call(ItemVariationTableSeeder::class);
-        $this->call(ItemExtraTableSeeder::class);
-        $this->call(ItemAddonTableSeeder::class);
-        $this->call(OfferTableSeeder::class);
-        $this->call(OfferItemTableSeeder::class);
-        $this->call(OrderTableSeeder::class);
-        $this->call(OrderItemTableSeeder::class);
-        $this->call(OrderAddressTableSeeder::class);
-        $this->call(TransactionTableSeeder::class);
-        $this->call(DiningTableTableSeeder::class);
+//        $this->call(ItemTableSeeder::class);
+//        $this->call(ItemVariationTableSeeder::class);
+//        $this->call(ItemExtraTableSeeder::class);
+//        $this->call(ItemAddonTableSeeder::class);
+//        $this->call(OfferTableSeeder::class);
+//        $this->call(OfferItemTableSeeder::class);
+//        $this->call(OrderTableSeeder::class);
+//        $this->call(OrderItemTableSeeder::class);
+//        $this->call(OrderAddressTableSeeder::class);
+//        $this->call(TransactionTableSeeder::class);
+//        $this->call(DiningTableTableSeeder::class);
     }
 }
