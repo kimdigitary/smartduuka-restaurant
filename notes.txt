@@ -9,3 +9,19 @@ password: 123456
 Pos Operator
 email: posoperator@example.com
 password: 123456
+
+cd /home/moodbox@smartduuka/public_html
+http://phpmyadmin.smartduuka.com/
+
+# Work on omoding branch
+git checkout omoding
+git rm --cached .env                   # Remove .env from the repository but keep it locally
+echo '.env' >> .gitignore              # Add .env to .gitignore
+git add .gitignore                     # Stage the .gitignore file
+git commit -m "Remove .env from repository and add to .gitignore"  # Commit the changes
+git push origin omoding                # Push changes to omoding branch
+
+# Merge changes into main branch
+git checkout main                      # Switch to main branch
+git merge omoding                      # Merge omoding branch into main
+git push origin main                   # Push the updated main branch to the rem
