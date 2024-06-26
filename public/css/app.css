@@ -4316,10 +4316,6 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
-.bg-violet-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(91 33 182 / var(--tw-bg-opacity));
-}
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
@@ -6010,12 +6006,32 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   border-bottom-right-radius: 0.5rem;
 }
 
+.ltr\:rounded-bl:where([dir="ltr"], [dir="ltr"] *) {
+  border-bottom-left-radius: 0.25rem;
+}
+
+.ltr\:rounded-br:where([dir="ltr"], [dir="ltr"] *) {
+  border-bottom-right-radius: 0.25rem;
+}
+
 .ltr\:rounded-br-lg:where([dir="ltr"], [dir="ltr"] *) {
   border-bottom-right-radius: 0.5rem;
 }
 
+.ltr\:rounded-tl:where([dir="ltr"], [dir="ltr"] *) {
+  border-top-left-radius: 0.25rem;
+}
+
+.ltr\:rounded-tr:where([dir="ltr"], [dir="ltr"] *) {
+  border-top-right-radius: 0.25rem;
+}
+
 .ltr\:rounded-tr-lg:where([dir="ltr"], [dir="ltr"] *) {
   border-top-right-radius: 0.5rem;
+}
+
+.ltr\:pl-3:where([dir="ltr"], [dir="ltr"] *) {
+  padding-left: 0.75rem;
 }
 
 .ltr\:text-left:where([dir="ltr"], [dir="ltr"] *) {
@@ -6059,12 +6075,32 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   border-bottom-right-radius: 0.5rem;
 }
 
+.rtl\:rounded-bl:where([dir="rtl"], [dir="rtl"] *) {
+  border-bottom-left-radius: 0.25rem;
+}
+
 .rtl\:rounded-bl-lg:where([dir="rtl"], [dir="rtl"] *) {
   border-bottom-left-radius: 0.5rem;
 }
 
+.rtl\:rounded-br:where([dir="rtl"], [dir="rtl"] *) {
+  border-bottom-right-radius: 0.25rem;
+}
+
+.rtl\:rounded-tl:where([dir="rtl"], [dir="rtl"] *) {
+  border-top-left-radius: 0.25rem;
+}
+
 .rtl\:rounded-tl-lg:where([dir="rtl"], [dir="rtl"] *) {
   border-top-left-radius: 0.5rem;
+}
+
+.rtl\:rounded-tr:where([dir="rtl"], [dir="rtl"] *) {
+  border-top-right-radius: 0.25rem;
+}
+
+.rtl\:pr-3:where([dir="rtl"], [dir="rtl"] *) {
+  padding-right: 0.75rem;
 }
 
 .rtl\:text-right:where([dir="rtl"], [dir="rtl"] *) {
