@@ -89,11 +89,11 @@
                 v-if="permissionChecker('products_show') || permissionChecker('products_edit') || permissionChecker('products_delete')">
               <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                 <SmIconViewComponent :link="'admin.expenses.show'" :id="expense.id"
-                                     v-if="permissionChecker('products_show')"/>
+                                     v-if="permissionChecker('expenses_show')"/>
                   <SmIconEditComponent @click="edit(expense)" :link="'admin.expenses.edit'" :id="expense.id"
-                                       v-if="permissionChecker('purchase_edit')" />
+                                       v-if="permissionChecker('expenses_edit')" />
                   <SmIconDeleteComponent @click="destroy(expense.id)"
-                                         v-if="permissionChecker('products_delete')"/>
+                                         v-if="permissionChecker('expenses_delete')"/>
                 <button type="button" data-modal="#purchasePayment" @click="addPayment(expense.id)"
                         class="db-table-action">
                   <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
