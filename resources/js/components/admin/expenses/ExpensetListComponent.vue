@@ -86,7 +86,7 @@
             <td class="db-table-body-td">{{ expense.date }}</td>
             <td class="db-table-body-td">{{ expense.category.name }}</td>
             <td class="db-table-body-td hidden-print"
-                v-if="permissionChecker('products_show') || permissionChecker('products_edit') || permissionChecker('products_delete')">
+                v-if="permissionChecker('expenses_show') || permissionChecker('expenses_edit') || permissionChecker('expenses_delete')">
               <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                 <SmIconViewComponent :link="'admin.expenses.show'" :id="expense.id"
                                      v-if="permissionChecker('expenses_show')"/>
