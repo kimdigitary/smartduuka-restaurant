@@ -515,3 +515,19 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 .apexcharts-tooltip-series-group { @apply !py-1.5 !px-3 }
 
 .time-slot-gap { margin: 12px; }
+.input-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.input-icon-wrapper input {
+    padding-right: 2.5em; /* Adjust padding to prevent text overlap with the icon */
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents the icon from capturing mouse events */
+}

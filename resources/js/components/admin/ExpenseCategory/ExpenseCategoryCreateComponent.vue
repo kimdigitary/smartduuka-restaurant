@@ -5,7 +5,7 @@
     <div id="modal" class="modal">
         <div class="modal-dialog">
             <div class="modal-header">
-                <h3 class="modal-title">{{ $t('menu.product_categories') }}</h3>
+                <h3 class="modal-title">Add Expense Category</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                     @click="reset"></button>
             </div>

@@ -3377,6 +3377,12 @@ input:checked + div svg {
 .top-\[75px\] {
   top: 75px;
 }
+.left-10 {
+  left: 2.5rem;
+}
+.right-10 {
+  right: 2.5rem;
+}
 .isolate {
   isolation: isolate;
 }
@@ -3769,6 +3775,9 @@ input:checked + div svg {
 }
 .w-screen {
   width: 100vw;
+}
+.w-10 {
+  width: 2.5rem;
 }
 .min-w-\[120px\] {
   min-width: 120px;
@@ -4315,6 +4324,10 @@ input:checked + div svg {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.bg-violet-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(46 16 101 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
@@ -5172,6 +5185,22 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 .time-slot-gap { margin: 12px; }
+.input-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.input-icon-wrapper input {
+    padding-right: 2.5em; /* Adjust padding to prevent text overlap with the icon */
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents the icon from capturing mouse events */
+}
 
 @media (min-width: 640px) {
     .sm\:col-5 {

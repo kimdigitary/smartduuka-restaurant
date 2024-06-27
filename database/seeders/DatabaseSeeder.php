@@ -85,10 +85,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemAddonTableSeeder::class);
         $this->call(OfferTableSeeder::class);
         $this->call(OfferItemTableSeeder::class);
-//        $this->call(OrderTableSeeder::class);
-//        $this->call(OrderItemTableSeeder::class);
-//        $this->call(OrderAddressTableSeeder::class);
-//        $this->call(TransactionTableSeeder::class);
+        $this->call(OrderTableSeeder::class);
+        $this->call(OrderItemTableSeeder::class);
+        $this->call(OrderAddressTableSeeder::class);
+        $this->call(TransactionTableSeeder::class);
 //        $this->call(DiningTableTableSeeder::class);
     }
 }
