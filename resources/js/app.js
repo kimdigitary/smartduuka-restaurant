@@ -13,6 +13,7 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import VueSimpleAlert from "vue3-simple-alert";
 import VueNextSelect from 'vue-next-select';
+// import "../../public/themes/default/fonts/iconly/iconly.css";
 import 'vue-next-select/dist/index.css';
 import ENV from './config/env';
 

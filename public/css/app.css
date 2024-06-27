@@ -3329,6 +3329,9 @@ input:checked + div svg {
 .right-0 {
   right: 0px;
 }
+.right-10 {
+  right: 2.5rem;
+}
 .right-2 {
   right: 0.5rem;
 }
@@ -3376,12 +3379,6 @@ input:checked + div svg {
 }
 .top-\[75px\] {
   top: 75px;
-}
-.left-10 {
-  left: 2.5rem;
-}
-.right-10 {
-  right: 2.5rem;
 }
 .isolate {
   isolation: isolate;
@@ -3775,9 +3772,6 @@ input:checked + div svg {
 }
 .w-screen {
   width: 100vw;
-}
-.w-10 {
-  width: 2.5rem;
 }
 .min-w-\[120px\] {
   min-width: 120px;
@@ -4321,13 +4315,13 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(26 183 89 / var(--tw-bg-opacity));
 }
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
 .bg-violet-950 {
   --tw-bg-opacity: 1;
   background-color: rgb(46 16 101 / var(--tw-bg-opacity));
+}
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
