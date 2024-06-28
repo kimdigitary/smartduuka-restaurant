@@ -112,9 +112,16 @@
                     </div>
                     <div class="" v-show="props.form.isRecurring">
                         <label for="searchStartDate" class="db-field-title after:hidden required">Repeats On</label>
-                        <DatePickerComponent @update:modelValue="handleRepeatsDate" :range="false" inputStyle="filter"
-                                             v-model="props.form.repeatsOn"/>
-                        <small class="db-field-alert" v-if="errors.repeatsOn">{{ errors.repeatsOn }}</small>
+<!--                        <DatePickerComponent @update:modelValue="handleRepeatsDate" :range="false" inputStyle="filter"-->
+<!--                                             v-model="props.form.repeatsOn"/>-->
+<!--                        <small class="db-field-alert" v-if="errors.repeatsOn">{{ errors.repeatsOn }}</small>-->
+                        <Datepicker hideInputIcon autoApply v-model="props.form.repeatsOn" :enableTimePicker="false"
+                                    :is24="false" :monthChangeOnScroll="false" utc="false">
+                            <template #am-pm-button="{ toggle, value }">
+                                <button @click="toggle">{{ value }}</button>
+                            </template>
+                        </Datepicker>
+                        <small class="db-field-alert" v-if="errors.date">{{ errors.date }}</small>
                     </div>
                 </div>
                 <p class="my-5 form-col-12">Add Payment</p>

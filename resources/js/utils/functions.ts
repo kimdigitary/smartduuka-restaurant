@@ -4,5 +4,5 @@ export function getName(id: number, items: { id: number, name: string }[]) {
     return result?.name
 }
 export function cleanAmount(value: string) {
-    return value.replace(/\D/g, '');
+    return parseInt(value.replace(/\D/g, ''));
 }

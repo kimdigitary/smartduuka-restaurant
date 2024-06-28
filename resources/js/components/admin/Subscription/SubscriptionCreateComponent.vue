@@ -10,7 +10,7 @@
                             <div
                                 @click="setSelected(index)"
                                 :class="['block max-w-sm border border-gray-200 rounded-lg shadow cursor-pointer',plan.selected?'bg-shopperz-yellow':'bg-white']">
-                                <div class="w-full bg-[#FF8C4B] py-3 rounded-t-lg text-white text-center">
+                                <div class="w-full bg-primary py-3 rounded-t-lg text-white text-center">
                                     {{ plan.name }}
                                 </div>
                                 <div class="my-8">
@@ -69,7 +69,7 @@ import isRecurringEnum from "../../../enums/modules/isRecuringEnum";
 import {addMonths, format} from "date-fns";
 
 export default {
-    name: "ExpenseCreateComponent",
+    name: "SubscriptionCreateComponent",
     components: { SmSidebarModalCreateComponent, LoadingComponent,},
     // props: ['props'],
     data() {

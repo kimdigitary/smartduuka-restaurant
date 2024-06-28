@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">Subscriptions</h3>
+                <h3 class="db-card-title">Payments</h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage"/>
                     <FilterComponent/>
@@ -15,10 +15,10 @@
                         </div>
                     </div>
                     <!--          <ExpenseCreateComponent :props="props" v-if="permissionChecker('products_create')"/>-->
-                    <router-link @click="reset" to="subscriptions/create"
+                    <router-link @click="reset" to="payments/create"
                                  class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
-                        <span>Add Subscription</span>
+                        <span>Add Payment</span>
                     </router-link>
                 </div>
             </div>

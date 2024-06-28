@@ -112,7 +112,6 @@ class MenuTableSeeder extends Seeder
                         'status'     => 1,
                         'created_at' => now(),
                         'updated_at' => now()
-
                     ]
                 ]
             ],
@@ -259,28 +258,28 @@ class MenuTableSeeder extends Seeder
 
                 ]
             ],
-            [
-                'name'       => 'Payments',
-                'language'   => 'subscriptions',
-                'url'        => '#',
-                'icon'       => 'lab ',
-                'priority'   => 100,
-                'status'     => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'children'   => [
-                    [
-                        'name'       => 'Subscriptions',
-                        'language'   => 'subscriptions',
-                        'url'        => 'subscriptions',
-                        'icon'       => 'lab lab-line-settings',
-                        'priority'   => 100,
-                        'status'     => 1,
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ]
-                ]
-            ],
+//            [
+//                'name'       => 'Payments',
+//                'language'   => 'subscriptions',
+//                'url'        => '#',
+//                'icon'       => 'lab ',
+//                'priority'   => 100,
+//                'status'     => 1,
+//                'created_at' => now(),
+//                'updated_at' => now(),
+//                'children'   => [
+//                    [
+//                        'name'       => 'Subscriptions',
+//                        'language'   => 'subscriptions',
+//                        'url'        => 'subscriptions',
+//                        'icon'       => 'lab lab-line-settings',
+//                        'priority'   => 100,
+//                        'status'     => 1,
+//                        'created_at' => now(),
+//                        'updated_at' => now()
+//                    ]
+//                ]
+//            ],
             [
                 'name'       => 'Setup',
                 'language'   => 'setup',

@@ -18,7 +18,7 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         Settings::group('company')->set([
-            'company_name'         => 'FoodScan - QrCode Restaurant Menu Maker and Contactless Menu Ordering system',
+            'company_name'         => 'Restaurant Menu Maker and Contactless Menu Ordering system',
             'company_email'        => 'info@inilabs.net',
             'company_phone'        => '+13333846282',
             'company_website'      => 'https://foodscan.xyz',

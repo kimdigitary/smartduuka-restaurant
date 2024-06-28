@@ -9,6 +9,8 @@ use Dipokhalder\EnvEditor\EnvEditor;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Enums\Status;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class UserTableSeeder extends Seeder
@@ -20,6 +22,8 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        DB::table('users')->truncate();
         $envService = new EnvEditor();
         $admin      = User::create([
             'name'              => 'John Doe',
@@ -297,5 +301,6 @@ class UserTableSeeder extends Seeder
                 'user_id'   => $stuffTwo->id,
             ]);
         }
+        Schema::enableForeignKeyConstraints();
     }
 }
