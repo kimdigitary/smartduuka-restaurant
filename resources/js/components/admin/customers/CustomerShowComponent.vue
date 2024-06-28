@@ -46,11 +46,11 @@
                 <i class="lab lab-user-line"></i>
                 <span class="capitalize text-sm">{{ $t("button.profile") }}</span>
             </button>
-            <button type="button" data-tab="#security"
+            <!-- <button type="button" data-tab="#security"
                 class="profile-tabBtn w-full justify-start sm:w-fit inline-flex items-center sm:justify-center gap-2 h-[38px] py-2 px-4 rounded-md text-[#6E7191] stroke-[#6E7191]">
                 <i class="lab lab-unlock"></i>
                 <span class="capitalize text-sm">{{ $t("button.security") }}</span>
-            </button>
+            </button> -->
             <button type="button" data-tab="#address"
                 class="profile-tabBtn w-full justify-start sm:w-fit inline-flex items-center sm:justify-center gap-2 h-[38px] py-2 px-4 rounded-md text-[#6E7191] stroke-[#6E7191]">
                 <i class="lab lab-location-line"></i>
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div id="security" class="profile-tabDiv">
+        <!-- <div id="security" class="profile-tabDiv">
             <div class="db-card">
                 <div class="db-card-header">
                     <h3 class="db-card-title">{{ $t("label.change_password") }}</h3>
@@ -149,7 +149,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div id="address" class="profile-tabDiv">
             <CustomerAddressList :props="$route.params.id" />
         </div>
@@ -357,36 +357,36 @@ export default {
                 }
             }
         },
-        changePassword: function () {
-            try {
-                const tempId = this.$store.getters["customer/temp"].temp_id;
-                this.loading.isActive = true;
-                this.$store
-                    .dispatch("customer/changePassword", {
-                        form: this.password.props.form,
-                        id: this.$route.params.id,
-                    })
-                    .then((res) => {
-                        this.loading.isActive = false;
-                        alertService.successInfo(
-                            tempId === null ? 0 : 1,
-                            this.$t("message.password_update")
-                        );
-                        this.password.props.form = {
-                            password: "",
-                            password_confirmation: "",
-                        };
-                        this.password.errors = {};
-                    })
-                    .catch((err) => {
-                        this.loading.isActive = false;
-                        this.password.errors = err.response.data.errors;
-                    });
-            } catch (err) {
-                this.loading.isActive = false;
-                alertService.error(err);
-            }
-        },
+        // changePassword: function () {
+        //     try {
+        //         const tempId = this.$store.getters["customer/temp"].temp_id;
+        //         this.loading.isActive = true;
+        //         this.$store
+        //             .dispatch("customer/changePassword", {
+        //                 form: this.password.props.form,
+        //                 id: this.$route.params.id,
+        //             })
+        //             .then((res) => {
+        //                 this.loading.isActive = false;
+        //                 alertService.successInfo(
+        //                     tempId === null ? 0 : 1,
+        //                     this.$t("message.password_update")
+        //                 );
+        //                 this.password.props.form = {
+        //                     password: "",
+        //                     password_confirmation: "",
+        //                 };
+        //                 this.password.errors = {};
+        //             })
+        //             .catch((err) => {
+        //                 this.loading.isActive = false;
+        //                 this.password.errors = err.response.data.errors;
+        //             });
+        //     } catch (err) {
+        //         this.loading.isActive = false;
+        //         alertService.error(err);
+        //     }
+        // },
     },
 };
 </script>

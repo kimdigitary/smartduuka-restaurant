@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
-                            <label for="email" class="db-field-title required">{{
+                            <label for="email" class="db-field-title">{{
                                 $t("label.email")
                             }}</label>
                             <input v-model="props.form.email" v-bind:class="errors.email ? 'invalid' : ''" type="text"
@@ -80,7 +80,7 @@
                                 errors.status[0]
                             }}</small>
                         </div>
-                        <div class="form-col-12 sm:form-col-6">
+                        <!-- <div class="form-col-12 sm:form-col-6">
                             <label for="password" class="db-field-title required">{{
                                 $t("label.password")
                             }}</label>
@@ -100,7 +100,7 @@
                             <small class="db-field-alert" v-if="errors.password_confirmation">{{
                                 errors.password_confirmation[0]
                             }}</small>
-                        </div>
+                        </div> -->
                         <div class="form-col-12">
                             <div class="flex flex-wrap gap-3 mt-4">
                                 <button type="submit" class="db-btn py-2 text-white bg-primary">
@@ -148,8 +148,8 @@ export default {
                     name: "",
                     email: "",
                     phone: "",
-                    password: "",
-                    password_confirmation: "",
+                    // password: "",
+                    // password_confirmation: "",
                     country_code: "",
                     status: statusEnum.ACTIVE,
                 }
@@ -191,8 +191,8 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
-                password: "",
-                password_confirmation: "",
+                // password: "",
+                // password_confirmation: "",
                 status: statusEnum.ACTIVE,
                 country_code: this.country_code,
             };
@@ -213,8 +213,8 @@ export default {
                             name: "",
                             email: "",
                             phone: "",
-                            password: "",
-                            password_confirmation: "",
+                            // password: "",
+                            // password_confirmation: "",
                             status: statusEnum.ACTIVE,
                             country_code: this.country_code,
                         };

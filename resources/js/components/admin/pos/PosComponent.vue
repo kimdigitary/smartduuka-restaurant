@@ -152,6 +152,27 @@
                 </button>
             </div>
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
+
+            <div class="mt-2">
+                    <div class="flex h-[38px] mb-4">
+                        <div class="db-field-down-arrow">
+                            <select v-model="paymentMethod" @change="handlePaymentMethodChange"
+                                class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">
+                                <option value="4">Cash</option>
+                                <option value="2">Mobile Money</option>
+                                <option value="1">Cash on Delivery</option>
+                            </select>
+                        </div>
+                        <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
+                            v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
+                            class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
+                        <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
+                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
+                            {{ $t('button.apply') }}
+                        </button>
+                    </div>
+                </div>
+
             <ul class="flex flex-col gap-1.5 mb-4 mt-4">
                 <li class="flex items-center justify-between">
                     <span class="text-sm font-rubik capitalize leading-6 text-[#2E2F38]">
@@ -172,13 +193,23 @@
                                 setting.site_currency_position)
                         }}</span>
                 </li>
+                <li v-if="showDeliveryCharge" class="flex items-center justify-between">
+                    <span class="text-sm font-client capitalize leading-6">Delivery Charge</span>
+                    <span class="text-sm font-client capitalize leading-6">
+                        {{
+                            currencyFormat(deliveryPrice,
+                                setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                                setting.site_currency_position)
+                        }}
+                    </span>
+                </li>
                 <li class="flex items-center justify-between">
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{ $t("label.total") }}
                     </span>
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-                            currencyFormat(subtotal - posDiscount,
+                            currencyFormat(subtotal + deliveryPrice  - posDiscount,
                                 setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
                                 setting.site_currency_position)
                         }}
@@ -203,7 +234,7 @@
         <i class="lab lab-bag-2 lab-font-size-13 text-white"></i>
         <span class="text-base font-medium font-rubik text-white">
             {{ totalItems() }} {{ $t('label.items') }} - {{
-                currencyFormat(subtotal - posDiscount,
+                currencyFormat(subtotal + deliveryPrice - posDiscount,
                     setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
                     setting.site_currency_position)
             }}
@@ -263,6 +294,10 @@ export default {
                     items: []
                 }
             },
+            paymentMethod: "4", // default payment method
+            deliveryCharge: 0,
+            showDeliveryCharge: false,
+
             props: {
                 search: {
                     paginate: 0,
@@ -419,6 +454,9 @@ export default {
         posDiscount: function () {
             return this.$store.getters['posCart/discount'];
         },
+        deliveryPrice: function () {
+            return this.$store.getters['posCart/deliveryPrice'];
+        },
     },
     mounted() {
         this.itemCategories();
@@ -540,9 +578,35 @@ export default {
             this.$store.dispatch('posCart/resetCart').then(res => {
             }).catch();
         },
+        handlePaymentMethodChange() {
+            // Reset discount and delivery charge values
+            this.discount = null;
+            this.deliveryCharge = 0;
+
+            // Recalculate the total
+            if (this.paymentMethod === "1") {
+                this.showDeliveryCharge = true;
+            } else {
+                this.showDeliveryCharge = false;
+                const deliveryCharge = 0;
+                this.$store.dispatch('posCart/addDeliveryCharge', deliveryCharge).then(res => {
+                }).catch();
+            }
+        },
+
+        applyDeliveryCharge() {
+            // Apply the delivery charge to the total
+            if (this.deliveryCharge) {
+                const deliveryCharge = parseFloat(this.deliveryCharge);
+                // console.log('hello' + deliveryCharge);
+                this.$store.dispatch('posCart/addDeliveryCharge', deliveryCharge).then(res => {
+                }).catch();
+            }
+        },
+
         orderSubmit: function () {
             this.loading.isActive = true;
-            this.checkoutProps.form.subtotal = this.subtotal;
+            this.checkoutProps.form.subtotal = this.subtotal + this.deliveryPrice;
             this.checkoutProps.form.total = parseFloat(this.subtotal - this.checkoutProps.form.discount).toFixed(this.setting.site_digit_after_decimal_point);
             this.checkoutProps.form.items = [];
             _.forEach(this.carts, (item, index) => {
@@ -608,6 +672,7 @@ export default {
                     this.checkoutProps.form.discount = 0;
                     this.checkoutProps.form.delivery_time = null;
                     this.checkoutProps.form.total = 0;
+                    this.deliveryPrice = 0;
                     this.checkoutProps.form.order_type = orderTypeEnum.POS;
                     this.checkoutProps.form.is_advance_order = isAdvanceOrderEnum.NO;
                     this.checkoutProps.form.source = sourceEnum.POS;
