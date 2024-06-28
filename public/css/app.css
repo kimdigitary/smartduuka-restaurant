@@ -3329,6 +3329,9 @@ input:checked + div svg {
 .right-0 {
   right: 0px;
 }
+.right-10 {
+  right: 2.5rem;
+}
 .right-2 {
   right: 0.5rem;
 }
@@ -4312,6 +4315,10 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(26 183 89 / var(--tw-bg-opacity));
 }
+.bg-violet-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(46 16 101 / var(--tw-bg-opacity));
+}
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -5172,6 +5179,22 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 .time-slot-gap { margin: 12px; }
+.input-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.input-icon-wrapper input {
+    padding-right: 2.5em; /* Adjust padding to prevent text overlap with the icon */
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents the icon from capturing mouse events */
+}
 
 @media (min-width: 640px) {
     .sm\:col-5 {

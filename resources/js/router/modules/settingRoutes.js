@@ -18,7 +18,6 @@ import PageComponent from "../../components/admin/settings/Page/PageComponent";
 import PageListComponent from "../../components/admin/settings/Page/PageListComponent";
 import PageShowComponent from "../../components/admin/settings/Page/PageShowComponent";
 import OtpComponent from "../../components/admin/settings/Otp/OtpComponent";
-import LicenseComponent from "../../components/admin/settings/License/LicenseComponent";
 import AnalyticComponent from "../../components/admin/settings/analytics/AnalyticComponent";
 import AnalyticListComponent from "../../components/admin/settings/analytics/AnalyticListComponent";
 import AnalyticShowComponent from "../../components/admin/settings/analytics/AnalyticShowComponent";
@@ -33,6 +32,8 @@ import PaymentGatewayComponent from "../../components/admin/settings/PaymentGate
 import SmsGatewayComponent from "../../components/admin/settings/SmsGateway/SmsGatewayComponent";
 import NotificationAlertComponent from "../../components/admin/settings/NotificationAlert/NotificationAlertComponent";
 import NotificationComponent from "../../components/admin/settings/Notification/NotificationComponent";
+import SubscriptionListComponent from "../../components/admin/Subscription/SubscriptionListComponent.vue";
+import SubscriptionCreateComponent from "../../components/admin/Subscription/SubscriptionCreateComponent.vue";
 
 export default [
     {
@@ -417,9 +418,21 @@ export default [
                 },
             },
             {
-                path: "license",
-                component: LicenseComponent,
-                name: "admin.settings.license",
+                path: "payments",
+                component: SubscriptionListComponent,
+                name: "admin.settings.payments",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "license",
+                }
+            },
+            {
+                path: "payments/create",
+                component: SubscriptionCreateComponent,
+                // component: LicenseComponent,
+                name: "admin.settings.payments.create",
                 meta: {
                     isFrontend: false,
                     auth: true,

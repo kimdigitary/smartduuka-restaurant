@@ -76,6 +76,7 @@
                                 class="fa-solid fa-plus text-[10px] w-[18px] h-[18px] leading4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
                     </div>
                 </div>
+
                 <div class="mb-4" v-if="item.itemAttributes.length > 1">
                     <div class="row">
                         <div v-for="itemAttribute in item.itemAttributes" class="col-12 sm:col-6">
@@ -83,16 +84,20 @@
                                 {{ itemAttribute.name }}
                             </label>
                             <div class="relative">
-                                <i
-                                    class="lab lab-arrow-down text-sm absolute top-1/2 right-2.5 -translate-y-1/2 lab-font-size-16"></i>
+                                <i class="lab lab-arrow-down text-sm absolute top-1/2 right-2.5 -translate-y-1/2 lab-font-size-16"></i>
                                 <select
                                     @change.prevent="changeVariationAdjust(itemAttribute.id, temp.item_variations.variations[itemAttribute.id])"
                                     v-model="temp.item_variations.variations[itemAttribute.id]"
                                     class="text-xs capitalize rounded-lg h-10 w-full py-1.5 px-2.5 appearance-none transition border border-[#EFF0F6] text-heading hover:border-primary/30">
+
                                     <option :value="variation.id" v-for="variation in item.variations[itemAttribute.id]"
-                                            :key="variation">{{ variation.name }} + {{ variation.currency_price }}
+                                            :key="variation">{{ variation.name }}
+                                       UGX {{
+                                            item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
+                                        }}
                                     </option>
                                 </select>
+
                             </div>
                         </div>
                     </div>
@@ -124,7 +129,13 @@
                                                 {{ textShortener(variation.name, 15) }}</h3>
                                             <h4 v-if="variation.price > 0"
                                                 class="block text-xs font-medium text-heading">
-                                                +{{ variation.currency_price }}
+
+<!--                                                {{-->
+<!--                                                    item.offer.length > 0 ? parseInt(cleanAmount(item.offer[0].currency_price)) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)-->
+<!--                                                }}-->
+                                                UGX {{
+                                                    item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
+                                                }}
                                             </h4>
                                         </div>
                                     </label>
@@ -151,16 +162,18 @@
                                     <div>
                                         <h3 class="block capitalize mb-1 text-xs text-heading">
                                             {{ textShortener(extra.name, 15) }}</h3>
-                                        <h4 class="block text-xs font-medium text-heading">+{{
-                                                extra.currency_price
-                                            }}</h4>
+                                        <h4 class="block text-xs font-medium text-heading">
+
+                                            UGX {{
+                                                item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(extra.currency_price) : cleanAmount(item.currency_price) + cleanAmount(extra.currency_price)
+                                            }}
+                                        </h4>
                                     </div>
                                 </label>
                             </SwiperSlide>
                         </Swiper>
                     </div>
                 </div>
-
                 <div class="mb-5" v-if="item.addons.length > 0">
                     <h3 class="text-sm leading-6 font-medium capitalize mb-2 text-heading">{{ $t('label.addons') }}</h3>
                     <div class="swiper addon-swiper">
@@ -245,6 +258,7 @@ import _ from "lodash";
 import alertService from "../../../services/alertService";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+import {cleanAmount} from "../../../utils/functions";
 
 export default {
     name: "itemComponent",
@@ -301,6 +315,7 @@ export default {
         },
     },
     methods: {
+        cleanAmount,
         onlyNumber: function (e) {
             return appService.onlyNumber(e);
         },

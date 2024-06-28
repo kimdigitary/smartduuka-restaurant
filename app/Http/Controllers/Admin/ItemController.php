@@ -22,7 +22,7 @@ class ItemController extends AdminController
     public function __construct(ItemService $itemService)
     {
         parent::__construct();
-        $this->apiRequest = $this->makeApiRequest();
+//        $this->apiRequest = $this->makeApiRequest();
         $this->itemService = $itemService;
         $this->middleware(['permission:items'])->only('export', 'changeImage');
         $this->middleware(['permission:items_create'])->only('store');

@@ -13,6 +13,8 @@ password: 123456
 cd /home/moodbox@smartduuka/public_html
 http://phpmyadmin.smartduuka.com/
 
+https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
+
 # Work on omoding branch
 git checkout omoding
 git rm --cached .env                   # Remove .env from the repository but keep it locally

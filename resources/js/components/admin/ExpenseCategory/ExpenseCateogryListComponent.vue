@@ -14,10 +14,10 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                 <tr class="db-table-head-tr">
-                    <th class="db-table-head-th">{{ $t('label.name') }}</th>
-                    <th class="db-table-head-th">{{ $t('label.parent_category') }}</th>
-                    <th class="db-table-head-th">{{ $t('label.status') }}</th>
-                    <th class="db-table-head-th">{{ $t('label.action') }}</th>
+                    <th class="db-table-head-th">Name</th>
+                    <th class="db-table-head-th">Category</th>
+                    <th class="db-table-head-th">Status</th>
+                    <th class="db-table-head-th">Action</th>
                 </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="expenseCategories.length > 0">
