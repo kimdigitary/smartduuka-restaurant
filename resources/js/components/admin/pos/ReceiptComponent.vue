@@ -15,9 +15,13 @@
             </div>
             <div class="modal-body">
                 <div class="text-center pb-3.5 border-b border-dashed border-gray-400">
-                    <h3 class="text-2xl font-bold mb-1">{{ company.company_name }}</h3>
-                    <h4 class="text-sm font-normal">{{ branch.address }}</h4>
-                    <h5 class="text-sm font-normal">Tel: {{ branch.phone }}</h5>
+                    <div class="flex flex-col items-center justify-center">
+                        <img :src="setting.theme_logo" alt="logo" style="width: 90px; height: 37px; opacity: 90%;"
+                            class="mb-2">
+                        <h3 class="text-2xl font-bold mb-1">{{ company.company_name }}</h3>
+                        <h4 class="text-sm font-normal">{{ branch.address }}</h4>
+                        <h5 class="text-sm font-normal">Tel: {{ branch.phone }}</h5>
+                    </div>
                 </div>
 
                 <table class="w-full my-1.5">
@@ -54,7 +58,8 @@
                             <td class="text-left font-normal align-top py-1">
                                 <div class="flex items-center justify-between">
                                     <h4 class="text-sm font-normal capitalize">{{ item.item_name }}</h4>
-                                    <p class="text-xs leading-5 text-heading">{{ item.total_without_tax_currency_price }}
+                                    <p class="text-xs leading-5 text-heading">{{ item.total_without_tax_currency_price
+                                        }}
                                     </p>
                                 </div>
                                 <p v-if="Object.keys(item.item_variations).length !== 0"
@@ -72,7 +77,8 @@
                                         <span v-if="index + 1 < item.item_extras.length">, </span>
                                     </span>
                                 </p>
-                                <p v-if="item.instruction" class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                <p v-if="item.instruction"
+                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
                                     {{ $t('label.instruction') }}: {{ item.instruction }}
                                 </p>
 
@@ -92,8 +98,9 @@
                     <table class="w-full">
                         <tr>
                             <td class="text-xs text-left py-0.5 uppercase text-heading">{{ $t('label.subtotal') }}:</td>
-                            <td class="text-xs text-right py-0.5 text-heading">{{ order.subtotal_without_tax_currency_price
-                            }}</td>
+                            <td class="text-xs text-right py-0.5 text-heading">{{
+            order.subtotal_without_tax_currency_price
+        }}</td>
                         </tr>
                         <tr>
                             <td class="text-xs text-left py-0.5 uppercase text-heading">
@@ -177,6 +184,9 @@ export default {
         },
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
         },
     },
     mounted() {

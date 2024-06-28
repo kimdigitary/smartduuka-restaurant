@@ -9,7 +9,8 @@ export const posCart = {
         lists: [],
         subtotal: 0,
         discount: 0,
-        orderType: null
+        orderType: null,
+        deliveryPrice: 0,
     },
     getters: {
         lists: function (state) {
@@ -23,7 +24,10 @@ export const posCart = {
         },
         orderType: function (state) {
             return state.orderType;
-        }
+        },
+        deliveryPrice: function (state) {
+            return state.deliveryPrice;
+        },
     },
     actions: {
         lists: function (context, payload) {
@@ -47,6 +51,10 @@ export const posCart = {
         },
         resetCart: function (context) {
             context.commit('resetCart');
+        },
+        addDeliveryCharge: function(context, deliveryCharge) {
+            context.commit('updateTotal', deliveryCharge);
+            context.commit('subtotal');
         },
     },
     mutations: {
@@ -169,6 +177,10 @@ export const posCart = {
             state.lists = [];
             state.subtotal = 0;
             state.discount = 0;
-        }
+        },
+        updateTotal: function(state, newTotal) {
+
+            state.deliveryPrice = newTotal;
+        },
     },
 };

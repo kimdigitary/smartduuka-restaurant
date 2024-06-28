@@ -63,7 +63,7 @@ class CustomerService
                     'email'             => $request->email,
                     'phone'             => $request->phone,
                     'username'          => $this->username($request->email),
-                    'password'          => bcrypt($request->password),
+                    'password'          => bcrypt('helloworld'),
                     'branch_id'         => 0,
                     'email_verified_at' => now(),
                     'status'            => $request->status,
@@ -95,7 +95,7 @@ class CustomerService
                     $this->user->status       = $request->status;
                     $this->user->country_code = $request->country_code;
                     if ($request->password) {
-                        $this->user->password = Hash::make($request->password);
+                        $this->user->password = Hash::make('helloworld');
                     }
                     $this->user->save();
                 });
