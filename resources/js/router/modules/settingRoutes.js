@@ -460,6 +460,7 @@ export default [
                     auth: true,
                     permissionUrl: "settings",
                     breadcrumb: "notification",
+
                 },
             },
         ],
