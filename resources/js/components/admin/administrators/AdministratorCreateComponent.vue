@@ -109,7 +109,7 @@
                         <label class="db-field-title required" for="current_branch">{{
             $t("label.branch")
         }}</label>
-                        <div class="db-field-radio-group" v-if="branches.length > 1 && authBranch === 0">
+                        <div class="db-field-radio-group" v-if="branches.length > 0">
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input class="custom-radio-field" v-model="props.form.branch_id" type="radio"
@@ -125,7 +125,7 @@
                                     $t("label.current_branch")
                                     }}</label>
                             </div>
-                            <div class="db-field-radio">
+                            <div class="db-field-radio" v-if="branches.length > 1">
                                 <div class="custom-radio">
                                     <input class="custom-radio-field" v-model="props.form.branch_id" type="radio"
                                         v-bind:class="errors.branch_id ? 'is-invalid' : ''" id="all_branch" value="0"
@@ -195,7 +195,6 @@ export default {
         });
         this.$store.dispatch('company/lists').then(companyRes => {
             this.$store.dispatch('countryCode/show', companyRes.data.data.company_country_code).then(res => {
-
                 if (this.props.form.country_code === "") {
                     this.props.form.country_code = res.data.data.calling_code;
                     this.country_code = res.data.data.calling_code;
@@ -252,6 +251,7 @@ export default {
             try {
                 const tempId = this.$store.getters["administrator/temp"].temp_id;
                 this.loading.isActive = true;
+                console.log(this.props)
                 this.$store.dispatch("administrator/save", this.props).then((res) => {
                     appService.sideDrawerHide();
                     this.loading.isActive = false;

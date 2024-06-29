@@ -17,6 +17,7 @@ https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gi
 
 # Work on omoding branch
 git checkout omoding
+git rm --cached resources/js/config/env.js                  # Remove .env from the repository but keep it locally
 git rm --cached .env                   # Remove .env from the repository but keep it locally
 echo '.env' >> .gitignore              # Add .env to .gitignore
 git add .gitignore                     # Stage the .gitignore file
