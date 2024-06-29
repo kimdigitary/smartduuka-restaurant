@@ -66,6 +66,7 @@ class LoginController extends Controller
         }
         $this->defaultAccessService->storeOrUpdate(['branch_id' => $branchId]);
         $user        = User::where('email', $request['email'])->first();
+        info($user->roles);
         $this->token = $user->createToken('auth_token')->plainTextToken;
 
         if (!isset($user->roles[0])) {

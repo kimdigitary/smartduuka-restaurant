@@ -228,6 +228,8 @@ export default {
             order_type: "asc",
             status: statusEnum.ACTIVE,
         });
+        // this.props.form.branch_id = this.$store.getters["lists/branch_id"];
+        console.log(this.branches)
         this.$store.dispatch('company/lists').then(companyRes => {
             this.$store.dispatch('countryCode/show', companyRes.data.data.company_country_code).then(res => {
                 this.country_code = res.data.data.calling_code;
@@ -235,7 +237,6 @@ export default {
 
             }).catch((err) => {
                 this.loading.isActive = false;
-
             });
         }).catch((err) => {
             this.loading.isActive = false;

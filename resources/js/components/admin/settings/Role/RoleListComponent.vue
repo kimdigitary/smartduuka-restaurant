@@ -11,11 +11,12 @@
         <ul v-if="roles.length > 0">
             <li v-for="role in roles" :key="role.role"
                 class="flex flex-col items-center justify-between gap-4 sm:flex-row sm:justify-between py-3 px-4 border-b last:border-none border-solid border-slate-200">
-                <span class="font-medium capitalize text-center sm:text-left text-sm text-slate-500">
+                <span class="font-medium capitalize text-center sm:text-left text-sm text-slate-500" >
                     {{ role.name }}
                     <span class="block font-normal whitespace-nowrap">({{ role.users_count }}) {{ $t('label.members')
                     }}</span>
                 </span>
+<!--                permissionChecker('branches_create')"-->
                 <div class="flex flex-wrap justify-center items-center sm:items-start sm:justify-end gap-1.5">
                     <router-link class="db-btn-outline sm primary modal-btn m-0.5"
                         :to="{ name: 'admin.settings.role.show', params: { id: role.id } }">
@@ -103,6 +104,9 @@ export default {
         this.list();
     },
     methods: {
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
+        },
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;

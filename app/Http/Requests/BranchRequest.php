@@ -36,9 +36,9 @@ class BranchRequest extends FormRequest
             'phone'     => ['nullable', 'string', 'max:20'],
             'latitude'  => ['nullable', 'max:190'],
             'longitude' => ['nullable', 'max:190'],
-            'city'      => ['required', 'string', 'max:190'],
+//            'city'      => ['required', 'string', 'max:190'],
             'state'     => ['required', 'string', 'max:190'],
-            'zip_code'  => ['required', 'string'],
+//            'zip_code'  => ['required', 'string'],
             'address'   => ['required', 'string', 'max:500'],
             'status'    => ['required', 'numeric', 'max:24'],
         ];

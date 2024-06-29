@@ -4210,10 +4210,6 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(255 79 153 / var(--tw-bg-opacity));
 }
-.bg-\[\#FF8C4B\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 140 75 / var(--tw-bg-opacity));
-}
 .bg-\[\#FFD7E7\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 215 231 / var(--tw-bg-opacity));
