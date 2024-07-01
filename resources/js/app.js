@@ -17,8 +17,6 @@ import VueNextSelect from 'vue-next-select';
 import 'vue-next-select/dist/index.css';
 import ENV from './config/env';
 
-
-/* Start tooltip alert code */
 const options = {
     timeout: 2000,
     closeOnClick: true,

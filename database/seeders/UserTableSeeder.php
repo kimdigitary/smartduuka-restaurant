@@ -3,36 +3,44 @@
 namespace Database\Seeders;
 
 use App\Enums\Ask;
-use App\Models\Address;
 use App\Enums\Role as EnumRole;
+use App\Enums\Status;
+use App\Models\Address;
+use App\Models\User;
 use Dipokhalder\EnvEditor\EnvEditor;
 use Illuminate\Database\Seeder;
-use App\Models\User;
-use App\Enums\Status;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 
 class UserTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
         $envService = new EnvEditor();
-        $admin      = User::create([
+        $super_admin = User::create([
+            'name'              => 'super admin',
+            'email'             => 'superadmin@example.com',
+            'phone'             => '123456',
+            'username'          => 'superadmin',
+            'email_verified_at' => now(),
+            'password'          => bcrypt('123456'),
+            'branch_id'         => 1,
+            'status'            => Status::ACTIVE,
+            'country_code'      => '+880',
+            'is_guest'          => Ask::NO
+        ]);
+        $super_admin->assignRole(EnumRole::SUPER_ADMIN);
+        $admin = User::create([
             'name'              => 'John Doe',
             'email'             => 'admin@example.com',
             'phone'             => '1254875855',
             'username'          => 'admin',
             'email_verified_at' => now(),
             'password'          => bcrypt('123456'),
-            'branch_id'         => 0,
+            'branch_id'         => 1,
             'status'            => Status::ACTIVE,
             'country_code'      => '+880',
             'is_guest'          => Ask::NO

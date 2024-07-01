@@ -24,7 +24,7 @@ class SiteTableSeeder extends Seeder
         Settings::group('site')->set([
             'site_date_format'               => 'd-m-Y',
             'site_time_format'               => 'h:i A',
-            'site_default_timezone'          => 'Asia/Dhaka',
+            'site_default_timezone'          => 'Africa/Kampala',
             'site_default_branch'            => 1,
             'site_default_currency'          => 1,
             'site_default_currency_symbol'   => '$',
@@ -49,7 +49,7 @@ class SiteTableSeeder extends Seeder
 
         $envService->addData([
             'APP_DEBUG'              => 'false',
-            'TIMEZONE'               => 'Asia/Dhaka',
+            'TIMEZONE'               => 'Africa/Kampala',
             'CURRENCY'               => 'USD',
             'CURRENCY_SYMBOL'        => '$',
             'CURRENCY_POSITION'      => '5',

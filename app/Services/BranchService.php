@@ -26,9 +26,6 @@ class BranchService
         'status'
     ];
 
-    /**
-     * @throws Exception
-     */
     public function list(PaginateRequest $request)
     {
         try {

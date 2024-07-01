@@ -5,6 +5,7 @@
 <!--        <h2 class="mb-1">{{ $t('label.reminder') }}</h2>-->
 <!--        <p>{{ $t('label.data_reset') }}</p>-->
 <!--    </div>-->
+    <i class="fa-regular fa-credit-card"></i>
 
     <div class="mb-8">
         <h3 class="font-semibold text-[26px] leading-10 capitalize text-primary">{{ visitorMessage() }}</h3>

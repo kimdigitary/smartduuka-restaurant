@@ -6,6 +6,7 @@
             <h3 class="db-card-title">{{ $t("menu.branches") }}</h3>
             <div class="db-card-filter">
                 <TableLimitComponent :method="list" :search="props.search" :page="paginationPage"/>
+<!--                <BranchCreateComponent :props="props" v-if="permissionChecker('branches_create')"/>-->
                 <BranchCreateComponent :props="props"/>
             </div>
         </div>
@@ -138,6 +139,9 @@ export default {
     methods: {
         statusClass: function (status) {
             return appService.statusClass(status);
+        },
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
         },
         textShortener: function (text, number = 30) {
             return appService.textShortener(text, number);

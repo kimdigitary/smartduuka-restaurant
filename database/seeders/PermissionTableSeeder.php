@@ -426,6 +426,48 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Branches',
+                'name'       => 'branches',
+                'guard_name' => 'sanctum',
+                'url'        => 'branches',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Branches Create',
+                        'name'       => 'branches_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'branches/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Branches Edit',
+                        'name'       => 'branches_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'branches/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Branches Delete',
+                        'name'       => 'branches_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'branches/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Branches Show',
+                        'name'       => 'branches_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'branches/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
                 'title'      => 'Transactions',
                 'name'       => 'transactions',
                 'guard_name' => 'sanctum',
