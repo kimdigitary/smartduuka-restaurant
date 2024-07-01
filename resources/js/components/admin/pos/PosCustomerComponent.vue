@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
-                            <label for="phone" class="text-xs capitalize mb-1 text-heading">{{ $t('label.phone') }}</label>
+                            <label for="phone" class="text-xs capitalize mb-1 text-heading required">{{ $t('label.phone') }}</label>
                             <div :class="errors.phone ? 'invalid' : ''" class="db-field-control flex items-center">
                                 <div class="w-fit flex-shrink-0 dropdown-group">
                                     <button type="button" class="flex items-center gap-1 dropdown-btn">

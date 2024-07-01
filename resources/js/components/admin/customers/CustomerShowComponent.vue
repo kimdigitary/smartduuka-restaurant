@@ -242,15 +242,15 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive"),
                 },
             },
-            password: {
-                props: {
-                    form: {
-                        password: "",
-                        password_confirmation: "",
-                    },
-                },
-                errors: {},
-            },
+            // password: {
+            //     props: {
+            //         form: {
+            //             password: "",
+            //             password_confirmation: "",
+            //         },
+            //     },
+            //     errors: {},
+            // },
             defaultImage: null,
             previewImage: null,
             uploadButton: true,
