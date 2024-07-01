@@ -24,8 +24,6 @@ jobs:
           script: |
             cd /home/restaurant@smartduuka/public_html
             git pull origin dev
-#            git fetch origin
-#            git reset --hard origin/dev
             composer update
             php artisan migrate --force
             npm update
