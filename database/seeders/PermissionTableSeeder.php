@@ -214,6 +214,40 @@ class PermissionTableSeeder extends Seeder
                 'url'        => 'table-orders',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Table Order Create',
+                        'name'       => 'table_order_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'table-orders/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Table Order Edit',
+                        'name'       => 'table_order_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'table-orders/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Table Order Delete',
+                        'name'       => 'table_order_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'table-orders/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Table Order Show',
+                        'name'       => 'table_order_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'table-orders/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
             ],
             [
                 'title'      => 'Offers',
