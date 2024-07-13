@@ -82,6 +82,9 @@
                         <th class="db-table-head-th">
                             Category
                         </th>
+                        <th class="db-table-head-th">
+                            Action
+                        </th>
                         <th class="db-table-head-th hidden-print"
                             v-if="permissionChecker('products_show') || permissionChecker('products_edit') || permissionChecker('products_delete')">
                             {{ $t('label.action') }}
