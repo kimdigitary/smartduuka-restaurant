@@ -1,7 +1,6 @@
 <template>
     <aside class="db-sidebar">
         <div class="db-sidebar-header">
-
             <button class="fa-solid fa-xmark xmark-btn close-db-menu"></button>
         </div>
 <!--        {{ menus }}-->

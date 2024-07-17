@@ -11,6 +11,7 @@ email: posoperator@example.com
 password: 123456
 
 cd /home/moodbox@smartduuka/public_html
+cd /home/vilagio@smartduuka/public_html
 http://phpmyadmin.smartduuka.com/
 
 https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
