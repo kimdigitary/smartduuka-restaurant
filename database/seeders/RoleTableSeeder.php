@@ -7,15 +7,14 @@ use Spatie\Permission\Models\Role;
 
 class RoleTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
         Role::insert([
-            [
-                'name'       => 'SUPER_ADMIN',
-                'guard_name' => 'sanctum',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
             [
                 'name'       => 'Admin',
                 'guard_name' => 'sanctum',
