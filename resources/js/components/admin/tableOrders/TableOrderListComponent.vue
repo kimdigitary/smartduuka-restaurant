@@ -128,6 +128,9 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.table.order.show'" :id="order.id"
                                         v-if="permissionChecker('table-orders')" />
+
+                                    <SmIconDeleteComponent @click="destroy(order.id)"
+                                                           v-if="permissionChecker('table_order_delete')" />
                                 </div>
                             </td>
                         </tr>
@@ -301,6 +304,25 @@ export default {
         },
         search: function () {
             this.list();
+        },
+        destroy: function (id) {
+            appService.destroyConfirmation().then((res) => {
+                try {
+                    this.loading.isActive = true;
+                    this.$store.dispatch('tableOrder/destroy', { id: id, search: this.props.search }).then((res) => {
+                        this.loading.isActive = false;
+                        alertService.successFlip(null, this.$t('menu.table_orders'));
+                    }).catch((err) => {
+                        this.loading.isActive = false;
+                        alertService.error(err.response.data.message);
+                    })
+                } catch (err) {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
+                }
+            }).catch((err) => {
+                this.loading.isActive = false;
+            })
         },
         handleDate: function (e) {
             if (e) {

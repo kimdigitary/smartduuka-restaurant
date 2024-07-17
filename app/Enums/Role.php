@@ -10,6 +10,6 @@ interface Role
     const CHEF = 4;
     const BRANCH_MANAGER = 5;
     const POS_OPERATOR = 6;
-    const STAFF = 7;
+    const STUFF = 7;
     const SUPER_ADMIN = 8;
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\RootController;
 use App\Http\Controllers\Installer\InstallerController;
+use App\Http\Controllers\TestController;
 use App\Http\PaymentGateways\Gateways\Paytm;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('seed',[TestController::class,'seedDatabase']);
 
 Route::prefix('install')->name('installer.')->middleware(['web'])->group(function () {
     Route::get('/', [InstallerController::class, 'index'])->name('index');

@@ -10,12 +10,15 @@ use Spatie\Permission\Models\Role;
 
 class RolePermissionTableSeeder extends Seeder
 {
-    public function run(): void
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
     {
         $adminRole = Role::find(EnumRole::ADMIN);
-        $superAdminRole = Role::find(EnumRole::SUPER_ADMIN);
-        $superAdminRole?->givePermissionTo(Permission::all());
-        $adminRole?->givePermissionTo(Permission::wherenotin('name', ['branches_create'])->get());
+        $adminRole?->givePermissionTo(Permission::all());
 
         $branchManager = Role::find(5);
         if ($branchManager) {
@@ -24,13 +27,6 @@ class RolePermissionTableSeeder extends Seeder
                 ['name' => 'dining-tables'],
                 ['name' => 'pos'],
                 ['name' => 'pos-orders'],
-
-                ['name' => 'expenses'],
-                ['name' => 'expenses_create'],
-                ['name' => 'expenses_edit'],
-                ['name' => 'expenses_delete'],
-                ['name' => 'expenses_show'],
-
                 ['name' => 'online-orders'],
                 ['name' => 'table-orders'],
                 ['name' => 'push-notifications'],

@@ -401,6 +401,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
         Route::get('/export', [AdminTableOrderController::class, 'export']);
         Route::post('/change-status/{order}', [AdminTableOrderController::class, 'changeStatus']);
+        Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
         Route::post('/change-payment-status/{order}', [AdminTableOrderController::class, 'changePaymentStatus']);
         Route::post('/token-create/{order}', [AdminTableOrderController::class, 'tokenCreate']);
     });

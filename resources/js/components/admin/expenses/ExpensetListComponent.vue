@@ -68,10 +68,22 @@
                             Amount
                         </th>
                         <th class="db-table-head-th">
+                            Paid
+                        </th>
+                        <th class="db-table-head-th">
+                            Balance
+                        </th>
+                        <th class="db-table-head-th">
+                            Status
+                        </th>
+                        <th class="db-table-head-th">
                             Date
                         </th>
                         <th class="db-table-head-th">
                             Category
+                        </th>
+                        <th class="db-table-head-th">
+                            Action
                         </th>
                         <th class="db-table-head-th hidden-print"
                             v-if="permissionChecker('products_show') || permissionChecker('products_edit') || permissionChecker('products_delete')">
@@ -84,6 +96,13 @@
                     <tr class="db-table-body-tr" v-for="expense in items" :key="expense.id">
                         <td class="db-table-body-td">{{ expense.name }}</td>
                         <td class="db-table-body-td">{{ expense.amount }}</td>
+                        <td class="db-table-body-td">{{ expense.paid }}</td>
+                        <td class="db-table-body-td">{{ expense.amount - expense.paid }}</td>
+                        <td class="db-table-body-td">
+                            <span :class="paymentStatusClass(expense)">
+                                {{ (expense.amount - expense.paid)===0? 'Paid' : 'Unpaid'}}
+                            </span>
+                        </td>
                         <td class="db-table-body-td">{{ expense.date }}</td>
                         <td class="db-table-body-td">{{ expense.category.name }}</td>
                         <td class="db-table-body-td hidden-print"
@@ -96,16 +115,22 @@
                                                      v-if="permissionChecker('expenses_edit')"/>
                                 <SmIconDeleteComponent @click="destroy(expense.id)"
                                                        v-if="permissionChecker('expenses_delete')"/>
-                                <button type="button" data-modal="#purchasePayment" @click="addPayment(expense.id)"
-                                        class="db-table-action">
-                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
-                                </button>
-                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(expense.id)"
-                                        class="db-table-action">
-                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
-                                </button>
+                                <SmAddPaymentComponent @click="addPayment(expense.id)" data-modal="#purchasePayment"
+                                                       v-if="permissionChecker('expenses_delete')"/>
+
+                                <!--                                <SmViewPaymentComponent @click="paymentList(expense.id)" data-modal="#purchasePaymentList"-->
+                                <!--                                                       v-if="permissionChecker('expenses_delete')"/>-->
+
+                                <!--                                <button type="button" data-modal="#purchasePayment" @click="addPayment(expense.id)"-->
+                                <!--                                        class="db-table-action">-->
+                                <!--                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>-->
+                                <!--                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>-->
+                                <!--                                </button>-->
+                                <!--                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(expense.id)"-->
+                                <!--                                        class="db-table-action">-->
+                                <!--                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>-->
+                                <!--                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>-->
+                                <!--                                </button>-->
 
                             </div>
                         </td>
@@ -146,10 +171,14 @@ import ExpenseCreateComponent from "./ExpenseCreateComponent.vue";
 import DatePickerComponent from "../components/DatePickerComponent.vue";
 import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentStatusEnum";
 import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
+import SmAddPaymentComponent from "../components/buttons/SmAddPaymentComponent.vue";
+import SmViewPaymentComponent from "../components/buttons/SmViewPaymentComponent.vue";
 
 export default {
     name: "ExpenseListComponent",
     components: {
+        SmViewPaymentComponent,
+        SmAddPaymentComponent,
         SmIconEditComponent,
         DatePickerComponent,
         TableLimitComponent,
@@ -265,6 +294,13 @@ export default {
         },
         statusClass: function (status) {
             return appService.statusClass(status);
+        },
+        paymentStatusClass: function (expense) {
+            if ((expense.amount) - (expense.paid) === 0) {
+                return "db-table-badge text-green-600 bg-green-100";
+            } else {
+                return "db-table-badge text-red-600 bg-red-100";
+            }
         },
         textShortener: function (text, number = 30) {
             return appService.textShortener(text, number);
