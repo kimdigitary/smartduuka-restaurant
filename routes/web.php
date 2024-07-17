@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('seed',[TestController::class,'seedDatabase']);
 
 Route::prefix('install')->name('installer.')->middleware(['web'])->group(function () {
     Route::get('/', [InstallerController::class, 'index'])->name('index');
