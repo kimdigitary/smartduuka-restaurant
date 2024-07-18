@@ -19,7 +19,10 @@
 
                     <div class="form-col-12 sm:form-col-6">
                         <label for="price" class="db-field-title required">{{ $t("label.price") }}</label>
-                        <input v-model="props.form.price" v-bind:class="errors.price ? 'invalid' : ''" type="text"
+                        <!-- <input v-model="props.form.price" v-bind:class="errors.price ? 'invalid' : ''" type="text"
+                            id="price" class="db-field-control">
+                        <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small> -->
+                        <input v-model="formattedPrice" v-bind:class="errors.price ? 'invalid' : ''" type="text"
                             id="price" class="db-field-control">
                         <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>
                     </div>
@@ -167,9 +170,10 @@ import appService from "../../../services/appService";
 export default {
     name: "ItemCreateComponent",
     components: { SmSidebarModalCreateComponent, LoadingComponent },
-    props: ['props'],
+    props: ['props', 'form', 'errors'],
     data() {
         return {
+            internalPrice: '',
             loading: {
                 isActive: false
             },
@@ -195,6 +199,18 @@ export default {
         }
     },
     computed: {
+        formattedPrice: {
+            get() {
+                return this.formatNumber(this.internalPrice)
+            },
+            set(value) {
+                const numericValue = value.replace(/,/g, '');
+                if (!isNaN(numericValue) || numericValue === '') {
+                    this.internalPrice = numericValue;
+                    this.$emit('update:form', { ...this.props.form, price: numericValue });
+                }
+            }
+        },
         addButton: function () {
             return { title: this.$t('button.add_item') };
         },
@@ -219,6 +235,10 @@ export default {
         this.loading.isActive = false;
     },
     methods: {
+        formatNumber(value) {
+            if (!value) return '';
+            return Number(value).toLocaleString();
+        },
         changeImage: function (e) {
             this.image = e.target.files[0];
         },
@@ -246,7 +266,7 @@ export default {
             try {
                 const fd = new FormData();
                 fd.append('name', this.props.form.name);
-                fd.append('price', this.props.form.price);
+                fd.append('price', this.internalPrice);
                 fd.append('item_category_id', this.props.form.item_category_id == null ? '' : this.props.form.item_category_id);
                 fd.append('tax_id', this.props.form.tax_id == null ? '' : this.props.form.tax_id);
                 fd.append('item_type', this.props.form.item_type);
@@ -258,6 +278,7 @@ export default {
                 if (this.image) {
                     fd.append('image', this.image);
                 }
+                console.log('Price being submitted:', this.internalPrice);
                 const tempId = this.$store.getters['item/temp'].temp_id;
                 this.loading.isActive = true;
                 this.$store.dispatch('item/save', {
@@ -294,7 +315,15 @@ export default {
                 this.loading.isActive = false;
                 alertService.error(err)
             }
-        }
+        },
+        watch: {
+            'props.form.price': {
+                immediate: true,
+                handler(newValue) {
+                    this.internalPrice = newValue || '';
+                }
+            }
+        },
     }
 }
 </script>
