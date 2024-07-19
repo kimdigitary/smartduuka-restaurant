@@ -69,18 +69,14 @@
                         <label for="country_code" class="db-field-title required">
                             {{ $t("label.country_code") }}
                         </label>
-                        <!-- <vue-select class="db-field-control f-b-custom-select" id="country_code"
+                        <vue-select class="db-field-control f-b-custom-select" id="country_code"
                             v-bind:class="errors.company_country_code ? 'is-invalid' : ''"
                             v-model="form.company_country_code" :options="countryCodes" label-by="country_name"
                             value-by="country_code" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                             placeholder="--" search-placeholder="--" />
                         <small class="db-field-alert" v-if="errors.company_country_code">{{
                             errors.company_country_code[0]
-                        }}</small> -->
-
-                        <input v-model="form.company_country_code" v-bind:class="errors.company_country_code ? 'invalid' : ''" type="text"
-                            id="company_country_code" class="db-field-control" value="UG" readonly />
-                        <small class="db-field-alert" v-if="errors.company_country_code">{{ errors.company_country_code[0] }}</small>
+                        }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
@@ -171,7 +167,7 @@ export default {
                             company_city: res.data.data.company_city,
                             company_state: res.data.data.company_state,
                             company_country_code:
-                                'UG',
+                                res.data.data.company_country_code,
                             company_zip_code: res.data.data.company_zip_code,
                             company_address: res.data.data.company_address,
                         };
