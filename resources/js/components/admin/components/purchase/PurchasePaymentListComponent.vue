@@ -17,7 +17,8 @@
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
                     <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
                         <td class="db-table-body-td">
-                            {{ purchasePayment.converted_date }}
+                            {{ }}
+                            <!-- {{ // purchasePayment.converted_date }} -->
                         </td>
                         <td class="db-table-body-td">
                             {{ purchasePayment.reference_no }}

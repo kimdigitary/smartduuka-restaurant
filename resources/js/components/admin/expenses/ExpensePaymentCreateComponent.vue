@@ -22,7 +22,13 @@
           <label for="searchStartDate" class="db-field-title after:hidden required">{{
               $t('label.date')
             }}</label>
-          <DatePickerComponent @update:modelValue="handleDate" :range="false" inputStyle="filter" v-model="form.date"/>
+<!--          <DatePickerComponent @update:modelValue="handleDate" :range="false" inputStyle="filter" v-model="form.date"/>-->
+            <Datepicker hideInputIcon autoApply v-model="form.date" :enableTimePicker="false"
+                        :is24="false" :monthChangeOnScroll="false" utc="false">
+                <template #am-pm-button="{ toggle, value }">
+                    <button @click="toggle">{{ value }}</button>
+                </template>
+            </Datepicker>
           <small class="db-field-alert" v-if="errors.date">{{ errors.date }}</small>
         </div>
         <div class="form-col-12 sm:form-col-6">

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Models\Order;
 use App\Exports\OrderExport;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\PaginateRequest;
@@ -45,6 +48,15 @@ class TableOrderController extends AdminController
     {
         try {
             return new OrderDetailsResource($this->orderService->show($order, false));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
+    public function destroy(Order $order): Response | Application | ResponseFactory {
+        try {
+            $this->orderService->destroy($order);
+            return response('', 202);
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

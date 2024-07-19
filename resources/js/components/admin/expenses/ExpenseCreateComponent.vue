@@ -70,60 +70,60 @@
                     </small>
                 </div>
 
-                <div class="grid gap-2 grid-cols-1 sm:grid-cols-4 form-col-12">
-                    <div>
-                        <label class="db-field-title required" for="yes">Is Recurring</label>
-                        <div class="db-field-radio-group">
-                            <div class="db-field-radio">
-                                <div class="custom-radio">
-                                    <input type="radio" v-model="props.form.isRecurring" id="yes"
-                                           :value="1" class="custom-radio-field">
-                                    <span class="custom-radio-span"></span>
-                                </div>
-                                <label for="yes" class="db-field-label">{{ $t('label.yes') }}</label>
-                            </div>
-                            <div class="db-field-radio">
-                                <div class="custom-radio">
-                                    <input type="radio" class="custom-radio-field" v-model="props.form.isRecurring"
-                                           id="no" :value="0" checked>
-                                    <span class="custom-radio-span"></span>
-                                </div>
-                                <label for="no" class="db-field-label">{{ $t('label.no') }}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="" v-show="props.form.isRecurring">
-                        <label for="tax_id" class="db-field-title required">Repeats</label>
-                        <vue-select ref="tax_id" class="db-field-control f-b-custom-select" id="tax_id"
-                                    v-bind:class="errors.recurs ? 'invalid' : ''" v-model="props.form.recurs"
-                                    :options="recurringOptions"
-                                    label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                    :clearOnClose="true"
-                                    placeholder="--" search-placeholder="--" :multiple="false"/>
-                        <small class="db-field-alert" v-if="errors.recurs">{{ errors.recurs }}</small>
-                    </div>
-                    <div class="" v-show="props.form.isRecurring">
-                        <label for="tax_id" class="db-field-title required">Repetitions</label>
-                        <input v-model="props.form.repetitions" v-bind:class="errors.repetitions ? 'invalid' : ''"
-                               type="text" id="name"
-                               class="db-field-control">
-                        <small class="" v-if="!errors.repetitions">Leave blank to repeat indefinitely</small>
-                        <small class="db-field-alert" v-if="errors.repetitions">{{ errors.repetitions }}</small>
-                    </div>
-                    <div class="" v-show="props.form.isRecurring">
-                        <label for="searchStartDate" class="db-field-title after:hidden required">Repeats On</label>
-<!--                        <DatePickerComponent @update:modelValue="handleRepeatsDate" :range="false" inputStyle="filter"-->
-<!--                                             v-model="props.form.repeatsOn"/>-->
-<!--                        <small class="db-field-alert" v-if="errors.repeatsOn">{{ errors.repeatsOn }}</small>-->
-                        <Datepicker hideInputIcon autoApply v-model="props.form.repeatsOn" :enableTimePicker="false"
-                                    :is24="false" :monthChangeOnScroll="false" utc="false">
-                            <template #am-pm-button="{ toggle, value }">
-                                <button @click="toggle">{{ value }}</button>
-                            </template>
-                        </Datepicker>
-                        <small class="db-field-alert" v-if="errors.date">{{ errors.date }}</small>
-                    </div>
-                </div>
+<!--                <div class="grid gap-2 grid-cols-1 sm:grid-cols-4 form-col-12">-->
+<!--                    <div>-->
+<!--                        <label class="db-field-title required" for="yes">Is Recurring</label>-->
+<!--                        <div class="db-field-radio-group">-->
+<!--                            <div class="db-field-radio">-->
+<!--                                <div class="custom-radio">-->
+<!--                                    <input type="radio" v-model="props.form.isRecurring" id="yes"-->
+<!--                                           :value="1" class="custom-radio-field">-->
+<!--                                    <span class="custom-radio-span"></span>-->
+<!--                                </div>-->
+<!--                                <label for="yes" class="db-field-label">{{ $t('label.yes') }}</label>-->
+<!--                            </div>-->
+<!--                            <div class="db-field-radio">-->
+<!--                                <div class="custom-radio">-->
+<!--                                    <input type="radio" class="custom-radio-field" v-model="props.form.isRecurring"-->
+<!--                                           id="no" :value="0" checked>-->
+<!--                                    <span class="custom-radio-span"></span>-->
+<!--                                </div>-->
+<!--                                <label for="no" class="db-field-label">{{ $t('label.no') }}</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="" v-show="props.form.isRecurring">-->
+<!--                        <label for="tax_id" class="db-field-title required">Repeats</label>-->
+<!--                        <vue-select ref="tax_id" class="db-field-control f-b-custom-select" id="tax_id"-->
+<!--                                    v-bind:class="errors.recurs ? 'invalid' : ''" v-model="props.form.recurs"-->
+<!--                                    :options="recurringOptions"-->
+<!--                                    label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"-->
+<!--                                    :clearOnClose="true"-->
+<!--                                    placeholder="&#45;&#45;" search-placeholder="&#45;&#45;" :multiple="false"/>-->
+<!--                        <small class="db-field-alert" v-if="errors.recurs">{{ errors.recurs }}</small>-->
+<!--                    </div>-->
+<!--                    <div class="" v-show="props.form.isRecurring">-->
+<!--                        <label for="tax_id" class="db-field-title required">Repetitions</label>-->
+<!--                        <input v-model="props.form.repetitions" v-bind:class="errors.repetitions ? 'invalid' : ''"-->
+<!--                               type="text" id="name"-->
+<!--                               class="db-field-control">-->
+<!--                        <small class="" v-if="!errors.repetitions">Leave blank to repeat indefinitely</small>-->
+<!--                        <small class="db-field-alert" v-if="errors.repetitions">{{ errors.repetitions }}</small>-->
+<!--                    </div>-->
+<!--                    <div class="" v-show="props.form.isRecurring">-->
+<!--                        <label for="searchStartDate" class="db-field-title after:hidden required">Repeats On</label>-->
+<!--&lt;!&ndash;                        <DatePickerComponent @update:modelValue="handleRepeatsDate" :range="false" inputStyle="filter"&ndash;&gt;-->
+<!--&lt;!&ndash;                                             v-model="props.form.repeatsOn"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <small class="db-field-alert" v-if="errors.repeatsOn">{{ errors.repeatsOn }}</small>&ndash;&gt;-->
+<!--                        <Datepicker hideInputIcon autoApply v-model="props.form.repeatsOn" :enableTimePicker="false"-->
+<!--                                    :is24="false" :monthChangeOnScroll="false" utc="false">-->
+<!--                            <template #am-pm-button="{ toggle, value }">-->
+<!--                                <button @click="toggle">{{ value }}</button>-->
+<!--                            </template>-->
+<!--                        </Datepicker>-->
+<!--                        <small class="db-field-alert" v-if="errors.date">{{ errors.date }}</small>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <p class="my-5 form-col-12">Add Payment</p>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
                     <div>

@@ -24,6 +24,7 @@
                             <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
                             <th class="db-table-head-th">{{ $t('label.customer') }}</th>
                             <th class="db-table-head-th">{{ $t('label.amount') }}</th>
+                            <th class="db-table-head-th">Payment Status</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
                             <th class="db-table-head-th">{{ $t('label.status') }}</th>
                             <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
@@ -39,6 +40,7 @@
                                 {{ order.customer.name }}
                             </td>
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                            <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                             <td class="db-table-body-td">{{ order.order_datetime }}</td>
                             <td class="db-table-body-td">
                                 <span :class="orderStatusClass(order.status)">
@@ -98,6 +100,7 @@ import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import PosOrderEditComponent from "./PosOrderEditComponent.vue";
+import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 
 export default {
     name: "PosOrderListComponent",
@@ -149,6 +152,7 @@ export default {
             },
             enums: {
                 orderStatusEnum: orderStatusEnum,
+                paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
                 orderStatusEnumArray: {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
@@ -157,7 +161,11 @@ export default {
                 },
                 orderTypeEnumArray: {
                     [orderTypeEnum.POS]: this.$t("label.pos"),
-                }
+                },
+                paymentStatusEnumArray: {
+                    [paymentStatusEnum.PAID]: this.$t("label.paid"),
+                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid")
+                },
             },
             printLoading: true,
             printObj: {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\RootController;
 use App\Http\Controllers\Installer\InstallerController;
+use App\Http\Controllers\TestController;
 use App\Http\PaymentGateways\Gateways\Paytm;
 use Illuminate\Support\Facades\Route;
 

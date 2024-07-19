@@ -30,43 +30,43 @@ class TaxTableSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
-//                [
-//                    'name'       => 'VAT',
-//                    'code'       => 'VAT-5%',
-//                    'tax_rate'   => 5,
-//                    'type'       => TaxType::PERCENTAGE,
-//                    'status'     => Status::ACTIVE,
-//                    'created_at' => now(),
-//                    'updated_at' => now()
-//                ],
-//                [
-//                    'name'       => 'VAT',
-//                    'code'       => 'VAT-10%',
-//                    'tax_rate'   => 10,
-//                    'type'       => TaxType::PERCENTAGE,
-//                    'status'     => Status::ACTIVE,
-//                    'created_at' => now(),
-//                    'updated_at' => now()
-//                ],
-//                [
-//                    'name'       => 'GST',
-//                    'code'       => 'GST-5%',
-//                    'tax_rate'   => 5,
-//                    'type'       => TaxType::PERCENTAGE,
-//                    'status'     => Status::ACTIVE,
-//                    'created_at' => now(),
-//                    'updated_at' => now()
-//                ],
-//
-//                [
-//                    'name'       => 'GST',
-//                    'code'       => 'GST-10%',
-//                    'tax_rate'   => 10,
-//                    'type'       => TaxType::PERCENTAGE,
-//                    'status'     => Status::ACTIVE,
-//                    'created_at' => now(),
-//                    'updated_at' => now()
-//                ]
+                [
+                    'name'       => 'VAT',
+                    'code'       => 'VAT-5%',
+                    'tax_rate'   => 5,
+                    'type'       => TaxType::PERCENTAGE,
+                    'status'     => Status::ACTIVE,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name'       => 'VAT',
+                    'code'       => 'VAT-10%',
+                    'tax_rate'   => 10,
+                    'type'       => TaxType::PERCENTAGE,
+                    'status'     => Status::ACTIVE,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name'       => 'GST',
+                    'code'       => 'GST-5%',
+                    'tax_rate'   => 5,
+                    'type'       => TaxType::PERCENTAGE,
+                    'status'     => Status::ACTIVE,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
+                [
+                    'name'       => 'GST',
+                    'code'       => 'GST-10%',
+                    'tax_rate'   => 10,
+                    'type'       => TaxType::PERCENTAGE,
+                    'status'     => Status::ACTIVE,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
             ]);
         }
     }

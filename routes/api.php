@@ -5,6 +5,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpensePaymentController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OtpController;
@@ -73,6 +74,8 @@ use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController
 use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
 use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
+
+Route::get('seed',[TestController::class,'seedDatabase']);
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
@@ -401,6 +404,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
         Route::get('/export', [AdminTableOrderController::class, 'export']);
         Route::post('/change-status/{order}', [AdminTableOrderController::class, 'changeStatus']);
+        Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
         Route::post('/change-payment-status/{order}', [AdminTableOrderController::class, 'changePaymentStatus']);
         Route::post('/token-create/{order}', [AdminTableOrderController::class, 'tokenCreate']);
     });
