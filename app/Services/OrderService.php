@@ -268,7 +268,7 @@ class OrderService
                 $this->order = Order::create(
                     $request->validated() + [
                         'user_id'          => $request->customer_id,
-                        'status'           => OrderStatus::ACCEPT,
+                        'status'           => OrderStatus::PENDING,
                         'token'            => $request->token,
                         'payment_status'   => PaymentStatus::PAID,
                         'order_datetime'   => date('Y-m-d H:i:s'),

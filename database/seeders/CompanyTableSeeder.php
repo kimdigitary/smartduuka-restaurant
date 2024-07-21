@@ -24,7 +24,7 @@ class CompanyTableSeeder extends Seeder
             'company_website'      => 'https://foodscan.xyz',
             'company_city'         => 'Mirpur 1',
             'company_state'        => 'Dhaka',
-            'company_country_code' => 'BGD',
+            'company_country_code' => 'ETH',
             'company_zip_code'     => '1216',
             'company_address'      => 'House : 25, Road No: 2, Block A, Mirpur-1, Dhaka 1216'
         ]);

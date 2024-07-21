@@ -118,6 +118,12 @@ $(document).on('click', '.close-db-menu', function () {
     $('.db-sidebar').removeClass('active');
     $('.db-main').removeClass('expand');
 });
+
+$(document).on('click', '.db-sidebar-nav-menu', function () {
+    $('.db-header-nav').removeClass('fa-bars').addClass('fa-align-left');
+    $('.db-sidebar').removeClass('active');
+    $('.db-main').removeClass('expand');
+});
 /* Sidebar toggle close */
 
 /* Web cart, Mobile cart, profile toggle start */
