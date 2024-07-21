@@ -73,6 +73,15 @@ export const posOrder = {
                 });
             });
         },
+        update: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post("admin/pos/update", payload).then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         show: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.get(`admin/pos-order/show/${payload}`).then((res) => {
