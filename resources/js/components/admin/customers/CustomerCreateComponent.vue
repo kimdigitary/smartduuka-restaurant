@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="email" class="db-field-title required">{{
+                        <label for="email" class="db-field-title">{{
             $t("label.email")
         }}</label>
                         <input v-model="props.form.email" v-bind:class="errors.email ? 'invalid' : ''" type="text"
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="phone" class="text-xs capitalize mb-1 text-heading">{{ $t('label.phone') }}</label>
+                        <label for="phone" class="text-xs capitalize mb-1 text-heading required">{{ $t('label.phone') }}</label>
                         <div :class="errors.phone ? 'invalid' : ''" class="db-field-control flex items-center">
                             <div class="w-fit flex-shrink-0 dropdown-group">
                                 <button type="button" class="flex items-center gap-1 dropdown-btn">
@@ -82,7 +82,7 @@
         errors.status[0]
     }}</small>
                     </div>
-                    <div class="form-col-12 sm:form-col-6">
+                    <!-- <div class="form-col-12 sm:form-col-6">
                         <label for="password" class="db-field-title required">{{
             $t("label.password")
         }}</label>
@@ -90,7 +90,7 @@
                             type="password" id="password" class="db-field-control" autocomplete="off" />
                         <small class="db-field-alert" v-if="errors.password">{{
         errors.password[0]
-    }}</small>
+                            }}</small>
                     </div>
                     <div class="form-col-12 sm:form-col-6">
                         <label for="password_confirmation" class="db-field-title required">{{
@@ -101,7 +101,7 @@
                         <small class="db-field-alert" v-if="errors.password_confirmation">{{
                             errors.password_confirmation[0]
                             }}</small>
-                    </div>
+                    </div> -->
                     <div class="form-col-12">
                         <div class="flex flex-wrap gap-3 mt-4">
                             <button type="submit" class="db-btn py-2 text-white bg-primary">
@@ -185,8 +185,8 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
-                password: "",
-                password_confirmation: "",
+                // password: "",
+                // password_confirmation: "",
                 status: statusEnum.ACTIVE,
                 country_code: this.country_code,
             };
@@ -210,8 +210,8 @@ export default {
                             name: "",
                             email: "",
                             phone: "",
-                            password: "",
-                            password_confirmation: "",
+                            // password: "",
+                            // password_confirmation: "",
                             status: statusEnum.ACTIVE,
                             country_code: this.country_code,
                         };

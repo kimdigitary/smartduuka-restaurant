@@ -90,6 +90,7 @@
                             <th class="db-table-head-th">{{ $t("label.order_type") }}</th>
                             <th class="db-table-head-th">{{ $t("label.customer") }}</th>
                             <th class="db-table-head-th">{{ $t("label.amount") }}</th>
+                            <th class="db-table-head-th">Payment Status</th>
                             <th class="db-table-head-th">{{ $t("label.date") }}</th>
                             <th class="db-table-head-th">{{ $t("label.status") }}</th>
                             <th class="db-table-head-th hidden-print" v-if="permissionChecker('table-orders')">
@@ -112,6 +113,7 @@
                                 {{ textShortener(order.customer.name, 20) }}
                             </td>
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                            <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                             <td class="db-table-body-td">
                                 {{ order.order_datetime }}
                             </td>
@@ -171,6 +173,7 @@ import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from "dat
 import statusEnum from "../../../enums/modules/statusEnum";
 import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 
 export default {
     name: "TableOrderListComponent",
@@ -221,6 +224,7 @@ export default {
             },
             enums: {
                 orderStatusEnum: orderStatusEnum,
+                paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
                 isAdvanceOrderEnum: isAdvanceOrderEnum,
                 orderStatusEnumArray: {
@@ -237,6 +241,10 @@ export default {
                     [orderTypeEnum.DELIVERY]: this.$t("label.delivery"),
                     [orderTypeEnum.TAKEAWAY]: this.$t("label.takeaway"),
                     [orderTypeEnum.DINING_TABLE]: this.$t("label.dining_table"),
+                },
+                paymentStatusEnumArray: {
+                    [paymentStatusEnum.PAID]: this.$t("label.paid"),
+                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid")
                 },
             },
             printLoading: true,
