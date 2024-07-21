@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\CustomerService;
 use App\Services\OrderService;
+use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 class PosController extends AdminController
 {
+    use ApiResponse;
     private OrderService $orderService;
     private CustomerService $customerService;
 
@@ -113,6 +115,7 @@ class PosController extends AdminController
 //            }
         });
 //        $order->save();
+        return $this->response(success: true,message: 'success');
     }
 
     public function storeCustomer(

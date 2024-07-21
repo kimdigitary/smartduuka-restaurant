@@ -221,10 +221,10 @@
                 </li>
             </ul>
             <div class="flex items-center justify-center gap-6" v-if="carts.length > 0">
-                <button @click.prevent="resetCart"
-                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">
-                    {{ $t('button.cancel') }}
-                </button>
+<!--                <button @click.prevent="resetCart"-->
+<!--                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">-->
+<!--                    {{ $t('button.cancel') }}-->
+<!--                </button>-->
                 <button @click.prevent="orderSubmit"
                         class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#1AB759]">
                     Update Order
@@ -265,6 +265,7 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import EditOrderItemComponent from "./EditOrderItemComponent.vue";
 import {cleanAmount} from "../../../utils/functions";
+import router from "../../../router";
 import _ from "lodash";
 
 export default {
@@ -786,7 +787,8 @@ export default {
                     this.checkoutProps.form.items = [];
                     this.discount = null;
                     this.discountType = discountTypeEnum.PERCENTAGE;
-
+                    alertService.success('Order updated successfully');
+                    router.push({name: "admin.pos.orders.list"});
                     this.$store.dispatch('posCart/resetCart').then(res => {
                         this.loading.isActive = false;
                     }).catch();
