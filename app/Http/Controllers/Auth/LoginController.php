@@ -97,6 +97,7 @@ class LoginController extends Controller
 
         $permission = PermissionResource::collection($this->permissionService->permission($user->roles[0]));
         $defaultPermission = AppLibrary::defaultPermission($permission);
+        info($user->roles[0]);
 
         return new JsonResponse([
             'message'           => trans('all.message.login_success'),
