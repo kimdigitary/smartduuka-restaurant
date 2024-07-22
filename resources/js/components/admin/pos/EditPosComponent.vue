@@ -30,7 +30,7 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-        <ItemComponent :items="items"/>
+        <EditOrderItemComponent :items="items"/>
     </div>
 
     <div
@@ -158,24 +158,24 @@
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
 
             <div class="mt-2">
-                    <div class="flex h-[38px] mb-4">
-                        <div class="db-field-down-arrow">
-                            <select v-model="paymentMethod" @change="handlePaymentMethodChange"
+                <div class="flex h-[38px] mb-4">
+                    <div class="db-field-down-arrow">
+                        <select v-model="paymentMethod" @change="handlePaymentMethodChange"
                                 class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">
-                                <option value="4">Cash</option>
-                                <option value="2">Mobile Money</option>
-                                <option value="1">Cash on Delivery</option>
-                            </select>
-                        </div>
-                        <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
-                            v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
-                            class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
-                        <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
-                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
-                            {{ $t('button.apply') }}
-                        </button>
+                            <option value="4">Cash</option>
+                            <option value="2">Mobile Money</option>
+                            <option value="1">Cash on Delivery</option>
+                        </select>
                     </div>
+                    <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
+                           v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
+                           class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
+                    <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
+                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
+                        {{ $t('button.apply') }}
+                    </button>
                 </div>
+            </div>
 
             <ul class="flex flex-col gap-1.5 mb-4 mt-4">
                 <li class="flex items-center justify-between">
@@ -213,7 +213,7 @@
                     </span>
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-                            currencyFormat(subtotal + deliveryPrice  - posDiscount,
+                            currencyFormat(subtotal + deliveryPrice - posDiscount,
                                 setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
                                 setting.site_currency_position)
                         }}
@@ -221,13 +221,13 @@
                 </li>
             </ul>
             <div class="flex items-center justify-center gap-6" v-if="carts.length > 0">
-                <button @click.prevent="resetCart"
-                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">
-                    {{ $t('button.cancel') }}
-                </button>
+<!--                <button @click.prevent="resetCart"-->
+<!--                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">-->
+<!--                    {{ $t('button.cancel') }}-->
+<!--                </button>-->
                 <button @click.prevent="orderSubmit"
                         class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#1AB759]">
-                    {{ $t('button.order') }}
+                    Update Order
                 </button>
             </div>
         </div>
@@ -263,10 +263,15 @@ import ReceiptComponent from "./ReceiptComponent";
 import PoscustomerComponent from './PosCustomerComponent';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+import EditOrderItemComponent from "./EditOrderItemComponent.vue";
+import {cleanAmount} from "../../../utils/functions";
+import router from "../../../router";
+import _ from "lodash";
 
 export default {
-    name: "PosComponent",
+    name: "EditPosComponent",
     components: {
+        EditOrderItemComponent,
         ReceiptComponent,
         LoadingComponent,
         ItemComponent,
@@ -280,11 +285,13 @@ export default {
                 isActive: false,
             },
             order: {},
+            itemArrays: [],
             discount: null,
             checkoutProps: {
                 form: {
                     branch_id: null,
                     subtotal: 0,
+                    id: this.$route.params.id,
                     token: "",
                     customer_id: null,
                     discount: 0,
@@ -437,6 +444,12 @@ export default {
         }
     },
     computed: {
+        order: function () {
+            return this.$store.getters['posOrder/show'];
+        },
+        orderItems: function () {
+            return this.$store.getters['posOrder/orderItems'];
+        },
         setting: function () {
             return this.$store.getters['frontendSetting/lists'];
         },
@@ -463,6 +476,88 @@ export default {
         },
     },
     mounted() {
+        this.loading.isActive = true;
+        this.resetCart();
+        this.$store.dispatch('posOrder/show', this.$route.params.id).then(res => {
+            this.payment_status = res.data.data.payment_status;
+            this.order_status = res.data.data.status;
+            this.loading.isActive = false;
+            // Should log the number of items
+
+            const itemArrays = []
+            res.data.data.order_items.forEach((item, index) => {
+                itemArrays.push({
+                    id: item.id,
+                    name: item.item_name,
+                    image: item.item_image,
+                    item_id: item.item_id,
+                    quantity: item.quantity,
+                    discount: item.discount,
+                    currency_price: (item.total_currency_price),
+                    convert_price: item?.total_convert_price,
+                    // item_variations: JSON.stringify(item?.item_variations),
+                    item_variations: item?.item_variations,
+                    // item_extras: JSON.stringify(item?.item_extras),
+                    item_extras: item?.item_extras,
+                    item_variation_total: cleanAmount(item?.item_variation_currency_total),
+                    item_extra_total: cleanAmount(item?.item_extra_currency_total),
+                    instruction: item?.instruction
+                });
+                if (item.addons !== "undefined") {
+                    // if (Object.keys(item.addons).length !== 0) {
+                    //     _.forEach(item.addons, (addon) => {
+                    //         itemArrays.push({
+                    //             name: addon.name,
+                    //             image: addon.image,
+                    //             item_id: addon.item_id,
+                    //             quantity: addon.quantity,
+                    //             discount: addon.discount,
+                    //             price: addon.price,
+                    //             currency_price: addon.currency_price,
+                    //             convert_price: addon.convert_price,
+                    //             item_variations: addon.item_variations,
+                    //             item_extras: addon.item_extras,
+                    //             item_variation_total: cleanAmount(addon.item_variation_total),
+                    //             item_extra_total: cleanAmount(addon.item_extra_total),
+                    //             instruction: addon.instruction
+                    //         });
+                    //     });
+                    // }
+                }
+            });
+            this.$store.dispatch("posCart/lists", itemArrays).then((res) => {
+                // this.item = null;
+                // this.temp.name = "";
+                // this.temp.image = "";
+                // this.temp.item_id = 0;
+                // this.temp.quantity = 0;
+                // this.temp.discount = 0;
+                // this.temp.currency_price = 0;
+                // this.temp.convert_price = 0;
+                // this.temp.item_variations = {
+                //     variations: {},
+                //     names: {}
+                // };
+                // this.temp.item_extras = {
+                //     extras: [],
+                //     names: []
+                // };
+                // this.temp.item_variation_total = 0;
+                // this.temp.item_extra_total = 0;
+                // this.temp.total_price = 0;
+                // this.temp.instruction = "";
+                // this.addons = {};
+                this.itemArrays = [];
+                // this.resetCart();
+
+                alertService.success(this.$t('message.add_to_cart'));
+                appService.modalHide('#item-variation-modal');
+            }).catch(error => {
+                console.log(error)
+            });
+        }).catch((error) => {
+            this.loading.isActive = false;
+        });
         this.itemCategories();
         this.itemList();
         try {
@@ -615,44 +710,52 @@ export default {
             this.checkoutProps.form.items = [];
             _.forEach(this.carts, (item, index) => {
                 let item_variations = [];
-                if (Object.keys(item.item_variations.variations).length > 0) {
-                    _.forEach(item.item_variations.variations, (value, index) => {
-                        item_variations.push({
-                            "id": value,
-                            "item_id": item.item_id,
-                            "item_attribute_id": index,
+                if (item.item_variations.variations) {
+                    if (Object.keys(item.item_variations.variations).length > 0) {
+                        _.forEach(item.item_variations.variations, (value, index) => {
+                            item_variations.push({
+                                "id": value,
+                                "item_id": item.item_id,
+                                "item_attribute_id": index,
+                            });
                         });
-                    });
+                    }
                 }
-
-                if (Object.keys(item.item_variations.names).length > 0) {
-                    let i = 0;
-                    _.forEach(item.item_variations.names, (value, index) => {
-                        item_variations[i].variation_name = index;
-                        item_variations[i].name = value;
-                        i++;
-                    });
+                if (item.item_variations.names) {
+                    if (Object.keys(item.item_variations.names).length > 0) {
+                        let i = 0;
+                        _.forEach(item.item_variations.names, (value, index) => {
+                            item_variations[i].variation_name = index;
+                            item_variations[i].name = value;
+                            i++;
+                        });
+                    }
                 }
 
                 let item_extras = [];
-                if (item.item_extras.extras.length) {
-                    _.forEach(item.item_extras.extras, (value) => {
-                        item_extras.push({
-                            id: value,
-                            item_id: item.item_id,
+                if (item.item_extras.extras) {
+                    if (item.item_extras.extras.length) {
+                        _.forEach(item.item_extras.extras, (value) => {
+                            item_extras.push({
+                                id: value,
+                                item_id: item.item_id,
+                            });
                         });
-                    });
+                    }
                 }
 
-                if (item.item_extras.names.length) {
-                    let i = 0;
-                    _.forEach(item.item_extras.names, (value) => {
-                        item_extras[i].name = value;
-                        i++;
-                    });
+                if (item.item_extras.names) {
+                    if (item.item_extras.names.length) {
+                        let i = 0;
+                        _.forEach(item.item_extras.names, (value) => {
+                            item_extras[i].name = value;
+                            i++;
+                        });
+                    }
                 }
 
                 this.checkoutProps.form.items.push({
+                    id: item.id,
                     item_id: item.item_id,
                     item_price: item.convert_price,
                     branch_id: this.checkoutProps.form.branch_id,
@@ -670,7 +773,7 @@ export default {
 
             this.$store.dispatch("defaultAccess/show").then((res) => {
                 this.checkoutProps.form.branch_id = res.data.data.branch_id;
-                this.$store.dispatch('posOrder/save', this.checkoutProps.form).then(orderResponse => {
+                this.$store.dispatch('posOrder/update', this.checkoutProps.form).then(orderResponse => {
                     this.checkoutProps.form.token = "";
                     this.checkoutProps.form.subtotal = null;
                     this.checkoutProps.form.discount = 0;
@@ -684,7 +787,8 @@ export default {
                     this.checkoutProps.form.items = [];
                     this.discount = null;
                     this.discountType = discountTypeEnum.PERCENTAGE;
-
+                    alertService.success('Order updated successfully');
+                    router.push({name: "admin.pos.orders.list"});
                     this.$store.dispatch('posCart/resetCart').then(res => {
                         this.loading.isActive = false;
                     }).catch();
