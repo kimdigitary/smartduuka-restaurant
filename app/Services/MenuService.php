@@ -24,7 +24,6 @@ class MenuService
                 "=",
                 "permissions.id"
             )->where("role_has_permissions.role_id", $role->id)->get()->pluck('name', 'id');
-            info($rolePermissions);
             $permissions     = AppLibrary::permissionWithAccess($permissions, $rolePermissions);
             $permissions     = AppLibrary::pluck($permissions, 'obj', 'url');
             return AppLibrary::numericToAssociativeArrayBuilder(AppLibrary::menu($menus, $permissions));

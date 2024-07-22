@@ -161,24 +161,6 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
-                'title'      => 'Kitchen Orders',
-                'name'       => 'kitchen-orders',
-                'guard_name' => 'sanctum',
-                'url'        => 'kitchen-orders',
-                'created_at' => now(),
-                'updated_at' => now(),
-                'children'   => [
-                    [
-                        'title'      => 'Kitchen Orders',
-                        'name'       => 'kitchen_orders',
-                        'guard_name' => 'sanctum',
-                        'url'        => 'kitchen-orders',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]
-                ]
-            ],
-            [
                 'title'      => 'Expenses',
                 'name'       => 'expenses',
                 'guard_name' => 'sanctum',
@@ -553,6 +535,24 @@ class PermissionTableSeeder extends Seeder
                 'url'        => 'settings',
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],
+            [
+                'title'      => 'Kitchen Orders',
+                'name'       => 'kitchen-orders',
+                'guard_name' => 'sanctum',
+                'url'        => 'kitchen-orders',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Kitchen Orders',
+                        'name'       => 'kitchen_orders',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'kitchen-orders',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
             ],
         ];
 
