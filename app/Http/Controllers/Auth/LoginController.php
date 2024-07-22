@@ -58,7 +58,6 @@ class LoginController extends Controller
 //            return response()->json(['message' => $e->getMessage()]);
         }
     }
-
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
