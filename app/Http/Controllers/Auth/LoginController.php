@@ -29,18 +29,29 @@ class LoginController extends Controller
     public MenuService $menuService;
 
     public function __construct(
-        MenuService $menuService,
-        PermissionService $permissionService,
+        MenuService          $menuService,
+        PermissionService    $permissionService,
         DefaultAccessService $defaultAccessService
-    ) {
-        $this->menuService          = $menuService;
-        $this->permissionService    = $permissionService;
+    )
+    {
+        $this->menuService = $menuService;
+        $this->permissionService = $permissionService;
         $this->defaultAccessService = $defaultAccessService;
         try {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::table('menus')->truncate();
+            DB::table('permissions')->truncate();
+            DB::table('roles')->truncate();
             Artisan::call('db:seed', [
                 '--class' => 'MenuTableSeeder'
             ]);
+            Artisan::call('db:seed', [
+                '--class' => 'PermissionTableSeeder'
+            ]);
+            Artisan::call('db:seed', [
+                '--class' => 'RoleTableSeeder'
+            ]);
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 //            return response()->json(['message' => 'Database seeded successfully']);
         } catch (\Exception $e) {
             info($e->getMessage());
@@ -48,9 +59,6 @@ class LoginController extends Controller
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -77,7 +85,7 @@ class LoginController extends Controller
             $branchId = Settings::group('site')->get('site_default_branch');
         }
         $this->defaultAccessService->storeOrUpdate(['branch_id' => $branchId]);
-        $user        = User::where('email', $request['email'])->first();
+        $user = User::where('email', $request['email'])->first();
         info($user->roles);
         $this->token = $user->createToken('auth_token')->plainTextToken;
 
@@ -87,8 +95,9 @@ class LoginController extends Controller
             ], 400);
         }
 
-        $permission        = PermissionResource::collection($this->permissionService->permission($user->roles[0]));
+        $permission = PermissionResource::collection($this->permissionService->permission($user->roles[0]));
         $defaultPermission = AppLibrary::defaultPermission($permission);
+        info($user->roles[0]);
 
         return new JsonResponse([
             'message'           => trans('all.message.login_success'),

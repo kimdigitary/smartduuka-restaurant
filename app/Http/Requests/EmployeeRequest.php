@@ -55,7 +55,7 @@ class EmployeeRequest extends FormRequest
             'branch_id'             => ['nullable', 'numeric'],
             'status'                => ['required', 'numeric', 'max:24'],
             'role_id'               => ['required', 'numeric'],
-            'country_code'          => ['required', 'string', 'max:20'],
+//            'country_code'          => ['required', 'string', 'max:20'],
         ];
     }
 }

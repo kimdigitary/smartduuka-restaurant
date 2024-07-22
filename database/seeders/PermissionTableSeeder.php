@@ -8,11 +8,6 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $permissions = [
@@ -160,6 +155,24 @@ class PermissionTableSeeder extends Seeder
                         'name'       => 'pos_orders_cancel',
                         'guard_name' => 'sanctum',
                         'url'        => 'dining-tables/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
+                'title'      => 'Kitchen Orders',
+                'name'       => 'kitchen-orders',
+                'guard_name' => 'sanctum',
+                'url'        => 'kitchen-orders',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Kitchen Orders',
+                        'name'       => 'kitchen_orders',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'kitchen-orders',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]

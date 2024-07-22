@@ -93,6 +93,33 @@ class MenuTableSeeder extends Seeder
                     ]
                 ],
             ],
+
+
+            [
+                'name'       => 'Kitchen',
+                'language'   => 'kitchen',
+                'url'        => '#',
+                'icon'       => 'lab lab-pos',
+                'priority'   => 100,
+                'status'     => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'name'       => 'Orders',
+                        'url'        => 'kitchen-orders',
+                        'language'   => 'pos',
+                        'icon'       => 'lab lab-pos',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+
+                    ],
+                ],
+            ],
+
+
             [
                 'name'       => 'Promo',
                 'language'   => 'promo',
@@ -303,7 +330,6 @@ class MenuTableSeeder extends Seeder
                 ]
             ]
         ];
-
         Menu::insert(AppLibrary::associativeToNumericArrayBuilder($menus));
     }
 }
