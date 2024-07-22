@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-
 class MenuService
 {
     /**
