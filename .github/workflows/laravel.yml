@@ -23,6 +23,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           script: |
             cd /home/restaurant@smartduuka/public_html
+            git fetch origin
+            git reset --hard origin/dev
             git pull origin dev
             composer update
             php artisan migrate --force
