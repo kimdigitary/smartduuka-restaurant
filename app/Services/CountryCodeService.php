@@ -48,47 +48,57 @@ class CountryCodeService
     {
         // The provided list of countries goes here
         return [
-            [
-                "country_code" => "UGA",
-                "country_name" => "Uganda (UGA)"
-            ],
-            [
-                "country_code" => "KEN",
-                "country_name" => "Kenya (KEN)"
-            ],
-            [
-                "country_code" => "TZA",
-                "country_name" => "Tanzania (TZA)"
-            ],
-            [
-                "country_code" => "RWA",
-                "country_name" => "Rwanda (RWA)"
-            ],
-            [
-                "country_code" => "ZAF",
-                "country_name" => "South Africa (ZAF)"
-            ],
-            [
-                "country_code" => "NGA",
-                "country_name" => "Nigeria (NGA)"
-            ],
-            [
-                "country_code" => "GHA",
-                "country_name" => "Ghana (GHA)"
-            ],
-            [
-                "country_code" => "EGY",
-                "country_name" => "Egypt (EGY)"
-            ],
-            [
-                "country_code" => "DZA",
-                "country_name" => "Algeria (DZA)"
-            ],
-            [
-                "country_code" => "ETH",
-                "country_name" => "Ethiopia (ETH)"
-            ]
-        ]
-        ;
+                [
+                    "country_code" => "UGA",
+                    "country_name" => "Uganda (UGA)",
+                    "calling_code" => "+256"
+                ],
+                [
+                    "country_code" => "KEN",
+                    "country_name" => "Kenya (KEN)",
+                    "calling_code" => "+254"
+                ],
+                [
+                    "country_code" => "TZA",
+                    "country_name" => "Tanzania (TZA)",
+                    "calling_code" => "+255"
+                ],
+                [
+                    "country_code" => "RWA",
+                    "country_name" => "Rwanda (RWA)",
+                    "calling_code" => "+250"
+                ],
+                [
+                    "country_code" => "ZAF",
+                    "country_name" => "South Africa (ZAF)",
+                    "calling_code" => "+27"
+                ],
+                [
+                    "country_code" => "NGA",
+                    "country_name" => "Nigeria (NGA)",
+                    "calling_code" => "+234"
+                ],
+                [
+                    "country_code" => "GHA",
+                    "country_name" => "Ghana (GHA)",
+                    "calling_code" => "+233"
+                ],
+                [
+                    "country_code" => "EGY",
+                    "country_name" => "Egypt (EGY)",
+                    "calling_code" => "+20"
+                ],
+                [
+                    "country_code" => "DZA",
+                    "country_name" => "Algeria (DZA)",
+                    "calling_code" => "+213"
+                ],
+                [
+                    "country_code" => "ETH",
+                    "country_name" => "Ethiopia (ETH)",
+                    "calling_code" => "+251"
+                ]
+            ];
+
     }
 }

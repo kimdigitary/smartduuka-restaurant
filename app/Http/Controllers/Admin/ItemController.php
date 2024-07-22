@@ -53,14 +53,15 @@ class ItemController extends AdminController
     public function store(ItemRequest $request): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            if (env('DEMO')) {
-                return new ItemResource($this->itemService->store($request));
-            } else {
-                if ($this->apiRequest->status) {
-                    return new ItemResource($this->itemService->store($request));
-                }
-                return response(['status' => false, 'message' => $this->apiRequest->message], 422);
-            }
+            return new ItemResource($this->itemService->store($request));
+            // if (env('DEMO')) {
+            //     return new ItemResource($this->itemService->store($request));
+            // } else {
+            //     if ($this->apiRequest->status) {
+            //         return new ItemResource($this->itemService->store($request));
+            //     }
+            //     return response(['status' => false, 'message' => $this->apiRequest->message], 422);
+            // }
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
