@@ -278,7 +278,6 @@ export default {
                 if (this.image) {
                     fd.append('image', this.image);
                 }
-                console.log('Price being submitted:', this.internalPrice);
                 const tempId = this.$store.getters['item/temp'].temp_id;
                 this.loading.isActive = true;
                 this.$store.dispatch('item/save', {
