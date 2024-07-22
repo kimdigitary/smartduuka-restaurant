@@ -26,6 +26,8 @@ import SubscriptionListComponent from "../components/admin/Subscription/Subscrip
 import SubscriptionCreateComponent from "../components/admin/Subscription/SubscriptionCreateComponent.vue";
 import expensesRoutes from "./modules/expensesRoutes";
 import categoriesRoutes from "./modules/categoriesRoutes";
+import KitchenOrderRoutes from "./modules/kitchenOrderRoutes";
+import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 
 
 const baseRoutes = [
@@ -100,7 +102,7 @@ const routes = baseRoutes.concat(
     tableOrderRoutes,
     adminTableOrderRoutes,
     diningTableRoutes,
-    expensesRoutes, categoriesRoutes
+    expensesRoutes, categoriesRoutes,kitchenOrderRoutes
 );
 
 const permission = store.getters.authPermission;

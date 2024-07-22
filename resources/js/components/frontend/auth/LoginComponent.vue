@@ -68,6 +68,11 @@
                         id="posOperatorClick">
                     {{ $t('label.pos_operator') }}
                 </button>
+                <button @click.prevent="setupCredit('Chef')"
+                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-purple-500"
+                        id="posOperatorClick">
+                    {{ $t('label.chef_operator') }}
+                </button>
             </nav>
         </div>
     </section>
@@ -126,8 +131,13 @@ export default {
             } else if (e === 'branchManager') {
                 this.form.email = 'branchmanager@example.com';
                 this.form.password = '123456';
-            } else if (e === 'posOperator') {
+            }
+            else if (e === 'posOperator') {
                 this.form.email = 'posoperator@example.com';
+                this.form.password = '123456';
+            }
+            else if (e === 'Chef') {
+                this.form.email = 'chef@example.com';
                 this.form.password = '123456';
             }
         }

@@ -34,12 +34,6 @@ class RoleTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name'       => 'Chef',
-                'guard_name' => 'sanctum',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name'       => 'Branch Manager',
                 'guard_name' => 'sanctum',
                 'created_at' => now(),
@@ -53,6 +47,12 @@ class RoleTableSeeder extends Seeder
             ],
             [
                 'name'       => 'Stuff',
+                'guard_name' => 'sanctum',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'       => 'Chef',
                 'guard_name' => 'sanctum',
                 'created_at' => now(),
                 'updated_at' => now(),

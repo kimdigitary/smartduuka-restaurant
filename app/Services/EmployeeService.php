@@ -69,6 +69,7 @@ class EmployeeService
         try {
             if (!in_array($request->role_id, $this->blockRoles)) {
                 DB::transaction(function () use ($request) {
+                    $request->merge(['country_code'=>'256']);
                     $this->user = User::create([
                         'name'              => $request->name,
                         'email'             => $request->email,
