@@ -567,6 +567,7 @@
         "excel": "XLS",
         "reset": "Reset",
         "accept": "Accept",
+        "pending": "Pending",
         "permissions": "Permissions",
         "upload_new_photo": "Upload New Photo",
         "add_administrator": "Add Administrator",

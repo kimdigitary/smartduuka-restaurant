@@ -155,6 +155,7 @@ export default {
                 paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
                 orderStatusEnumArray: {
+                    [orderStatusEnum.PENDING]: this.$t("label.pending"),
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
