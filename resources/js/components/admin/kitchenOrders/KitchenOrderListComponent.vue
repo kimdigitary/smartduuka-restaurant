@@ -4,7 +4,7 @@
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
             <h3 class="db-card-title">{{ $t('menu.pos_orders') }}</h3>
-            <div class="col-12 flex gap-5">
+            <div class="col-12 gap-5">
                 <div class="db-card p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
                     <div class="flex flex-wrap gap-y-5 items-end justify-between">
                         <div>
