@@ -106,8 +106,19 @@ class MenuTableSeeder extends Seeder
                 'updated_at' => now(),
                 'children'   => [
                     [
-                        'name'       => 'Orders',
+                        'name'       => 'Chef Board',
                         'url'        => 'kitchen-orders',
+                        'language'   => 'pos',
+                        'icon'       => 'lab lab-pos',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+
+                    ],
+                    [
+                        'name'       => 'Completed Orders',
+                        'url'        => 'kitchen-orders/completed',
                         'language'   => 'pos',
                         'icon'       => 'lab lab-pos',
                         'priority'   => 100,

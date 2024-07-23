@@ -102,7 +102,8 @@ const routes = baseRoutes.concat(
     tableOrderRoutes,
     adminTableOrderRoutes,
     diningTableRoutes,
-    expensesRoutes, categoriesRoutes,kitchenOrderRoutes
+    expensesRoutes, categoriesRoutes,
+    kitchenOrderRoutes
 );
 
 const permission = store.getters.authPermission;

@@ -1,91 +1,78 @@
 <template>
-    <LoadingComponent :props="loading"/>
+    <LoadingComponent :props="loading" />
     <div class="col-12">
-        <!--        <div class="db-card">-->
-        <div class="db-card-header border-none">
-            <h3 class="db-card-title">{{ $t('menu.pos_orders') }}</h3>
-            <div class="col-12 flex gap-5">
-                <div class="db-card p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
-                    <div class="flex flex-wrap gap-y-5 items-end justify-between">
-                        <div>
-                            <div class="flex flex-wrap items-start gap-y-2 gap-x-6 mb-5">
-                                <p class="text-2xl font-medium">
-                                    {{ $t('label.order_id') }}:
-                                    <span class="text-heading">
-                                #{{ order.order_serial_no }}
-                            </span>
-                                </p>
-                                <div class="flex items-center gap-2 mt-1.5">
-                            <span
-                                :class="'text-xs capitalize h-5 leading-5 px-2 rounded-3xl text-[#FB4E4E] bg-[#FFDADA]' + statusClass(order.payment_status)">
-                                {{ enums.paymentStatusEnumArray[order.payment_status] }}
-                            </span>
-                                    <span
-                                        :class="'text-xs capitalize px-2 rounded-3xl ' + orderStatusClass(order.status)">
-                                {{ enums.orderStatusEnumArray[order.status] }}
-                            </span>
-                                </div>
-                            </div>
-                            <ul class="flex flex-col gap-2">
-                                <li class="flex items-center gap-2">
-                                    <i class="lab lab-calendar-line lab-font-size-16"></i>
-                                    <span class="text-xs">{{ order.order_datetime }}</span>
-                                </li>
-                                <li class="text-xs">
-                                    {{ $t('label.payment_type') }}:
-                                    <span class="text-heading">
-                                {{ $t('label.cash') }}
-                            </span>
-                                </li>
-                                <li class="text-xs">
-                                    {{ $t('label.order_type') }}:
-                                    <span class="text-heading">
-                                {{ this.$t("label.pos") }}
-                            </span>
-                                </li>
-                                <li class="text-xs">{{
-                                        $t('label.delivery_time')
-                                    }}:
-                                    <span class="text-heading">
-                                {{ order.delivery_date }}
-                            </span>
-                                </li>
-                                <li class="text-xs" v-if="order.token">{{
-                                        $t('label.token_no')
-                                    }}:
-                                    <span class="text-heading">
-                                #{{ order.token }}
-                            </span>
-                                </li>
-                            </ul>
-                            <div>
-                                <div class="flex gap-2 p-2 items-center" v-for="orderItem in order.orderItems">
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
-                                               :value="orderItem.id"
-                                               :checked="checkedStatue[orderItem.id]"
-                                               @change="enable(order.id,$event)">
-                                        <i class="fa-solid fa-check custom-checkbox-icon"></i>
-                                    </div>
-                                    <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} X
-                                        {{ orderItem.order_item.name }}</label>
-
-                                    <!--                                    <span class="me-3">{{ orderItem.quantity }} X {{ orderItem.order_item.name }}</span>-->
-                                </div>
-                            </div>
+        <div class="db-card">
+            <div class="db-card-header border-none">
+                <h3 class="db-card-title">Completed Kitchen Orders</h3>
+                <div class="db-card-filter">
+                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
+                    <FilterComponent />
+                    <div class="dropdown-group">
+                        <ExportComponent />
+                        <div class="dropdown-list db-card-filter-dropdown-list">
+                            <PrintComponent :props="printObj" />
+                            <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <div class="my-10"></div>
-                    <button v-if="order.status === orderStatusEnum.PROCESSING" type="button"
-                            @click="completeOrder(order.id)"
-                            class="bottom-0 my-3 mt-10 flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#2AC769]">
-                        <i class="lab lab-save"></i>
-                        <span class="text-sm capitalize text-white">Complete</span>
-                    </button>
+                </div>
+            </div>
+
+            <div class="db-table-responsive">
+                <table class="db-table stripe" id="print" :dir="direction">
+                    <thead class="db-table-head">
+                        <tr class="db-table-head-tr">
+                            <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.customer') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.amount') }}</th>
+                            <th class="db-table-head-th">Payment Status</th>
+                            <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.status') }}</th>
+                            <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
+                                $t('label.action') }}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="db-table-body" v-if="filteredOrders.length > 0">
+                        <tr class="db-table-body-tr" v-for="order in filteredOrders" :key="order">
+                            <td class="db-table-body-td">
+                                {{ order.order_serial_no }}
+                            </td>
+                            <td class="db-table-body-td">
+                                {{ order.customer.name }}
+                            </td>
+                            <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                            <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
+                            <td class="db-table-body-td">{{ order.order_datetime }}</td>
+                            <td class="db-table-body-td">
+                                <span :class="orderStatusClass(order.status)">
+                                    {{ enums.orderStatusEnumArray[order.status] }}
+                                </span>
+                            </td>
+                            <td class="db-table-body-td hidden-print" v-if="permissionChecker('pos-orders')">
+                                <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
+                                    <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
+                                        v-if="permissionChecker('pos-orders')" />
+<!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
+<!--                                        v-if="permissionChecker('pos-orders')" /> -->
+                                    <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
+                                                         v-if="permissionChecker('pos-orders')" />
+                                    <SmIconDeleteComponent @click="destroy(order.id)"
+                                        v-if="permissionChecker('pos_orders_delete')" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
+                <PaginationSMBox :pagination="pagination" :method="list" />
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <PaginationTextComponent :props="{ page: paginationPage }" />
+                    <PaginationBox :pagination="pagination" :method="list" />
                 </div>
             </div>
         </div>
-        <!--        </div>-->
     </div>
 </template>
 <script>
@@ -96,7 +83,6 @@ import PaginationBox from "../components/pagination/PaginationBox";
 import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
-import OrderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import TableLimitComponent from "../components/TableLimitComponent";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
@@ -115,10 +101,9 @@ import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
-import VueSimpleAlert from "vue3-simple-alert";
 
 export default {
-    name: "KitchenOrderListComponent",
+    name: "KitchenCompletedOrderListComponent",
     components: {
         ItemCreateComponent,
         SmIconSidebarModalEditComponent,
@@ -140,13 +125,13 @@ export default {
         const date = ref();
 
         const presetRanges = ref([
-            {label: 'Today', range: [new Date(), new Date()]},
-            {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
+            { label: 'Today', range: [new Date(), new Date()] },
+            { label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())] },
             {
                 label: 'Last month',
                 range: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
             },
-            {label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())]},
+            { label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())] },
             {
                 label: 'This year (slot)',
                 range: [startOfYear(new Date()), endOfYear(new Date())],
@@ -164,16 +149,13 @@ export default {
             loading: {
                 isActive: false
             },
-            orderStatus: orderStatusEnum.ACCEPT,
-            disabledStatue: {},
-            checkedStatue: {},
             enums: {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
                 orderStatusEnumArray: {
-                    [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PENDING]: this.$t("label.pending"),
+                    [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
                 },
@@ -219,17 +201,11 @@ export default {
         });
     },
     computed: {
-        orderStatusEnum() {
-            return orderStatusEnum
-        },
-        filteredOrders() {
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED);
-        },
-        OrderStatusEnum() {
-            return OrderStatusEnum
-        },
         orders: function () {
             return this.$store.getters['posOrder/lists'];
+        },
+        filteredOrders() {
+            return this.orders.filter(order => order.status === orderStatusEnum.DELIVERED);
         },
         customers: function () {
             return this.$store.getters['user/lists'];
@@ -247,11 +223,6 @@ export default {
     methods: {
         permissionChecker(e) {
             return appService.permissionChecker(e);
-        },
-        enable: function (id, event) {
-            if (event.target.checked === true) {
-                this.changeStatus(id)
-            }
         },
         // edit: function (product) {
         //     this.loading.isActive = true;
@@ -314,7 +285,7 @@ export default {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
-                    this.$store.dispatch('posOrder/destroy', {id: id, search: this.props.search}).then((res) => {
+                    this.$store.dispatch('posOrder/destroy', { id: id, search: this.props.search }).then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip(null, this.$t('menu.pos_orders'));
                     }).catch((err) => {
@@ -327,66 +298,6 @@ export default {
                 }
             }).catch((err) => {
                 this.loading.isActive = false;
-            })
-        },
-        changeStatus: function (id) {
-            try {
-                this.loading.isActive = true;
-                this.$store.dispatch("posOrder/changeStatus", {
-                    id: id,
-                    status: orderStatusEnum.PROCESSING,
-                }).then((res) => {
-                    this.loading.isActive = false;
-                    this.orders.find(order => order.id === id).status = res.data.data.status;
-                    alertService.successFlip(
-                        1,
-                        this.$t("label.status")
-                    );
-                }).catch((err) => {
-                    this.loading.isActive = false;
-                    alertService.error(err.response.data.message);
-                });
-            } catch (err) {
-                this.loading.isActive = false;
-                alertService.error(err.response.data.message);
-            }
-        },
-        completeOrder: function (id) {
-            VueSimpleAlert.confirm(
-                "Make this order complete",
-                "Are you sure?",
-                "warning",
-                {
-                    confirmButtonText: "Yes, Complete",
-                    cancelButtonText: "No, Cancel!",
-                    confirmButtonColor: "#696cff",
-                    cancelButtonColor: "#8592a3",
-                }
-            ).then(res => {
-                if (res) {
-                    try {
-                        this.loading.isActive = true;
-                        this.$store.dispatch("posOrder/changeStatus", {
-                            id: id,
-                            status: orderStatusEnum.DELIVERED,
-                        }).then((res) => {
-                            this.loading.isActive = false;
-                            this.orders.find(order => order.id === id).status = res.data.data.status;
-                            alertService.successFlip(
-                                1,
-                                this.$t("label.status")
-                            );
-                        }).catch((err) => {
-                            this.loading.isActive = false;
-                            alertService.error(err.response.data.message);
-                        });
-                    } catch (err) {
-                        this.loading.isActive = false;
-                        alertService.error(err.response.data.message);
-                    }
-                }
-            }).catch((err) => {
-                console.log('err', err)
             })
         },
         xls: function () {
