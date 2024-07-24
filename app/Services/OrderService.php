@@ -2,34 +2,34 @@
 
 namespace App\Services;
 
-use Exception;
-use App\Models\Tax;
-use App\Models\Item;
-use App\Models\User;
-use App\Models\Order;
-use App\Enums\TaxType;
-use App\Models\Address;
-use App\Enums\OrderType;
-use App\Models\OrderItem;
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use App\Enums\PaymentStatus;
-use App\Models\OrderAddress;
-use App\Libraries\AppLibrary;
-use App\Models\FrontendOrder;
-use App\Events\SendOrderGotSms;
+use App\Enums\TaxType;
 use App\Events\SendOrderGotMail;
 use App\Events\SendOrderGotPush;
-use Illuminate\Support\Facades\DB;
+use App\Events\SendOrderGotSms;
 use App\Http\Requests\OrderRequest;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\OrderStatusRequest;
 use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\PaymentStatusRequest;
 use App\Http\Requests\PosOrderRequest;
 use App\Http\Requests\TableOrderRequest;
-use Smartisan\Settings\Facades\Settings;
-use App\Http\Requests\OrderStatusRequest;
-use App\Http\Requests\PaymentStatusRequest;
 use App\Http\Requests\TableOrderTokenRequest;
+use App\Libraries\AppLibrary;
+use App\Models\Address;
+use App\Models\FrontendOrder;
+use App\Models\Item;
+use App\Models\Order;
+use App\Models\OrderAddress;
+use App\Models\OrderItem;
+use App\Models\Tax;
+use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Smartisan\Settings\Facades\Settings;
 
 class OrderService
 {
@@ -58,16 +58,16 @@ class OrderService
     public function list(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_by') ?? 'desc';
+            $orderType = $request->get('order_by') ?? 'desc';
 
-            return Order::with('transaction', 'orderItems.orderItem.variations','orderItems.orderItem.extras')->where(function ($query) use ($requests) {
+            return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')->where(function ($query) use ($requests) {
                 if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = Date('Y-m-d', strtotime($requests['from_date']));
-                    $last_date  = Date('Y-m-d', strtotime($requests['to_date']));
+                    $last_date = Date('Y-m-d', strtotime($requests['to_date']));
                     $query->whereDate('order_datetime', '>=', $first_date)->whereDate(
                         'order_datetime',
                         '<=',
@@ -107,11 +107,11 @@ class OrderService
     public function userOrder(PaginateRequest $request, User $user)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_by') ?? 'desc';
+            $orderType = $request->get('order_by') ?? 'desc';
 
             return Order::where('order_type', "!=", OrderType::POS)->where(function ($query) use ($requests, $user) {
                 $query->where('user_id', $user->id);
@@ -143,11 +143,11 @@ class OrderService
     public function deliveredOrder(PaginateRequest $request, User $user)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_by') ?? 'desc';
+            $orderType = $request->get('order_by') ?? 'desc';
 
             return Order::where('delivery_boy_id', $user->id)->where('order_type', "!=", OrderType::POS)->where(
                 function ($query) use ($requests) {
@@ -190,20 +190,20 @@ class OrderService
                     ]
                 );
 
-                $i            = 0;
-                $totalTax     = 0;
-                $itemsArray   = [];
+                $i = 0;
+                $totalTax = 0;
+                $itemsArray = [];
                 $requestItems = json_decode($request->items);
-                $items        = Item::get()->pluck('tax_id', 'id');
-                $taxes        = AppLibrary::pluck(Tax::get(), 'obj', 'id');
+                $items = Item::get()->pluck('tax_id', 'id');
+                $taxes = AppLibrary::pluck(Tax::get(), 'obj', 'id');
 
                 if (!blank($requestItems)) {
                     foreach ($requestItems as $item) {
-                        $taxId          = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                        $taxName        = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                        $taxRate        = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                        $taxType        = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                        $taxPrice       = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
+                        $taxId = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                        $taxName = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                        $taxRate = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                        $taxType = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                        $taxPrice = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
                         $itemsArray[$i] = [
                             'order_id'             => $this->order->id,
                             'branch_id'            => $item->branch_id,
@@ -222,7 +222,7 @@ class OrderService
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                         ];
-                        $totalTax       = $totalTax + $taxPrice;
+                        $totalTax = $totalTax + $taxPrice;
                         $i++;
                     }
                 }
@@ -232,7 +232,7 @@ class OrderService
                 }
 
                 $this->order->order_serial_no = date('dmy') . $this->order->id;
-                $this->order->total_tax       = $totalTax;
+                $this->order->total_tax = $totalTax;
                 $this->order->save();
 
                 if ($request->address_id) {
@@ -276,20 +276,20 @@ class OrderService
                     ]
                 );
 
-                $i            = 0;
-                $totalTax     = 0;
-                $itemsArray   = [];
+                $i = 0;
+                $totalTax = 0;
+                $itemsArray = [];
                 $requestItems = json_decode($request->items);
-                $items        = Item::get()->pluck('tax_id', 'id');
-                $taxes        = AppLibrary::pluck(Tax::get(), 'obj', 'id');
+                $items = Item::get()->pluck('tax_id', 'id');
+                $taxes = AppLibrary::pluck(Tax::get(), 'obj', 'id');
 
                 if (!blank($requestItems)) {
                     foreach ($requestItems as $item) {
-                        $taxId          = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                        $taxName        = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                        $taxRate        = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                        $taxType        = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                        $taxPrice       = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
+                        $taxId = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                        $taxName = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                        $taxRate = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                        $taxType = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                        $taxPrice = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
                         $itemsArray[$i] = [
                             'order_id'             => $this->order->id,
                             'branch_id'            => $item->branch_id,
@@ -308,7 +308,7 @@ class OrderService
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                         ];
-                        $totalTax       = $totalTax + $taxPrice;
+                        $totalTax = $totalTax + $taxPrice;
                         $i++;
                     }
                 }
@@ -319,7 +319,7 @@ class OrderService
                 }
 
                 $this->order->order_serial_no = date('dmy') . $this->order->id;
-                $this->order->total_tax       = $totalTax;
+                $this->order->total_tax = $totalTax;
                 $this->order->save();
             });
             return $this->order;
@@ -347,20 +347,20 @@ class OrderService
                     ]
                 );
 
-                $i            = 0;
-                $totalTax     = 0;
-                $itemsArray   = [];
+                $i = 0;
+                $totalTax = 0;
+                $itemsArray = [];
                 $requestItems = json_decode($request->items);
-                $items        = Item::get()->pluck('tax_id', 'id');
-                $taxes        = AppLibrary::pluck(Tax::get(), 'obj', 'id');
+                $items = Item::get()->pluck('tax_id', 'id');
+                $taxes = AppLibrary::pluck(Tax::get(), 'obj', 'id');
 
                 if (!blank($requestItems)) {
                     foreach ($requestItems as $item) {
-                        $taxId          = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                        $taxName        = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                        $taxRate        = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                        $taxType        = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                        $taxPrice       = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
+                        $taxId = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                        $taxName = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                        $taxRate = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                        $taxType = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                        $taxPrice = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
                         $itemsArray[$i] = [
                             'order_id'             => $this->order->id,
                             'branch_id'            => $item->branch_id,
@@ -379,7 +379,7 @@ class OrderService
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                         ];
-                        $totalTax       = $totalTax + $taxPrice;
+                        $totalTax = $totalTax + $taxPrice;
                         $i++;
                     }
                 }
@@ -389,7 +389,7 @@ class OrderService
                 }
 
                 $this->order->order_serial_no = date('dmy') . $this->order->id;
-                $this->order->total_tax       = $totalTax;
+                $this->order->total_tax = $totalTax;
                 $this->order->save();
 
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
@@ -464,6 +464,7 @@ class OrderService
                             );
                         }
                     }
+
                     $order->status = $request->status;
                     $order->save();
                 }
@@ -484,6 +485,9 @@ class OrderService
                             rand(111111111111111, 99999999999999)
                         );
                     }
+                }
+                if ($request->orderItemID) {
+                    OrderItem::find($request->orderItemID)->update(['status' => 2]);
                 }
                 $order->status = $request->status;
                 $order->save();

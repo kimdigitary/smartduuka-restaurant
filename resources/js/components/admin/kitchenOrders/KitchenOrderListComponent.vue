@@ -3,9 +3,11 @@
     <div class="col-12">
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
-            <h3 class="db-card-title">{{ $t('menu.pos_orders') }}</h3>
-            <div class="col-12 gap-5">
-                <div class="db-card p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
+            <div class="grid w-full grid-cols-2 gap-5">
+                <div v-if="filteredOrders.length<1">
+                    <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
+                </div>
+                <div class="db-card w-full p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
                     <div class="flex flex-wrap gap-y-5 items-end justify-between">
                         <div>
                             <div class="flex flex-wrap items-start gap-y-2 gap-x-6 mb-5">
@@ -63,8 +65,8 @@
                                     <div class="custom-checkbox">
                                         <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
                                                :value="orderItem.id"
-                                               :checked="checkedStatue[orderItem.id]"
-                                               @change="enable(order.id,$event)">
+                                               :checked="orderItem.status===2"
+                                               @change="enable(order.id,orderItem.id,$event)">
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
                                     <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} X
@@ -138,7 +140,6 @@ export default {
     },
     setup() {
         const date = ref();
-
         const presetRanges = ref([
             {label: 'Today', range: [new Date(), new Date()]},
             {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
@@ -164,6 +165,9 @@ export default {
             loading: {
                 isActive: false
             },
+            interval: 5000,
+            timer: null,
+            imageSrc: require('./kitchen.png'),
             orderStatus: orderStatusEnum.ACCEPT,
             disabledStatue: {},
             checkedStatue: {},
@@ -212,15 +216,24 @@ export default {
     },
     mounted() {
         this.list();
+        this.startPolling();
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
     },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    },
     computed: {
         orderStatusEnum() {
             return orderStatusEnum
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
         },
         filteredOrders() {
             return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED);
@@ -248,9 +261,14 @@ export default {
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        enable: function (id, event) {
+         startPolling() {
+             this.timer = setInterval(() => {
+                 this.polling()
+             }, 5000)
+        },
+        enable: function (orderID,orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(id)
+                this.changeStatus(orderID,orderItemID)
             }
         },
         // edit: function (product) {
@@ -310,6 +328,13 @@ export default {
                 this.loading.isActive = false;
             });
         },
+        polling: function () {
+            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+                this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED);
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
                 try {
@@ -329,11 +354,12 @@ export default {
                 this.loading.isActive = false;
             })
         },
-        changeStatus: function (id) {
+        changeStatus: function (orderID,orderItemID) {
             try {
-                this.loading.isActive = true;
+                // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
-                    id: id,
+                    id: orderID,
+                    orderItemID: orderItemID,
                     status: orderStatusEnum.PROCESSING,
                 }).then((res) => {
                     this.loading.isActive = false;

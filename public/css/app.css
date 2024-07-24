@@ -623,10 +623,6 @@ video {
   display: flex;
   flex-wrap: wrap;
 }
-.col-3 {
-  width: 25%;
-  padding: 0.75rem;
-}
 .col-6 {
   width: 50%;
   padding: 0.75rem;
@@ -3369,9 +3365,17 @@ input:checked + div svg {
   margin-top: 0.375rem;
   margin-bottom: 0.375rem;
 }
+.my-10 {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 .my-4 {
   margin-top: 1rem;
@@ -3388,14 +3392,6 @@ input:checked + div svg {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-.my-10 {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
 }
 .-ml-px {
   margin-left: -1px;
@@ -3478,6 +3474,9 @@ input:checked + div svg {
 .mt-1\.5 {
   margin-top: 0.375rem;
 }
+.mt-10 {
+  margin-top: 2.5rem;
+}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -3492,15 +3491,6 @@ input:checked + div svg {
 }
 .mt-\[5px\] {
   margin-top: 5px;
-}
-.mt-3 {
-  margin-top: 0.75rem;
-}
-.mt-5 {
-  margin-top: 1.25rem;
-}
-.mt-10 {
-  margin-top: 2.5rem;
 }
 .block {
   display: block;
@@ -4499,12 +4489,6 @@ input:checked + div svg {
 }
 .pt-8 {
   padding-top: 2rem;
-}
-.pb-5 {
-  padding-bottom: 1.25rem;
-}
-.pb-20 {
-  padding-bottom: 5rem;
 }
 .text-left {
   text-align: left;
