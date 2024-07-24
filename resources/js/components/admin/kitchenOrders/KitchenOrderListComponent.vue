@@ -330,7 +330,6 @@ export default {
         },
         polling: function () {
             this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
-                this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED);
             }).catch((err) => {
                 this.loading.isActive = false;
             });
