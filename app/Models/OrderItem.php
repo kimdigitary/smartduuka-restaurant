@@ -32,7 +32,8 @@ class OrderItem extends Model
         'editor_type',
         'editor_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'status'
     ];
     protected $casts = [
         'id'                   => 'integer',
