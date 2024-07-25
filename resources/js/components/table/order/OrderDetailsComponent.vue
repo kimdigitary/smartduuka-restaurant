@@ -157,6 +157,7 @@ export default {
             loading: {
                 isActive: false,
             },
+            interval: 5000,
             enums: {
                 activityEnum: activityEnum,
                 orderStatusEnum: orderStatusEnum,
@@ -192,6 +193,27 @@ export default {
             return this.$store.getters['tableDiningOrder/orderItems'];
         }
     },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    },
+    methods: {
+        startPolling() {
+            this.timer = setInterval(() => {
+                this.polling()
+            }, 5000)
+        },
+        polling: function () {
+            if (this.$route.params.id) {
+                this.$store.dispatch("tableDiningOrder/show", this.$route.params.id).then(res => {
+                    this.$store.dispatch("tableCart/resetPaymentMethod").then().catch();
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+        },
+    },
     mounted() {
         this.loading.isActive = true;
         if (this.$route.params.id) {
@@ -202,6 +224,7 @@ export default {
             }).catch((error) => {
                 this.loading.isActive = false;
             });
+            this.startPolling();
         }
     },
 }

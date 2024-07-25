@@ -150,6 +150,7 @@ export default {
             loading: {
                 isActive: false
             },
+            interval: 5000,
             enums: {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,
@@ -195,11 +196,17 @@ export default {
     },
     mounted() {
         this.list();
+        this.startPolling();
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
+    },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
     },
     computed: {
         orders: function () {
@@ -222,13 +229,17 @@ export default {
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        // edit: function (product) {
-        //     this.loading.isActive = true;
-        //     appService.sideDrawerShow();
-        //     this.$store.dispatch('posOrder/edit', product.id);
-        //     this.loading.isActive = false;
-        //     this.props.form.name = product.name;
-        // },
+        startPolling() {
+            this.timer = setInterval(() => {
+                this.polling()
+            }, 5000)
+        },
+        polling: function () {
+            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
 
         edit: function (product) {
             this.loading.isActive = true;
