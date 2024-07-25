@@ -38,7 +38,8 @@ export default [
                     permissionUrl: "pos",
                     breadcrumb: "view",
                 },
-            },{
+            },
+            {
                 path: "edit/:id",
                 component: EditPosComponent,
                 name: "admin.pos.orders.edit",

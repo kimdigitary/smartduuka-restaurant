@@ -390,6 +390,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
 
     Route::prefix('pos-order')->name('posOrder.')->group(function () {
         Route::get('/', [PosOrderController::class, 'index']);
+        Route::get('/chef', [PosOrderController::class, 'chef']);
         Route::get('show/{order}', [PosOrderController::class, 'show']);
         Route::post('edit/{order}', [PosOrderController::class, 'edit']);
         Route::delete('/{order}', [PosOrderController::class, 'destroy']);

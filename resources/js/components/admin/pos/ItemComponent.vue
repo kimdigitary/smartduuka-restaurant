@@ -12,13 +12,6 @@
                     <div class="flex flex-col">
                         <h4 class="font-rubik">
                             {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
-<!--                        <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"-->
-<!--                                class="db-product-cart pos-add-button flex items-center gap-1.5 rounded-3xl capitalize text-sm font-medium font-rubik py-1 px-2 shadow-cardCart transition bg-white hover:bg-primary w-full">-->
-<!--                            <i class="lab lab-bag-2 font-fill-primary transition lab-font-size-14"></i>-->
-<!--                            <span class="text-xs font-rubik text-primary transition">{{-->
-<!--                                    $t('button.add')-->
-<!--                                }} to Cart</span>-->
-<!--                        </button>-->
                     </div>
                 </div>
             </div>
@@ -165,7 +158,7 @@
                                         <h4 class="block text-xs font-medium text-heading">
 
                                             UGX {{
-                                                item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(extra.currency_price) : cleanAmount(item.currency_price) + cleanAmount(extra.currency_price)
+                                                item.offer.length > 0 ? cleanAmountV2(item.offer[0].currency_price) + cleanAmountV2(extra.currency_price) : cleanAmountV2(item.currency_price) + cleanAmountV2(extra.currency_price)
                                             }}
                                         </h4>
                                     </div>
@@ -258,7 +251,7 @@ import _ from "lodash";
 import alertService from "../../../services/alertService";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
-import {cleanAmount} from "../../../utils/functions";
+import {cleanAmount, cleanAmountV2} from "../../../utils/functions";
 
 export default {
     name: "itemComponent",
@@ -315,6 +308,7 @@ export default {
         },
     },
     methods: {
+        cleanAmountV2,
         cleanAmount,
         onlyNumber: function (e) {
             return appService.onlyNumber(e);

@@ -100,6 +100,52 @@ class OrderService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+    public function chef(PaginateRequest $request)
+    {
+        try {
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType = $request->get('order_by') ?? 'desc';
+
+            return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')->where(function ($query) use ($requests) {
+                if (isset($requests['from_date']) && isset($requests['to_date'])) {
+                    $first_date = Date('Y-m-d', strtotime($requests['from_date']));
+                    $last_date = Date('Y-m-d', strtotime($requests['to_date']));
+                    $query->whereDate('order_datetime', '>=', $first_date)->whereDate(
+                        'order_datetime',
+                        '<=',
+                        $last_date
+                    );
+                }
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->orderFilter)) {
+                        if ($key === "status") {
+                            $query->where($key, (int)$request);
+                        } else {
+                            $query->where($key, 'like', '%' . $request . '%');
+                        }
+                    }
+
+                    if (in_array($key, $this->exceptFilter)) {
+                        $explodes = explode('|', $request);
+                        if (is_array($explodes)) {
+                            foreach ($explodes as $explode) {
+                                info($explode);
+                                $query->where('order_type', '!=', $explode);
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method(
+                $methodValue
+            );
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
 
     /**
      * @throws Exception

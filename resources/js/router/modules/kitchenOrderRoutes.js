@@ -2,6 +2,8 @@ import KitchenOrderComponent from "../../components/admin/kitchenOrders/KitchenO
 import KitchenOrderListComponent from "../../components/admin/kitchenOrders/KitchenOrderListComponent.vue";
 import KitchenCompletedOrderListComponent
     from "../../components/admin/kitchenOrders/KitchenCompletedOrderListComponent.vue";
+import PosOrderShowComponent from "../../components/admin/posOrders/PosOrderShowComponent.vue";
+import KitchenOrderShowComponent from "../../components/admin/kitchenOrders/KitchenOrderShowComponent.vue";
 
 export default [
     {
@@ -36,6 +38,17 @@ export default [
                     auth: true,
                     permissionUrl: "kitchen_orders",
                     breadcrumb: "",
+                },
+            },
+            {
+                path: "show/:id",
+                component: KitchenOrderShowComponent,
+                name: "admin.kitchen.orders.show",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "kitchen_orders",
+                    breadcrumb: "view",
                 },
             },
         ],

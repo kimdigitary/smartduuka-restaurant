@@ -46,6 +46,16 @@ class PosOrderController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+    public function chef(
+        PaginateRequest $request
+    ): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory {
+        try {
+
+            return OrderResource::collection($this->orderService->chef($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
 
     public function show(
         Order $order

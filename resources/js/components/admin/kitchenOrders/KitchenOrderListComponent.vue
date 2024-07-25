@@ -258,13 +258,13 @@ export default {
         },
     },
     methods: {
-        permissionChecker(e) {
-            return appService.permissionChecker(e);
-        },
          startPolling() {
              this.timer = setInterval(() => {
                  this.polling()
              }, 5000)
+        },
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
         },
         enable: function (orderID,orderItemID, event) {
             if (event.target.checked === true) {
@@ -329,7 +329,7 @@ export default {
             });
         },
         polling: function () {
-            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
             }).catch((err) => {
                 this.loading.isActive = false;
             });
