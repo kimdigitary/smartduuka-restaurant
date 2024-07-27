@@ -193,6 +193,12 @@ export default {
             return this.$store.getters['tableDiningOrder/orderItems'];
         }
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        next();
+    },
     beforeDestroy() {
         if (this.timer) {
             clearInterval(this.timer);
