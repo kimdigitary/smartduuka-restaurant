@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="my-10"></div>
-                    <button v-if="order.status === orderStatusEnum.PROCESSING" type="button"
+                    <button v-if="showComplete(order.orderItems)" type="button"
                             @click="completeOrder(order.id)"
                             class="bottom-0 my-3 mt-10 flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#2AC769]">
                         <i class="lab lab-save"></i>
@@ -165,8 +165,8 @@ export default {
             loading: {
                 isActive: false
             },
-            interval: 5000,
-            timer: null,
+            interval1: 5000,
+            timer1: null,
             imageSrc: require('./kitchen.png'),
             orderStatus: orderStatusEnum.ACCEPT,
             disabledStatue: {},
@@ -205,9 +205,9 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
-                    order_type: orderTypeEnum.POS,
+                    order_type: orderTypeEnum.CHEF_BOARD,
                     user_id: null,
-                    status: null,
+                    status: orderStatusEnum.ACCEPT,
                     from_date: "",
                     to_date: "",
                 }
@@ -223,9 +223,16 @@ export default {
             status: statusEnum.ACTIVE
         });
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer1) {
+            clearInterval(this.timer1);
+        }
+        next();
+    },
     beforeDestroy() {
-        if (this.timer) {
-            clearInterval(this.timer);
+        console.log('beforeDestroy 1')
+        if (this.timer1) {
+            clearInterval(this.timer1);
         }
     },
     computed: {
@@ -259,16 +266,18 @@ export default {
     },
     methods: {
          startPolling() {
-             this.timer = setInterval(() => {
+             this.timer1 = setInterval(() => {
                  this.polling()
-             }, 5000)
+             }, this.interval1)
         },
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
         enable: function (orderID,orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(orderID,orderItemID)
+                this.changeStatus(orderID,orderItemID,2)
+            }else{
+                this.changeStatus(orderID,orderItemID,1)
             }
         },
         // edit: function (product) {
@@ -322,11 +331,14 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        showComplete: function (orderItems) {
+            return orderItems.every(orderItem => orderItem.status === 2);
         },
         polling: function () {
             this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
@@ -353,13 +365,14 @@ export default {
                 this.loading.isActive = false;
             })
         },
-        changeStatus: function (orderID,orderItemID) {
+        changeStatus: function (orderID,orderItemID,orderItemStatus) {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
                     id: orderID,
                     orderItemID: orderItemID,
                     status: orderStatusEnum.PROCESSING,
+                    orderItemStatus:orderItemStatus
                 }).then((res) => {
                     this.loading.isActive = false;
                     this.orders.find(order => order.id === id).status = res.data.data.status;

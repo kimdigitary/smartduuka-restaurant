@@ -145,6 +145,8 @@ export default {
             loading: {
                 isActive: false
             },
+            interval2: 5000,
+            timer2: null,
             enums: {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,
@@ -179,7 +181,7 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
-                    order_type: orderTypeEnum.POS,
+                    order_type: orderTypeEnum.COMPLETED,
                     user_id: null,
                     status: null,
                     from_date: "",
@@ -190,11 +192,24 @@ export default {
     },
     mounted() {
         this.list();
+        this.startPolling();
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer2) {
+            clearInterval(this.timer2);
+        }
+        next();
+    },
+    beforeDestroy() {
+        console.log('beforeDestroy 2');
+        if (this.timer2) {
+            clearInterval(this.timer2);
+        }
     },
     computed: {
         orders: function () {
@@ -220,13 +235,17 @@ export default {
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        // edit: function (product) {
-        //     this.loading.isActive = true;
-        //     appService.sideDrawerShow();
-        //     this.$store.dispatch('posOrder/edit', product.id);
-        //     this.loading.isActive = false;
-        //     this.props.form.name = product.name;
-        // },
+        startPolling() {
+            this.timer2 = setInterval(() => {
+                this.polling()
+            }, this.interval2)
+        },
+        polling: function () {
+            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
 
         edit: function (product) {
             this.loading.isActive = true;
@@ -271,7 +290,7 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;

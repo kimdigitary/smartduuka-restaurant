@@ -100,56 +100,28 @@ class OrderService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
     public function chef(PaginateRequest $request)
     {
         try {
-            $requests = $request->all();
-            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
-            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
-            $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType = $request->get('order_by') ?? 'desc';
-
-            return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')->where(function ($query) use ($requests) {
-                if (isset($requests['from_date']) && isset($requests['to_date'])) {
-                    $first_date = Date('Y-m-d', strtotime($requests['from_date']));
-                    $last_date = Date('Y-m-d', strtotime($requests['to_date']));
-                    $query->whereDate('order_datetime', '>=', $first_date)->whereDate(
-                        'order_datetime',
-                        '<=',
-                        $last_date
-                    );
-                }
-                foreach ($requests as $key => $request) {
-                    if (in_array($key, $this->orderFilter)) {
-                        if ($key === "status") {
-                            $query->where($key, (int)$request);
-                        } else {
-                            $query->where($key, 'like', '%' . $request . '%');
-                        }
+            return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')
+                ->where(function ($query) use ($request) {
+                    if ($request->order_type == OrderType::CHEF_BOARD) {
+                        $query->where('status', $request->status)
+                            ->orWhere('status', OrderStatus::PROCESSING);
                     }
-
-                    if (in_array($key, $this->exceptFilter)) {
-                        $explodes = explode('|', $request);
-                        if (is_array($explodes)) {
-                            foreach ($explodes as $explode) {
-                                info($explode);
-                                $query->where('order_type', '!=', $explode);
-                            }
-                        }
+                    if ($request->order_type == OrderType::COMPLETED) {
+                        $query->Where('status', OrderStatus::DELIVERED);
                     }
-                }
-            })->orderBy($orderColumn, $orderType)->$method(
-                $methodValue
-            );
+                })
+                ->orderBy('id', 'desc')->get();
+
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function userOrder(PaginateRequest $request, User $user)
     {
         try {
@@ -533,7 +505,7 @@ class OrderService
                     }
                 }
                 if ($request->orderItemID) {
-                    OrderItem::find($request->orderItemID)->update(['status' => 2]);
+                    OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
                 }
                 $order->status = $request->status;
                 $order->save();
