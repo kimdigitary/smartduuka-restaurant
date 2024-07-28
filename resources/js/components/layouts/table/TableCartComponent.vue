@@ -60,7 +60,6 @@
                                     </span>
                                 </p>
                             </li>
-
                             <li v-if="cart.instruction !== ''" class="flex gap-1">
                                 <h3 class="capitalize text-xs w-fit whitespace-nowrap">
                                     {{ $t('label.instruction') }}:
