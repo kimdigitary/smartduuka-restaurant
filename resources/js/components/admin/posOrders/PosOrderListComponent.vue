@@ -101,6 +101,7 @@ import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebar
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import PosOrderEditComponent from "./PosOrderEditComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name: "PosOrderListComponent",
@@ -150,7 +151,7 @@ export default {
             loading: {
                 isActive: false
             },
-            interval: 5000,
+            interval: TimerEnums.INTERVAL,
             enums: {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,

@@ -460,10 +460,6 @@ class OrderService
         }
     }
 
-
-    /**
-     * @throws Exception
-     */
     public function changeStatus(Order $order, $auth = false, OrderStatusRequest $request): Order|array
     {
         try {
@@ -486,7 +482,7 @@ class OrderService
                     $order->status = $request->status;
                     $order->save();
                 }
-            } else {
+            }  else {
                 if ($request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED) {
                     $request->validate([
                         'reason' => 'required|max:700',
@@ -504,11 +500,25 @@ class OrderService
                         );
                     }
                 }
-                if ($request->orderItemID) {
-                    OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
+                if ($request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED) {
+                    if ($request->orderItemID) {
+                        OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
+                    }
+                    $order->status = $request->status;
+                    $order->save();
                 }
-                $order->status = $request->status;
-                $order->save();
+                if ($request->status == OrderStatus::ACCEPT ) {
+                    if ($request->orderItemID) {
+                        OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
+                    }
+                    $order->status = $request->status;
+                    $order->save();
+                }
+//                if ($request->orderItemID) {
+//                    OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
+//                }
+//                $order->status = $request->status;
+//                $order->save();
             }
             return $order;
         } catch (Exception $exception) {

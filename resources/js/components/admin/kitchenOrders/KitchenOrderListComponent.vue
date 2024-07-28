@@ -3,10 +3,11 @@
     <div class="col-12">
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
+            <button class="text-primary font-bold" @click="enableSound">Click to Enable Sound Notifications</button>
+            <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
+                <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
+            </div>
             <div class="grid w-full grid-cols-2 gap-5">
-                <div v-if="filteredOrders.length<1">
-                    <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
-                </div>
                 <div class="db-card w-full p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
                     <div class="flex flex-wrap gap-y-5 items-end justify-between">
                         <div>
@@ -118,6 +119,7 @@ import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebar
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -165,7 +167,8 @@ export default {
             loading: {
                 isActive: false
             },
-            interval1: 5000,
+            isSoundEnabled: true,
+            interval1: TimerEnums.INTERVAL,
             timer1: null,
             imageSrc: require('./kitchen.png'),
             orderStatus: orderStatusEnum.ACCEPT,
@@ -265,33 +268,29 @@ export default {
         },
     },
     methods: {
-         startPolling() {
-             this.timer1 = setInterval(() => {
-                 this.polling()
-             }, this.interval1)
+        startPolling() {
+            this.timer1 = setInterval(() => {
+                this.polling()
+            }, this.interval1)
         },
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        enable: function (orderID,orderItemID, event) {
+        enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(orderID,orderItemID,2)
-            }else{
-                this.changeStatus(orderID,orderItemID,1)
+                this.changeStatus(orderID, orderItemID, 2)
+            } else {
+                this.changeStatus(orderID, orderItemID, 1)
             }
         },
-        // edit: function (product) {
-        //     this.loading.isActive = true;
-        //     appService.sideDrawerShow();
-        //     this.$store.dispatch('posOrder/edit', product.id);
-        //     this.loading.isActive = false;
-        //     this.props.form.name = product.name;
-        // },
-
         edit: function (product) {
             this.loading.isActive = true;
             this.$store.dispatch('posOrder/edit', product.id);
             this.loading.isActive = false;
+        },
+        enableSound: function () {
+            this.isSoundEnabled = true;
+            alert('Sound notifications enabled!');
         },
         statusClass: function (status) {
             return appService.statusClass(status);
@@ -342,9 +341,18 @@ export default {
         },
         polling: function () {
             this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+                this.playSound(res.data.data);
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        playSound: function (orders) {
+            if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
+                const audio = new Audio(orders[0].order_notification_audio);
+                audio.play().catch(error => {
+                    console.error('Audio playback failed:', error);
+                });
+            }
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
@@ -365,14 +373,14 @@ export default {
                 this.loading.isActive = false;
             })
         },
-        changeStatus: function (orderID,orderItemID,orderItemStatus) {
+        changeStatus: function (orderID, orderItemID, orderItemStatus) {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
                     id: orderID,
                     orderItemID: orderItemID,
                     status: orderStatusEnum.PROCESSING,
-                    orderItemStatus:orderItemStatus
+                    orderItemStatus: orderItemStatus
                 }).then((res) => {
                     this.loading.isActive = false;
                     this.orders.find(order => order.id === id).status = res.data.data.status;
