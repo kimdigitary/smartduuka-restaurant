@@ -203,6 +203,48 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Categories',
+                'name'       => 'categories',
+                'guard_name' => 'sanctum',
+                'url'        => 'categories',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Categories Create',
+                        'name'       => 'categories_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Edit',
+                        'name'       => 'categories_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Delete',
+                        'name'       => 'categories_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Show',
+                        'name'       => 'categories_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
                 'title'      => 'Table Orders',
                 'name'       => 'table-orders',
                 'guard_name' => 'sanctum',
