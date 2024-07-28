@@ -16,7 +16,6 @@
                     <img class="w-40 mb-12" :src="setting.image_cart" alt="gif">
                     <p class="text-sm max-w-xs">{{ $t('message.empty_cart') }}</p>
                 </div>
-
                 <div v-if="carts.length > 0" class="mb-5">
                     <div v-for="(cart, index) in carts"
                         class="mb-3 pb-3 border-b last:mb-0 last:pb-0 last:border-b-0 border-gray-2">
