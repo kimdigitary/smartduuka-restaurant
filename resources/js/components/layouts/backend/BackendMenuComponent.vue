@@ -15,7 +15,6 @@
                 <li class="db-sidebar-nav-item" v-else>
                     <router-link :to="'/admin/' + menu.url" class="db-sidebar-nav-menu">
                         <i class="text-sm" :class="menu.icon"></i>
-<!--                        <span class="text-base flex-auto">{{ $t('menu.' + menu.language) }}</span>-->
                         <span class="text-base flex-auto"> {{menu.name}}</span>
                     </router-link>
                 </li>

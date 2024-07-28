@@ -65,6 +65,7 @@ class SettingResource extends JsonResource
             'notification_fcm_measurement_id'      => $this->info['notification_fcm_measurement_id'],
             'notification_fcm_public_vapid_key'    => $this->info['notification_fcm_public_vapid_key'],
             'notification_audio'                   => asset('/audio/notification.mp3'),
+            'order_notification_audio'             => asset('/audio/order_notification.mp3'),
             'image_cart'                           => asset('/images/cart/empty-cart.gif'),
             'image_confirm'                        => asset('/images/cart/confirm.gif'),
             'image_vag'                            => asset('/images/item-type/veg.png'),
