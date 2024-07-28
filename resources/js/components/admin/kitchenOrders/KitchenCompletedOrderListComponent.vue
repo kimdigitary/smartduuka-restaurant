@@ -97,6 +97,7 @@ import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name: "KitchenCompletedOrderListComponent",
@@ -145,7 +146,7 @@ export default {
             loading: {
                 isActive: false
             },
-            interval2: 5000,
+            interval2: TimerEnums.INTERVAL,
             timer2: null,
             enums: {
                 orderStatusEnum: orderStatusEnum,

@@ -119,6 +119,7 @@ import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebar
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -167,7 +168,7 @@ export default {
                 isActive: false
             },
             isSoundEnabled: true,
-            interval1: 5000,
+            interval1: TimerEnums.INTERVAL,
             timer1: null,
             imageSrc: require('./kitchen.png'),
             orderStatus: orderStatusEnum.ACCEPT,

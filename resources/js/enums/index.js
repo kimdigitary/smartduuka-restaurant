@@ -52,5 +52,4 @@ export default {
     roleEnum,
     discountTypeEnum,
     switchEnum
-
 };
