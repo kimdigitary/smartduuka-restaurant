@@ -148,6 +148,7 @@ import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import paymentTypeEnum from "../../../enums/modules/paymentTypeEnum";
 import activityEnum from "../../../enums/modules/activityEnum";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name : "OrderDetailsComponent",
@@ -157,7 +158,7 @@ export default {
             loading: {
                 isActive: false,
             },
-            interval: 5000,
+            interval: TimerEnums.INTERVAL,
             enums: {
                 activityEnum: activityEnum,
                 orderStatusEnum: orderStatusEnum,
@@ -192,6 +193,12 @@ export default {
         orderItems: function () {
             return this.$store.getters['tableDiningOrder/orderItems'];
         }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        next();
     },
     beforeDestroy() {
         if (this.timer) {

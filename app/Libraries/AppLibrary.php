@@ -5,13 +5,11 @@ namespace App\Libraries;
 use App\Enums\AmountType;
 use App\Enums\CurrencyPosition;
 use App\Models\ProductVariation;
-use App\Models\Tax;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
 use Smartisan\Settings\Facades\Settings;
 
 class AppLibrary
@@ -134,12 +132,16 @@ class AppLibrary
         return $permissions;
     }
 
-    public static function menu(&$menus, $permissions): array
+    public static function menu(&$menus, $permissions, $role): array
     {
         if ($menus && $permissions) {
             foreach ($menus as $key => $menu) {
                 if (isset($permissions[$menu['url']]) && !$permissions[$menu['url']]['access']) {
                     if ($menu['url'] != '#') {
+                        unset($menus[$key]);
+                    }
+                } else {
+                    if ($role->name == 'Chef' && $menu['name'] == 'Pos & Orders') {
                         unset($menus[$key]);
                     }
                 }
@@ -209,7 +211,7 @@ class AppLibrary
     public static function amountCheck($amount, $attr = 'price'): object
     {
         $response = [
-            'status' => true,
+            'status'  => true,
             'message' => ''
         ];
 
@@ -252,7 +254,7 @@ class AppLibrary
     public static function currencyAmountFormat($amount): string
     {
         if (env('CURRENCY_POSITION') == CurrencyPosition::LEFT) {
-            return env('CURRENCY_SYMBOL') .' '. number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', ',');
+            return env('CURRENCY_SYMBOL') . ' ' . number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', ',');
         }
         return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . env('CURRENCY_SYMBOL');
     }
@@ -319,11 +321,11 @@ class AppLibrary
 
     public static function licenseApiResponse($response)
     {
-        $header      = explode(';', $response->getHeader('Content-Type')[0]);
+        $header = explode(';', $response->getHeader('Content-Type')[0]);
         $contentType = $header[0];
         if ($contentType == 'application/json') {
             $contents = $response->getBody()->getContents();
-            $data     = json_decode($contents);
+            $data = json_decode($contents);
             if (json_last_error() == JSON_ERROR_NONE) {
                 return $data;
             }

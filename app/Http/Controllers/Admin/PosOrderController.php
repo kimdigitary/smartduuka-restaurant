@@ -9,6 +9,7 @@ use App\Services\OrderService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
@@ -38,7 +39,7 @@ class PosOrderController extends AdminController
 
     public function index(
         PaginateRequest $request
-    ): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory {
+    ): Response | AnonymousResourceCollection | Application | ResponseFactory {
         try {
 
             return OrderResource::collection($this->orderService->list($request));
@@ -48,7 +49,7 @@ class PosOrderController extends AdminController
     }
     public function chef(
         PaginateRequest $request
-    ): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory {
+    ): Response | AnonymousResourceCollection | Application | ResponseFactory {
         try {
 
             return OrderResource::collection($this->orderService->chef($request));

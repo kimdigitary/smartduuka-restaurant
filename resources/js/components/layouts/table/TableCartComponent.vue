@@ -1,21 +1,21 @@
 <template>
     <aside id="cart"
-        class="w-screen h-full fixed top-[58px] lg:top-[74px] left-0 z-60 opacity-0 invisible bg-black/60 transition">
-        <div class="max-w-sm w-full h-screen absolute top-0 right-0 translate-x-full bg-white transition">
+        class="w-screen lg:h-full fixed top-[58px] lg:top-[74px] left-0 z-60 opacity-0 invisible bg-black/60 transition ">
+        <div class="max-w-sm w-full h-3/4 lg:h-screen absolute lg:top-0 right-0 translate-x-full transition bg-white">
 
-            <div :class="carts.length === 0 ? 'flex items-center justify-center flex-col text-center' : 'h-[calc(100vh-200px)] lg:h-[calc(100vh-220px)] thin-scrolling overflow-y-auto'"
-                class="p-4 relative">
+<!--            <div :class="carts.length === 0 ? 'flex items-center justify-center flex-col text-center' : 'h-[calc(100vh-200px)] lg:h-[calc(100vh-220px)] thin-scrolling overflow-y-auto'" class="p-4 relative"> -->
+                <div :class="carts.length === 0 ? 'flex items-center justify-center flex-col text-center' : 'lg:h-[calc(100vh-220px)] thin-scrolling overflow-y-auto'" class="p-4 relative bottom-10">
+
                 <h3 :class="carts.length === 0 ? 'mb-16' : 'mb-5'" class="text-xl font-semibold capitalize text-center">
                     {{ $t('label.my_cart') }}
                 </h3>
                 <button class="fa-solid fa-xmark absolute top-2 right-3 text-white bg-[#FB4E4E] xmark-btn"></button>
 
                 <div v-if="carts.length === 0"
-                    class="flex items-center justify-center flex-col text-center flex-col text-center">
+                    class="flex items-center justify-center flex-col text-center">
                     <img class="w-40 mb-12" :src="setting.image_cart" alt="gif">
                     <p class="text-sm max-w-xs">{{ $t('message.empty_cart') }}</p>
                 </div>
-
                 <div v-if="carts.length > 0" class="mb-5">
                     <div v-for="(cart, index) in carts"
                         class="mb-3 pb-3 border-b last:mb-0 last:pb-0 last:border-b-0 border-gray-2">
@@ -60,7 +60,6 @@
                                     </span>
                                 </p>
                             </li>
-
                             <li v-if="cart.instruction !== ''" class="flex gap-1">
                                 <h3 class="capitalize text-xs w-fit whitespace-nowrap">
                                     {{ $t('label.instruction') }}:

@@ -38,20 +38,20 @@ class LoginController extends Controller
         $this->permissionService = $permissionService;
         $this->defaultAccessService = $defaultAccessService;
         try {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('menus')->truncate();
+//            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+//            DB::table('menus')->truncate();
 //            DB::table('permissions')->truncate();
 //            DB::table('roles')->truncate();
-            Artisan::call('db:seed', [
-                '--class' => 'MenuTableSeeder'
-            ]);
+//            Artisan::call('db:seed', [
+//                '--class' => 'MenuTableSeeder'
+//            ]);
 //            Artisan::call('db:seed', [
 //                '--class' => 'PermissionTableSeeder'
 //            ]);
 //            Artisan::call('db:seed', [
 //                '--class' => 'RoleTableSeeder'
 //            ]);
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+//            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 //            return response()->json(['message' => 'Database seeded successfully']);
         } catch (\Exception $e) {
             info($e->getMessage());

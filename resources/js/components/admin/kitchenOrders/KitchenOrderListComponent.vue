@@ -3,10 +3,11 @@
     <div class="col-12">
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
+            <button class="text-primary font-bold" @click="enableSound">Click to Enable Sound Notifications</button>
+            <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
+                <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
+            </div>
             <div class="grid w-full grid-cols-2 gap-5">
-                <div v-if="filteredOrders.length<1">
-                    <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
-                </div>
                 <div class="db-card w-full p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
                     <div class="flex flex-wrap gap-y-5 items-end justify-between">
                         <div>
@@ -78,7 +79,7 @@
                         </div>
                     </div>
                     <div class="my-10"></div>
-                    <button v-if="order.status === orderStatusEnum.PROCESSING" type="button"
+                    <button v-if="showComplete(order.orderItems)" type="button"
                             @click="completeOrder(order.id)"
                             class="bottom-0 my-3 mt-10 flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#2AC769]">
                         <i class="lab lab-save"></i>
@@ -118,6 +119,7 @@ import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebar
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -165,8 +167,10 @@ export default {
             loading: {
                 isActive: false
             },
-            interval: 5000,
-            timer: null,
+            lastOrderId:0,
+            isSoundEnabled: true,
+            interval1: TimerEnums.INTERVAL,
+            timer1: null,
             imageSrc: require('./kitchen.png'),
             orderStatus: orderStatusEnum.ACCEPT,
             disabledStatue: {},
@@ -205,9 +209,9 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
-                    order_type: orderTypeEnum.POS,
+                    order_type: orderTypeEnum.CHEF_BOARD,
                     user_id: null,
-                    status: null,
+                    status: orderStatusEnum.ACCEPT,
                     from_date: "",
                     to_date: "",
                 }
@@ -223,9 +227,16 @@ export default {
             status: statusEnum.ACTIVE
         });
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer1) {
+            clearInterval(this.timer1);
+        }
+        next();
+    },
     beforeDestroy() {
-        if (this.timer) {
-            clearInterval(this.timer);
+        console.log('beforeDestroy 1')
+        if (this.timer1) {
+            clearInterval(this.timer1);
         }
     },
     computed: {
@@ -258,31 +269,29 @@ export default {
         },
     },
     methods: {
-         startPolling() {
-             this.timer = setInterval(() => {
-                 this.polling()
-             }, 5000)
+        startPolling() {
+            this.timer1 = setInterval(() => {
+                this.polling()
+            }, this.interval1)
         },
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        enable: function (orderID,orderItemID, event) {
+        enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(orderID,orderItemID)
+                this.changeStatus(orderID, orderItemID, 2)
+            } else {
+                this.changeStatus(orderID, orderItemID, 1)
             }
         },
-        // edit: function (product) {
-        //     this.loading.isActive = true;
-        //     appService.sideDrawerShow();
-        //     this.$store.dispatch('posOrder/edit', product.id);
-        //     this.loading.isActive = false;
-        //     this.props.form.name = product.name;
-        // },
-
         edit: function (product) {
             this.loading.isActive = true;
             this.$store.dispatch('posOrder/edit', product.id);
             this.loading.isActive = false;
+        },
+        enableSound: function () {
+            this.isSoundEnabled = true;
+            alert('Sound notifications enabled!');
         },
         statusClass: function (status) {
             return appService.statusClass(status);
@@ -322,17 +331,40 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+                if (res.data.data.length > 0) {
+                    this.lastOrderId = res.data.data[0].id;
+                }
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
             });
         },
+        showComplete: function (orderItems) {
+            return orderItems.every(orderItem => orderItem.status === 2);
+        },
         polling: function () {
             this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+                if (res.data.data.length > 0) {
+                    if (this.lastOrderId < res.data.data[0].id) {
+                        this.lastOrderId = res.data.data[0].id;
+                        this.playSound(res.data.data);
+                    }else{
+                        console.log(this.lastOrderId,res.data.data[0].id)
+                    }
+                }
+                // this.playSound(res.data.data);
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        playSound: function (orders) {
+            // if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
+                const audio = new Audio(orders[0].order_notification_audio);
+                audio.play().catch(error => {
+                    console.error('Audio playback failed:', error);
+                });
+            // }
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
@@ -353,13 +385,14 @@ export default {
                 this.loading.isActive = false;
             })
         },
-        changeStatus: function (orderID,orderItemID) {
+        changeStatus: function (orderID, orderItemID, orderItemStatus) {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
                     id: orderID,
                     orderItemID: orderItemID,
                     status: orderStatusEnum.PROCESSING,
+                    orderItemStatus: orderItemStatus
                 }).then((res) => {
                     this.loading.isActive = false;
                     this.orders.find(order => order.id === id).status = res.data.data.status;
