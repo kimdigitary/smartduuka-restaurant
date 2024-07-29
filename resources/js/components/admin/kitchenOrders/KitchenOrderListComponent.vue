@@ -167,6 +167,7 @@ export default {
             loading: {
                 isActive: false
             },
+            lastOrderId:0,
             isSoundEnabled: true,
             interval1: TimerEnums.INTERVAL,
             timer1: null,
@@ -331,6 +332,9 @@ export default {
             this.loading.isActive = true;
             this.props.search.page = page;
             this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+                if (res.data.data.length > 0) {
+                    this.lastOrderId = res.data.data[0].id;
+                }
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
@@ -341,18 +345,26 @@ export default {
         },
         polling: function () {
             this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
-                this.playSound(res.data.data);
+                if (res.data.data.length > 0) {
+                    if (this.lastOrderId < res.data.data[0].id) {
+                        this.lastOrderId = res.data.data[0].id;
+                        this.playSound(res.data.data);
+                    }else{
+                        console.log(this.lastOrderId,res.data.data[0].id)
+                    }
+                }
+                // this.playSound(res.data.data);
             }).catch((err) => {
                 this.loading.isActive = false;
             });
         },
         playSound: function (orders) {
-            if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
+            // if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
                 const audio = new Audio(orders[0].order_notification_audio);
                 audio.play().catch(error => {
                     console.error('Audio playback failed:', error);
                 });
-            }
+            // }
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
