@@ -1,3 +1,3 @@
 export enum TimerEnums{
-    INTERVAL = 10000
+    INTERVAL = 2000
 }
