@@ -3495,6 +3495,15 @@ input:checked + div svg {
 .mt-\[5px\] {
   margin-top: 5px;
 }
+.me-5 {
+  margin-inline-end: 1.25rem;
+}
+.ms-5 {
+  margin-inline-start: 1.25rem;
+}
+.mt-5 {
+  margin-top: 1.25rem;
+}
 .block {
   display: block;
 }
@@ -4495,6 +4504,9 @@ input:checked + div svg {
 }
 .pt-8 {
   padding-top: 2rem;
+}
+.pe-5 {
+  padding-inline-end: 1.25rem;
 }
 .text-left {
   text-align: left;
