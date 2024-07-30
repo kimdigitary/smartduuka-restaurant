@@ -3,7 +3,16 @@
     <div class="col-12">
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
-            <button class="text-primary font-bold" @click="enableSound">Click to Enable Sound Notifications</button>
+            <div class="w-1/2 gap-5 flex items-center">
+                <div class="custom-checkbox">
+                    <input type="checkbox" class="custom-checkbox-field" id="enableSound"
+                           :value="true"
+                           :checked="this.isSoundEnabled"
+                           @change="enableSound">
+                    <i class="fa-solid fa-check custom-checkbox-icon"></i>
+                </div>
+                <label class="cursor-pointer" for="enableSound">Enable Sound Notifications</label>
+            </div>
             <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
                 <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
             </div>
@@ -46,7 +55,7 @@
                                 {{ this.$t("label.pos") }}
                             </span>
                                 </li>
-                                <li class="text-xs">{{
+                                <li class="text-xs" v-if=" order.delivery_date">{{
                                         $t('label.delivery_time')
                                     }}:
                                     <span class="text-heading">
@@ -61,7 +70,7 @@
                             </span>
                                 </li>
                             </ul>
-                            <div>
+                            <div class="mt-5">
                                 <div class="flex gap-2 p-2 items-center" v-for="orderItem in order.orderItems">
                                     <div class="custom-checkbox">
                                         <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
@@ -70,10 +79,12 @@
                                                @change="enable(order.id,orderItem.id,$event)">
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
-                                    <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} X
+                                    <div class="">
+                                    <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} x
                                         {{ orderItem.order_item.name }}</label>
+                                        <p v-if="orderItem.instruction">Instructions: {{orderItem.instruction}}</p>
+                                    </div>
 
-                                    <!--                                    <span class="me-3">{{ orderItem.quantity }} X {{ orderItem.order_item.name }}</span>-->
                                 </div>
                             </div>
                         </div>
@@ -167,8 +178,8 @@ export default {
             loading: {
                 isActive: false
             },
-            lastOrderId:0,
-            isSoundEnabled: true,
+            lastOrderId: 0,
+            isSoundEnabled: false,
             interval1: TimerEnums.INTERVAL,
             timer1: null,
             imageSrc: require('./kitchen.png'),
@@ -291,7 +302,6 @@ export default {
         },
         enableSound: function () {
             this.isSoundEnabled = true;
-            alert('Sound notifications enabled!');
         },
         statusClass: function (status) {
             return appService.statusClass(status);
@@ -349,8 +359,8 @@ export default {
                     if (this.lastOrderId < res.data.data[0].id) {
                         this.lastOrderId = res.data.data[0].id;
                         this.playSound(res.data.data);
-                    }else{
-                        console.log(this.lastOrderId,res.data.data[0].id)
+                    } else {
+                        console.log(this.lastOrderId, res.data.data[0].id)
                     }
                 }
                 // this.playSound(res.data.data);
@@ -360,10 +370,10 @@ export default {
         },
         playSound: function (orders) {
             // if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
-                const audio = new Audio(orders[0].order_notification_audio);
-                audio.play().catch(error => {
-                    console.error('Audio playback failed:', error);
-                });
+            const audio = new Audio(orders[0].order_notification_audio);
+            audio.play().catch(error => {
+                console.error('Audio playback failed:', error);
+            });
             // }
         },
         destroy: function (id) {
