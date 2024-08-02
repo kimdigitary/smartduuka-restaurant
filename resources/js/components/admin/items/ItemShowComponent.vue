@@ -20,6 +20,9 @@
             <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"></i>
                 {{ $t('label.addon') }}
             </button>
+            <button type="button" class="db-tabBtn" data-tab="#ingredients"><i class="lab lab-addon lab-font-size-16"></i>
+                Ingredients
+            </button>
         </div>
         <div class="db-tabDiv active" id="information">
             <div class="row py-2">
@@ -139,6 +142,9 @@
         <div class="db-tabDiv" id="addon">
             <ItemAddonListComponent :item="parseInt($route.params.id)" />
         </div>
+        <div class="db-tabDiv" id="ingredients">
+            <ItemIngredientListComponent :item="parseInt($route.params.id)" />
+        </div>
     </div>
 </template>
 
@@ -152,10 +158,14 @@ import alertService from "../../../services/alertService";
 import ItemVariationListComponent from "./variation/ItemVariationListComponent";
 import ItemExtraListComponent from "./extra/ItemExtraListComponent";
 import ItemAddonListComponent from "./addon/ItemAddonListComponent";
+import IngredientAddonListComponent from "./ingredients/ItemIngredientListComponent.vue";
+import ItemIngredientListComponent from "./ingredients/ItemIngredientListComponent.vue";
 
 export default {
     name: "ItemCategoryShowComponent",
     components: {
+        ItemIngredientListComponent,
+        IngredientAddonListComponent,
         ItemVariationListComponent,
         LoadingComponent,
         ItemExtraListComponent,

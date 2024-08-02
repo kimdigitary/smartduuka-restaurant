@@ -31,44 +31,50 @@ import {employee} from './modules/employee';
 import {employeeAddress} from './modules/employeeAddress';
 import {itemExtra} from './modules/itemExtra';
 import {itemAddon} from './modules/itemAddon';
-import { language } from './modules/language';
+import {language} from './modules/language';
 import {frontendBranch} from "./modules/frontend/frontendBranch";
 import {frontendLanguage} from "./modules/frontend/frontendLanguage";
 import {frontendSetting} from "./modules/frontend/frontendSetting";
 import {frontendPage} from "./modules/frontend/frontendPage";
 import {globalState} from "./modules/frontend/globalState";
-import { timezone } from './modules/timezone';
-import { site } from './modules/site';
-import { dashboard } from './modules/dashboard';
-import { offerItem } from './modules/offerItem';
-import { paymentGateway } from './modules/paymentGateway';
-import { smsGateway } from './modules/smsGateway';
-import { salesReport } from './modules/salesReport';
-import { itemsReport } from './modules/itemsReport';
-import { frontendEditProfile } from './modules/frontend/frontendEditProfile';
-import { frontendCountryCode } from './modules/frontend/frontendCountryCode';
+import {timezone} from './modules/timezone';
+import {site} from './modules/site';
+import {dashboard} from './modules/dashboard';
+import {offerItem} from './modules/offerItem';
+import {paymentGateway} from './modules/paymentGateway';
+import {smsGateway} from './modules/smsGateway';
+import {salesReport} from './modules/salesReport';
+import {itemsReport} from './modules/itemsReport';
+import {frontendEditProfile} from './modules/frontend/frontendEditProfile';
+import {frontendCountryCode} from './modules/frontend/frontendCountryCode';
 import {diningTable} from "./modules/diningTable";
 import {frontendItem} from "./modules/frontend/frontendItem";
-import { countryCode } from './modules/countryCode';
+import {countryCode} from './modules/countryCode';
 import {frontendSignup} from "./modules/frontend/frontendSignup";
 import {backendGlobalState} from "./modules/backendGlobalState";
-import { myOrderDetails } from './modules/myOrderDetails';
-import { posCart } from './modules/posCart';
-import { posOrder } from './modules/posOrder';
-import { transaction } from './modules/transaction';
-import { creditBalanceReport } from './modules/creditBalanceReport';
-import { user } from './modules/user';
-import { posCategory } from './modules/posCategory';
+import {myOrderDetails} from './modules/myOrderDetails';
+import {posCart} from './modules/posCart';
+import {posOrder} from './modules/posOrder';
+import {transaction} from './modules/transaction';
+import {creditBalanceReport} from './modules/creditBalanceReport';
+import {user} from './modules/user';
+import {posCategory} from './modules/posCategory';
 import {tableItemCategory} from "./modules/table/tableItemCategory";
 import {tableCart} from "./modules/table/tableCart";
 import {tableDiningTable} from "./modules/table/tableDiningTable";
 import {tableDiningOrder} from "./modules/table/tableDiningOrder";
-import { tableOrder } from './modules/tableOrder';
-import { notificationAlert } from './modules/notificationAlert';
-import { notification } from './modules/notification';
+import {tableOrder} from './modules/tableOrder';
+import {notificationAlert} from './modules/notificationAlert';
+import {notification} from './modules/notification';
 import {subscriptions} from "./modules/subscription";
 import {expenseCategory} from "./modules/expenseCategory";
 import {expense} from "./modules/expense";
+import {product} from "./modules/product";
+import {productBrand} from "./modules/productBrand";
+import {unit} from "./modules/unit";
+import {barcode} from "./modules/barcode";
+import {productCategory} from "./modules/productCategory";
+import {ingredient} from "./modules/ingredient";
 
 
 export default new createStore({
@@ -143,7 +149,13 @@ export default new createStore({
         notification,
         subscriptions,
         expenseCategory,
-        expense
+        expense,
+        product,
+        productBrand,
+        unit,
+        barcode,
+        productCategory,
+        ingredient
     },
     plugins: [
         createPersistedState({

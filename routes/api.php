@@ -1,81 +1,84 @@
 <?php
 
 
+use App\Http\Controllers\Admin\AdministratorAddressController;
+use App\Http\Controllers\Admin\AdministratorController;
+use App\Http\Controllers\Admin\AnalyticController;
+use App\Http\Controllers\Admin\AnalyticSectionController;
+use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\CountryCodeController;
+use App\Http\Controllers\Admin\CreditBalanceReportController;
+use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\CustomerAddressController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DefaultAccessController;
+use App\Http\Controllers\Admin\DiningTableController;
+use App\Http\Controllers\Admin\EmployeeAddressController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\IngredientsController;
+use App\Http\Controllers\Admin\ItemAddonController;
+use App\Http\Controllers\Admin\ItemAttributeController;
+use App\Http\Controllers\Admin\ItemCategoryController;
+use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\ItemExtraController;
+use App\Http\Controllers\Admin\ItemsReportController;
+use App\Http\Controllers\Admin\ItemVariationController;
+use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\MailController;
+use App\Http\Controllers\Admin\MenuSectionController;
+use App\Http\Controllers\Admin\MenuTemplateController;
+use App\Http\Controllers\Admin\MyOrderDetailsController;
+use App\Http\Controllers\Admin\NotificationAlertController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\OfferItemController;
+use App\Http\Controllers\Admin\OtpController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PaymentGatewayController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PosCategoryController;
+use App\Http\Controllers\Admin\PosController;
+use App\Http\Controllers\Admin\PosOrderController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductVariationController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SalesReportController;
+use App\Http\Controllers\Admin\SimpleUserController;
+use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\Admin\SmsGatewayController;
+use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
+use App\Http\Controllers\Admin\TaxController;
+use App\Http\Controllers\Admin\ThemeController;
+use App\Http\Controllers\Admin\TimezoneController;
+use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Auth\DeactivateController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\GuestSignupController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RefreshTokenController;
+use App\Http\Controllers\Auth\SignupController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpensePaymentController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\Frontend\BranchController as FrontendBranchController;
+use App\Http\Controllers\Frontend\ItemController as FrontendItemController;
+use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
+use App\Http\Controllers\Frontend\PageController as FrontendPageController;
+use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\SettingController;
+use App\Http\Controllers\Frontend\TokenStoreController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
+use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
+use App\Http\Controllers\Table\OrderController as TableOrderController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\OtpController;
-use App\Http\Controllers\Admin\PosController;
-use App\Http\Controllers\Admin\TaxController;
-use App\Http\Controllers\Admin\ItemController;
-use App\Http\Controllers\Admin\MailController;
-use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SiteController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\OfferController;
-use App\Http\Controllers\Admin\ThemeController;
-use App\Http\Controllers\Auth\SignupController;
-use App\Http\Controllers\Admin\BranchController;
-use App\Http\Controllers\Admin\CompanyController;
-use App\Http\Controllers\Admin\LicenseController;
-use App\Http\Controllers\Admin\AnalyticController;
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\EmployeeController;
-use App\Http\Controllers\Admin\LanguageController;
-use App\Http\Controllers\Admin\PosOrderController;
-use App\Http\Controllers\Admin\TimezoneController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ItemAddonController;
-use App\Http\Controllers\Admin\ItemExtraController;
-use App\Http\Controllers\Admin\OfferItemController;
-use App\Http\Controllers\Auth\DeactivateController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\SimpleUserController;
-use App\Http\Controllers\Admin\SmsGatewayController;
-use App\Http\Controllers\Auth\GuestSignupController;
-use App\Http\Controllers\Frontend\ProfileController;
-use App\Http\Controllers\Frontend\SettingController;
-use App\Http\Controllers\Admin\CountryCodeController;
-use App\Http\Controllers\Admin\DiningTableController;
-use App\Http\Controllers\Admin\ItemsReportController;
-use App\Http\Controllers\Admin\MenuSectionController;
-use App\Http\Controllers\Admin\PosCategoryController;
-use App\Http\Controllers\Admin\SalesReportController;
-use App\Http\Controllers\Admin\TransactionController;
-use App\Http\Controllers\Auth\RefreshTokenController;
-use App\Http\Controllers\Admin\ItemCategoryController;
-use App\Http\Controllers\Admin\MenuTemplateController;
-use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\AdministratorController;
-use App\Http\Controllers\Admin\DefaultAccessController;
-use App\Http\Controllers\Admin\ItemAttributeController;
-use App\Http\Controllers\Admin\ItemVariationController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Frontend\TokenStoreController;
-use App\Http\Controllers\Admin\MyOrderDetailsController;
-use App\Http\Controllers\Admin\PaymentGatewayController;
-use App\Http\Controllers\Admin\AnalyticSectionController;
-use App\Http\Controllers\Admin\CustomerAddressController;
-use App\Http\Controllers\Admin\EmployeeAddressController;
-use App\Http\Controllers\Admin\NotificationAlertController;
-use App\Http\Controllers\Admin\CreditBalanceReportController;
-use App\Http\Controllers\Admin\AdministratorAddressController;
-use App\Http\Controllers\Table\OrderController as TableOrderController;
-use App\Http\Controllers\Frontend\ItemController as FrontendItemController;
-use App\Http\Controllers\Frontend\PageController as FrontendPageController;
-use App\Http\Controllers\Frontend\BranchController as FrontendBranchController;
-use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
-use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
-use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
-use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
 
-Route::get('seed',[TestController::class,'seedDatabase']);
+Route::get('seed', [TestController::class, 'seedDatabase']);
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
@@ -137,6 +140,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::resource('expenses', ExpensesController::class);
     Route::resource('expense-payments', ExpensePaymentController::class);
     Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
+
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {
@@ -340,6 +344,37 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/address/{employee}/{address}', [EmployeeAddressController::class, 'destroy']);
     });
 
+    Route::prefix('product')->name('product.')->group(function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/show/{product}', [ProductController::class, 'show']);
+        Route::get('/pos-product/{product}', [ProductController::class, 'posProduct']);
+        Route::post('/', [ProductController::class, 'store']);
+        Route::match(['post', 'put', 'patch'], '/{product}', [ProductController::class, 'update']);
+        Route::delete('/{product}', [ProductController::class, 'destroy']);
+        Route::post('/upload-image/{product}', [ProductController::class, 'uploadImage']);
+        Route::get('/delete-image/{product}/{index}', [ProductController::class, 'deleteImage']);
+        Route::get('/export', [ProductController::class, 'export']);
+        Route::get('/generate-sku', [ProductController::class, 'generateSku']);
+        Route::post('/offer/{product}', [ProductController::class, 'productOffer']);
+        Route::get('/purchasable-product', [ProductController::class, 'purchasableProducts']);
+        Route::get('/simple-product', [ProductController::class, 'simpleProducts']);
+
+        Route::prefix('variation')->name('variation.')->group(function () {
+            Route::get('/{product}', [ProductVariationController::class, 'index']);
+            Route::get('/{product}/tree', [ProductVariationController::class, 'tree']);
+            Route::get('/{product}/single-tree', [ProductVariationController::class, 'singleTree']);
+            Route::get('/{product}/tree-with-selected', [ProductVariationController::class, 'treeWithSelected']);
+            Route::post('/{product}/store', [ProductVariationController::class, 'store']);
+            Route::match(['post', 'put', 'patch'], '/{product}/update/{productVariation}', [ProductVariationController::class, 'update']);
+            Route::delete('/{product}/destroy/{productVariation}', [ProductVariationController::class, 'destroy']);
+            Route::get('/{product}/show/{productVariation}', [ProductVariationController::class, 'show']);
+            Route::get('/ancestors-and-self/{productVariation}', [ProductVariationController::class, 'ancestorsToString']);
+        });
+
+        Route::get('/initial-variation/{product}', [ProductVariationController::class, 'initialVariation']);
+        Route::get('/children-variation/{productVariation}', [ProductVariationController::class, 'childrenVariation']);
+        Route::get('/ancestors-and-self-id/{productVariation}', [ProductVariationController::class, 'ancestorsAndSelfId']);
+    });
 
     Route::prefix('offer')->name('offer.')->group(function () {
         Route::get('/', [OfferController::class, 'index']);
@@ -353,6 +388,15 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/item/{offer}', [OfferItemController::class, 'index']);
         Route::post('/item/{offer}', [OfferItemController::class, 'store']);
         Route::delete('/item/{offer}/{offerItem}', [OfferItemController::class, 'destroy']);
+    });
+
+    Route::prefix('ingredients')->name('ingredients.')->group(function () {
+        Route::get('/', [IngredientsController::class, 'index']);
+        Route::get('/show/{ingredient}', [IngredientsController::class, 'show']);
+        Route::post('/', [IngredientsController::class, 'store']);
+        Route::match(['post', 'put', 'patch'], '/{ingredient}', [IngredientsController::class, 'update']);
+        Route::delete('/{ingredient}', [IngredientsController::class, 'destroy']);
+        Route::get('/export', [ItemController::class, 'export']);
     });
 
     Route::prefix('item')->name('item.')->group(function () {

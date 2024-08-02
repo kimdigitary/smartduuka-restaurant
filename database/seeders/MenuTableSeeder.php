@@ -39,6 +39,17 @@ class MenuTableSeeder extends Seeder
 
             ],
             [
+                'name'       => 'Ingredients',
+                'language'   => 'ingredients',
+                'url'        => 'ingredients',
+                'icon'       => 'lab lab-items',
+                'priority'   => 100,
+                'status'     => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+
+            ],
+            [
                 'name'       => 'Dining Tables',
                 'language'   => 'dining_tables',
                 'url'        => 'dining-tables',
@@ -93,7 +104,6 @@ class MenuTableSeeder extends Seeder
                     ]
                 ],
             ],
-
 
             [
                 'name'       => 'Kitchen',
