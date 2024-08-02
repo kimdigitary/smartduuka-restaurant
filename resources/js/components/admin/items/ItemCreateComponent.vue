@@ -65,7 +65,7 @@
                                         :value="enums.itemTypeEnum.VEG" class="custom-radio-field">
                                     <span class="custom-radio-span"></span>
                                 </div>
-                                <label for="veg" class="db-field-label">{{ $t('label.veg') }}</label>
+                                <label for="veg" class="db-field-label">Beverage</label>
                             </div>
                             <div class="db-field-radio">
                                 <div class="custom-radio">
@@ -73,7 +73,7 @@
                                         id="nonVeg" :value="enums.itemTypeEnum.NON_VEG">
                                     <span class="custom-radio-span"></span>
                                 </div>
-                                <label for="nonVeg" class="db-field-label">{{ $t('label.non_veg') }}</label>
+                                <label for="nonVeg" class="db-field-label">Non Beverage</label>
                             </div>
                         </div>
                     </div>

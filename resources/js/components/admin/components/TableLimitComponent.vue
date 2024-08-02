@@ -1,5 +1,5 @@
 <template>
-    <div v-if="page.total > 10" class="db-field-down-arrow">
+    <div v-if="page?.total > 10" class="db-field-down-arrow">
         <select @change="limitChange" v-model="search.per_page" class="db-card-filter-select">
             <option value="10">{{ $t('number.10') }}</option>
             <option value="25">{{ $t('number.25') }}</option>

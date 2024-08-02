@@ -4,6 +4,7 @@ namespace App\Libraries;
 
 use App\Enums\AmountType;
 use App\Enums\CurrencyPosition;
+use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,7 +22,15 @@ class AppLibrary
         }
         return Carbon::parse($date)->format($pattern);
     }
-
+    public static function sku($sku)
+    {
+        $productVariation = ProductVariation::where(['sku' => $sku])->first();
+        $product = Product::where(['sku' => $sku])->first();
+        if ($productVariation || $product) {
+            self::sku(rand(1, 99999999999));
+        }
+        return $sku;
+    }
     public static function time($time, $pattern = null): string
     {
         if (!$pattern) {

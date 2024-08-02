@@ -28,6 +28,7 @@ import expensesRoutes from "./modules/expensesRoutes";
 import categoriesRoutes from "./modules/categoriesRoutes";
 import KitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
+import ingredientsRoutes from "./modules/ingredientsRoutes";
 
 
 const baseRoutes = [
@@ -103,7 +104,8 @@ const routes = baseRoutes.concat(
     adminTableOrderRoutes,
     diningTableRoutes,
     expensesRoutes, categoriesRoutes,
-    kitchenOrderRoutes
+    kitchenOrderRoutes,
+    ingredientsRoutes
 );
 
 const permission = store.getters.authPermission;
