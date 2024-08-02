@@ -62,6 +62,48 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Ingredients',
+                'name'       => 'ingredients',
+                'guard_name' => 'sanctum',
+                'url'        => 'ingredients',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Ingredients Create',
+                        'name'       => 'ingredients_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Edit',
+                        'name'       => 'ingredients_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Delete',
+                        'name'       => 'ingredients_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Show',
+                        'name'       => 'ingredients_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
                 'title'      => 'Dining Tables',
                 'name'       => 'dining-tables',
                 'guard_name' => 'sanctum',
@@ -244,6 +286,7 @@ class PermissionTableSeeder extends Seeder
                     ]
                 ]
             ],
+
             [
                 'title'      => 'Table Orders',
                 'name'       => 'table-orders',
