@@ -19,7 +19,7 @@ class Ingredient extends Model implements HasMedia
         'id'             => 'integer',
         'name'           => 'string',
         'buying_price'   => 'integer',
-        'unit'           => 'integer',
+        'unit'           => 'string',
         'quantity'       => 'integer',
         'quantity_alert' => 'integer',
     ];

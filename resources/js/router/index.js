@@ -29,6 +29,7 @@ import categoriesRoutes from "./modules/categoriesRoutes";
 import KitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import ingredientsRoutes from "./modules/ingredientsRoutes";
+import ingredientsStockRoutes from "./modules/ingredientsStockRoutes";
 
 
 const baseRoutes = [
@@ -105,7 +106,8 @@ const routes = baseRoutes.concat(
     diningTableRoutes,
     expensesRoutes, categoriesRoutes,
     kitchenOrderRoutes,
-    ingredientsRoutes
+    ingredientsRoutes,
+    ingredientsStockRoutes
 );
 
 const permission = store.getters.authPermission;

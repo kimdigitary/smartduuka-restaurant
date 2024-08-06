@@ -5746,10 +5746,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
   }
 
-  .sm\:grid-cols-6 {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
   .sm\:flex-row {
     flex-direction: row;
   }
