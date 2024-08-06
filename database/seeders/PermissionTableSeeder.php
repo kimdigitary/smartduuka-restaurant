@@ -622,6 +622,14 @@ class PermissionTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'title'      => 'Ingredients & Items',
+                'name'       => 'ingredients_and_stock',
+                'guard_name' => 'sanctum',
+                'url'        => 'ingredients_and_stock',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'title'      => 'Kitchen Orders',
                 'name'       => 'kitchen-orders',
                 'guard_name' => 'sanctum',
