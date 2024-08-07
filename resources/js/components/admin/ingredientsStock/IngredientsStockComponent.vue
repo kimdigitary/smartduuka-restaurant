@@ -9,11 +9,11 @@
                 <i class="lab lab-company text-sm"></i>
                Ingredients
             </router-link>
-            <router-link :to="{ name: 'admin.settings.site' }" class="db-tab-btn">
-                <i class="lab lab-site  text-sm"></i>
-               Suppliers
+            <router-link :to="{ name: 'admin.settings.supplier' }" class="db-tab-btn">
+                <i class="lab lab-line-supplier text-sm"></i>
+                {{ $t("menu.suppliers") }}
             </router-link>
-            <router-link :to="{ name: 'admin.settings.branch' }" class="db-tab-btn">
+            <router-link :to="{ name: 'admin.ingredients_and_stock.stock_list' }" class="db-tab-btn">
                 <i class="lab lab-branches text-sm"></i>
                Ingredient Purchasing
             </router-link>

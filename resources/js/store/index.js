@@ -75,6 +75,8 @@ import {unit} from "./modules/unit";
 import {barcode} from "./modules/barcode";
 import {productCategory} from "./modules/productCategory";
 import {ingredient} from "./modules/ingredient";
+import {supplier} from "./modules/supplier";
+import {stock} from "./modules/stock";
 
 
 export default new createStore({
@@ -104,6 +106,8 @@ export default new createStore({
         administratorAddress,
         license,
         analytic,
+        supplier,
+        stock,
         analyticSection,
         role,
         permission,

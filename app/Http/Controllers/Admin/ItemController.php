@@ -39,6 +39,14 @@ class ItemController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+    public function purchasableItems()
+    {
+        try {
+            return ItemResource ::collection($this -> itemService -> purchasableProducts());
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception -> getMessage()], 422);
+        }
+    }
 
 
     public function show(Item $item): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory

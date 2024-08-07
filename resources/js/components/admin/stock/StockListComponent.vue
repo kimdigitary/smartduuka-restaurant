@@ -75,7 +75,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="db-table-body" v-if="stocks.length > 0">
+                    <tbody class="db-table-body" v-if="stocks?.length > 0">
                         <tr class="db-table-body-tr" v-for="stock in stocks" :key="stock">
                             <td class="db-table-body-td">
                                 {{ textShortener(stock.product_name, 40) }}

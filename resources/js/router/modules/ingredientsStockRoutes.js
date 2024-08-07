@@ -35,6 +35,11 @@ import SubscriptionCreateComponent from "../../components/admin/Subscription/Sub
 import IngredientsStockSettingsComponent
     from "../../components/admin/ingredientsStock/IngredientsStockSettingsComponent.vue";
 import IngredientsListComponent from "../../components/admin/ingredients/IngredientsListComponent.vue";
+import SupplierComponent from "../../components/admin/ingredientsStock/Supplier/SupplierComponent.vue";
+import SupplierListComponent from "../../components/admin/ingredientsStock/Supplier/SupplierListComponent.vue";
+import SupplierShowComponent from "../../components/admin/ingredientsStock/Supplier/SupplierShowComponent.vue";
+import StockListComponent from "../../components/admin/stock/StockListComponent.vue";
+import StockCreateOrEditComponent from "../../components/admin/stock/StockCreateAndEditComponent.vue";
 
 export default [
     {
@@ -61,6 +66,39 @@ export default [
                 },
             },
             {
+                path: "stock_list",
+                component: StockListComponent,
+                name: "admin.ingredients_and_stock.stock_list",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "ingredients_and_stock",
+                    breadcrumb: "ingredients_purchasing",
+                },
+            },
+            {
+                path: 'stock/create',
+                component: StockCreateOrEditComponent,
+                name: 'admin.ingredients_and_stock.stock.create',
+                meta: {
+                    isFrontend:false,
+                    auth:true,
+                    permissionUrl: 'stock_create',
+                    breadcrumb: 'create'
+                }
+            },
+            {
+                path: 'edit/:id',
+                component: StockCreateOrEditComponent,
+                name: 'admin.ingredients_and_stock.stock.edit',
+                meta: {
+                    isFrontend:false,
+                    auth:true,
+                    permissionUrl: 'stock_edit',
+                    breadcrumb: 'edit'
+                }
+            },
+            {
                 path: "ingredients-stock",
                 component: SiteComponent,
                 name: "admin.settings.site",
@@ -70,6 +108,42 @@ export default [
                     permissionUrl: "settings",
                     breadcrumb: "site",
                 },
+            },
+            {
+                path: "suppliers",
+                component: SupplierComponent,
+                name: "admin.settings.supplier",
+                redirect: { name: "admin.settings.supplier.list" },
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "suppliers",
+                },
+                children: [
+                    {
+                        path: "list",
+                        component: SupplierListComponent,
+                        name: "admin.settings.supplier.list",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "",
+                        },
+                    },
+                    {
+                        path: "show/:id",
+                        component: SupplierShowComponent,
+                        name: "admin.settings.supplier.show",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "view",
+                        },
+                    },
+                ],
             },
             {
                 path: "branches",

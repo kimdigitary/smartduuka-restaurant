@@ -44,11 +44,13 @@ use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PosOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductVariationController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\SimpleUserController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\SmsGatewayController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\ThemeController;
@@ -146,6 +148,14 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::prefix('company')->name('company.')->group(function () {
             Route::get('/', [CompanyController::class, 'index']);
             Route::match(['put', 'patch'], '/', [CompanyController::class, 'update']);
+        });
+
+        Route::prefix('supplier')->name('supplier.')->group(function () {
+            Route::get('/', [SupplierController::class, 'index']);
+            Route::get('/show/{supplier}', [SupplierController::class, 'show']);
+            Route::post('/', [SupplierController::class, 'store']);
+            Route::match(['post', 'put', 'patch'], '/{supplier}', [SupplierController::class, 'update']);
+            Route::delete('/{supplier}', [SupplierController::class, 'destroy']);
         });
 
         Route::prefix('site')->name('site.')->group(function () {
@@ -356,7 +366,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/export', [ProductController::class, 'export']);
         Route::get('/generate-sku', [ProductController::class, 'generateSku']);
         Route::post('/offer/{product}', [ProductController::class, 'productOffer']);
-        Route::get('/purchasable-product', [ProductController::class, 'purchasableProducts']);
+        Route::get('/purchasable-product', [ItemController::class, 'index']);
         Route::get('/simple-product', [ProductController::class, 'simpleProducts']);
 
         Route::prefix('variation')->name('variation.')->group(function () {
@@ -507,6 +517,22 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::prefix('credit-balance-report')->name('credit-balance-report.')->group(function () {
         Route::get('/', [CreditBalanceReportController::class, 'index']);
         Route::get('/export', [CreditBalanceReportController::class, 'export']);
+    });
+
+    Route::prefix('purchase')->name('purchase.')->group(function () {
+        Route::get('/', [PurchaseController::class, 'index']);
+        Route::post('/', [PurchaseController::class, 'store']);
+        Route::post('/store-stock', [PurchaseController::class, 'storeStock']);
+        Route::get('/show/{purchase}', [PurchaseController::class, 'show']);
+        Route::get('/edit/{purchase}', [PurchaseController::class, 'edit']);
+        Route::match(['post', 'put', 'patch'], '/update/{purchase}', [PurchaseController::class, 'update']);
+        Route::delete('/{purchase}', [PurchaseController::class, 'destroy']);
+        Route::get('/export', [PurchaseController::class, 'export']);
+        Route::get('/download-attachment/{purchase}', [PurchaseController::class, 'downloadAttachment']);
+        Route::get('/payment/{purchase}', [PurchaseController::class, 'paymentHistory']);
+        Route::post('/payment/{purchase}', [PurchaseController::class, 'payment']);
+        Route::get('/payment/download-attachment/{purchasePayment}', [PurchaseController::class, 'paymentDownloadAttachment']);
+        Route::delete('/payment/{purchase}/{purchasePayment}', [PurchaseController::class, 'paymentDestroy']);
     });
 
 
