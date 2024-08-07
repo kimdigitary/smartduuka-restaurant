@@ -8,6 +8,7 @@
     use App\Http\Requests\ProductOfferRequest;
     use App\Http\Requests\ProductRequest;
     use App\Http\Requests\ShippingAndReturnRequest;
+    use App\Http\Resources\ItemResource;
     use App\Http\Resources\ProductAdminResource;
     use App\Http\Resources\ProductDetailsAdminResource;
     use App\Http\Resources\SimpleProductDetailsResource;
@@ -15,7 +16,11 @@
     use App\Models\Product;
     use App\Services\ProductService;
     use Exception;
+    use Illuminate\Contracts\Routing\ResponseFactory;
+    use Illuminate\Foundation\Application;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+    use Illuminate\Http\Response;
     use Maatwebsite\Excel\Facades\Excel;
 
     class ProductController extends AdminController
@@ -35,7 +40,7 @@
 
 
         public function index(PaginateRequest $request
-        ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Response | AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return ProductAdminResource ::collection($this -> productService -> list($request));
             } catch (Exception $exception) {
@@ -44,7 +49,7 @@
         }
 
         public function show(Product $product
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Application | Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductDetailsAdminResource($this -> productService -> show($product));
             } catch (Exception $exception) {
@@ -53,7 +58,7 @@
         }
 
         public function store(ProductRequest $request
-        ) : \Illuminate\Http\Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductAdminResource($this -> productService -> store($request));
             } catch (Exception $exception) {
@@ -64,7 +69,7 @@
         public function update(
             ProductRequest $request,
             Product $product
-        ) : \Illuminate\Http\Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductAdminResource($this -> productService -> update($request, $product));
             } catch (Exception $exception) {
@@ -72,7 +77,7 @@
             }
         }
 
-        public function destroy(Product $product) : \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+        public function destroy(Product $product) : Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory
         {
             try {
                 $this -> productService -> destroy($product);
@@ -85,7 +90,7 @@
         public function uploadImage(
             ChangeImageRequest $request,
             Product $product
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Application | Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductDetailsAdminResource($this -> productService -> uploadImage($request, $product));
             } catch (Exception $exception) {
@@ -96,7 +101,7 @@
         public function deleteImage(
             Product $product,
             $index
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Application | Response | ProductDetailsAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductDetailsAdminResource($this -> productService -> deleteImage($product, $index));
             } catch (Exception $exception) {
@@ -105,7 +110,7 @@
         }
 
         public function export(PaginateRequest $request
-        ) : \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return Excel ::download(new ProductExport($this -> productService, $request), 'Product.xlsx');
             } catch (Exception $exception) {
@@ -114,7 +119,7 @@
         }
 
         public function generateSku(
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+        ) : Application | Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory
         {
             try {
                 return response(['data' => ['product_sku' => $this -> productService -> generateSku()]], 200);
@@ -126,7 +131,7 @@
         public function productOffer(
             ProductOfferRequest $request,
             Product $product
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : Application | Response | ProductAdminResource | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new ProductAdminResource($this -> productService -> productOffer($request, $product));
             } catch (Exception $exception) {
@@ -134,8 +139,7 @@
             }
         }
 
-        public function purchasableProducts(
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+        public function purchasableProducts() : Application | Response | AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | ResponseFactory
         {
             try {
                 return simpleProductWithVariationCountResource ::collection($this -> productService -> purchasableProducts());
@@ -144,8 +148,9 @@
             }
         }
 
+
         public function simpleProducts(
-        ) : \Illuminate\Foundation\Application | \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+        ) : Application | Response | AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | ResponseFactory
         {
             try {
                 return simpleProductWithVariationCountResource ::collection($this -> productService -> simpleProducts());
@@ -157,7 +162,7 @@
         public function posProduct(
             Product $product,
             Request $request
-        ) : SimpleProductDetailsResource | \Illuminate\Foundation\Application | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        ) : SimpleProductDetailsResource | Application | Response | \Illuminate\Contracts\Foundation\Application | ResponseFactory {
             try {
                 return new SimpleProductDetailsResource($this -> productService -> showWithRelation($product, $request));
             } catch (Exception $exception) {

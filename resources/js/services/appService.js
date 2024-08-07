@@ -39,6 +39,9 @@ export default {
             document.body.style.overflowY = "hidden";
         });
     },
+    floatFormat(amount, decimal = 2) {
+        return parseFloat(amount).toFixed(decimal);
+    },
 
     modalHide: function (id = ".modal") {
         let modalDivs = document?.querySelectorAll(id);
