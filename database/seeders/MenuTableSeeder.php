@@ -9,12 +9,7 @@ use Illuminate\Database\Seeder;
 
 class MenuTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $menus = [
             [
@@ -38,6 +33,7 @@ class MenuTableSeeder extends Seeder
                 'updated_at' => now()
 
             ],
+
             [
                 'name'       => 'Ingredients',
                 'language'   => 'ingredients',
@@ -59,6 +55,39 @@ class MenuTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
 
+            ],
+            [
+                'name'       => 'Items & Ingredients',
+                'language'   => 'menus',
+                'url'        => '#',
+                'icon'       => 'lab lab-pos',
+                'priority'   => 100,
+                'status'     => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'name'       => 'Menu Items',
+                        'url'        => 'items',
+                        'language'   => 'items',
+                        'icon'       => 'lab lab-pos',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+
+                    ],
+                    [
+                        'name'       => 'Ingredients & Stock',
+                        'language'   => 'ingredients_and_stock',
+                        'url'        => 'ingredients_and_stock',
+                        'icon'       => 'lab lab-pos-orders',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
+                ],
             ],
             [
                 'name'       => 'Pos & Orders',
