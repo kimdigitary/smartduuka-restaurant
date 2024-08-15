@@ -94,15 +94,15 @@
 </template>
 <script>
 import Datepicker from "@vuepic/vue-datepicker";
-import LoadingComponent from "../LoadingComponent.vue";
 import "@vuepic/vue-datepicker/dist/main.css";
-import SmModalCreateComponent from "../buttons/SmModalCreateComponent.vue";
 import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
-    name: "PurchasePaymentCreateComponent",
+    name: "ExpensePurchasePaymentCreateComponent",
     components: { SmModalCreateComponent, LoadingComponent, Datepicker },
     data() {
         return {

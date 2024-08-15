@@ -13,7 +13,7 @@ class StockTax extends Model
 
     protected $fillable = [
         'stock_id',
-        'product_id',
+        'item_id',
         'tax_id',
         'name',
         'code',

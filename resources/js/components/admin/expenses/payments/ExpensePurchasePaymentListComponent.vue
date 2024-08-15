@@ -57,15 +57,17 @@
 
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import SmIconDeleteComponent from "../buttons/SmIconDeleteComponent.vue";
-import LoadingComponent from "../LoadingComponent.vue";
-import SmModalCreateComponent from "../buttons/SmModalCreateComponent.vue";
+
+
 import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
-    name: "PurchasePaymentListComponent",
+    name: "ExpensePurchasePaymentListComponent",
     components: { SmModalCreateComponent, LoadingComponent, Datepicker, SmIconDeleteComponent },
     data() {
         return {

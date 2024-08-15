@@ -111,9 +111,9 @@
                             </td>
                             <td class="db-table-body-td hidden-print"
                                 v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')">
-                                <SmIconViewComponent :link="'admin.purchase.show'" :id="purchase.id"
+                                <SmIconViewComponent :link="'admin.ingredients_and_stock.purchase.show'" :id="purchase.id"
                                     v-if="permissionChecker('purchase_show')" />
-                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.purchase.edit'" :id="purchase.id"
+                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.ingredients_and_stock.purchase.edit'" :id="purchase.id"
                                     v-if="permissionChecker('purchase_edit')" />
                                 <SmIconDeleteComponent @click="destroy(purchase.id)"
                                     v-if="permissionChecker('purchase_delete')" />

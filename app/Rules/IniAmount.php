@@ -8,11 +8,6 @@ class IniAmount implements Rule
 {
     public $message = '';
     public $zero;
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct($zero = false)
     {
         $this->zero = $zero;
@@ -59,11 +54,6 @@ class IniAmount implements Rule
         return true;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
     public function message(): string
     {
         return $this->message;

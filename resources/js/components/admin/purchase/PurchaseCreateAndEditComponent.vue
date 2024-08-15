@@ -339,6 +339,7 @@ export default {
                     quantity: 1,
                     sku: product.sku,
                     tax_id: product.taxes,
+                    tax: product.tax,
                     price: product.buying_price,
                     discount: 0,
                     variation_id: 0,
@@ -382,15 +383,16 @@ export default {
             let total_tax = 0;
             let total_tax_rate = 0;
             let totalDiscount = this.selectedProduct.discount * this.selectedProduct.quantity;
-            if (this.selectedProduct.tax_id.length > 0) {
-                for (let i = 0; i < this.selectedProduct.tax_id.length; i++) {
-                    const id = this.selectedProduct.tax_id[i];
-                    const tax_rate = this.taxRateById(id);
-                    tax += +((this.selectedProduct.price * tax_rate) / 100);
-                    total_tax_rate += +tax_rate;
-                }
-                total_tax = tax * this.selectedProduct.quantity;
-            }
+            // if (this.selectedProduct.tax_id.length > 0) {
+            //     for (let i = 0; i < this.selectedProduct.tax_id.length; i++) {
+            //         const id = this.selectedProduct.tax_id[i];
+            //         const tax_rate = this.taxRateById(id);
+            //         tax += +((this.selectedProduct.price * tax_rate) / 100);
+            //         total_tax_rate += +tax_rate;
+            //     }
+            //     total_tax = tax * this.selectedProduct.quantity;
+            // }
+            total_tax = this.selectedProduct.tax.tax_rate
 
             let finalItem = {
                 mode: this.selectedProduct.mode,
@@ -437,7 +439,8 @@ export default {
             this.selectedProduct = {
                 name: product.name,
                 quantity: product.quantity,
-                tax_id: product.tax_id.length === 0 ? [] : product.tax_id,
+                // tax_id: product.tax_id.length === 0 ? [] : product.tax_id,
+                tax_id: product.tax_id,
                 price: product.price,
                 discount: product.discount,
                 variation_id: product.variation_id,
@@ -460,6 +463,7 @@ export default {
                 fd.append('reference_no', this.props.form.reference_no);
                 fd.append('subtotal', this.subtotal);
                 fd.append('tax', this.totalTax);
+                fd.append('tax_id', this.tax_id);
                 fd.append('discount', this.totalDiscount);
                 fd.append('total', this.totalPrice);
                 fd.append('status', this.props.form.status);

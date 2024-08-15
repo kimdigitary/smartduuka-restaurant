@@ -24,6 +24,7 @@ import sourceEnum from "./modules/sourceEnum";
 import roleEnum from './modules/roleEnum';
 import discountTypeEnum from './modules/discountTypeEnum';
 import switchEnum from './modules/switchEnum';
+import purchaseStatusEnum from "./modules/purchaseStatusEnum";
 
 export default {
     activityEnum,
@@ -45,6 +46,7 @@ export default {
     menuSectionEnum,
     categoryDesignEnum,
     itemDesignEnum,
+    purchaseStatusEnum,
     paymentStatusEnum,
     dayTakeEnum,
     isAdvanceOrderEnum,

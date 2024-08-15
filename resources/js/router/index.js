@@ -30,6 +30,7 @@ import KitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import ingredientsRoutes from "./modules/ingredientsRoutes";
 import ingredientsStockRoutes from "./modules/ingredientsStockRoutes";
+import purchaseRoutes from "./modules/purchaseRoutes";
 
 
 const baseRoutes = [
@@ -102,6 +103,7 @@ const routes = baseRoutes.concat(
     transactionRoutes,
     creditBalanceReportRoutes,
     tableOrderRoutes,
+    purchaseRoutes,
     adminTableOrderRoutes,
     diningTableRoutes,
     expensesRoutes, categoriesRoutes,

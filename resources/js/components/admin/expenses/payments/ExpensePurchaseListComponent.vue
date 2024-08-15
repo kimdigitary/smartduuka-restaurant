@@ -145,25 +145,31 @@
 
 
 <script lang="js">
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
-import PaginationBox from "../pagination/PaginationBox.vue";
-import PaginationSMBox from "../pagination/PaginationSMBox.vue";
-import PaginationTextComponent from "../pagination/PaginationTextComponent.vue";
-import TableLimitComponent from "../TableLimitComponent.vue";
-import FilterComponent from "../buttons/collapse/FilterComponent.vue";
-import PrintComponent from "../buttons/export/PrintComponent.vue";
-import ExcelComponent from "../buttons/export/ExcelComponent.vue";
-import ExportComponent from "../buttons/export/ExportComponent.vue";
+
 import Datepicker from "@vuepic/vue-datepicker";
-import SmIconViewComponent from "../buttons/SmIconViewComponent.vue";
-import SmIconDeleteComponent from "../buttons/SmIconDeleteComponent.vue";
-import LoadingComponent from "../LoadingComponent.vue";
-import SmIconSidebarModalEditComponent from "../buttons/SmIconSidebarModalEditComponent.vue";
-import SmIconEditComponent from "../buttons/SmIconEditComponent.vue";
+import ExpensePurchasePaymentCreateComponent from "./ExpensePurchasePaymentCreateComponent.vue";
+import ExpensePurchasePaymentListComponent from "./ExpensePurchasePaymentListComponent.vue";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import purchasePaymentStatusEnum from "../../../../enums/modules/purchasePaymentStatusEnum";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import appService from "../../../../services/appService";
+import alertService from "../../../../services/alertService";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import FilterComponent from "../../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
+import ExportComponent from "../../components/buttons/export/ExportComponent.vue";
+import SmIconViewComponent from "../../components/buttons/SmIconViewComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconEditComponent from "../../components/buttons/SmIconEditComponent.vue";
+
 
 export default {
-    name: 'PurchaseListComponent',
+    name: 'ExpensePurchaseListComponent',
     components: {
         PaginationBox,
         PaginationSMBox,
@@ -179,8 +185,8 @@ export default {
         LoadingComponent,
         SmIconSidebarModalEditComponent,
         SmIconEditComponent,
-        PurchasePaymentCreateComponent,
-        PurchasePaymentListComponent
+        ExpensePurchasePaymentCreateComponent,
+        ExpensePurchasePaymentListComponent
     },
     data() {
         return {

@@ -146,16 +146,16 @@
 </template>
 
 <script>
-import LoadingComponent from "../LoadingComponent.vue";
+
 import SmIconEditComponent from "../buttons/SmIconEditComponent.vue";
 import PrintButtonComponent from "../buttons/PrintButtonComponent.vue";
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
-
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
-    name: 'PurchaseShowComponent',
+    name: 'ExpensePurchaseShowComponent',
     components: {
         LoadingComponent,
         SmIconEditComponent,

@@ -31,6 +31,8 @@ class ItemResource extends JsonResource
             "price"            => $this->price,
             "item_type"        => $this->item_type,
             "is_featured"      => $this->is_featured,
+            "is_stockable"      => $this->is_stockable,
+            "buying_price"      => $this->buying_price,
             "status"           => $this->status,
             "description"      => $this->description === null ? '' : $this->description,
             "caution"          => $this->caution === null ? '' : $this->caution,

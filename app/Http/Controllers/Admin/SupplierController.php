@@ -8,6 +8,9 @@ use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
 use App\Services\SupplierService;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class SupplierController extends AdminController
 {
@@ -20,7 +23,7 @@ class SupplierController extends AdminController
         $this->middleware(['permission:settings'])->only('store', 'update', 'destroy', 'show');
     }
 
-    public function index(PaginateRequest $request): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return SupplierResource::collection($this->supplierService->list($request));
@@ -29,7 +32,7 @@ class SupplierController extends AdminController
         }
     }
 
-    public function store(SupplierRequest $request): \Illuminate\Http\Response | SupplierResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function store(SupplierRequest $request): Response | SupplierResource | Application | ResponseFactory
     {
         try {
             return new SupplierResource($this->supplierService->store($request));
@@ -38,7 +41,7 @@ class SupplierController extends AdminController
         }
     }
 
-    public function update(SupplierRequest $request, Supplier $supplier): \Illuminate\Http\Response | SupplierResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function update(SupplierRequest $request, Supplier $supplier): Response | SupplierResource | Application | ResponseFactory
     {
         try {
             return new SupplierResource($this->supplierService->update($request, $supplier));
@@ -47,7 +50,7 @@ class SupplierController extends AdminController
         }
     }
 
-    public function destroy(Supplier $supplier): \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(Supplier $supplier): Response | Application | ResponseFactory
     {
         try {
             $this->supplierService->destroy($supplier);
@@ -57,7 +60,7 @@ class SupplierController extends AdminController
         }
     }
 
-    public function show(Supplier $supplier): \Illuminate\Http\Response | SupplierResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function show(Supplier $supplier): Response | SupplierResource | Application | ResponseFactory
     {
         try {
             return new SupplierResource($this->supplierService->show($supplier));

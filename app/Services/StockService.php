@@ -34,7 +34,7 @@ class StockService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            $stocks =  Stock::with('product')->where('status', Status::ACTIVE)->where(function ($query) use ($requests) {
+            $stocks =  Stock::with('item')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->stockFilter)) {
                         if ($key == "product_name") {
@@ -48,23 +48,21 @@ class StockService
                 }
             })->orderBy($orderColumn, $orderType)->get();
 
-            if (!blank($stocks)) {
-                $stocks->groupBy('product_id')?->map(function ($product) {
-                    $product->groupBy('item_id')?->map(function ($item) {
-                        $this->items[] = [
-                            'product_id'         => $item->first()['product_id'],
-                            'product_name'       => $item->first()['product']['name'],
-                            'variation_names'    => $item->first()['variation_names'],
-                            'status'             => $item->first()['product']['status'],
-                            'stock'              => $item->first()['product']['can_purchasable'] === Ask::NO ? "N/C" : $item->sum('quantity'),
-
-                        ];
-                    });
-                });
-            } else {
-                $this->items = [];
-            }
-
+//            if (!blank($stocks)) {
+//                $stocks->groupBy('item_id')?->map(function ($item) {
+//                    $item->groupBy('item_id')?->map(function ($item) {
+//                        $this->items[] = [
+//                            'product_id'         => $item->first()['product_id'],
+//                            'product_name'       => $item->first()['product']['name'],
+//                            'status'             => $item->first()['product']['status'],
+//                            'stock'              =>  $item->sum('quantity'),
+//                        ];
+//                    });
+//                });
+//            } else {
+//                $this->items = [];
+//            }
+            $this->items = $stocks;
             if ($method == 'paginate') {
                 return $this->paginate($this->items, $methodValue, null, URL::to('/') . '/api/admin/stock');
             }
@@ -99,7 +97,6 @@ class StockService
         if ($baseUrl) {
             $lap->setPath($baseUrl);
         }
-
         return $lap;
     }
 }

@@ -71,6 +71,43 @@ class ItemService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+    public function purchasableList(PaginateRequest $request)
+    {
+        try {
+            $requests    = $request->all();
+            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType   = $request->get('order_type') ?? 'desc';
+
+            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
+                $query->where('is_stockable', Ask::YES);
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->itemFilter)) {
+                        if ($key == "except") {
+                            $explodes = explode('|', $request);
+                            if (count($explodes)) {
+                                foreach ($explodes as $explode) {
+                                    $query->where('id', '!=', $explode);
+                                }
+                            }
+                        } else {
+                            if ($key == "item_category_id") {
+                                $query->where($key, $request);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method(
+                $methodValue
+            );
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
 
     /**
      * @throws Exception

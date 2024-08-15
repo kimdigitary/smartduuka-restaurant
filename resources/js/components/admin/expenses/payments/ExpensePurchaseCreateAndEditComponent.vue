@@ -206,15 +206,19 @@
 </template>
 
 <script lang="js">
+
 import Datepicker from "@vuepic/vue-datepicker";
-import SmIconDeleteComponent from "../buttons/SmIconDeleteComponent.vue";
-import LoadingComponent from "../LoadingComponent.vue";
-import SmIconSidebarModalEditComponent from "../buttons/SmIconSidebarModalEditComponent.vue";
 import {quillEditor} from "vue3-quill";
-import ProductModalComponent from "../product/ProductModalComponent.vue";
+
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+
+import ProductModalComponent from "../../components/product/ProductModalComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
-    name: 'PurchaseCreateAndEditComponent',
+    name: 'ExpensePurchaseCreateAndEditComponent',
     components: {
         Datepicker,
         quillEditor,
@@ -379,16 +383,17 @@ export default {
             let total_tax = 0;
             let total_tax_rate = 0;
             let totalDiscount = this.selectedProduct.discount * this.selectedProduct.quantity;
-            if (this.selectedProduct.tax_id.length > 0) {
-                for (let i = 0; i < this.selectedProduct.tax_id.length; i++) {
-                    const id = this.selectedProduct.tax_id[i];
-                    const tax_rate = this.taxRateById(id);
-                    tax += +((this.selectedProduct.price * tax_rate) / 100);
-                    total_tax_rate += +tax_rate;
-                }
-                total_tax = tax * this.selectedProduct.quantity;
-            }
-
+            // if (this.selectedProduct.tax_id.length > 0) {
+            //     for (let i = 0; i < this.selectedProduct.tax_id.length; i++) {
+            //         const id = this.selectedProduct.tax_id[i];
+            //         // const tax_rate = this.taxRateById(id);
+            //         const tax_rate = 0;
+            //         // tax += +((this.selectedProduct.price * tax_rate) / 100);
+            //         total_tax_rate = 0;
+            //     }
+            //     total_tax = tax * this.selectedProduct.quantity;
+            // }
+                total_tax = this.selectedProduct.tax.tax_rate;
             let finalItem = {
                 mode: this.selectedProduct.mode,
                 name: this.selectedProduct.name,
