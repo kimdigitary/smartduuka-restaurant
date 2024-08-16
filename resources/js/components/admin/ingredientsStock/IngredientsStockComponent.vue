@@ -11,7 +11,11 @@
             </router-link>
             <router-link :to="{ name: 'admin.ingredients_and_stock.purchase' }" class="db-tab-btn">
                 <i class="lab lab-company text-sm"></i>
-               Purchase
+               Purchase Item
+            </router-link>
+            <router-link :to="{ name: 'admin.ingredients_and_stock.purchase.ingredient' }" class="db-tab-btn">
+                <i class="lab lab-company text-sm"></i>
+               Purchase Ingredient
             </router-link>
             <router-link :to="{ name: 'admin.ingredients_and_stock.stock_list' }" class="db-tab-btn">
                 <i class="lab lab-branches text-sm"></i>

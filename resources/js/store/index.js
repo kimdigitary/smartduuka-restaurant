@@ -79,6 +79,8 @@ import {supplier} from "./modules/supplier";
 import {stock} from "./modules/stock";
 import {productVariation} from "./modules/productVariation";
 import {purchase} from "./modules/purchase";
+import {ingredientPurchase} from "./modules/ingredientPurchase";
+import {ingredientProduct} from "./modules/ingredientProduct";
 
 
 export default new createStore({
@@ -104,6 +106,7 @@ export default new createStore({
         customerAddress,
         otp,
         purchase,
+        ingredientPurchase,
         administrator,
         defaultAccess,
         administratorAddress,
@@ -160,6 +163,7 @@ export default new createStore({
         expense,
         product,
         productBrand,
+        ingredientProduct,
         unit,
         barcode,
         productCategory,

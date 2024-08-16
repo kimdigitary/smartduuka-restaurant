@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ItemExport;
+use App\Http\Resources\IngredientResource;
 use Exception;
 use App\Models\Item;
 use App\Services\ItemService;
@@ -51,10 +52,10 @@ class ItemController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function purchasableItems()
+    public function purchasableIngredients(PaginateRequest $request)
     {
         try {
-            return ItemResource ::collection($this -> itemService -> purchasableProducts());
+            return IngredientResource ::collection($this->itemService->purchasableIngredientsList($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception -> getMessage()], 422);
         }

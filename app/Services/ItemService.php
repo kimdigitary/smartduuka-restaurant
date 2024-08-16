@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Enums\Ask;
 use App\Enums\Status;
+use App\Models\Ingredient;
 use Exception;
 use App\Models\Item;
 use Illuminate\Support\Str;
@@ -103,6 +104,44 @@ class ItemService
             })->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
             );
+
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+    public function purchasableIngredientsList(PaginateRequest $request)
+    {
+        try {
+            $requests    = $request->all();
+            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType   = $request->get('order_type') ?? 'desc';
+
+            return Ingredient::where(function ($query) use ($requests) {
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->itemFilter)) {
+                        if ($key == "except") {
+                            $explodes = explode('|', $request);
+                            if (count($explodes)) {
+                                foreach ($explodes as $explode) {
+                                    $query->where('id', '!=', $explode);
+                                }
+                            }
+                        } else {
+                            if ($key == "item_category_id") {
+                                $query->where($key, $request);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method(
+                $methodValue
+            );
+
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

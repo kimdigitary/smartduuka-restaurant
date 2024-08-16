@@ -1,5 +1,5 @@
 <template>
-    <LoadingComponent :props="loading"/>
+    <LoadingComponent :props="loading" />
     <div class="col-12">
         <form @submit.prevent="save" class="block w-full">
             <div class="db-card mb-6">
@@ -10,11 +10,11 @@
                     <div class="row">
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title required">{{
-                                    $t("label.date")
-                                }}</label>
+                                $t("label.date")
+                            }}</label>
                             <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="true"
-                                        :is24="false" :monthChangeOnScroll="false" utc="false"
-                                        :input-class-name="errors.date ? 'invalid' : ''">
+                                :is24="false" :monthChangeOnScroll="false" utc="false"
+                                :input-class-name="errors.date ? 'invalid' : ''">
                                 <template #am-pm-button="{ toggle, value }">
                                     <button @click="toggle">{{ value }}</button>
                                 </template>
@@ -25,47 +25,44 @@
                         </div>
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title ">{{
-                                    $t("label.reference_no")
-                                }}</label>
+                                $t("label.reference_no")
+                            }}</label>
                             <input name="reference_no" v-model="props.form.reference_no" type="text"
-                                   class="db-field-control"/>
-                            <small class="db-field-alert" v-if="errors.reference_no">{{
-                                    errors.reference_no[0]
-                                }}</small>
+                                class="db-field-control" />
+                            <small class="db-field-alert" v-if="errors.reference_no">{{ errors.reference_no[0] }}</small>
                         </div>
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title required">{{
-                                    $t("label.status")
-                                }}</label>
+                                $t("label.status")
+                            }}</label>
 
                             <vue-select v-model="props.form.status" class="db-field-control f-b-custom-select"
-                                        :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
-                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                        search-placeholder="--"/>
+                                :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
+                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                search-placeholder="--" />
                             <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
                         </div>
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title ">{{
-                                    $t("label.attachments")
-                                }}</label>
+                                $t("label.attachments")
+                            }}</label>
                             <input @change="changeFile" v-bind:class="errors.file ? 'invalid' : ''" type="file"
-                                   ref="fileProperty" accept="image/png , image/jpeg, image/jpg , application/pdf "
-                                   class="db-field-control cursor-pointer" id="image"/>
+                                ref="fileProperty" accept="image/png , image/jpeg, image/jpg , application/pdf "
+                                class="db-field-control cursor-pointer" id="image" />
                             <small class="db-field-alert" v-if="errors.file">{{
-                                    errors.file[0]
-                                }}</small>
+                                errors.file[0]
+                            }}</small>
                         </div>
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title required">{{ $t("label.supplier") }}</label>
 
                             <vue-select v-model="props.form.supplier_id" class="db-field-control f-b-custom-select"
-                                        :options="suppliers" label-by="name" value-by="id" :closeOnSelect="true"
-                                        :searchable="true"
-                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
+                                :options="suppliers" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
+                                :clearOnClose="true" placeholder="--" search-placeholder="--" />
 
                             <small class="db-field-alert" v-if="errors.supplier_id">{{
-                                    errors.supplier_id[0]
-                                }}</small>
+                                errors.supplier_id[0]
+                            }}</small>
                         </div>
                         <div class="form-col-12">
                             <div class="rounded-lg border border-amber-100">
@@ -75,22 +72,19 @@
                                 <div class="row p-5">
                                     <div class="form-col-12 ">
                                         <label class="db-field-title required">{{
-                                                $t("label.add_products")
-                                            }}</label>
+                                            $t("label.add_products")
+                                        }}</label>
                                         <div class="relative w-full h-12">
                                             <button type="button"
-                                                    class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
-                                            <vue-select class="h-full pr-4 pl-11" v-model="productId"
-                                                        :options="products"
-                                                        label-by="name" value-by="id" :closeOnSelect="true"
-                                                        :searchable="true"
-                                                        :clearOnClose="true" :placeholder="$t('label.select_one')"
-                                                        search-placeholder="--"
-                                                        @update:modelValue="selectProduct($event)"/>
+                                                class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
+                                            <vue-select class="h-full pr-4 pl-11" v-model="productId" :options="products"
+                                                label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
+                                                :clearOnClose="true" :placeholder="$t('label.select_one')"
+                                                search-placeholder="--" @update:modelValue="selectProduct($event)" />
                                         </div>
                                         <small class="db-field-alert" v-if="errors.products">{{
-                                                errors.products[0]
-                                            }}</small>
+                                            errors.products[0]
+                                        }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -101,70 +95,75 @@
                             <div class="db-table-responsive border rounded-md">
                                 <table class="db-table">
                                     <thead class="db-table-head border-t-0">
-                                    <tr class="db-table-head-tr">
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.product") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.unit_cost") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.quantity") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.sub_total") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.actions") }}
-                                        </th>
-                                    </tr>
+                                        <tr class="db-table-head-tr">
+                                            <th class="db-table-head-th">
+                                                {{ $t("label.product") }}
+                                            </th>
+                                            <th class="db-table-head-th">
+                                                {{ $t("label.unit_cost") }}
+                                            </th>
+                                            <th class="db-table-head-th">
+                                                {{ $t("label.quantity") }}
+                                            </th>
+                                            <th class="db-table-head-th">
+                                                {{ $t("label.sub_total") }}
+                                            </th>
+                                            <th class="db-table-head-th">
+                                                {{ $t("label.actions") }}
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody class="db-table-body">
-                                    <tr v-for="(item, index) of datatable" :key="index" class="db-table-body-tr">
-                                        <td class="db-table-body-td font-medium">
-                                            {{ item.name }}
-                                            <span v-if="item.variation_names">
+                                        <tr v-for="(item, index) of datatable" :key="index" class="db-table-body-tr">
+                                            <td class="db-table-body-td font-medium">
+                                                {{ item.name }}
+                                                <span v-if="item.variation_names">
                                                     ( {{ $t('label.variation') }} : {{ item.variation_names }})
                                                 </span>
-                                        </td>
-                                        <td class="db-table-body-td">
-                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
-                                                   v-model="item.price" @click=" $event.target.select()" type="number"
-                                                   min="1" class="db-field-control">
-                                        </td>
-                                        <td class="db-table-body-td">
-                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
-                                                   v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
-                                        </td>
-                                        <td class="db-table-body-td">
-                                            {{ floatFormat(item.total) }}
-                                        </td>
-                                        <td class="db-table-body-td">
-                                            <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)"/>
-                                            <SmIconDeleteComponent @click.prevent="removeProduct(index)"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="db-table-body-td" colspan="2">{{ $t('label.total') }}</th>
-                                        <th class="db-table-body-td ">
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                {{ floatFormat(item.price) }}
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
+                                                    v-model="item.quantity" @click=" $event.target.select()" type="number"
+                                                    min="1" class="db-field-control">
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                {{ Number(item.total_discount) === 0 ? "" : "-" }}
+                                                {{ floatFormat(item.total_discount) }}
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                {{ floatFormat(item.total_tax) }}
+                                                ({{ floatFormat(item.total_tax_rate) }}%)
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                {{ floatFormat(item.total) }}
+                                            </td>
+                                            <td class="db-table-body-td">
+                                                <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)" />
+                                                <SmIconDeleteComponent @click.prevent="removeProduct(index)" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="db-table-body-td" colspan="2">{{ $t('label.total') }}</th>
+                                            <th class="db-table-body-td ">
                                                 <span class="pl-3">
                                                     {{ Number.isInteger(totalQuantity) ? totalQuantity : 0 }}
                                                 </span>
-                                        </th>
-                                        <th class="db-table-body-td">
-                                            {{ floatFormat(totalPrice) }}
-                                        </th>
-                                        <th class="db-table-body-td"></th>
-                                    </tr>
+                                            </th>
+                                            <th class="db-table-body-td">
+                                                {{ floatFormat(totalPrice) }}
+                                            </th>
+                                            <th class="db-table-body-td"></th>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
                         <ProductModalComponent :item="selectedProduct" :modal="modal" :productId="this.productId"
-                                               v-on:submitItem="modalSubmit" ref="productModal"/>
+                            v-on:submitItem="modalSubmit" ref="productModal" />
                     </div>
                     <div class="row pt-5">
                         <div class="form-col-12">
@@ -172,62 +171,14 @@
                                 <label class="db-field-title">
                                     {{ $t("label.note") }}
                                 </label>
-                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius"/>
+                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius" />
                                 <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
-                            </div>
-                        </div>
-                        <p class="my-5 form-col-12">Add Payment</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                            <div>
-                                <label for="paymentAmount" class="db-field-title">Amount</label>
-                                <input v-model="props.form.paymentAmount"
-                                       v-bind:class="errors.paymentAmount ? 'invalid' : ''" type="number"
-                                       id="paymentAmount" class="db-field-control">
-                                <small class="db-field-alert" v-if="errors.paymentAmount">
-                                    {{ errors.paymentAmount }}
-                                </small>
-                            </div>
-                            <div class="">
-                                <label for="searchStartDate" class="db-field-title after:hidden">Paid On</label>
-                                <Datepicker hideInputIcon autoApply v-model="props.form.paidOn"
-                                            :enableTimePicker="false"
-                                            :is24="false" :monthChangeOnScroll="false" utc="false">
-                                    <template #am-pm-button="{ toggle, value }">
-                                        <button @click="toggle">{{ value }}</button>
-                                    </template>
-                                </Datepicker>
-                                <small class="db-field-alert" v-if="errors.paidOn">{{ errors.paidOn }}</small>
-                            </div>
-                            <div class="">
-                                <label for="unit" class="db-field-title required">Payment Method</label>
-                                <vue-select class="db-field-control f-b-custom-select" id="unit_id"
-                                            v-bind:class="errors.paymentMethod ? 'invalid' : ''"
-                                            v-model="props.form.paymentMethod" :options="paymentMethods"
-                                            label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                            :clearOnClose="true"
-                                            placeholder="--" search-placeholder="--"/>
-                                <small class="db-field-alert" v-if="errors.paymentMethod">
-                                    {{ errors.paymentMethod }}
-                                </small>
-                            </div>
-                            <div class=""
-                                 v-show="props.form.paymentMethod===2 || props.form.paymentMethod===3 || props.form.paymentMethod===4 ">
-                                <label for="maximum_purchase_quantity" class="db-field-title required">{{
-                                        referenceLabel
-                                    }}</label>
-                                <input v-model="props.form.referenceNo"
-                                       v-bind:class="errors.referenceNo ? 'invalid' : ''" type="text"
-                                       id="maximum_purchase_quantity" class="db-field-control">
-
-                                <small class="db-field-alert" v-if="errors.referenceNo">
-                                    {{ errors.referenceNo }}
-                                </small>
                             </div>
                         </div>
                         <div class="form-col-12">
                             <div class="flex flex-wrap gap-3">
                                 <button v-if="permissionChecker('purchase_create')" type="submit"
-                                        class="db-btn text-white bg-primary">
+                                    class="db-btn text-white bg-primary">
                                     <i class="fa-solid fa-circle-check"></i>
                                     <span class="tracking-wide">
                                         {{ $t("button.save") }}
@@ -236,7 +187,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -253,10 +203,9 @@ import ProductModalComponent from "../components/product/ProductModalComponent"
 import appService from '../../../services/appService';
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import {paymentMethods} from "../../../utils/data";
 
 export default {
-    name: 'PurchaseCreateAndEditComponent',
+    name: 'IngredientPurchaseCreateAndEditComponent',
     components: {
         Datepicker,
         quillEditor,
@@ -280,9 +229,9 @@ export default {
             enums: {
                 statusEnum: purchaseStatusEnum,
                 statusEnumArray: [
-                    {statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending')},
-                    {statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered')},
-                    {statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received')},
+                    { statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending') },
+                    { statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered') },
+                    { statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received') },
                 ]
             },
             props: {
@@ -310,23 +259,21 @@ export default {
                 is_variation: false,
                 mode: 'add'
             },
-            dataTableIndex: null,
-            recurringOptions: [],
-            paymentMethods: [],
+            dataTableIndex: null
         }
     },
     mounted() {
         this.productList();
-        this.$store.dispatch('supplier/lists', {page: 1});
+        this.$store.dispatch('supplier/lists', { page: 1 });
         this.purchaseInfo();
-        this.paymentMethods = paymentMethods
     },
     computed: {
         setting: function () {
             return this.$store.getters['frontendSetting/lists']
         },
         products: function () {
-            return this.$store.getters['product/purchasableList'];
+            // return this.$store.getters['product/purchasableList'];
+            return this.$store.getters['ingredientProduct/purchasableList'];
         },
         subtotal: function () {
             return this.datatable.reduce((sum, item) => {
@@ -356,16 +303,6 @@ export default {
                 return sum + +item.total_tax;
             }, 0);
         },
-        referenceLabel() {
-            switch (this.props.form.paymentMethod) {
-                case 2:
-                    return 'Phone Number'
-                case 3:
-                    return 'Check No.'
-                case 4:
-                    return 'Account Number'
-            }
-        }
     },
     methods: {
         permissionChecker(e) {
@@ -444,7 +381,8 @@ export default {
             //     }
             //     total_tax = tax * this.selectedProduct.quantity;
             // }
-            total_tax = this.selectedProduct.tax.tax_rate
+
+            total_tax = 0
 
             let finalItem = {
                 mode: this.selectedProduct.mode,
@@ -526,12 +464,12 @@ export default {
                 }
                 this.loading.isActive = true;
                 const tempId = this.$store.getters['purchase/temp'].temp_id;
-                this.$store.dispatch('purchase/save', {form: fd})
+                this.$store.dispatch('purchase/save', { form: fd })
                     .then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));
                         this.reset();
-                        this.$router.push({name: 'admin.purchase.list'});
+                        this.$router.push({ name: 'admin.purchase.list' });
                     })
                     .catch((err) => {
                         this.loading.isActive = false;
@@ -557,7 +495,7 @@ export default {
         },
         productList: function () {
             this.loading.isActive = true;
-            this.$store.dispatch('product/getPurchasableProduct').then(res => {
+            this.$store.dispatch('ingredientProduct/getPurchasableProduct').then(res => {
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;

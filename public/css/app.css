@@ -4704,6 +4704,10 @@ input:checked + div svg {
   --tw-text-opacity: 1;
   color: rgb(110 113 145 / var(--tw-text-opacity));
 }
+.text-\[\#7F56F0\] {
+  --tw-text-opacity: 1;
+  color: rgb(127 86 240 / var(--tw-text-opacity));
+}
 .text-\[\#A0A3BD\] {
   --tw-text-opacity: 1;
   color: rgb(160 163 189 / var(--tw-text-opacity));
@@ -4811,10 +4815,6 @@ input:checked + div svg {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.text-\[\#7F56F0\] {
-  --tw-text-opacity: 1;
-  color: rgb(127 86 240 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;

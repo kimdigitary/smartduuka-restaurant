@@ -368,6 +368,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/generate-sku', [ProductController::class, 'generateSku']);
         Route::post('/offer/{product}', [ProductController::class, 'productOffer']);
         Route::get('/purchasable-product', [ItemController::class, 'purchasable']);
+        Route::get('/purchasable-ingredient', [ItemController::class, 'purchasableIngredients']);
         Route::get('/simple-product', [ProductController::class, 'simpleProducts']);
 
         Route::prefix('variation')->name('variation.')->group(function () {
