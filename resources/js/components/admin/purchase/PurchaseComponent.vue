@@ -17,7 +17,7 @@
         <div id="purchasePaymentList" class="modal">
             <div class="modal-dialog max-w-3xl">
                 <div class="modal-header border-b-0">
-                    <h3 class="modal-title">{{ $t("menu.purchase_payments") }}</h3>
+                    <h3 class="modal-title">{{ $t("menu.purchase_payments") }} </h3>
                     <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                         @click="reset"></button>
                 </div>

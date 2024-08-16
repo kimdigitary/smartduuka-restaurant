@@ -179,49 +179,59 @@
                         <p class="my-5 form-col-12">Add Payment</p>
                         <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
                             <div>
-                                <label for="paymentAmount" class="db-field-title">Amount</label>
-                                <input v-model="props.form.paymentAmount"
-                                       v-bind:class="errors.paymentAmount ? 'invalid' : ''" type="number"
-                                       id="paymentAmount" class="db-field-control">
-                                <small class="db-field-alert" v-if="errors.paymentAmount">
-                                    {{ errors.paymentAmount }}
+                                <label for="amount" class="db-field-title">Amount</label>
+                                <input v-model="props.form.amount"
+                                       v-bind:class="errors.amount ? 'invalid' : ''" type="number"
+                                       id="amount" class="db-field-control">
+                                <small class="db-field-alert" v-if="errors.amount">
+                                    {{ errors.amount }}
                                 </small>
                             </div>
                             <div class="">
                                 <label for="searchStartDate" class="db-field-title after:hidden">Paid On</label>
-                                <Datepicker hideInputIcon autoApply v-model="props.form.paidOn"
+                                <Datepicker hideInputIcon autoApply v-model="props.form.payment_date"
                                             :enableTimePicker="false"
                                             :is24="false" :monthChangeOnScroll="false" utc="false">
                                     <template #am-pm-button="{ toggle, value }">
                                         <button @click="toggle">{{ value }}</button>
                                     </template>
                                 </Datepicker>
-                                <small class="db-field-alert" v-if="errors.paidOn">{{ errors.paidOn }}</small>
+                                <small class="db-field-alert" v-if="errors.payment_date">{{ errors.payment_date }}</small>
                             </div>
                             <div class="">
                                 <label for="unit" class="db-field-title required">Payment Method</label>
                                 <vue-select class="db-field-control f-b-custom-select" id="unit_id"
-                                            v-bind:class="errors.paymentMethod ? 'invalid' : ''"
-                                            v-model="props.form.paymentMethod" :options="paymentMethods"
+                                            v-bind:class="errors.payment_method ? 'invalid' : ''"
+                                            v-model="props.form.payment_method" :options="paymentMethods"
                                             label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                             :clearOnClose="true"
                                             placeholder="--" search-placeholder="--"/>
-                                <small class="db-field-alert" v-if="errors.paymentMethod">
-                                    {{ errors.paymentMethod }}
+                                <small class="db-field-alert" v-if="errors.payment_method">
+                                    {{ errors.payment_method }}
                                 </small>
                             </div>
                             <div class=""
-                                 v-show="props.form.paymentMethod===2 || props.form.paymentMethod===3 || props.form.paymentMethod===4 ">
+                                 v-show="props.form.payment_method===2 || props.form.payment_method===3 || props.form.payment_method===4 ">
                                 <label for="maximum_purchase_quantity" class="db-field-title required">{{
                                         referenceLabel
                                     }}</label>
-                                <input v-model="props.form.referenceNo"
-                                       v-bind:class="errors.referenceNo ? 'invalid' : ''" type="text"
+                                <input v-model="props.form.reference_no"
+                                       v-bind:class="errors.reference_no ? 'invalid' : ''" type="text"
                                        id="maximum_purchase_quantity" class="db-field-control">
 
-                                <small class="db-field-alert" v-if="errors.referenceNo">
-                                    {{ errors.referenceNo }}
+                                <small class="db-field-alert" v-if="errors.reference_no">
+                                    {{ errors.reference_no }}
                                 </small>
+                            </div>
+                            <div class="form-col-12">
+                                <label for="file" class="db-field-title">
+                                    {{ $t("label.file") }}
+                                </label>
+                                <input @change="changePaymentFile" v-bind:class="errors.paymentFile ? 'invalid' : ''" id="payment-file" type="file"
+                                       class="db-field-control" ref="paymentFileProperty" accept="file/png, file/jpeg, file/jpg" />
+                                <small class="db-field-alert" v-if="errors.paymentFile">{{
+                                        errors.paymentFile[0]
+                                    }}</small>
                             </div>
                         </div>
                         <div class="form-col-12">
@@ -268,6 +278,7 @@ export default {
     data() {
         return {
             file: "",
+            paymentFile: "",
             productId: null,
             errors: {},
             datatable: [],
@@ -294,6 +305,11 @@ export default {
                     total: null,
                     status: null,
                     note: "",
+                    amount: "",
+                    payment_date: "",
+                    payment_method: "",
+                    paymentMethods: "",
+                    payment_reference_no: "",
                     products: []
                 }
             },
@@ -357,7 +373,7 @@ export default {
             }, 0);
         },
         referenceLabel() {
-            switch (this.props.form.paymentMethod) {
+            switch (this.props.form.payment_method) {
                 case 2:
                     return 'Phone Number'
                 case 3:
@@ -373,6 +389,9 @@ export default {
         },
         changeFile: function (e) {
             this.file = e.target.files[0];
+        },
+        changePaymentFile: function (e) {
+            this.paymentFile = e.target.files[0];
         },
         floatFormat: function (num) {
             return appService.floatFormat(num, this.setting.site_digit_after_decimal_point);
@@ -521,8 +540,15 @@ export default {
                 fd.append('status', this.props.form.status);
                 fd.append('note', this.props.form.note);
                 fd.append('products', JSON.stringify(this.datatable));
+                fd.append('amount', this.props.form.amount);
+                fd.append('payment_date', this.props.form.payment_date);
+                fd.append('payment_method', this.props.form.payment_method);
+                fd.append('reference_no', this.props.form.reference_no);
                 if (this.file) {
                     fd.append('file', this.file);
+                }
+                if (this.paymentFile) {
+                    fd.append('payment_file', this.paymentFile);
                 }
                 this.loading.isActive = true;
                 const tempId = this.$store.getters['purchase/temp'].temp_id;

@@ -55,8 +55,9 @@
                         :options="[
                             { id: enums.purchasePaymentMethodEnum.CASH, name: $t('label.cash') },
                             { id: enums.purchasePaymentMethodEnum.CHEQUE, name: $t('label.cheque') },
-                            { id: enums.purchasePaymentMethodEnum.CREDIT_CARD, name: $t('label.credit_card') },
-                            { id: enums.purchasePaymentMethodEnum.OTHERS, name: $t('label.others') }
+                            { id: enums.purchasePaymentMethodEnum.MOBILE_MONEY, name: 'Mobile money' },
+                            { id: enums.purchasePaymentMethodEnum.BANK_TRANSFER, name: 'Bank transfer' },
+
                         ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                         placeholder="--" search-placeholder="--" />
                     <small class="db-field-alert" v-if="errors.payment_method">{{

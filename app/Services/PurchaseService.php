@@ -84,7 +84,8 @@ class PurchaseService
     {
         try {
             DB::transaction(function () use ($request) {
-                $this->purchase = Purchase::create([
+
+                $purchase = Purchase::create([
                     'supplier_id'    => $request->supplier_id,
                     'date'           => date('Y-m-d H:i:s', strtotime($request->date)),
                     'reference_no'   => $request->reference_no,
@@ -96,6 +97,15 @@ class PurchaseService
                     'note'           => $request->note ? $request->note : "",
                     'status'         => $request->status,
                     'payment_status' => PurchasePaymentStatus::PENDING
+                ]);
+                $this->purchase = $purchase;
+
+                $purchasePayment = PurchasePayment::create([
+                    'purchase_id'    => $purchase->id,
+                    'date'           => date('Y-m-d H:i:s', strtotime($request->payment_date)),
+                    'reference_no'   => $request->reference_no,
+                    'amount'         => $request->amount,
+                    'payment_method' => $request->payment_method,
                 ]);
 
                 if ($request->products) {
@@ -116,29 +126,14 @@ class PurchaseService
                             'total'           => $product['total'],
                             'status'          => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
                         ]);
-
-
-//                        if (isset($product['tax_id']) && count($product['tax_id']) > 0) {
-//                            foreach ($product['tax_id'] as $tax_id) {
-//                                if (isset($taxes[$tax_id])) {
-//                                    $tax = $taxes[$tax_id];
-//                                    StockTax::create([
-//                                        'stock_id'   => $stock->id,
-//                                        'product_id' => $product['product_id'],
-//                                        'tax_id'     => $tax->id,
-//                                        'name'       => $tax->name,
-//                                        'code'       => $tax->code,
-//                                        'tax_rate'   => $tax->tax_rate,
-//                                        'tax_amount' => ($tax->tax_rate * ($product['price'] * $product['quantity'])) / 100,
-//                                    ]);
-//                                }
-//                            }
-//                        }
                     }
                 }
 
                 if ($request->file) {
                     $this->purchase->addMediaFromRequest('file')->toMediaCollection('purchase');
+                }
+                if ($request->payment_file) {
+                    $purchasePayment->addMediaFromRequest('payment_file')->toMediaCollection('purchase_payment');
                 }
             });
             return $this->purchase;
@@ -303,6 +298,9 @@ class PurchaseService
 
                 if ($request->file) {
                     $purchasePayment->addMediaFromRequest('file')->toMediaCollection('purchase_payment');
+                }
+                if ($request->payment_file) {
+                    $purchasePayment->addMediaFromRequest('payment_file')->toMediaCollection('purchase_payment');
                 }
 
                 $checkPurchasePayment = PurchasePayment::where('purchase_id', $purchase->id)->sum('amount');
