@@ -534,7 +534,6 @@ export default {
             this.selectedProduct = {
                 name: product.name,
                 quantity: product.quantity,
-                // tax_id: product.tax_id.length === 0 ? [] : product.tax_id,
                 tax_id: product.tax_id,
                 price: product.price,
                 discount: product.discount,
