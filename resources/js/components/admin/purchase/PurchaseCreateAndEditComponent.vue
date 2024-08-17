@@ -176,10 +176,30 @@
                                 <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
                             </div>
                         </div>
-                        <p class="my-5 form-col-12">Add Payment</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                        <div class="form-col-12 sm:form-col-6">
+                            <label class="db-field-title" for="active">Add Payment</label>
+                            <div class="db-field-radio-group">
+                                <div class="db-field-radio">
+                                    <div class="custom-radio">
+                                        <input :value="enums.askEnum.YES" v-model="props.form.addPayment" id="yes"
+                                               type="radio" class="custom-radio-field">
+                                        <span class="custom-radio-span"></span>
+                                    </div>
+                                    <label for="yes" class="db-field-label">Yes</label>
+                                </div>
+                                <div class="db-field-radio">
+                                    <div class="custom-radio">
+                                        <input :value="enums.askEnum.NO" v-model="props.form.addPayment" type="radio"
+                                               id="no" class="custom-radio-field">
+                                        <span class="custom-radio-span"></span>
+                                    </div>
+                                    <label for="no" class="db-field-label">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2" v-show="props.form.addPayment===AskEnum.YES">
                             <div>
-                                <label for="amount" class="db-field-title">Amount</label>
+                                <label for="amount" class="db-field-title required">Amount</label>
                                 <input v-model="props.form.amount"
                                        v-bind:class="errors.amount ? 'invalid' : ''" type="number"
                                        id="amount" class="db-field-control">
@@ -188,7 +208,7 @@
                                 </small>
                             </div>
                             <div class="">
-                                <label for="searchStartDate" class="db-field-title after:hidden">Paid On</label>
+                                <label for="searchStartDate" class="db-field-title after:hidden required">Paid On</label>
                                 <Datepicker hideInputIcon autoApply v-model="props.form.payment_date"
                                             :enableTimePicker="false"
                                             :is24="false" :monthChangeOnScroll="false" utc="false">
@@ -205,7 +225,7 @@
                                             v-model="props.form.payment_method" :options="paymentMethods"
                                             label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                             :clearOnClose="true"
-                                            placeholder="--" search-placeholder="--"/>
+                                            placeholder="--" search-placeholder="--" />
                                 <small class="db-field-alert" v-if="errors.payment_method">
                                     {{ errors.payment_method }}
                                 </small>
@@ -234,6 +254,8 @@
                                     }}</small>
                             </div>
                         </div>
+
+
                         <div class="form-col-12">
                             <div class="flex flex-wrap gap-3">
                                 <button v-if="permissionChecker('purchase_create')" type="submit"
@@ -264,6 +286,8 @@ import appService from '../../../services/appService';
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
 import {paymentMethods} from "../../../utils/data";
+import askEnum from "../../../enums/modules/askEnum";
+import AskEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: 'PurchaseCreateAndEditComponent',
@@ -290,6 +314,7 @@ export default {
             },
             enums: {
                 statusEnum: purchaseStatusEnum,
+                askEnum: askEnum,
                 statusEnumArray: [
                     {statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending')},
                     {statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered')},
@@ -305,6 +330,7 @@ export default {
                     total: null,
                     status: null,
                     note: "",
+                    addPayment:askEnum.NO,
                     amount: "",
                     payment_date: "",
                     payment_method: "",
@@ -338,6 +364,12 @@ export default {
         this.paymentMethods = paymentMethods
     },
     computed: {
+        askEnum() {
+            return askEnum
+        },
+        AskEnum() {
+            return AskEnum
+        },
         setting: function () {
             return this.$store.getters['frontendSetting/lists']
         },
@@ -454,15 +486,7 @@ export default {
             let total_tax = 0;
             let total_tax_rate = 0;
             let totalDiscount = this.selectedProduct.discount * this.selectedProduct.quantity;
-            // if (this.selectedProduct.tax_id.length > 0) {
-            //     for (let i = 0; i < this.selectedProduct.tax_id.length; i++) {
-            //         const id = this.selectedProduct.tax_id[i];
-            //         const tax_rate = this.taxRateById(id);
-            //         tax += +((this.selectedProduct.price * tax_rate) / 100);
-            //         total_tax_rate += +tax_rate;
-            //     }
-            //     total_tax = tax * this.selectedProduct.quantity;
-            // }
+
             total_tax = this.selectedProduct.tax.tax_rate
 
             let finalItem = {
@@ -544,6 +568,7 @@ export default {
                 fd.append('payment_date', this.props.form.payment_date);
                 fd.append('payment_method', this.props.form.payment_method);
                 fd.append('reference_no', this.props.form.reference_no);
+                fd.append('add_payment', this.props.form.addPayment);
                 if (this.file) {
                     fd.append('file', this.file);
                 }

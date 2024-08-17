@@ -165,6 +165,7 @@ import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentSta
 import alertService from "../../../services/alertService";
 import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
 import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
+import askEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: 'PurchaseListComponent',
@@ -223,6 +224,7 @@ export default {
                     supplier_id: null,
                     date: "",
                     reference_no: "",
+                    addPayment: askEnum.NO,
                     status: null,
                     total: null,
                     note: ""

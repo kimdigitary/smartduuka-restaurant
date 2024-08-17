@@ -20,6 +20,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PurchaseController extends AdminController
 {
@@ -100,7 +101,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request): Application|Response|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    public function export(PaginateRequest $request): Application|Response|BinaryFileResponse|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return Excel::download(new PurchasesExport($this->purchaseService, $request), 'Purchases.xlsx');

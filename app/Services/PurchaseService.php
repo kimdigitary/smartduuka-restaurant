@@ -84,7 +84,6 @@ class PurchaseService
     {
         try {
             DB::transaction(function () use ($request) {
-
                 $purchase = Purchase::create([
                     'supplier_id'    => $request->supplier_id,
                     'date'           => date('Y-m-d H:i:s', strtotime($request->date)),
@@ -96,7 +95,7 @@ class PurchaseService
                     'total'          => $request->total,
                     'note'           => $request->note ? $request->note : "",
                     'status'         => $request->status,
-                    'payment_status' => PurchasePaymentStatus::PENDING
+                    'payment_status' => PurchasePaymentStatus::PENDING,
                 ]);
                 $this->purchase = $purchase;
 
@@ -113,19 +112,24 @@ class PurchaseService
                     $products = json_decode($request->products, true);
                     $taxes = Tax::all()->keyBy('id');
                     foreach ($products as $product) {
-                        $stock = Stock::create([
-                            'model_type'      => Purchase::class,
-                            'model_id'        => $model_id,
-                            'item_type'       => Item::class,
-                            'item_id'         => $product['product_id'],
-                            'price'           => $product['price'],
-                            'quantity'        => $product['quantity'],
-                            'discount'        => $product['total_discount'],
-                            'tax'             => $product['total_tax'],
-                            'subtotal'        => $product['subtotal'],
-                            'total'           => $product['total'],
-                            'status'          => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
-                        ]);
+                        $stock = Stock::where('item_id', $product['product_id'])->first();
+                        if ($stock) {
+                            $stock->increment('quantity', $product['quantity']);
+                        } else {
+                            Stock::create([
+                                'model_type' => Purchase::class,
+                                'model_id'   => $model_id,
+                                'item_type'  => Item::class,
+                                'item_id'    => $product['product_id'],
+                                'price'      => $product['price'],
+                                'quantity'   => $product['quantity'],
+                                'discount'   => $product['total_discount'],
+                                'tax'        => $product['total_tax'],
+                                'subtotal'   => $product['subtotal'],
+                                'total'      => $product['total'],
+                                'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
+                            ]);
+                        }
                     }
                 }
 
@@ -134,6 +138,15 @@ class PurchaseService
                 }
                 if ($request->payment_file) {
                     $purchasePayment->addMediaFromRequest('payment_file')->toMediaCollection('purchase_payment');
+                }
+                $checkPurchasePayment = PurchasePayment::where('purchase_id', $purchase->id)->sum('amount');
+                if ($checkPurchasePayment == $purchase->total) {
+                    $purchase->payment_status = PurchasePaymentStatus::FULLY_PAID;
+                    $purchase->save();
+                }
+                if ($checkPurchasePayment < $purchase->total) {
+                    $purchase->payment_status = PurchasePaymentStatus::PARTIAL_PAID;
+                    $purchase->save();
                 }
             });
             return $this->purchase;
@@ -364,7 +377,7 @@ class PurchaseService
                                 'total'      => $product['total'],
                                 'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
                             ]);
-                        $this->stock = $stock;
+                            $this->stock = $stock;
                         }
 
                         $tax = Tax::find($product['tax_id']);
