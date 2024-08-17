@@ -76,8 +76,8 @@ export default {
                 purchasePaymentMethodEnumArray: {
                     [purchasePaymentMethodEnum.CASH]: this.$t("label.cash"),
                     [purchasePaymentMethodEnum.CHEQUE]: this.$t("label.cheque"),
-                    [purchasePaymentMethodEnum.CREDIT_CARD]: this.$t("label.credit_card"),
-                    [purchasePaymentMethodEnum.OTHERS]: this.$t("label.others")
+                    [purchasePaymentMethodEnum.MOBILE_MONEY]: 'Mobile Money',
+                    [purchasePaymentMethodEnum.BANK_TRANSFER]: 'Bank Transfer',
                 },
             },
             search: {

@@ -35,7 +35,7 @@ import NotificationComponent from "../../components/admin/settings/Notification/
 import SubscriptionListComponent from "../../components/admin/Subscription/SubscriptionListComponent.vue";
 import SubscriptionCreateComponent from "../../components/admin/Subscription/SubscriptionCreateComponent.vue";
 
-export default [
+export const settingRoutes= [
     {
         path: "/admin/settings",
         component: SettingsComponent,

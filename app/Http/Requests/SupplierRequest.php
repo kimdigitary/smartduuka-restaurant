@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,10 +26,10 @@ class SupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company'      => ['required', 'string', 'max:190', Rule::unique("suppliers", "company")->ignore($this->route('supplier.id'))],
+            'company'      => ['required', 'string', 'max:190'],
             'name'         => ['required', 'string', 'max:190', Rule::unique("suppliers", "name")->ignore($this->route('supplier.id'))],
             'email'        => ['nullable', 'email', 'max:190', Rule::unique("suppliers", "email")->ignore($this->route('supplier.id'))],
-            'phone'        => ['nullable', 'string', 'max:20', Rule::unique("suppliers", "phone")->ignore($this->route('supplier.id'))],
+            'phone'        => ['nullable', 'string', 'max:20', Rule::unique("suppliers", "phone")->ignore($this->route('supplier.id')),new Phone()],
             'address'      => ['nullable', 'string', 'max:500'],
             'country'      => ['nullable', 'string', 'max:200'],
             'state'        => ['nullable', 'string', 'max:200'],

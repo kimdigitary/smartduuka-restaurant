@@ -245,6 +245,8 @@ export default {
                     description: "",
                     caution: "",
                     is_featured: askEnum.YES,
+                    is_stockable: askEnum.NO,
+                    buying_price: 0,
                     item_type: itemTypeEnum.VEG,
                     item_category_id: null,
                     tax_id: null,
@@ -356,6 +358,8 @@ export default {
                 tax_id: item.tax_id,
                 item_category_id: item.item_category_id,
                 status: item.status,
+                buying_price: item.buying_price,
+                is_stockable: item.is_stockable,
             };
         },
         destroy: function (id) {

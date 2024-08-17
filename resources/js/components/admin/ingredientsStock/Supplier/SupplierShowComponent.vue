@@ -5,7 +5,7 @@
         <div class="flex flex-wrap gap-4 sm:gap-6">
             <img class="w-[120px] h-[120px] object-cover rounded-lg" alt="avatar" :src="supplier.image">
             <div>
-                <h3 class="text-[26px] font-semibold font-rubik leading-[40px] capitalize">{{ supplier.name }}</h3>
+                <h3 class="text-[26px] font-semibold font-rubik leading-[40px] capitalize">{{ supplier.name }} / {{ $t("label.company") }}<</h3>
                 <label class="p-0.5 px-2 rounded text-[10px] leading-4 font-medium font-rubik uppercase mb-[22px] text-[#E89806] bg-[#FFF5DE]">
                     {{ $t('label.supplier') }}
                 </label>
@@ -20,12 +20,7 @@
             </div>
             <div class="db-card-body">
                 <div class="row py-2">
-                    <div class="col-12 sm:col-6 !py-1.5">
-                        <div class="db-list-item p-0">
-                            <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.company") }}</span>
-                            <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.company }}</span>
-                        </div>
-                    </div>
+
                     <div class="col-12 sm:col-6 !py-1.5">
                         <div class="db-list-item p-0">
                             <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.email") }}</span>
@@ -36,30 +31,6 @@
                         <div class="db-list-item p-0">
                             <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.phone") }}</span>
                             <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.country_code }} {{ supplier.phone }}</span>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-6 !py-1.5">
-                        <div class="db-list-item p-0">
-                            <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.city") }}</span>
-                            <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.city }}</span>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-6 !py-1.5">
-                        <div class="db-list-item p-0">
-                            <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.state") }}</span>
-                            <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.state }}</span>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-6 !py-1.5">
-                        <div class="db-list-item p-0">
-                            <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.zip_code") }}</span>
-                            <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.zip_code }}</span>
-                        </div>
-                    </div>
-                    <div class="col-12 sm:col-6 !py-1.5">
-                        <div class="db-list-item p-0">
-                            <span class="db-list-item-title w-full sm:w-1/2">{{ $t("label.address") }}</span>
-                            <span class="db-list-item-text w-full sm:w-1/2">{{ supplier.address }}</span>
                         </div>
                     </div>
                 </div>

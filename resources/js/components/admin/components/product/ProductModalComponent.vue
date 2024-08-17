@@ -12,9 +12,9 @@
                         <label class="db-field-title ">{{
                             $t("label.tax")
                         }}</label>
-                        <vue-select v-model="item.tax_id" class="db-field-control f-b-custom-select" :options="taxes"
-                            label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                            :placeholder="$t('label.select_one')" search-placeholder="--" :multiple="true" />
+<!--                        <vue-select v-model="item.tax_id" class="db-field-control f-b-custom-select" :options="taxes"-->
+<!--                            label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"-->
+<!--                            :placeholder="$t('label.select_one')" search-placeholder="&#45;&#45;" :multiple="true" />-->
                     </div>
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title required">{{
@@ -38,13 +38,13 @@
                             class="db-field-control" />
                     </div>
                 </div>
-                <div class="form-row pt-1.5" v-if="item.is_variation">
-                    <ProductVariationsComponent v-if="initialVariations.length > 0" v-on:method="selectedVariation"
-                        :variations="initialVariations" :mode="item.mode" :item="item" />
-                </div>
+<!--                <div class="form-row pt-1.5" v-if="item.is_variation">-->
+<!--                    <ProductVariationsComponent v-if="initialVariations.length > 0" v-on:method="selectedVariation"-->
+<!--                        :variations="initialVariations" :mode="item.mode" :item="item" />-->
+<!--                </div>-->
 
                 <div class="modal-btns mt-8">
-                    <button :disabled="item.is_variation && !finalVariation" @click="submitItem(item)" type="button"
+                    <button  @click="submitItem(item)" type="button"
                         class="modal-btn-fill disabled:opacity-25">
                         <i class="fa-solid fa-circle-check"></i>
                         <span>{{ $t("button.save") }}</span>
@@ -57,16 +57,14 @@
             </form>
         </div>
     </div>
-
 </template>
 
 <script lang="js">
 import appService from '../../../../services/appService';
-import ProductVariationsComponent from './ProductVariationsComponent.vue'
 
 export default {
     components: {
-        ProductVariationsComponent,
+
     },
     name: 'ProductModalComponent',
     props: ['item', 'modal'],

@@ -111,9 +111,9 @@
                             </td>
                             <td class="db-table-body-td hidden-print"
                                 v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')">
-                                <SmIconViewComponent :link="'admin.purchase.show'" :id="purchase.id"
+                                <SmIconViewComponent :link="'admin.ingredients_and_stock.purchase.show'" :id="purchase.id"
                                     v-if="permissionChecker('purchase_show')" />
-                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.purchase.edit'" :id="purchase.id"
+                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.ingredients_and_stock.purchase.edit'" :id="purchase.id"
                                     v-if="permissionChecker('purchase_edit')" />
                                 <SmIconDeleteComponent @click="destroy(purchase.id)"
                                     v-if="permissionChecker('purchase_delete')" />
@@ -165,6 +165,7 @@ import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentSta
 import alertService from "../../../services/alertService";
 import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
 import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
+import askEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: 'PurchaseListComponent',
@@ -223,6 +224,7 @@ export default {
                     supplier_id: null,
                     date: "",
                     reference_no: "",
+                    addPayment: askEnum.NO,
                     status: null,
                     total: null,
                     note: ""

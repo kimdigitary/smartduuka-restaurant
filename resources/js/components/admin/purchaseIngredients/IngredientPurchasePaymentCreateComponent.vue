@@ -93,16 +93,16 @@
     </div>
 </template>
 <script>
+import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent";
+import LoadingComponent from "../components/LoadingComponent";
+import purchasePaymentMethodEnum from "../../../enums/modules/purchasePaymentMethodEnum";
+import alertService from "../../../services/alertService";
+import appService from "../../../services/appService";
 import Datepicker from "@vuepic/vue-datepicker";
-import LoadingComponent from "../LoadingComponent.vue";
 import "@vuepic/vue-datepicker/dist/main.css";
-import SmModalCreateComponent from "../buttons/SmModalCreateComponent.vue";
-import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
-import alertService from "../../../../services/alertService";
-import appService from "../../../../services/appService";
 
 export default {
-    name: "PurchasePaymentCreateComponent",
+    name: "IngredientPurchasePaymentCreateComponent",
     components: { SmModalCreateComponent, LoadingComponent, Datepicker },
     data() {
         return {
@@ -140,9 +140,9 @@ export default {
             this.errors.global = ""
         },
         show: function () {
-            if (this.$store.getters["purchase/temp"].temp_id) {
+            if (this.$store.getters["ingredientPurchase/temp"].temp_id) {
                 this.loading.isActive = true;
-                this.$store.dispatch("purchase/show", this.$store.getters["purchase/temp"].temp_id).then((res) => {
+                this.$store.dispatch("ingredientPurchase/show", this.$store.getters["ingredientPurchase/temp"].temp_id).then((res) => {
                     this.form.amount = res.data.data.due_payment;
                     this.dueAmount = res.data.data.due_payment;
                     this.loading.isActive = false;
@@ -160,7 +160,7 @@ export default {
         reset: function () {
             appService.modalHide();
             this.errors = {};
-            this.$store.dispatch("purchase/reset");
+            this.$store.dispatch("ingredientPurchase/reset");
             this.form = {
                 purchase_id: "",
                 date: "",
@@ -177,7 +177,7 @@ export default {
 
         save: function () {
             try {
-                const tempId = this.$store.getters["purchase/temp"].temp_id;
+                const tempId = this.$store.getters["ingredientPurchase/temp"].temp_id;
                 const fd = new FormData();
                 fd.append("purchase_id", tempId);
                 fd.append("date", this.form.date);
@@ -190,7 +190,7 @@ export default {
 
                 this.loading.isActive = true;
                 this.$store
-                    .dispatch("purchase/addPayment", {
+                    .dispatch("ingredientPurchase/addPayment", {
                         form: fd,
                     })
                     .then((res) => {
@@ -200,7 +200,7 @@ export default {
                             0,
                             this.$t("menu.add_payment")
                         );
-                        this.$store.dispatch("purchase/reset");
+                        this.$store.dispatch("ingredientPurchase/reset");
                         this.form = {
                             purchase_id: "",
                             date: "",

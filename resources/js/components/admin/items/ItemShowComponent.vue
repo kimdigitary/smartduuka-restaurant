@@ -20,7 +20,8 @@
             <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"></i>
                 {{ $t('label.addon') }}
             </button>
-            <button type="button" class="db-tabBtn" data-tab="#ingredients"><i class="lab lab-addon lab-font-size-16"></i>
+            <button type="button" class="db-tabBtn" data-tab="#ingredients"><i
+                class="lab lab-variation lab-font-size-16"></i>
                 Ingredients
             </button>
         </div>
@@ -36,6 +37,12 @@
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.price') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{ item.flat_price }}</span>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-6 !py-1.5">
+                    <div class="db-list-item p-0">
+                        <span class="db-list-item-title w-full sm:w-1/2">Buying Price</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{ item.buying_price }}</span>
                     </div>
                 </div>
 
@@ -67,6 +74,14 @@
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.featured') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{
                             enums.askEnumArray[item.is_featured]
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-6 !py-1.5">
+                    <div class="db-list-item p-0">
+                        <span class="db-list-item-title w-full sm:w-1/2">Is Stockable</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{
+                            enums.askEnumArray[item.is_stockable]
                         }}</span>
                     </div>
                 </div>
@@ -133,6 +148,9 @@
             </div>
         </div>
 
+        <div class="db-tabDiv" id="ingredients">
+            <ItemIngredientListComponent :item="parseInt($route.params.id)" />
+        </div>
         <div class="db-tabDiv" id="variations">
             <ItemVariationListComponent :item="parseInt($route.params.id)" />
         </div>
@@ -141,9 +159,6 @@
         </div>
         <div class="db-tabDiv" id="addon">
             <ItemAddonListComponent :item="parseInt($route.params.id)" />
-        </div>
-        <div class="db-tabDiv" id="ingredients">
-            <ItemIngredientListComponent :item="parseInt($route.params.id)" />
         </div>
     </div>
 </template>

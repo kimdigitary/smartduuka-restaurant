@@ -14,7 +14,6 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                     <tr class="db-table-head-tr">
-                        <th class="db-table-head-th">{{ $t("label.company") }}</th>
                         <th class="db-table-head-th">{{ $t("label.name") }}</th>
                         <th class="db-table-head-th">{{ $t("label.email") }}</th>
                         <th class="db-table-head-th">{{ $t("label.phone") }}</th>
@@ -25,9 +24,6 @@
                 </thead>
                 <tbody class="db-table-body" v-if="suppliers.length > 0">
                     <tr class="db-table-body-tr" v-for="supplier in suppliers" :key="supplier">
-                        <td class="db-table-body-td">
-                            {{ supplier.company }}
-                        </td>
                         <td class="db-table-body-td">
                             {{ supplier.name }}
                         </td>
@@ -147,60 +143,15 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("supplier/edit", supplier.id);
 
-            let worldMapData = require('city-state-country');
-            if (supplier.country !== "") {
-                if (supplier.state !== "") {
-                    this.props.states = worldMapData.getAllStatesFromCountry(supplier.country);
-                    this.props.cities = worldMapData.getAllCitiesFromState(supplier.state);
-                    if (supplier.city === "") {
-                        this.props.form.city = null;
-                    }
-                } else {
-                    this.props.states = worldMapData.getAllStatesFromCountry(supplier.country);
-                    this.props.form.state = null;
-                    this.props.form.city = null;
-                }
-            } else {
-                this.props.states = [];
-                this.props.form.country = null;
-                this.props.form.state = null;
-                this.props.form.city = null
-            }
-
             setTimeout(() => {
                 this.props.form = {
-                    company: supplier.company,
                     name: supplier.name,
                     email: supplier.email,
                     phone: supplier.phone,
-                    country_code: supplier.country_code,
-                    country: supplier.country,
-                    state: supplier.state,
-                    city: supplier.city,
-                    zip_code: supplier.zip_code,
-                    address: supplier.address,
                 };
-
-                if (supplier.country === "") {
-                    this.props.form.country = null;
-                }
-
-                if (supplier.state === "") {
-                    this.props.form.state = null;
-                }
-
-                if (supplier.city === "") {
-                    this.props.form.city = null;
-                }
 
             }, 200);
 
-            this.$store.dispatch('countryCode/callingCode', supplier.country_code).then(res => {
-                this.props.flag = res.data.data.flag_emoji;
-                this.loading.isActive = false;
-            }).catch((err) => {
-                this.loading.isActive = false;
-            });
             this.loading.isActive = false;
         },
         destroy: function (id) {

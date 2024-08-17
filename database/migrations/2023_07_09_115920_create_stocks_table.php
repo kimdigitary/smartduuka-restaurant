@@ -11,13 +11,10 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-//            $table->foreignId('product_id')->constrained();
+            $table->foreignId('item_id')->constrained();
             $table->string('model_type');
             $table->unsignedBigInteger('model_id');
             $table->string('item_type');
-            $table->unsignedBigInteger('item_id');
-            $table->string('variation_names')->nullable();
-            $table->string('sku')->nullable();
             $table->unsignedDecimal('price', 13, 6)->default(0);
             $table->bigInteger('quantity')->default(1);
             $table->unsignedDecimal('discount', 13, 6)->default(0);

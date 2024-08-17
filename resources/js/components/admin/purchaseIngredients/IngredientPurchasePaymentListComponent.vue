@@ -17,8 +17,7 @@
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
                     <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
                         <td class="db-table-body-td">
-                            {{ }}
-                            <!-- {{ // purchasePayment.converted_date }} -->
+                            {{ purchasePayment.converted_date }}
                         </td>
                         <td class="db-table-body-td">
                             {{ purchasePayment.reference_no }}
@@ -55,17 +54,17 @@
 </template>
 <script>
 
+import LoadingComponent from "../components/LoadingComponent";
+import purchasePaymentMethodEnum from "../../../enums/modules/purchasePaymentMethodEnum";
+import alertService from "../../../services/alertService";
+import appService from "../../../services/appService";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import SmIconDeleteComponent from "../buttons/SmIconDeleteComponent.vue";
-import LoadingComponent from "../LoadingComponent.vue";
-import SmModalCreateComponent from "../buttons/SmModalCreateComponent.vue";
-import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
-import appService from "../../../../services/appService";
-import alertService from "../../../../services/alertService";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
+import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent.vue";
 
 export default {
-    name: "PurchasePaymentListComponent",
+    name: "IngredientPurchasePaymentListComponent",
     components: { SmModalCreateComponent, LoadingComponent, Datepicker, SmIconDeleteComponent },
     data() {
         return {

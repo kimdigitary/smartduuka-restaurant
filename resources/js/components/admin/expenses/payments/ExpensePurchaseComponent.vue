@@ -11,7 +11,7 @@
                     <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                         @click="reset"></button>
                 </div>
-                <PurchasePaymentCreateComponent v-if="show" />
+                <ExpensePurchasePaymentCreateComponent v-if="show" />
             </div>
         </div>
         <div id="purchasePaymentList" class="modal">
@@ -21,25 +21,26 @@
                     <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                         @click="reset"></button>
                 </div>
-                <PurchasePaymentListComponent v-if="show" />
+                <ExpensePurchasePaymentListComponent v-if="show" />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="js">
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
-import BreadcrumbComponent from "../BreadcrumbComponent.vue";
+
+
+import BreadcrumbComponent from "../../components/BreadcrumbComponent.vue";
+import ExpensePurchasePaymentCreateComponent from "./ExpensePurchasePaymentCreateComponent.vue";
+import ExpensePurchasePaymentListComponent from "./ExpensePurchasePaymentListComponent.vue";
 import appService from "../../../../services/appService";
 
-
 export default {
-    name: 'PurchaseComponent',
+    name: 'ExpensePurchaseComponent',
     components: {
         BreadcrumbComponent,
-        PurchasePaymentCreateComponent,
-        PurchasePaymentListComponent
+        ExpensePurchasePaymentCreateComponent,
+        ExpensePurchasePaymentListComponent
     },
     computed: {
         show: function () {

@@ -50,6 +50,7 @@ use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\SimpleUserController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\SmsGatewayController;
+use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
 use App\Http\Controllers\Admin\TaxController;
@@ -366,7 +367,8 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/export', [ProductController::class, 'export']);
         Route::get('/generate-sku', [ProductController::class, 'generateSku']);
         Route::post('/offer/{product}', [ProductController::class, 'productOffer']);
-        Route::get('/purchasable-product', [ItemController::class, 'index']);
+        Route::get('/purchasable-product', [ItemController::class, 'purchasable']);
+        Route::get('/purchasable-ingredient', [ItemController::class, 'purchasableIngredients']);
         Route::get('/simple-product', [ProductController::class, 'simpleProducts']);
 
         Route::prefix('variation')->name('variation.')->group(function () {
@@ -533,6 +535,11 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::post('/payment/{purchase}', [PurchaseController::class, 'payment']);
         Route::get('/payment/download-attachment/{purchasePayment}', [PurchaseController::class, 'paymentDownloadAttachment']);
         Route::delete('/payment/{purchase}/{purchasePayment}', [PurchaseController::class, 'paymentDestroy']);
+    });
+
+    Route::prefix('stock')->name('stock.')->group(function () {
+        Route::get('/', [StockController::class, 'index']);
+        Route::get('/export', [StockController::class, 'export']);
     });
 
 

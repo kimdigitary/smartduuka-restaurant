@@ -15,7 +15,12 @@ use App\Models\PurchasePayment;
 use App\Services\ProductVariationService;
 use App\Services\PurchaseService;
 use Exception;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PurchaseController extends AdminController
 {
@@ -34,7 +39,7 @@ class PurchaseController extends AdminController
         $this->middleware(['permission:purchase_show'])->only('show');
     }
 
-    public function index(PaginateRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return  PurchaseResource::collection($this->purchaseService->list($request));
@@ -43,7 +48,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function store(PurchaseRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function store(PurchaseRequest $request): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseResource($this->purchaseService->store($request));
@@ -52,16 +57,17 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function storeStock(PurchaseRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function storeStock(PurchaseRequest $request): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
-            return new PurchaseResource($this->purchaseService->storeStock($request));
+            $stored = $this->purchaseService->storeStock($request);
+            return new PurchaseResource($stored);
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
 
-    public function show(Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function show(Purchase $purchase): Application|Response|PurchaseDetailsResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseDetailsResource($this->purchaseService->show($purchase));
@@ -69,7 +75,7 @@ class PurchaseController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function edit(Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function edit(Purchase $purchase): Application|Response|PurchaseDetailsResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseDetailsResource($this->purchaseService->edit($purchase));
@@ -77,7 +83,7 @@ class PurchaseController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function update(PurchaseRequest $request, Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function update(PurchaseRequest $request, Purchase $purchase): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseResource($this->purchaseService->update($request, $purchase));
@@ -85,7 +91,7 @@ class PurchaseController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function destroy(Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(Purchase $purchase): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             $this->purchaseService->destroy($purchase);
@@ -95,7 +101,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request): Application|Response|BinaryFileResponse|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return Excel::download(new PurchasesExport($this->purchaseService, $request), 'Purchases.xlsx');
@@ -112,7 +118,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function payment(PurchasePaymentRequest $request, Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function payment(PurchasePaymentRequest $request, Purchase $purchase): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseResource($this->purchaseService->payment($request, $purchase));
@@ -121,7 +127,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function paymentHistory(Purchase $purchase): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function paymentHistory(Purchase $purchase): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return  PurchasePaymentResource::collection($this->purchaseService->paymentHistory($purchase));
@@ -139,7 +145,7 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function paymentDestroy(Purchase $purchase, PurchasePayment $purchasePayment): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function paymentDestroy(Purchase $purchase, PurchasePayment $purchasePayment): Application|Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             $this->purchaseService->paymentDestroy($purchase, $purchasePayment);

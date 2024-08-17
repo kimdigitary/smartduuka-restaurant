@@ -582,6 +582,56 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Product Stocking',
+                'name'       => 'purchase',
+                'guard_name' => 'sanctum',
+                'url'        => 'purchase',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Stocking Create',
+                        'name'       => 'purchase_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Edit',
+                        'name'       => 'purchase_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Delete',
+                        'name'       => 'purchase_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Show',
+                        'name'       => 'purchase_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
+                'title'      => 'Stock',
+                'name'       => 'stock',
+                'guard_name' => 'sanctum',
+                'url'        => 'stock',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'title'      => 'Transactions',
                 'name'       => 'transactions',
                 'guard_name' => 'sanctum',
