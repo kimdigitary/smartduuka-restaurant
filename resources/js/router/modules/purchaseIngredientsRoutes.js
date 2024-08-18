@@ -1,10 +1,11 @@
-import PurchaseComponent from '../../components/admin/purchase/PurchaseComponent'
+
 import IngredientPurchaseListComponent
-    from "../../components/admin/purchaseIngredients/IngredientPurchaseListComponent.vue";
+    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseListComponent.vue";
 import IngredientPurchaseCreateAndEditComponent
-    from "../../components/admin/purchaseIngredients/IngredientPurchaseCreateAndEditComponent.vue";
+    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseCreateAndEditComponent.vue";
 import IngredientPurchaseShowComponent
-    from "../../components/admin/purchaseIngredients/IngredientPurchaseShowComponent.vue";
+    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseShowComponent.vue";
+import PurchaseComponent from "../../components/admin/ingredientsStock/purchase/PurchaseComponent.vue";
 
 export const purchaseIngredientsRoutes= [
     {

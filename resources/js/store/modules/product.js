@@ -196,6 +196,18 @@ export const product = {
                     })
             })
         },
+        getPurchasableIngredients: function(context,payload){
+            return new Promise((resolve,reject) => {
+                axios.get('admin/product/purchasable-ingredient')
+                    .then((res)=>{
+                        context.commit('purchasableList',res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    })
+            })
+        },
         getSimpleProduct: function(context,payload){
             return new Promise((resolve,reject) => {
                 axios.get('admin/product/simple-product')

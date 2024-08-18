@@ -146,16 +146,15 @@
 </template>
 
 <script>
-import alertService from "../../../services/alertService";
-import appService from '../../../services/appService';
-import PrintButtonComponent from "../components/buttons/PrintButtonComponent";
-import LoadingComponent from "../components/LoadingComponent";
-import purchaseStatusEnum from "../../../enums/modules/purchaseStatusEnum";
-import SmIconEditComponent from '../components/buttons/SmIconEditComponent';
 
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import SmIconEditComponent from "../../components/buttons/SmIconEditComponent.vue";
+import PrintButtonComponent from "../../components/buttons/PrintButtonComponent.vue";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import appService from "../../../../services/appService";
 
 export default {
-    name: 'IngredientPurchaseShowComponent',
+    name: 'PurchaseShowComponent',
     components: {
         LoadingComponent,
         SmIconEditComponent,

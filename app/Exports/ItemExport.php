@@ -2,9 +2,6 @@
 
 namespace App\Exports;
 
-use App\Enums\Ask;
-use App\Enums\ItemType;
-use App\Enums\Status;
 use App\Http\Requests\PaginateRequest;
 use App\Services\ItemService;
 use Maatwebsite\Excel\Concerns\FromCollection;

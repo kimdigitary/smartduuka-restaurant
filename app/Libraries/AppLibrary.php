@@ -42,7 +42,8 @@ class AppLibrary
     public static function datetime($dateTime, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = env('TIME_FORMAT') . ', ' . env('DATE_FORMAT');
+//            $pattern = env('TIME_FORMAT') . ', ' . env('DATE_FORMAT');
+            $pattern =  env('DATE_FORMAT');
         }
         return Carbon::parse($dateTime)->format($pattern);
     }

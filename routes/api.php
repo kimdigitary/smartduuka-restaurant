@@ -523,8 +523,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('/', [PurchaseController::class, 'index']);
+        Route::get('/ingredients', [PurchaseController::class, 'indexIngredients']);
         Route::post('/', [PurchaseController::class, 'store']);
-        Route::post('/store-stock', [PurchaseController::class, 'storeStock']);
+        Route::post('/ingredient', [PurchaseController::class, 'storeIngredient']);
+        Route::post('/store-itemStock', [PurchaseController::class, 'storeStock']);
         Route::get('/show/{purchase}', [PurchaseController::class, 'show']);
         Route::get('/edit/{purchase}', [PurchaseController::class, 'edit']);
         Route::match(['post', 'put', 'patch'], '/update/{purchase}', [PurchaseController::class, 'update']);
@@ -537,8 +539,9 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/payment/{purchase}/{purchasePayment}', [PurchaseController::class, 'paymentDestroy']);
     });
 
-    Route::prefix('stock')->name('stock.')->group(function () {
+    Route::prefix('itemStock')->name('itemStock.')->group(function () {
         Route::get('/', [StockController::class, 'index']);
+        Route::get('/ingredients', [StockController::class, 'indexIngredients']);
         Route::get('/export', [StockController::class, 'export']);
     });
 

@@ -28,6 +28,7 @@ class Purchase extends Model implements HasMedia
         'note',
         'status',
         'sku',
+        'type'
     ];
 
     protected $casts = [

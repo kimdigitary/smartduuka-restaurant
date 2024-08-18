@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">Ingredients purchase</h3>
+                <h3 class="db-card-title">{{ $t('label.purchases') }}</h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
                     <FilterComponent />
@@ -14,8 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-
-                    <router-link @click="reset" v-if="permissionChecker('purchase_create')" :to="{ name: 'admin.ingredients_and_stock.purchase.ingredient.create' }"
+                    <router-link @click="reset" v-if="permissionChecker('purchase_create')" to="purchase/add"
                         class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
                         <span>{{ $t('button.add_purchase') }}</span>
@@ -144,28 +143,31 @@
     </div>
 </template>
 
+
 <script lang="js">
-import LoadingComponent from "../components/LoadingComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import TableLimitComponent from "../components/TableLimitComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconEditComponent from '../components/buttons/SmIconEditComponent';
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import Datepicker from "@vuepic/vue-datepicker";
-import appService from "../../../services/appService";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import purchaseStatusEnum from "../../../enums/modules/purchaseStatusEnum";
-import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentStatusEnum";
-import alertService from "../../../services/alertService";
+import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
+import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import FilterComponent from "../../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
+import ExportComponent from "../../components/buttons/export/ExportComponent.vue";
+import SmIconViewComponent from "../../components/buttons/SmIconViewComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconEditComponent from "../../components/buttons/SmIconEditComponent.vue";
+import purchasePaymentStatusEnum from "../../../../enums/modules/purchasePaymentStatusEnum";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import askEnum from "../../../../enums/modules/askEnum";
+import appService from "../../../../services/appService";
 
 export default {
-    name: 'IngredientPurchaseListComponent',
+    name: 'PurchaseListComponent',
     components: {
         PaginationBox,
         PaginationSMBox,
@@ -181,6 +183,8 @@ export default {
         LoadingComponent,
         SmIconSidebarModalEditComponent,
         SmIconEditComponent,
+        PurchasePaymentCreateComponent,
+        PurchasePaymentListComponent
     },
     data() {
         return {
@@ -219,6 +223,7 @@ export default {
                     supplier_id: null,
                     date: "",
                     reference_no: "",
+                    addPayment: askEnum.NO,
                     status: null,
                     total: null,
                     note: ""
@@ -233,13 +238,13 @@ export default {
     },
     computed: {
         purchases: function () {
-            return this.$store.getters['ingredientPurchase/lists'];
+            return this.$store.getters['purchase/lists'];
         },
         pagination: function () {
-            return this.$store.getters['ingredientPurchase/pagination'];
+            return this.$store.getters['purchase/pagination'];
         },
         paginationPage: function () {
-            return this.$store.getters['ingredientPurchase/page'];
+            return this.$store.getters['purchase/page'];
         },
         suppliers: function () {
             return this.$store.getters['supplier/lists'];
@@ -249,13 +254,13 @@ export default {
         addPayment: function (id) {
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
-            this.$store.dispatch("ingredientPurchase/payment", id);
+            this.$store.dispatch("purchase/payment", id);
             this.loading.isActive = false;
         },
         paymentList: function (id) {
             appService.modalShow('#purchasePaymentList');
             this.loading.isActive = true;
-            this.$store.dispatch("ingredientPurchase/payment", id);
+            this.$store.dispatch("purchase/payment", id);
             this.loading.isActive = false;
         },
         purchasePaymentStatusClass: function (status) {
@@ -286,7 +291,7 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('ingredientPurchase/lists', this.props.search)
+            this.$store.dispatch('purchase/lists', this.props.search)
                 .then((res) => {
                     this.loading.isActive = false;
                 })
@@ -298,7 +303,7 @@ export default {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
-                    this.$store.dispatch("ingredientPurchase/destroy", {
+                    this.$store.dispatch("purchase/destroy", {
                         id: id,
                         search: this.props.search,
                     }).then((res) => {
@@ -337,7 +342,7 @@ export default {
         },
         xls: function () {
             this.loading.isActive = true;
-            this.$store.dispatch('ingredientPurchase/export', this.props.search).then(res => {
+            this.$store.dispatch('purchase/export', this.props.search).then(res => {
                 this.loading.isActive = false;
                 const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 const link = document.createElement('a');
@@ -351,7 +356,7 @@ export default {
             });
         },
         reset: function () {
-            this.$store.dispatch('ingredientPurchase/reset').then().catch();
+            this.$store.dispatch('purchase/reset').then().catch();
         }
     }
 }

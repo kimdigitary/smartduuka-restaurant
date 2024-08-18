@@ -57,7 +57,7 @@ class ProductDetailsAdminResource extends JsonResource
             'is_offer'                     => Carbon::now()->between($this->offer_start_date, $this->offer_end_date),
             'rating_star'                  => $this->rating_star,
             'rating_star_count'            => $this->rating_star_count,
-            'stock'                        => $this->show_stock_out == Activity::DISABLE ? $this->can_purchasable == Ask::NO ? (int)env('NON_PURCHASE_QUANTITY') : (int)$this->stock_items_sum_quantity : 0,
+            'itemStock'                        => $this->show_stock_out == Activity::DISABLE ? $this->can_purchasable == Ask::NO ? (int)env('NON_PURCHASE_QUANTITY') : (int)$this->stock_items_sum_quantity : 0,
             'taxes'                        => SimpleTaxResource::collection($this->taxes),
             'thumb'                        => $this->thumb,
         ];

@@ -28,17 +28,17 @@
 </template>
 
 <script lang="js">
-import BreadcrumbComponent from '../components/BreadcrumbComponent'
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
-import appService from "../../../services/appService";
+import BreadcrumbComponent from "../../components/BreadcrumbComponent.vue";
+import appService from "../../../../services/appService";
+import IngredientPurchasePaymentCreateComponent from "./IngredientPurchasePaymentCreateComponent.vue";
+import IngredientPurchasePaymentListComponent from "./IngredientPurchasePaymentListComponent.vue";
 
 export default {
-    name: 'PurchaseComponent',
+    name: 'IngredientPurchaseComponent',
     components: {
         BreadcrumbComponent,
-        PurchasePaymentCreateComponent,
-        PurchasePaymentListComponent
+        IngredientPurchasePaymentCreateComponent,
+        IngredientPurchasePaymentListComponent
     },
     computed: {
         show: function () {
