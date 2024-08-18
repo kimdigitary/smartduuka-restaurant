@@ -27,6 +27,7 @@ class RoleService
     public function list(PaginateRequest $request)
     {
         try {
+            info($request->all());
             $requests    = $request->all();
             $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
