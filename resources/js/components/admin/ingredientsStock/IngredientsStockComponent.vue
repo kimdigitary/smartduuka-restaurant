@@ -25,7 +25,7 @@
                 <i class="lab lab-company text-sm"></i>
                 Purchase Items
             </router-link>
-            <router-link :to="{ name: 'admin.settings.supplier' }" class="db-tab-btn">
+            <router-link :to="{ name: 'admin.ingredients_and_stock.supplier' }" class="db-tab-btn">
                 <i class="lab lab-line-supplier text-sm"></i>
                 {{ $t("menu.suppliers") }}
             </router-link>
