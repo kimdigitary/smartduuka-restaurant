@@ -231,7 +231,6 @@ class PurchaseService
                 if ($request->products) {
                     $model_id = $this->purchase->id;
                     $products = json_decode($request->products, true);
-
                     foreach ($products as $product) {
                         Stock::create([
                             'model_type' => Ingredient::class,
