@@ -136,7 +136,7 @@
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" class="custom-radio-field" v-model="props.form.is_stockable"
-                                           id="no_is_stockable" :value="enums.askEnum.NO">
+                                           id="no_is_stockable" :value="enums.askEnum.ALL">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="no_is_stockable" class="db-field-label">{{ $t('label.no') }}</label>

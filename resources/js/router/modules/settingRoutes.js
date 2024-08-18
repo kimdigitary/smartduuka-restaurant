@@ -34,6 +34,9 @@ import NotificationAlertComponent from "../../components/admin/settings/Notifica
 import NotificationComponent from "../../components/admin/settings/Notification/NotificationComponent";
 import SubscriptionListComponent from "../../components/admin/Subscription/SubscriptionListComponent.vue";
 import SubscriptionCreateComponent from "../../components/admin/Subscription/SubscriptionCreateComponent.vue";
+import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent.vue";
+import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent.vue";
+import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent.vue";
 
 export const settingRoutes= [
     {
@@ -69,6 +72,42 @@ export const settingRoutes= [
                     permissionUrl: "settings",
                     breadcrumb: "site",
                 },
+            },
+            {
+                path: "dining-tables",
+                component: DiningTableComponent,
+                name: "admin.settings.diningTable",
+                redirect: { name: "admin.settings.diningTable.list" },
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "dining_tables",
+                },
+                children: [
+                    {
+                        path: "list",
+                        component: DiningTableListComponent,
+                        name: "admin.settings.diningTable.list",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "",
+                        },
+                    },
+                    {
+                        path: "show/:id",
+                        component: DiningTableShowComponent,
+                        name: "admin.settings.diningTable.show",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "view",
+                        },
+                    },
+                ],
             },
             {
                 path: "branches",
