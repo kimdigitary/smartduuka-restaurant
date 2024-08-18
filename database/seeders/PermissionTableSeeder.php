@@ -625,9 +625,9 @@ class PermissionTableSeeder extends Seeder
             ],
             [
                 'title'      => 'Stock',
-                'name'       => 'stock',
+                'name'       => 'itemStock',
                 'guard_name' => 'sanctum',
-                'url'        => 'stock',
+                'url'        => 'itemStock',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

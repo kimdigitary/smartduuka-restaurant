@@ -32,7 +32,7 @@ class ProductAllVariationResource extends JsonResource
             'discount'                      => Carbon::now()->between($this->product?->offer_start_date, $this->product?->offer_end_date) ? AppLibrary::convertAmountFormat(($this->price / 100) * $this->product?->discount) : 0,
             'discount_percentage'           => AppLibrary::convertAmountFormat($this->product?->discount),
             'sku'                           => $this->sku,
-            'stock'                         => $this->product?->show_stock_out == Activity::DISABLE ? $this->product?->can_purchasable == Ask::NO ? (int)env('NON_PURCHASE_QUANTITY') : (int)$this->stock_items_sum_quantity : 0,
+            'itemStock'                         => $this->product?->show_stock_out == Activity::DISABLE ? $this->product?->can_purchasable == Ask::NO ? (int)env('NON_PURCHASE_QUANTITY') : (int)$this->stock_items_sum_quantity : 0,
             'children'                      => ProductAllVariationResource::collection($this->children),
         ];
     }

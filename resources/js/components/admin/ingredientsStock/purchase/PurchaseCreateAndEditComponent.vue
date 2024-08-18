@@ -276,18 +276,19 @@
 </template>
 
 <script lang="js">
-import purchaseStatusEnum from "../../../enums/modules/purchaseStatusEnum";
+
 import Datepicker from "@vuepic/vue-datepicker";
 import {quillEditor} from 'vue3-quill'
-import alertService from "../../../services/alertService";
-import LoadingComponent from "../components/LoadingComponent";
-import ProductModalComponent from "../components/product/ProductModalComponent"
-import appService from '../../../services/appService';
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import {paymentMethods} from "../../../utils/data";
-import askEnum from "../../../enums/modules/askEnum";
-import AskEnum from "../../../enums/modules/askEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import ProductModalComponent from "../../components/product/ProductModalComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import askEnum from "../../../../enums/modules/askEnum";
+import {paymentMethods} from "../../../../utils/data";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import appService from "../../../../services/appService";
+import AskEnum from "../../../../enums/modules/askEnum";
+import alertService from "../../../../services/alertService";
 
 export default {
     name: 'PurchaseCreateAndEditComponent',

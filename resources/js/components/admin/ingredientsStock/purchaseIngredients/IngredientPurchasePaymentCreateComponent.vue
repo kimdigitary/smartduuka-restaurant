@@ -55,8 +55,9 @@
                         :options="[
                             { id: enums.purchasePaymentMethodEnum.CASH, name: $t('label.cash') },
                             { id: enums.purchasePaymentMethodEnum.CHEQUE, name: $t('label.cheque') },
-                            { id: enums.purchasePaymentMethodEnum.CREDIT_CARD, name: $t('label.credit_card') },
-                            { id: enums.purchasePaymentMethodEnum.OTHERS, name: $t('label.others') }
+                            { id: enums.purchasePaymentMethodEnum.MOBILE_MONEY, name: 'Mobile money' },
+                            { id: enums.purchasePaymentMethodEnum.BANK_TRANSFER, name: 'Bank transfer' },
+
                         ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                         placeholder="--" search-placeholder="--" />
                     <small class="db-field-alert" v-if="errors.payment_method">{{
@@ -93,13 +94,13 @@
     </div>
 </template>
 <script>
-import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
-import purchasePaymentMethodEnum from "../../../enums/modules/purchasePaymentMethodEnum";
-import alertService from "../../../services/alertService";
-import appService from "../../../services/appService";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import appService from "../../../../services/appService";
+import alertService from "../../../../services/alertService";
+import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
 
 export default {
     name: "IngredientPurchasePaymentCreateComponent",
@@ -140,9 +141,9 @@ export default {
             this.errors.global = ""
         },
         show: function () {
-            if (this.$store.getters["ingredientPurchase/temp"].temp_id) {
+            if (this.$store.getters["purchase/temp"].temp_id) {
                 this.loading.isActive = true;
-                this.$store.dispatch("ingredientPurchase/show", this.$store.getters["ingredientPurchase/temp"].temp_id).then((res) => {
+                this.$store.dispatch("purchase/show", this.$store.getters["purchase/temp"].temp_id).then((res) => {
                     this.form.amount = res.data.data.due_payment;
                     this.dueAmount = res.data.data.due_payment;
                     this.loading.isActive = false;
@@ -160,7 +161,7 @@ export default {
         reset: function () {
             appService.modalHide();
             this.errors = {};
-            this.$store.dispatch("ingredientPurchase/reset");
+            this.$store.dispatch("purchase/reset");
             this.form = {
                 purchase_id: "",
                 date: "",
@@ -177,7 +178,7 @@ export default {
 
         save: function () {
             try {
-                const tempId = this.$store.getters["ingredientPurchase/temp"].temp_id;
+                const tempId = this.$store.getters["purchase/temp"].temp_id;
                 const fd = new FormData();
                 fd.append("purchase_id", tempId);
                 fd.append("date", this.form.date);
@@ -190,7 +191,7 @@ export default {
 
                 this.loading.isActive = true;
                 this.$store
-                    .dispatch("ingredientPurchase/addPayment", {
+                    .dispatch("purchase/addPayment", {
                         form: fd,
                     })
                     .then((res) => {
@@ -200,7 +201,7 @@ export default {
                             0,
                             this.$t("menu.add_payment")
                         );
-                        this.$store.dispatch("ingredientPurchase/reset");
+                        this.$store.dispatch("purchase/reset");
                         this.form = {
                             purchase_id: "",
                             date: "",

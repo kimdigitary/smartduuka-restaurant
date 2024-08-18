@@ -103,7 +103,7 @@ const routes = baseRoutes.concat(
     transactionRoutes,
     creditBalanceReportRoutes,
     tableOrderRoutes,
-    purchaseRoutes,
+    // purchaseRoutes,
     adminTableOrderRoutes,
     diningTableRoutes,
     purchaseIngredientsRoutes,

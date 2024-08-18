@@ -1,8 +1,9 @@
 
-import PurchaseComponent from '../../components/admin/purchase/PurchaseComponent'
-import PurchaseListComponent from '../../components/admin/purchase/PurchaseListComponent'
-import PurchaseShowComponent from '../../components/admin/purchase/PurchaseShowComponent'
-import PurchaseCreateAndEditComponent from '../../components/admin/purchase/PurchaseCreateAndEditComponent.vue'
+import PurchaseComponent from "../../components/admin/ingredientsStock/purchase/PurchaseComponent.vue";
+import PurchaseListComponent from "../../components/admin/ingredientsStock/purchase/PurchaseListComponent.vue";
+import PurchaseCreateAndEditComponent
+    from "../../components/admin/ingredientsStock/purchase/PurchaseCreateAndEditComponent.vue";
+import PurchaseShowComponent from "../../components/admin/ingredientsStock/purchase/PurchaseShowComponent.vue";
 
 export default [
     {

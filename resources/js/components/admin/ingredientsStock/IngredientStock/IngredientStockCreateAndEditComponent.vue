@@ -180,18 +180,18 @@
 </template>
 
 <script lang="js">
-import purchaseStatusEnum from "../../../enums/modules/purchaseStatusEnum";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import Datepicker from "@vuepic/vue-datepicker";
 import {quillEditor} from 'vue3-quill'
-import alertService from "../../../services/alertService";
-import LoadingComponent from "../components/LoadingComponent";
-import ProductModalComponent from "../components/product/ProductModalComponent"
-import appService from '../../../services/appService';
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
+import alertService from "../../../../services/alertService";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import ProductModalComponent from "../../components/product/ProductModalComponent.vue"
+import appService from '../../../../services/appService';
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
 
 export default {
-    name: 'StockCreateOrEditComponent',
+    name: 'IngredientStockCreateAndEditComponent',
     components: {
         Datepicker,
         quillEditor,
@@ -440,7 +440,7 @@ export default {
                         this.loading.isActive = false;
                         alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));
                         this.reset();
-                        this.$router.push({name: 'admin.stock'});
+                        this.$router.push({name: 'admin.itemStock'});
                     })
                     .catch((err) => {
                         this.loading.isActive = false;

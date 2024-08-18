@@ -14,7 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <router-link @click="reset" v-if="permissionChecker('purchase_create')" to="purchase/add"
+                    <router-link @click="reset" v-if="permissionChecker('purchase_create')" to="ingredients/add"
                         class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
                         <span>{{ $t('button.add_purchase') }}</span>
@@ -145,30 +145,29 @@
 
 
 <script lang="js">
-import LoadingComponent from "../components/LoadingComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import TableLimitComponent from "../components/TableLimitComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconEditComponent from '../components/buttons/SmIconEditComponent';
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import Datepicker from "@vuepic/vue-datepicker";
-import appService from "../../../services/appService";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import purchaseStatusEnum from "../../../enums/modules/purchaseStatusEnum";
-import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentStatusEnum";
-import alertService from "../../../services/alertService";
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
-import askEnum from "../../../enums/modules/askEnum";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import FilterComponent from "../../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
+import ExportComponent from "../../components/buttons/export/ExportComponent.vue";
+import SmIconViewComponent from "../../components/buttons/SmIconViewComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconEditComponent from "../../components/buttons/SmIconEditComponent.vue";
+import purchasePaymentStatusEnum from "../../../../enums/modules/purchasePaymentStatusEnum";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import askEnum from "../../../../enums/modules/askEnum";
+import appService from "../../../../services/appService";
+import IngredientPurchasePaymentCreateComponent from "./IngredientPurchasePaymentCreateComponent.vue";
+import IngredientPurchasePaymentListComponent from "./IngredientPurchasePaymentListComponent.vue";
 
 export default {
-    name: 'PurchaseListComponent',
+    name: 'IngredientPurchaseListComponent',
     components: {
         PaginationBox,
         PaginationSMBox,
@@ -184,8 +183,8 @@ export default {
         LoadingComponent,
         SmIconSidebarModalEditComponent,
         SmIconEditComponent,
-        PurchasePaymentCreateComponent,
-        PurchasePaymentListComponent
+        IngredientPurchasePaymentCreateComponent,
+        IngredientPurchasePaymentListComponent
     },
     data() {
         return {
@@ -292,7 +291,7 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('purchase/lists', this.props.search)
+            this.$store.dispatch('purchase/ingredientsLists', this.props.search)
                 .then((res) => {
                     this.loading.isActive = false;
                 })

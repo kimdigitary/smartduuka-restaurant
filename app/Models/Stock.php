@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Razorpay\Api\Product;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
@@ -30,6 +31,7 @@ class Stock extends Model
         'status',
         'subtotal',
         'total',
+        'type'
     ];
 
     protected $casts = [
@@ -46,15 +48,15 @@ class Stock extends Model
         'total'         => 'decimal:6',
     ];
 
-//    public function item(): \Illuminate\Database\Eloquent\Relations\MorphTo
-//    {
-//        return $this->morphTo();
-//    }
-
-    public function item(): BelongsTo
+    public function item(): MorphTo
     {
-        return $this->belongsTo(Item::class)->withTrashed();
+        return $this->morphTo();
     }
+
+//    public function item(): BelongsTo
+//    {
+//        return $this->belongsTo(Item::class)->withTrashed();
+//    }
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withTrashed();

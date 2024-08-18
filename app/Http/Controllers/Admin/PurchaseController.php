@@ -47,11 +47,27 @@ class PurchaseController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+    public function indexIngredients(PaginateRequest $request): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        try {
+            return  PurchaseResource::collection($this->purchaseService->ingreidentList($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
 
     public function store(PurchaseRequest $request): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return new PurchaseResource($this->purchaseService->store($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+    public function storeIngredient(PurchaseRequest $request): Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        try {
+            return new PurchaseResource($this->purchaseService->storeIngredient($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

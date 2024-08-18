@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Enums\Ask;
 use App\Enums\PurchasePaymentStatus;
 use App\Enums\PurchaseStatus;
+use App\Enums\PurchaseType;
 use App\Enums\Status;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\PurchasePaymentRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Libraries\QueryExceptionLibrary;
+use App\Models\Ingredient;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\ProductVariation;
@@ -48,6 +51,47 @@ class PurchaseService
             $orderType = $request->get('order_type') ?? 'desc';
 
             return Purchase::with('supplier')->where(function ($query) use ($requests) {
+                $query->where('type', PurchaseType::ITEM);
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->purchaseFilter)) {
+                        if ($key == "except") {
+                            $explodes = explode('|', $request);
+                            if (count($explodes)) {
+                                foreach ($explodes as $explode) {
+                                    $query->where('id', '!=', $explode);
+                                }
+                            }
+                        } else {
+                            if ($key == "supplier_id" || $key == 'status') {
+                                $query->where($key, $request);
+                            } else if ($key == "date" && !empty($request)) {
+                                $date_start = date('Y-m-d 00:00:00', strtotime($request));
+                                $date_end = date('Y-m-d 23:59:59', strtotime($request));
+                                $query->where($key, '>=', $date_start)->where($key, '<=', $date_end);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method($methodValue);
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    public function ingreidentList(PaginateRequest $request)
+    {
+        try {
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType = $request->get('order_type') ?? 'desc';
+
+            return Purchase::with('supplier')->where(function ($query) use ($requests) {
+                $query->where('type', PurchaseType::INGREDIENT);
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->purchaseFilter)) {
                         if ($key == "except") {
@@ -89,6 +133,7 @@ class PurchaseService
                     'date'           => date('Y-m-d H:i:s', strtotime($request->date)),
                     'reference_no'   => $request->reference_no,
                     'subtotal'       => $request->subtotal,
+                    'type'           => PurchaseType::ITEM,
                     'tax'            => $request->tax,
                     'discount'       => $request->discount,
                     'balance'        => $request->amount ? $request->amount : $request->total,
@@ -99,37 +144,109 @@ class PurchaseService
                 ]);
                 $this->purchase = $purchase;
 
-                $purchasePayment = PurchasePayment::create([
-                    'purchase_id'    => $purchase->id,
-                    'date'           => date('Y-m-d H:i:s', strtotime($request->payment_date)),
-                    'reference_no'   => $request->reference_no,
-                    'amount'         => $request->amount,
-                    'payment_method' => $request->payment_method,
-                ]);
+                if ($request->add_payment == Ask::YES) {
+                    $purchasePayment = PurchasePayment::create([
+                        'purchase_id'    => $purchase->id,
+                        'date'           => date('Y-m-d H:i:s', strtotime($request->payment_date)),
+                        'reference_no'   => $request->reference_no,
+                        'amount'         => $request->amount,
+                        'payment_method' => $request->payment_method,
+                    ]);
+                }
 
                 if ($request->products) {
                     $model_id = $this->purchase->id;
                     $products = json_decode($request->products, true);
                     $taxes = Tax::all()->keyBy('id');
                     foreach ($products as $product) {
-                        $stock = Stock::where('item_id', $product['product_id'])->first();
-                        if ($stock) {
-                            $stock->increment('quantity', $product['quantity']);
-                        } else {
-                            Stock::create([
-                                'model_type' => Purchase::class,
-                                'model_id'   => $model_id,
-                                'item_type'  => Item::class,
-                                'item_id'    => $product['product_id'],
-                                'price'      => $product['price'],
-                                'quantity'   => $product['quantity'],
-                                'discount'   => $product['total_discount'],
-                                'tax'        => $product['total_tax'],
-                                'subtotal'   => $product['subtotal'],
-                                'total'      => $product['total'],
-                                'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
-                            ]);
-                        }
+                        Stock::create([
+                            'model_type' => Purchase::class,
+                            'model_id'   => $model_id,
+                            'item_type'  => Item::class,
+                            'type'       => PurchaseType::ITEM,
+                            'item_id'    => $product['product_id'],
+                            'price'      => $product['price'],
+                            'quantity'   => $product['quantity'],
+                            'discount'   => $product['total_discount'],
+                            'tax'        => $product['total_tax'],
+                            'subtotal'   => $product['subtotal'],
+                            'total'      => $product['total'],
+                            'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
+                        ]);
+                    }
+                }
+
+                if ($request->file) {
+                    $this->purchase->addMediaFromRequest('file')->toMediaCollection('purchase');
+                }
+                if ($request->payment_file) {
+                    $purchasePayment->addMediaFromRequest('payment_file')->toMediaCollection('purchase_payment');
+                }
+                $checkPurchasePayment = PurchasePayment::where('purchase_id', $purchase->id)->sum('amount');
+                if ($checkPurchasePayment == $purchase->total) {
+                    $purchase->payment_status = PurchasePaymentStatus::FULLY_PAID;
+                    $purchase->save();
+                }
+                if ($checkPurchasePayment < $purchase->total) {
+                    $purchase->payment_status = PurchasePaymentStatus::PARTIAL_PAID;
+                    $purchase->save();
+                }
+            });
+            return $this->purchase;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            DB::rollBack();
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    public function storeIngredient(PurchaseRequest $request): object
+    {
+        try {
+            DB::transaction(function () use ($request) {
+                $purchase = Purchase::create([
+                    'supplier_id'    => $request->supplier_id,
+                    'date'           => date('Y-m-d H:i:s', strtotime($request->date)),
+                    'reference_no'   => $request->reference_no,
+                    'subtotal'       => $request->subtotal,
+                    'tax'            => $request->tax,
+                    'type'           => PurchaseType::INGREDIENT,
+                    'discount'       => $request->discount,
+                    'balance'        => $request->amount ? $request->amount : $request->total,
+                    'total'          => $request->total,
+                    'note'           => $request->note ? $request->note : "",
+                    'status'         => $request->status,
+                    'payment_status' => PurchasePaymentStatus::PENDING,
+                ]);
+                $this->purchase = $purchase;
+                if ($request->add_payment == Ask::YES) {
+                    $purchasePayment = PurchasePayment::create([
+                        'purchase_id'    => $purchase->id,
+                        'date'           => date('Y-m-d H:i:s', strtotime($request->payment_date)),
+                        'reference_no'   => $request->reference_no,
+                        'amount'         => $request->amount,
+                        'payment_method' => $request->payment_method,
+                    ]);
+                }
+                if ($request->products) {
+                    $model_id = $this->purchase->id;
+                    $products = json_decode($request->products, true);
+
+                    foreach ($products as $product) {
+                        Stock::create([
+                            'model_type' => Ingredient::class,
+                            'model_id'   => $model_id,
+                            'item_type'  => Ingredient::class,
+                            'item_id'    => $product['product_id'],
+                            'price'      => $product['price'],
+                            'type'       => PurchaseType::ITEM,
+                            'quantity'   => $product['quantity'],
+                            'discount'   => $product['total_discount'],
+                            'tax'        => $product['total_tax'],
+                            'subtotal'   => $product['subtotal'],
+                            'total'      => $product['total'],
+                            'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
+                        ]);
                     }
                 }
 
@@ -354,7 +471,7 @@ class PurchaseService
                 if ($request->products) {
                     $products = json_decode($request->products, true);
                     foreach ($products as $product) {
-//                        $this->stock = Stock::create([
+//                        $this->itemStock = Stock::create([
                         $existing_stock = Stock::where('item_id', $product['product_id'])->first();
                         if ($existing_stock) {
                             $existing_stock->update([

@@ -22,14 +22,21 @@ class StockController extends AdminController
     {
         parent::__construct();
         $this->stockService = $stockService;
-        $this->middleware(['permission:stock'])->only('index', 'export');
+        $this->middleware(['permission:itemStock'])->only('index', 'export');
     }
 
     public function index(PaginateRequest $request): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
             return StockResource::collection($this->stockService->list($request));
-//            return StockResource::collection(Stock::with('item')->get());
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+    public function indexIngredients(PaginateRequest $request): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        try {
+            return StockResource::collection($this->stockService->listIngredients($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

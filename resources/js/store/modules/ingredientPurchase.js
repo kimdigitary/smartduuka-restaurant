@@ -79,7 +79,7 @@ export const ingredientPurchase = {
         saveStock: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
-                let url = 'admin/purchase/store-stock';
+                let url = 'admin/purchase/store-itemStock';
                 if (this.state['purchase'].temp.isEditing) {
                     method = axios.post;
                     url = `admin/purchase/update/${this.state['purchase'].temp.temp_id}`;

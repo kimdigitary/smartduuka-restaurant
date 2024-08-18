@@ -1,7 +1,7 @@
 <template>
     <LoadingComponent :props="loading" />
 
-    <div class="db-card db-tab-div active">
+    <div class="db-card  active">
         <div class="db-card-header border-none">
             <h3 class="db-card-title">{{ $t("menu.suppliers") }}</h3>
             <div class="db-card-filter">
