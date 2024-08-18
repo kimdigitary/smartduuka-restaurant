@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import statusEnum from "../../../enums/modules/statusEnum";
-import appService from "../../../services/appService";
-import PrintComponent from "../components/buttons/export/PrintComponent";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import statusEnum from "../../../../enums/modules/statusEnum";
+import appService from "../../../../services/appService";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
 import print from "vue3-print-nb";
 
 export default {

@@ -1,6 +1,6 @@
-import DiningTableListComponent from "../../components/admin/diningTable/DiningTableListComponent";
-import DiningTableComponent from "../../components/admin/diningTable/DiningTableComponent";
-import DiningTableShowComponent from "../../components/admin/diningTable/DiningTableShowComponent";
+import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent";
+import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent";
+import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent";
 
 export default [
     {

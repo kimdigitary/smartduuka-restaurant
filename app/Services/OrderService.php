@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Ask;
 use App\Enums\OrderStatus;
 use App\Enums\OrderType;
 use App\Enums\PaymentStatus;
@@ -105,6 +106,11 @@ class OrderService
     {
         try {
             return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')
+//                ->when($request->item_type !== Ask::ALL, function ($query) use ($request) {
+//                    $query->whereHas('orderItems.orderItem', function ($query) use ($request) {
+//                        $query->where('item_type', $request->item_type);
+//                    });
+//                })
                 ->where(function ($query) use ($request) {
                     if ($request->order_type == OrderType::CHEF_BOARD) {
                         $query->where('status', $request->status)
@@ -482,7 +488,7 @@ class OrderService
                     $order->status = $request->status;
                     $order->save();
                 }
-            }  else {
+            } else {
                 if ($request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED) {
                     $request->validate([
                         'reason' => 'required|max:700',
@@ -507,7 +513,7 @@ class OrderService
                     $order->status = $request->status;
                     $order->save();
                 }
-                if ($request->status == OrderStatus::ACCEPT ) {
+                if ($request->status == OrderStatus::ACCEPT) {
                     if ($request->orderItemID) {
                         OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
                     }

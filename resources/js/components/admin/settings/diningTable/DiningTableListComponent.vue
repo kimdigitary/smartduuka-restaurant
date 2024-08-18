@@ -90,7 +90,7 @@
                                 v-if="permissionChecker('dining_tables_show') || permissionChecker('dining_tables_edit') || permissionChecker('dining_tables_delete')">
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconQrCodeComponent :link="diningTable.qr" />
-                                    <SmIconViewComponent :link="'admin.diningTable.show'" :id="diningTable.id"
+                                    <SmIconViewComponent :link="'admin.settings.diningTable.show'" :id="diningTable.id"
                                         v-if="permissionChecker('dining_tables_show')" />
                                     <SmIconSidebarModalEditComponent @click="edit(diningTable)"
                                         v-if="permissionChecker('dining_tables_edit')" />
@@ -117,24 +117,24 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import DiningTableCreateComponent from "./DiningTableCreateComponent";
-import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
-import appService from "../../../services/appService";
-import statusEnum from "../../../enums/modules/statusEnum";
-import TableLimitComponent from "../components/TableLimitComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconQrCodeComponent from "../components/buttons/SmIconQrCodeComponent";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ENV from "../../../config/env";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import DiningTableCreateComponent from "./DiningTableCreateComponent.vue";
+import alertService from "../../../../services/alertService";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import appService from "../../../../services/appService";
+import statusEnum from "../../../../enums/modules/statusEnum";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconQrCodeComponent from "../../components/buttons/SmIconQrCodeComponent.vue";
+import SmIconViewComponent from "../../components/buttons/SmIconViewComponent.vue";
+import ExportComponent from "../../components/buttons/export/ExportComponent.vue";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
+import FilterComponent from "../../components/buttons/collapse/FilterComponent.vue";
+import ENV from "../../../../config/env";
 
 export default {
     name: "DiningTableListComponent",

@@ -13,6 +13,35 @@
                 </div>
                 <label class="cursor-pointer" for="enableSound">Enable Sound Notifications</label>
             </div>
+            <div class="form-col-12 sm:form-col-6">
+                <label class="db-field-title" for="yes">Filter By</label>
+                <div class="db-field-radio-group">
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" v-model="props.form.itemType" id="food"
+                                   :value="enums.askEnum.YES" class="custom-radio-field">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="food" class="db-field-label">Food</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="Beverage" :value="enums.askEnum.NO">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="Beverage" class="db-field-label">Beverage</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="All" :value="enums.askEnum.ALL">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="All" class="db-field-label">All</label>
+                    </div>
+                </div>
+            </div>
             <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
                 <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
             </div>
@@ -80,9 +109,9 @@
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
                                     <div class="">
-                                    <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} x
-                                        {{ orderItem.order_item.name }}</label>
-                                        <p v-if="orderItem.instruction">Instructions: {{orderItem.instruction}}</p>
+                                        <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} x
+                                            {{ orderItem.order_item.name }}</label>
+                                        <p v-if="orderItem.instruction">Instructions: {{ orderItem.instruction }}</p>
                                     </div>
 
                                 </div>
@@ -131,6 +160,7 @@ import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
+import askEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -190,6 +220,7 @@ export default {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
+                askEnum: askEnum,
                 orderStatusEnumArray: {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PENDING]: this.$t("label.pending"),
@@ -212,6 +243,7 @@ export default {
             props: {
                 form: {
                     date: null,
+                    itemType: askEnum.ALL
                 },
                 search: {
                     paginate: 1,
@@ -258,7 +290,7 @@ export default {
             return this.$store.getters['frontendSetting/lists'];
         },
         filteredOrders() {
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED);
+            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED );
         },
         OrderStatusEnum() {
             return OrderStatusEnum
@@ -341,7 +373,10 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+            const payload = {
+                ...this.props.search,type:this.props.form.itemType
+            }
+            this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
                     this.lastOrderId = res.data.data[0].id;
                 }
@@ -354,7 +389,10 @@ export default {
             return orderItems.every(orderItem => orderItem.status === 2);
         },
         polling: function () {
-            this.$store.dispatch('posOrder/chefLists', this.props.search).then(res => {
+            const payload = {
+                ...this.props.search,type:this.props.form.itemType
+            }
+            this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
                     if (this.lastOrderId < res.data.data[0].id) {
                         this.lastOrderId = res.data.data[0].id;
