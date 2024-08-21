@@ -19,7 +19,7 @@
 
                     <div class="form-col-12 sm:form-col-6">
                         <label for="price" class="db-field-title required">{{ $t("label.price") }}</label>
-                        <input v-model="formattedPrice" v-bind:class="errors.price ? 'invalid' : ''" type="text"
+                        <input v-model="props.form.price" v-bind:class="errors.price ? 'invalid' : ''" type="text"
                                id="price" class="db-field-control">
                         <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>
                     </div>
@@ -146,7 +146,7 @@
 
                     <div class="form-col-12 sm:form-col-6" v-if="props.form.is_stockable===AskEnum.YES">
                         <label for="buying_price" class="db-field-title required">Buying price</label>
-                        <input v-model="formattedBuyingPrice" v-bind:class="errors.buying_price ? 'invalid' : ''"
+                        <input v-model="props.form.buying_price" v-bind:class="errors.buying_price ? 'invalid' : ''"
                                type="text"
                                id="buying_price" class="db-field-control">
                         <small class="db-field-alert" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>

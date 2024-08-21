@@ -34,7 +34,7 @@ class Order extends Model
         'payment_status',
         'status',
         'dining_table_id',
-        'source'
+        'source',
     ];
 
     protected $casts = [

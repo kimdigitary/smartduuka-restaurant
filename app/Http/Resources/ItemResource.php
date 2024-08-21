@@ -31,8 +31,8 @@ class ItemResource extends JsonResource
             "price"            => $this->price,
             "item_type"        => $this->item_type,
             "is_featured"      => $this->is_featured,
-            "is_stockable"      => $this->is_stockable,
-            "buying_price"      => $this->buying_price,
+            "is_stockable"     => $this->is_stockable,
+            "buying_price"     => $this->buying_price,
             "status"           => $this->status,
             "description"      => $this->description === null ? '' : $this->description,
             "caution"          => $this->caution === null ? '' : $this->caution,
@@ -47,12 +47,13 @@ class ItemResource extends JsonResource
             "itemAttributes"   => ItemAttributeResource::collection($this->itemAttributeList($this->variations)),
             "extras"           => ItemExtraResource::collection($this->extras),
             "addons"           => ItemAddonResource::collection($this->addons),
+            "ingredients"      => IngredientResource::collection($this->ingredients),
             "offer"            => SimpleOfferResource::collection(
                 $this->offer->filter(function ($offer) use ($price) {
                     if (Carbon::now()->between($offer->start_date, $offer->end_date) && $offer->status === Status::ACTIVE) {
-                        $amount                = ($price - ($price / 100 * $offer->amount));
-                        $offer->flat_price     = AppLibrary::flatAmountFormat($amount);
-                        $offer->convert_price  = AppLibrary::convertAmountFormat($amount);
+                        $amount = ($price - ($price / 100 * $offer->amount));
+                        $offer->flat_price = AppLibrary::flatAmountFormat($amount);
+                        $offer->convert_price = AppLibrary::convertAmountFormat($amount);
                         $offer->currency_price = AppLibrary::currencyAmountFormat($amount);
                         return $offer;
                     }

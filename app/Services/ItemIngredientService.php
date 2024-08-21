@@ -3,15 +3,14 @@
 namespace App\Services;
 
 
-use App\Http\Requests\ItemIngredientRequest;
-use Exception;
-use App\Models\Item;
-use Illuminate\Support\Facades\Log;
-use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\ItemAddonRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Models\Item;
 use App\Models\ItemAddon;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
-class ItemAddonService
+class ItemIngredientService
 {
     public $itemExtra;
     protected $itemExtraFilter = [
@@ -55,17 +54,6 @@ class ItemAddonService
     {
         try {
             return ItemAddon::create($request->validated() + ['item_id' => $item->id]);
-        } catch (Exception $exception) {
-            Log::info($exception->getMessage());
-            throw new Exception($exception->getMessage(), 422);
-        }
-    }
-    public function storeIngredient(ItemIngredientRequest $request, Item $item)
-    {
-        try {
-            $item->ingredients()->sync($request->ingredient_item_id);
-            return $item->ingredients;
-//            return ItemAddon::create($request->validated() + ['item_id' => $item->id]);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
