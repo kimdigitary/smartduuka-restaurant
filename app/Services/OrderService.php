@@ -105,6 +105,7 @@ class OrderService
     public function chef(PaginateRequest $request)
     {
         try {
+
             return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')
 //                ->when($request->item_type !== Ask::ALL, function ($query) use ($request) {
 //                    $query->whereHas('orderItems.orderItem', function ($query) use ($request) {

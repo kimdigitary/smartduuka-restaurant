@@ -34,7 +34,7 @@
 
                         <div class="form-col-12 sm:form-col-12">
                             <label for="phone" class="db-field-title">{{ $t("label.phone") }}</label>
-                            <input v-model="props.form.phone" type="text" id="phone" class="db-field-control"/>
+                            <input v-model="props.form.phone" type="text" placeholder="eg. 256701234567" id="phone" class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.phone">
                                 {{ errors.phone[0] }}
                             </small>

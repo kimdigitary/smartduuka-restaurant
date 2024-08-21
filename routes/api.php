@@ -436,6 +436,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/addon/{item}', [ItemAddonController::class, 'index']);
         Route::post('/addon/{item}', [ItemAddonController::class, 'store']);
         Route::delete('/addon/{item}/{itemAddon}', [ItemAddonController::class, 'destroy']);
+
+        Route::get('/ingredient/{item}', [ItemAddonController::class, 'ingredients']);
+        Route::post('/ingredient/{item}', [ItemAddonController::class, 'storeIngredients']);
+        Route::delete('/ingredient/{item}/{itemIngredient}', [ItemAddonController::class, 'destroyIngredient']);
     });
 
     Route::prefix('pos')->name('pos.')->group(function () {

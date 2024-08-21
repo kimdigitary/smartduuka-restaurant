@@ -81,6 +81,7 @@ import {productVariation} from "./modules/productVariation";
 import {purchase} from "./modules/purchase";
 import {ingredientPurchase} from "./modules/ingredientPurchase";
 import {ingredientProduct} from "./modules/ingredientProduct";
+import {itemIngredients} from "./modules/itemIngredients";
 
 
 export default new createStore({
@@ -115,6 +116,7 @@ export default new createStore({
         analytic,
         supplier,
         stock,
+        itemIngredients,
         analyticSection,
         role,
         permission,
