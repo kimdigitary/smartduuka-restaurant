@@ -115,11 +115,8 @@ export default {
             try {
                 const tempId = this.$store.getters["itemIngredients/temp"].temp_id;
                 this.loading.isActive = true;
-                if (this.props.form.addon_item_variation) {
-
-                    this.props.form.addon_item_variation = JSON.stringify(this.props.form.addon_item_variation);
-                }
                 this.$store.dispatch("itemIngredients/save", this.props).then((res) => {
+                    console.log(res)
                     appService.modalHide();
                     this.loading.isActive = false;
                     alertService.successFlip(
@@ -130,9 +127,10 @@ export default {
                         addon_item_id: null,
                         addon_item_variation: {},
                     };
-                    this.variations = [],
+                    this.variations = []
                         this.errors = {};
                 }).catch((err) => {
+                    console.log(err);
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;
                 });

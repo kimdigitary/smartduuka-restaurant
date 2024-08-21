@@ -1,36 +1,36 @@
 <template>
     <ItemIngredientCreateComponent :props="addonProps" />
     <br><br>
-    {{addons}}
     <div class="db-card" v-if="addons.length > 0">
         <div class="db-table-responsive">
             <table class="db-table stripe">
                 <thead class="db-table-head">
                     <tr class="db-table-head-tr">
                         <th class="db-table-head-th">{{ $t("label.name") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.price") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.status") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.action") }}</th>
+                        <th class="db-table-head-th"> Buying Price</th>
+                        <th class="db-table-head-th">Quantity</th>
+                        <th class="db-table-head-th">Units</th>
+                        <th class="db-table-head-th hidden-print"
+                            v-if="permissionChecker('ingredients_delete') || permissionChecker('ingredients_edit') || permissionChecker('ingredients_show')">
+                            {{ $t('label.action') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="addons.length > 0">
                     <tr class="db-table-body-tr" v-for="addon in addons" :key="addon">
                         <td class="db-table-body-td">
-                            {{ addon.addon_item_name }}<br>
-                            <span v-if="addon.variation_names.length > 0"
-                                v-for="(variationName, index) in addon.variation_names">
-                                <span>{{ variationName.attribute_name }} : {{ variationName.name }}
-                                    <span v-if="index + 1 < addon.variation_names.length">, </span>
-                                </span>
-
-                            </span>
+                            {{ addon.name }}<br>
                         </td>
                         <td class="db-table-body-td">
-                            {{ addon.total_flat_price }}
+                            {{ addon.buying_price }}
                         </td>
                         <td class="db-table-body-td">
-                            <span :class="statusClass(addon.addon_item_status)">
-                                {{ enums.statusEnumArray[addon.addon_item_status] }}
+                            {{ addon.quantity }}
+                        </td>
+                        <td class="db-table-body-td">{{ addon.unit }}</td>
+                        <td class="db-table-body-td">
+                            <span :class="statusClass(addon.status)">
+                                {{ enums.statusEnumArray[addon.status] }}
                             </span>
                         </td>
                         <td class="db-table-body-td">
@@ -97,6 +97,9 @@ export default {
     methods: {
         statusClass: function (status) {
             return appService.statusClass(status);
+        },
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
         },
         list: function () {
             this.loading.isActive = true;
