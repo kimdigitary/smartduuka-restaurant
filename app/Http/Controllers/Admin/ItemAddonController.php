@@ -77,7 +77,6 @@ class ItemAddonController extends AdminController
     public function destroyIngredient(Item $item, ItemIngredient $itemIngredient) : Response | Application | ResponseFactory
     {
         try {
-//            $this->itemAddonService->destroy($item, $itemIngredient);
             $item->ingredients()->detach($itemIngredient->id);
             return response('', 202);
         } catch (Exception $exception) {
