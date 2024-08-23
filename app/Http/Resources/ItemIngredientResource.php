@@ -22,32 +22,7 @@ class ItemIngredientResource extends JsonResource
             'unit'                           => $this->unit,
             'quantity'                       => $this->quantity,
             'quantity_alert'                 => $this->quantity_alert,
+            'status'                         => $this->status,
         ];
-    }
-
-    private function variationTotal()
-    {
-        $variationArray = $this->addonItem?->variations?->mapWithKeys(function ($variation) {
-            return [$variation->id => $variation];
-        });
-        if ($this->addon_item_variation) {
-            $variations = (object) json_decode($this->addon_item_variation, true);
-            $price      = 0;
-            $name       = [];
-            foreach ($variations as $variation) {
-                if (isset($variationArray[$variation])) {
-                    $name[] = [
-                        'id'             => $variationArray[$variation]->id,
-                        'name'           => $variationArray[$variation]->name,
-                        'attribute_name' => $variationArray[$variation]->itemAttribute->name
-                    ];
-                    $price  += $variationArray[$variation]->price;
-                }
-            }
-            return (object)[
-                'price' => $price,
-                'name'  => $name
-            ];
-        }
     }
 }

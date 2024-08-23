@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ItemIngredientRequest;
 use App\Http\Resources\ItemIngredientResource;
 use App\Models\Ingredient;
+use App\Models\ItemIngredient;
 use App\Services\ItemIngredientService;
 use Exception;
 use App\Models\Item;
@@ -73,10 +74,11 @@ class ItemAddonController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function destroyIngredient(Item $item, ItemAddon $itemAddon) : Response | Application | ResponseFactory
+    public function destroyIngredient(Item $item, ItemIngredient $itemIngredient) : Response | Application | ResponseFactory
     {
         try {
-            $this->itemAddonService->destroy($item, $itemAddon);
+//            $this->itemAddonService->destroy($item, $itemIngredient);
+            $item->ingredients()->detach($itemIngredient->id);
             return response('', 202);
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);

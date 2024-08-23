@@ -1,5 +1,5 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <button type="button" @click="add" data-modal="#IngredientModal" class="db-btn h-[37px] text-white bg-primary">
         <i class="lab lab-add-circle-line"></i>
         <span>Add Ingredients</span>
@@ -10,20 +10,21 @@
             <div class="modal-header">
                 <h3 class="modal-title">Ingredients</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
-                    @click="reset"></button>
+                        @click="reset"></button>
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
                     <div class="form-row">
                         <div class="form-col-12 sm:form-col-6">
                             <label for="addon_item_id" class="db-field-title required">
-                               Ingredient
+                                Ingredient
                             </label>
                             <vue-select class="db-field-control f-b-custom-select" id="site_default_branch"
-                                v-bind:class="errors.ingredient_item_id ? 'invalid' : ''"
-                                v-model="props.form.ingredient_item_id" :options="items" label-by="name" value-by="id"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
+                                        v-bind:class="errors.ingredient_item_id ? 'invalid' : ''"
+                                        v-model="props.form.ingredient_item_id" :options="items" label-by="name"
+                                        value-by="id"
+                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                        search-placeholder="--"/>
                             <small class="db-field-alert" v-if="errors.ingredient_item_id">
                                 {{ errors.ingredient_item_id[0] }}
                             </small>
@@ -55,7 +56,7 @@ import statusEnum from "../../../../enums/modules/statusEnum";
 
 export default {
     name: "ItemIngredientCreateComponent",
-    components: { LoadingComponent },
+    components: {LoadingComponent},
     props: ["props"],
     data() {
         return {
@@ -70,12 +71,11 @@ export default {
                 },
             },
             errors: {},
-            variations: [],
         };
     },
     computed: {
         addButton: function () {
-            return { title: this.$t('button.add_addon') };
+            return {title: this.$t('button.add_addon')};
         },
         items: function () {
             // return this.$store.getters['item/lists'];
@@ -105,34 +105,28 @@ export default {
             appService.modalHide('#IngredientModal');
             this.$store.dispatch("itemIngredients/reset").then().catch();
             this.errors = {};
-            this.variations = [];
             this.$props.props.form = {
-                addon_item_id: null,
-                addon_item_variation: {},
+                ingredient_item_id: null,
             };
         },
         save: function () {
             try {
                 const tempId = this.$store.getters["itemIngredients/temp"].temp_id;
                 this.loading.isActive = true;
-                if (this.props.form.addon_item_variation) {
-
-                    this.props.form.addon_item_variation = JSON.stringify(this.props.form.addon_item_variation);
-                }
                 this.$store.dispatch("itemIngredients/save", this.props).then((res) => {
+                    console.log(res)
                     appService.modalHide();
                     this.loading.isActive = false;
                     alertService.successFlip(
                         tempId === null ? 0 : 1,
-                        this.$t("label.addon")
+                        'Item Ingredient',
                     );
                     this.props.form = {
-                        addon_item_id: null,
-                        addon_item_variation: {},
+                        ingredient_item_id: null,
                     };
-                    this.variations = [],
-                        this.errors = {};
+                    this.errors = {};
                 }).catch((err) => {
+                    console.log(err);
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;
                 });

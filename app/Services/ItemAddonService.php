@@ -64,7 +64,7 @@ class ItemAddonService
     {
         try {
             $item->ingredients()->sync($request->ingredient_item_id);
-            return $item->ingredients;
+            return $item->ingredients->last();
 //            return ItemAddon::create($request->validated() + ['item_id' => $item->id]);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
