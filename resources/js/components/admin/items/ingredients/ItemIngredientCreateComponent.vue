@@ -15,7 +15,7 @@
             <div class="modal-body">
                 <form @submit.prevent="save">
                     <div class="form-row">
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label for="addon_item_id" class="db-field-title required">
                                 Ingredient
                             </label>
