@@ -1,8 +1,8 @@
 <template>
     <LoadingComponent :props="loading" />
-
     <div class="col-12">
-        <div class="grid grid-cols-1 sm:grid-cols-5 mb-4 sm:mb-0">
+        <div class="grid grid-cols-1 sm:grid-cols-6 mb-4 sm:mb-0">
+
             <button type="button" class="db-tabBtn active" data-tab="#information">
                 <i class="lab lab-information lab-font-size-16"></i>
                 {{ $t('label.information') }}

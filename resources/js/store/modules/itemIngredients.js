@@ -73,8 +73,10 @@ export const itemIngredients = {
             context.commit('temp', payload);
         },
         destroy: function (context, payload) {
+            const url = `admin/item/ingredient/${payload.item}/${payload.id}`
+            console.log(url)
             return new Promise((resolve, reject) => {
-                axios.delete(`admin/item/itemIngredients/${payload.item}/${payload.id}`).then((res) => {
+                axios.delete(`admin/item/ingredient/${payload.item}/${payload.id}`).then((res) => {
                     context.dispatch('lists', payload.search).then().catch();
                     resolve(res);
                 }).catch((err) => {
