@@ -39,9 +39,11 @@ class ItemAddonResource extends JsonResource
                 return $offer;
             }
         });
+
         if (isNull($offer)) {
             $offer = [];
         }
+
         $total           = $this->variation?->price + (count($offer) ? $offer[0]->convert_price : $this->addonItem?->price);
         return [
             'id'                             => $this->id,
