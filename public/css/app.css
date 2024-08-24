@@ -3501,6 +3501,9 @@ input:checked + div svg {
 .mt-\[5px\] {
   margin-top: 5px;
 }
+.mt-auto {
+  margin-top: auto;
+}
 .block {
   display: block;
 }
@@ -3545,9 +3548,6 @@ input:checked + div svg {
 }
 .h-3 {
   height: 0.75rem;
-}
-.h-3\/4 {
-  height: 75%;
 }
 .h-32 {
   height: 8rem;
@@ -4464,6 +4464,9 @@ input:checked + div svg {
 }
 .pb-4 {
   padding-bottom: 1rem;
+}
+.pb-96 {
+  padding-bottom: 24rem;
 }
 .pl-11 {
   padding-left: 2.75rem;
