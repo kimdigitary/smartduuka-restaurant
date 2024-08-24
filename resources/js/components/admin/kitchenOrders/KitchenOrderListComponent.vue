@@ -290,7 +290,8 @@ export default {
             return this.$store.getters['frontendSetting/lists'];
         },
         filteredOrders() {
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED );
+            console.log('type: '+this.props.form.itemType)
+            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
         },
         OrderStatusEnum() {
             return OrderStatusEnum
