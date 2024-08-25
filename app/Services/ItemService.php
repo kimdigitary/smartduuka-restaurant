@@ -159,7 +159,7 @@ class ItemService
             DB::transaction(function () use ($request) {
                 $item = Item::create($request->validated() + ['slug' => Str::slug($request->name)]);
                 $syncData = [];
-                if ($request->is_stockable == Ask::NO) {
+                if ($request->is_stockable == Ask::NO && $request->ingredients) {
                     foreach (json_decode($request->ingredients, true) as $ingredient) {
                         $syncData[$ingredient['ingredient_id']] = [
                             'quantity'     => $ingredient['quantity'],
@@ -167,7 +167,7 @@ class ItemService
                             'total'        => $ingredient['total'],
                         ];
                     }
-                    $item->ingredients()->sync($syncData);
+                    $item->ingredients()->syncWithoutDetaching($syncData);
                 }
                 $this->item = $item;
                 if ($request->image) {
