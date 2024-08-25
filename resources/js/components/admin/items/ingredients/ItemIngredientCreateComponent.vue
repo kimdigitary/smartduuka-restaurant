@@ -53,11 +53,11 @@
                                             <th class="db-table-head-th">
                                                 Buying Price
                                             </th>
-                                            <th class="db-table-head-th">
-                                                {{ $t("label.quantity") }}
+                                            <th class="db-table-head-th flex flex-col">
+                                                Consumption <span>Qty</span>
                                             </th>
                                             <th class="db-table-head-th">
-                                                {{ $t("label.sub_total") }}
+                                                Cost Price
                                             </th>
                                             <th class="db-table-head-th">
                                                 {{ $t("label.actions") }}
@@ -65,21 +65,18 @@
                                         </tr>
                                         </thead>
                                         <tbody class="db-table-body">
-                                        <tr v-for="(item, index) of datatable" :key="index"
-                                            class="db-table-body-tr">
+                                        <tr v-for="(item, index) of datatable" :key="index" class="db-table-body-tr">
                                             <td class="db-table-body-td font-medium">
                                                 {{ item.name }}
                                             </td>
                                             <td class="db-table-body-td">
-                                                <input v-on:keypress="onlyNumber($event)"
-                                                       @keyup="updateQuantity(index)"
+                                                <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.buying_price" @click=" $event.target.select()"
                                                        type="number"
                                                        min="1" class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
-                                                <input v-on:keypress="onlyNumber($event)"
-                                                       @keyup="updateQuantity(index)"
+                                                <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.quantity" @click=" $event.target.select()"
                                                        type="number"
                                                        min="1" class="db-field-control">
@@ -88,20 +85,26 @@
                                                 {{ floatFormat(item.total) }}
                                             </td>
                                             <td class="db-table-body-td">
-                                                <SmIconSidebarModalEditComponent
-                                                    @click.prevent="editDatatable(index)"/>
                                                 <SmIconDeleteComponent @click.prevent="removeProduct(index)"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="db-table-body-td" colspan="2">{{ $t('label.total') }}</th>
-                                            <th class="db-table-body-td ">
-                                                <span class="pl-3">
-                                                    {{ Number.isInteger(totalQuantity) ? totalQuantity : 0 }}
-                                                </span>
-                                            </th>
+                                            <th class="db-table-body-td" colspan="2">Total cost</th>
+                                            <th class="db-table-body-td"></th>
+
                                             <th class="db-table-body-td">
                                                 {{ floatFormat(totalPrice) }}
+                                            </th>
+                                            <th class="db-table-body-td"></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="db-table-body-td text-primary text-xl" colspan="2">Overall cost</th>
+                                            <th class="db-table-body-td"></th>
+                                            <th class="db-table-body-td text-xl text-primary">
+                                                <input v-on:keypress="onlyNumber($event) "
+                                                       v-model="this.overallCost"
+                                                       type="number"
+                                                       min="1" class="db-field-control">
                                             </th>
                                             <th class="db-table-body-td"></th>
                                         </tr>
@@ -147,6 +150,7 @@ export default {
             loading: {
                 isActive: false,
             },
+            overallCost: null,
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
@@ -177,10 +181,13 @@ export default {
         setting: function () {
             return this.$store.getters['frontendSetting/lists']
         },
+
         totalPrice: function () {
-            return this.datatable.reduce((sum, item) => {
+            const total = this.datatable.reduce((sum, item) => {
                 return sum + +item.total;
             }, 0);
+            this.overallCost = total;
+            return total;
         },
         totalQuantity: function () {
             return this.datatable.reduce((sum, item) => {
@@ -304,12 +311,16 @@ export default {
                 ingredient_item_id: null,
             };
         },
+
         save: function () {
             try {
                 const tempId = this.$store.getters["itemIngredients/temp"].temp_id;
                 this.loading.isActive = true;
+                this.props.form.ingredients = JSON.stringify(this.datatable);
+                this.props.form.overall_cost = this.overallCost;
+                this.props.form.ingredient_item_id = this.props.id;
+                console.log(this.props);
                 this.$store.dispatch("itemIngredients/save", this.props).then((res) => {
-                    console.log(res)
                     appService.modalHide();
                     this.loading.isActive = false;
                     alertService.successFlip(
@@ -321,7 +332,6 @@ export default {
                     };
                     this.errors = {};
                 }).catch((err) => {
-                    console.log(err);
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;
                 });

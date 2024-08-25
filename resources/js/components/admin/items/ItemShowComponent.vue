@@ -40,7 +40,9 @@
                     </div>
                 </div>
                 <div class="col-12 sm:col-6 !py-1.5">
+<!--                    if not stockable we calculate overall  cost-->
                     <div class="db-list-item p-0">
+<!--                        Stockable-->
                         <span class="db-list-item-title w-full sm:w-1/2">Buying Price</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{ item.buying_price }}</span>
                     </div>
