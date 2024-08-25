@@ -2,7 +2,7 @@
     <LoadingComponent :props="loading"/>
     <SmSidebarModalCreateComponent :props="addButton"/>
 
-    <div id="sidebar" class="drawer">
+    <div id="sidebar" class="drawer" style="width: fit-content">
         <div class="drawer-header">
             <h3 class="drawer-title">{{ $t("menu.items") }}</h3>
             <button class="fa-solid fa-xmark close-btn" @click="reset"></button>
@@ -136,7 +136,7 @@
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" class="custom-radio-field" v-model="props.form.is_stockable"
-                                           id="no_is_stockable" :value="enums.askEnum.ALL">
+                                           id="no_is_stockable" :value="enums.askEnum.NO">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="no_is_stockable" class="db-field-label">{{ $t('label.no') }}</label>
@@ -150,6 +150,96 @@
                                type="text"
                                id="buying_price" class="db-field-control">
                         <small class="db-field-alert" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>
+                    </div>
+                    <div v-if="props.form.is_stockable===AskEnum.NO">
+                        <div class="form-col-12">
+                            <div class="rounded-lg border border-amber-100">
+                                <div class="row p-5">
+                                    <div class="form-col-12 ">
+                                        <label class="db-field-title required">
+                                            Add Ingredients
+                                        </label>
+                                        <div class="relative w-full h-12">
+                                            <button type="button"
+                                                    class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
+                                            <vue-select class="h-full pr-4 pl-11" v-model="ingredientId"
+                                                        :options="ingredients"
+                                                        label-by="name" value-by="id" :closeOnSelect="true"
+                                                        :searchable="true"
+                                                        :clearOnClose="true" :placeholder="$t('label.select_one')"
+                                                        search-placeholder="--"
+                                                        @update:modelValue="selectIngredient($event)"
+                                            />
+                                        </div>
+                                        <small class="db-field-alert"
+                                               v-if="errors.products">{{ errors.products[0] }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col-12">
+                            <label class="db-field-title">Ingredients</label>
+                            <div class="db-table-responsive border rounded-md">
+                                <table class="db-table">
+                                    <thead class="db-table-head border-t-0">
+                                    <tr class="db-table-head-tr">
+                                        <th class="db-table-head-th">Name
+                                        </th>
+                                        <th class="db-table-head-th">
+                                            Buying Price
+                                        </th>
+                                        <th class="db-table-head-th">
+                                            {{ $t("label.quantity") }}
+                                        </th>
+                                        <th class="db-table-head-th">
+                                            {{ $t("label.sub_total") }}
+                                        </th>
+                                        <th class="db-table-head-th">
+                                            {{ $t("label.actions") }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="db-table-body">
+                                    <tr v-for="(item, index) of datatable" :key="index" class="db-table-body-tr">
+                                        <td class="db-table-body-td font-medium">
+                                            {{ item.name }}
+                                        </td>
+                                        <td class="db-table-body-td">
+                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
+                                                   v-model="item.buying_price" @click=" $event.target.select()"
+                                                   type="number"
+                                                   min="1" class="db-field-control">
+                                        </td>
+                                        <td class="db-table-body-td">
+                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
+                                                   v-model="item.quantity" @click=" $event.target.select()"
+                                                   type="number"
+                                                   min="1" class="db-field-control">
+                                        </td>
+                                        <td class="db-table-body-td">
+                                            {{ floatFormat(item.total) }}
+                                        </td>
+                                        <td class="db-table-body-td">
+                                            <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)"/>
+                                            <SmIconDeleteComponent @click.prevent="removeProduct(index)"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="db-table-body-td" colspan="2">{{ $t('label.total') }}</th>
+                                        <th class="db-table-body-td ">
+                                                <span class="pl-3">
+                                                    {{ Number.isInteger(totalQuantity) ? totalQuantity : 0 }}
+                                                </span>
+                                        </th>
+                                        <th class="db-table-body-td">
+                                            {{ floatFormat(totalPrice) }}
+                                        </th>
+                                        <th class="db-table-body-td"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-col-12">
@@ -193,14 +283,21 @@ import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalC
 import LoadingComponent from "../components/LoadingComponent";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";
+import AskEnum from "../../../enums/modules/askEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
-import AskEnum from "../../../enums/modules/askEnum";
+import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 
 export default {
     name: "ItemCreateComponent",
-    components: {SmSidebarModalCreateComponent, LoadingComponent},
+    components: {
+        SmIconDeleteComponent,
+        SmIconSidebarModalEditComponent,
+        SmSidebarModalCreateComponent,
+        LoadingComponent
+    },
     props: ['props', 'form', 'errors'],
     data() {
         return {
@@ -209,6 +306,9 @@ export default {
             loading: {
                 isActive: false
             },
+            ingredientId: null,
+            finalItem: null,
+            datatable: [],
             enums: {
                 statusEnum: statusEnum,
                 itemTypeEnum: itemTypeEnum,
@@ -228,11 +328,15 @@ export default {
             },
             image: "",
             errors: {},
+            selectedIngredient: null,
         }
     },
     computed: {
         AskEnum() {
             return AskEnum
+        },
+        ingredients: function () {
+            return this.$store.getters['ingredient/lists'];
         },
         formattedPrice: {
             get() {
@@ -245,6 +349,29 @@ export default {
                     this.$emit('update:form', {...this.props.form, price: numericValue});
                 }
             }
+        },
+        totalPrice: function () {
+            return this.datatable.reduce((sum, item) => {
+                return sum + +item.total;
+            }, 0);
+        },
+        totalQuantity: function () {
+            return this.datatable.reduce((sum, item) => {
+                return sum + +item.quantity;
+            }, 0);
+        },
+        totalDiscount: function () {
+            return this.datatable.reduce((sum, item) => {
+                return sum + +item.total_discount;
+            }, 0);
+        },
+        totalTax: function () {
+            return this.datatable.reduce((sum, item) => {
+                return sum + +item.total_tax;
+            }, 0);
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists']
         },
         formattedBuyingPrice: {
             get() {
@@ -270,6 +397,7 @@ export default {
     },
     mounted() {
         this.loading.isActive = true;
+        this.ingredientsList();
         this.$store.dispatch('itemCategory/lists', {
             order_column: 'sort',
             order_type: 'asc',
@@ -286,13 +414,102 @@ export default {
             if (!value) return '';
             return Number(value).toLocaleString();
         },
+        onlyNumber: function (e) {
+            return appService.onlyNumber(e);
+        },
+        ingredientsList: function () {
+            this.$store.dispatch('ingredient/lists').then(res => {
+            }).catch((err) => {
+            });
+        },
+        removeProduct: function (productIndex) {
+            this.datatable.splice(productIndex, 1);
+        },
+        updateQuantity: function (i) {
+            const tax = this.datatable[i].tax > 0 ? this.datatable[i].tax : 0;
+            this.datatable[i].total_tax = tax * this.datatable[i].quantity;
+            this.datatable[i].total_discount = this.datatable[i].discount * this.datatable[i].quantity;
+            this.datatable[i].subtotal = (Number(this.datatable[i].quantity) * Number(this.datatable[i].buying_price)).toFixed(2);
+            this.datatable[i].total = (+(this.datatable[i].quantity * this.datatable[i].buying_price) + (+this.datatable[i].total_tax) - (+this.datatable[i].total_discount)).toFixed(2);
+        },
+        floatFormat: function (num) {
+            return appService.floatFormat(num, this.setting.site_digit_after_decimal_point);
+        },
+        selectIngredient: function (id) {
+            const ingredient = this.ingredients.find(ingredient => ingredient.id === id);
+            if (ingredient) {
+                this.selectedIngredient = {
+                    name: ingredient.name,
+                    quantity: 1,
+                    buying_price: ingredient.buying_price,
+                    discount: 0,
+                    ingredient_id: ingredient.id,
+                    mode: 'add'
+                }
+                this.ingredientCheck();
+            }
+        },
         changeImage: function (e) {
             this.image = e.target.files[0];
+        },
+        ingredientCheck: function () {
+            let ingredientExists = null;
+            let oldQuantity = null;
+            if (this.selectedIngredient.mode === 'edit') {
+                ingredientExists = this.datatable[this.dataTableIndex];
+            } else {
+                if (this.datatable?.length > 0) {
+                    ingredientExists = this.datatable.find(p =>
+                        p.ingredient_id === this.selectedIngredient.ingredient_id
+                    );
+                }
+            }
+
+            if (ingredientExists) {
+                oldQuantity = this.selectedIngredient.mode === 'edit' ? 0 : ingredientExists.quantity;
+            }
+
+            let tax = 0;
+            let total_tax = 0;
+            let total_tax_rate = 0;
+            let totalDiscount = 0;
+
+            total_tax = 0
+
+            let finalItem = {
+                mode: this.selectedIngredient.mode,
+                name: this.selectedIngredient.name,
+                quantity: this.selectedIngredient.quantity + oldQuantity,
+                buying_price: +this.selectedIngredient.buying_price,
+                discount: this.selectedIngredient.discount,
+                ingredient_id: this.selectedIngredient.ingredient_id,
+                tax: 0,
+                total_tax: 0,
+                total_tax_rate: 0,
+                total_discount: 0,
+                subtotal: this.selectedIngredient.quantity * this.selectedIngredient.buying_price,
+                total: (+(this.selectedIngredient.quantity * this.selectedIngredient.buying_price) + (+total_tax) - (+totalDiscount)).toFixed(2),
+            }
+            this.finalItem = finalItem;
+
+            if (!ingredientExists) {
+                this.datatable.push(finalItem);
+            } else {
+                ingredientExists.quantity = finalItem.quantity;
+                ingredientExists.buying_price = finalItem.buying_price;
+                ingredientExists.discount = finalItem.discount;
+                ingredientExists.tax = finalItem.tax;
+                ingredientExists.total_tax = finalItem.total_tax;
+                ingredientExists.total_discount = finalItem.total_discount;
+                ingredientExists.subtotal = finalItem.subtotal;
+                ingredientExists.total = finalItem.total;
+            }
         },
         reset: function () {
             appService.sideDrawerHide();
             this.$store.dispatch('item/reset').then().catch();
             this.errors = {};
+            this.datatable = [];
             this.$props.props.form = {
                 name: "",
                 price: "",
@@ -313,17 +530,20 @@ export default {
             try {
                 const fd = new FormData();
                 fd.append('name', this.props.form.name);
-                fd.append('price', this.internalPrice);
+                fd.append('price', this.props.form.price);
                 fd.append('item_category_id', this.props.form.item_category_id == null ? '' : this.props.form.item_category_id);
                 fd.append('tax_id', this.props.form.tax_id == null ? '' : this.props.form.tax_id);
                 fd.append('item_type', this.props.form.item_type);
                 fd.append('is_featured', this.props.form.is_featured);
-                fd.append('buying_price', this.internalBuyingPrice);
+                if (this.props.form.is_stockable === AskEnum.YES) {
+                    fd.append('buying_price', this.props.form.buying_price);
+                }
                 fd.append('is_stockable', this.props.form.is_stockable);
                 fd.append('description', this.props.form.description);
                 fd.append('caution', this.props.form.caution);
                 fd.append('order', 1);
                 fd.append('status', this.props.form.status);
+                fd.append('ingredients', JSON.stringify(this.datatable));
                 if (this.image) {
                     fd.append('image', this.image);
                 }

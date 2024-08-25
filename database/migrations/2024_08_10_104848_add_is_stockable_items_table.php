@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::table('items', function (Blueprint $table) {
             $table->integer('is_stockable')->default(Ask::NO);
-            $table->unsignedDecimal('buying_price')->default(0);
+            $table->unsignedDecimal('buying_price')->nullable()->default(0);
         });
     }
 

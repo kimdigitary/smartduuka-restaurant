@@ -20,7 +20,7 @@
             <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"></i>
                 {{ $t('label.addon') }}
             </button>
-            <button type="button" class="db-tabBtn" data-tab="#ingredients"><i
+            <button type="button" class="db-tabBtn" data-tab="#ingredients" v-if="item.is_stockable===AskEnum.NO"><i
                 class="lab lab-variation lab-font-size-16"></i>
                 Ingredients
             </button>
@@ -175,6 +175,7 @@ import ItemExtraListComponent from "./extra/ItemExtraListComponent";
 import ItemAddonListComponent from "./addon/ItemAddonListComponent";
 import IngredientAddonListComponent from "./ingredients/ItemIngredientListComponent.vue";
 import ItemIngredientListComponent from "./ingredients/ItemIngredientListComponent.vue";
+import AskEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: "ItemCategoryShowComponent",
@@ -217,6 +218,9 @@ export default {
         }
     },
     computed: {
+        AskEnum() {
+            return AskEnum
+        },
         item: function () {
             return this.$store.getters['item/show'];
         }

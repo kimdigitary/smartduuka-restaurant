@@ -46,6 +46,7 @@ class ItemRequest extends FormRequest
             'order'            => ['required', 'numeric'],
             'buying_price'     => "required_if:is_stockable,{$isStockable}",
             'variations'       => ['nullable', 'json'],
+            'ingredients'      => ['nullable', 'json'],
             'image'            => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }

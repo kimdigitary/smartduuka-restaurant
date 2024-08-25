@@ -121,7 +121,7 @@ class OrderService
                         $query->Where('status', OrderStatus::DELIVERED);
                     }
                 })
-                ->orderBy('id', 'desc')->get();
+                ->orderBy('id')->get();
 
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
