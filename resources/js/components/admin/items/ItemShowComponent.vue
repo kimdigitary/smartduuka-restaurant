@@ -150,11 +150,11 @@
             </div>
         </div>
 
-        <div class="db-tabDiv" id="ingredients">
-            <ItemIngredientListComponent :item="parseInt($route.params.id)" />
-        </div>
         <div class="db-tabDiv" id="variations">
             <ItemVariationListComponent :item="parseInt($route.params.id)" />
+        </div>
+        <div class="db-tabDiv" id="ingredients">
+            <ItemIngredientListComponent :item="parseInt($route.params.id)" />
         </div>
         <div class="db-tabDiv" id="extra">
             <ItemExtraListComponent :item="parseInt($route.params.id)" />

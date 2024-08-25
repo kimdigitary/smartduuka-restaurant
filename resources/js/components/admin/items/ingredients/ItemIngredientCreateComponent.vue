@@ -5,14 +5,14 @@
         <span>Add Ingredients</span>
     </button>
 
-    <div id="IngredientModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
+    <div id="IngredientModal" class="modal">
+        <div class="modal-dialog w-100">
             <div class="modal-header">
                 <h3 class="modal-title">Ingredients</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                         @click="reset"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body overflow-x-scroll">
                 <form @submit.prevent="save">
                     <div class="form-row">
                         <div>
@@ -98,7 +98,8 @@
                                             <th class="db-table-body-td"></th>
                                         </tr>
                                         <tr>
-                                            <th class="db-table-body-td text-primary text-xl" colspan="2">Overall cost</th>
+                                            <th class="db-table-body-td text-primary text-xl" colspan="2">Overall cost
+                                            </th>
                                             <th class="db-table-body-td"></th>
                                             <th class="db-table-body-td text-xl text-primary">
                                                 <input v-on:keypress="onlyNumber($event) "
@@ -319,7 +320,6 @@ export default {
                 this.props.form.ingredients = JSON.stringify(this.datatable);
                 this.props.form.overall_cost = this.overallCost;
                 this.props.form.ingredient_item_id = this.props.id;
-                console.log(this.props);
                 this.$store.dispatch("itemIngredients/save", this.props).then((res) => {
                     appService.modalHide();
                     this.loading.isActive = false;

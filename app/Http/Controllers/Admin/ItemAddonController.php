@@ -60,7 +60,6 @@ class ItemAddonController extends AdminController
     {
         try {
            $this->itemAddonService->storeIngredient($request, $item);
-//            return new ItemIngredientResource($this->itemAddonService->storeIngredient($request, $item));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

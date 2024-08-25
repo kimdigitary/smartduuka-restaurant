@@ -1717,6 +1717,16 @@ video {
 .db-btn-fill.primary:hover {
   background-color: rgb(247 154 34 / 0.2);
 }
+.db-btn-fill.red {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+.db-btn-fill.red:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
+}
 .db-btn-fill.sm {
   gap: 0.25rem !important;
   border-radius: 0.25rem !important;
@@ -3729,12 +3739,6 @@ input:checked + div svg {
 .w-screen {
   width: 100vw;
 }
-.w-64 {
-  width: 16rem;
-}
-.w-80 {
-  width: 20rem;
-}
 .min-w-\[120px\] {
   min-width: 120px;
 }
@@ -3944,6 +3948,9 @@ input:checked + div svg {
 }
 .overflow-y-auto {
   overflow-y: auto;
+}
+.overflow-x-scroll {
+  overflow-x: scroll;
 }
 .text-ellipsis {
   text-overflow: ellipsis;
