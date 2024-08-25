@@ -20,7 +20,7 @@ export const ingredient = {
         pagination: function (state) {
             return state.pagination
         },
-        page: function(state) {
+        page: function (state) {
             return state.page;
         },
         show: function (state) {
@@ -38,11 +38,12 @@ export const ingredient = {
                     url = url + appService.requestHandler(payload);
                 }
                 axios.get(url).then((res) => {
-                    if(typeof payload.vuex === "undefined" || payload.vuex === true) {
+                    if (typeof payload?.vuex === "undefined" || payload?.vuex === true) {
                         context.commit('lists', res.data.data);
                         context.commit('page', res.data.meta);
                         context.commit('pagination', res.data);
                     }
+                    // context.commit('lists', res.data.data);
                     resolve(res);
                 }).catch((err) => {
                     reject(err);
@@ -114,7 +115,7 @@ export const ingredient = {
             state.pagination = payload;
         },
         page: function (state, payload) {
-            if(typeof payload !== "undefined" && payload !== null) {
+            if (typeof payload !== "undefined" && payload !== null) {
                 state.page = {
                     from: payload.from,
                     to: payload.to,
@@ -129,7 +130,7 @@ export const ingredient = {
             state.temp.temp_id = payload;
             state.temp.isEditing = true;
         },
-        reset: function(state) {
+        reset: function (state) {
             state.temp.temp_id = null;
             state.temp.isEditing = false;
         }
