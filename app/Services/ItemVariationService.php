@@ -3,13 +3,13 @@
 namespace App\Services;
 
 
-use Exception;
+use App\Http\Requests\ItemVariationRequest;
+use App\Http\Requests\PaginateRequest;
 use App\Models\Item;
 use App\Models\ItemVariation;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\PaginateRequest;
-use App\Http\Requests\ItemVariationRequest;
 
 class ItemVariationService
 {
@@ -27,11 +27,11 @@ class ItemVariationService
     public function list(PaginateRequest $request, Item $item)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_type') ?? 'desc';
+            $orderType = $request->get('order_type') ?? 'desc';
 
             return ItemVariation::with('item', 'itemAttribute')->where(['item_id' => $item->id])->where(
                 function ($query) use ($requests) {
@@ -53,11 +53,11 @@ class ItemVariationService
     public function listGroupByAttribute(PaginateRequest $request, Item $item): \Illuminate\Support\Collection
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_type') ?? 'desc';
+            $orderType = $request->get('order_type') ?? 'desc';
 
             $itemVariations = ItemVariation::with('item', 'itemAttribute')->where(['item_id' => $item->id])->where(
                 function ($query) use ($requests) {
@@ -120,7 +120,19 @@ class ItemVariationService
     public function store(ItemVariationRequest $request, Item $item)
     {
         try {
-            return ItemVariation::create($request->validated() + ['item_id' => $item->id]);
+            $variationItem = ItemVariation::create($request->validated() + ['item_id' => $item->id]);
+            $syncData = [];
+            if ($request->ingredients) {
+                foreach (json_decode($request->ingredients, true) as $ingredient) {
+                    $syncData[$ingredient['ingredient_id']] = [
+                        'quantity'     => $ingredient['quantity'],
+                        'buying_price' => $ingredient['buying_price'],
+                        'total'        => $ingredient['total'],
+                    ];
+                }
+                $variationItem->ingredients()->syncWithoutDetaching($syncData);
+            }
+            return $variationItem;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

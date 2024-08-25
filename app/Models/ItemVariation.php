@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Libraries\AppLibrary;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -55,5 +56,9 @@ class ItemVariation extends Model
     public function getConvertPriceAttribute(): float
     {
         return AppLibrary::convertAmountFormat($this->price);
+    }
+    public function ingredients(): BelongsToMany
+    {
+        return $this->belongsToMany(Ingredient::class, 'variation_ingredients', 'variation_id', 'ingredient_id');
     }
 }
