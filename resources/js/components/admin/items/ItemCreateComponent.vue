@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="price" class="db-field-title required">Selling Price</label>
+                        <label for="price" class="db-field-title required">{{ $t('label.price') }}</label>
                         <input v-model="props.form.price" v-bind:class="errors.price ? 'invalid' : ''" type="text"
                                id="price" class="db-field-control">
                         <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>

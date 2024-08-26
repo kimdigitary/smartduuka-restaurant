@@ -1717,16 +1717,6 @@ video {
 .db-btn-fill.primary:hover {
   background-color: rgb(247 154 34 / 0.2);
 }
-.db-btn-fill.red {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity));
-}
-.db-btn-fill.red:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
-}
 .db-btn-fill.sm {
   gap: 0.25rem !important;
   border-radius: 0.25rem !important;

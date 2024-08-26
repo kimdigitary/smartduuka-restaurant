@@ -12,6 +12,7 @@ use App\Http\Resources\ItemVariationResource;
 use App\Models\ItemVariation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class ItemVariationController extends AdminController
@@ -25,7 +26,7 @@ class ItemVariationController extends AdminController
         $this->middleware(['permission:items_show'])->only('index', 'listGroupByAttribute', 'show', 'store', 'update', 'destroy');
     }
 
-    public function index(PaginateRequest $request, Item $item) : Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
+    public function index(PaginateRequest $request, Item $item) : Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemVariationResource::collection($this->itemVariationService->list($request, $item));
@@ -34,7 +35,7 @@ class ItemVariationController extends AdminController
         }
     }
 
-    public function listGroupByAttribute(PaginateRequest $request, Item $item): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
+    public function listGroupByAttribute(PaginateRequest $request, Item $item): Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemVariationGroupByAttributeResource::collection($this->itemVariationService->listGroupByAttribute($request, $item));

@@ -344,6 +344,7 @@ export default {
             appService.modalHide();
             this.$store.dispatch("itemVariation/reset").then().catch();
             this.errors = {};
+            this.datatable = [];
             this.$props.props.form = {
                 name: "",
                 price: null,
