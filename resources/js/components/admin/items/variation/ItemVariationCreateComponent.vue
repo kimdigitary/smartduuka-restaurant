@@ -1,13 +1,13 @@
 <template>
-    <LoadingComponent :props="loading" />
-    <SmModalCreateComponent :props="addButton" />
+    <LoadingComponent :props="loading"/>
+    <SmModalCreateComponent :props="addButton"/>
 
     <div id="modal" class="modal">
         <div class="modal-dialog">
             <div class="modal-header">
-                <h3 class="modal-title">{{ $t("menu.variations") }}</h3>
+                <h3 class="modal-title">{{ $t("menu.variations") }}dsfsdfds</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
-                    @click="reset"></button>
+                        @click="reset"></button>
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
@@ -15,30 +15,30 @@
                         <div class="form-col-12 sm:form-col-6">
                             <label for="name" class="db-field-title required">{{ $t("label.name") }}</label>
                             <input v-model="props.form.name" v-bind:class="errors.name ? 'invalid' : ''" type="text"
-                                id="name" class="db-field-control" />
+                                   id="name" class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.name">{{ errors.name[0] }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
                             <label for="price" class="db-field-title required">{{
-        $t("label.additional_price")
-    }}</label>
+                                    $t("label.additional_price")
+                                }}</label>
                             <input v-on:keypress="numberOnly($event)" v-model="props.form.price"
-                                v-bind:class="errors.price ? 'invalid' : ''" type="text" id="price"
-                                class="db-field-control" />
+                                   v-bind:class="errors.price ? 'invalid' : ''" type="text" id="price"
+                                   class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
                             <label for="item_attribute" class="db-field-title">{{ $t("label.attribute") }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="item_attribute"
-                                v-bind:class="errors.item_attribute_id ? 'invalid' : ''"
-                                v-model="props.form.item_attribute_id" :options="itemAttributes" label-by="name"
-                                value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                                placeholder="--" search-placeholder="--" />
+                                        v-bind:class="errors.item_attribute_id ? 'invalid' : ''"
+                                        v-model="props.form.item_attribute_id" :options="itemAttributes" label-by="name"
+                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                                        placeholder="--" search-placeholder="--"/>
                             <small class="db-field-alert" v-if="errors.item_attribute_id">{{
-        errors.item_attribute_id[0]
-    }}</small>
+                                    errors.item_attribute_id[0]
+                                }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
@@ -47,7 +47,7 @@
                                 <div class="db-field-radio">
                                     <div class="custom-radio">
                                         <input :value="enums.statusEnum.ACTIVE" v-model="props.form.status" id="active"
-                                            type="radio" class="custom-radio-field" />
+                                               type="radio" class="custom-radio-field"/>
                                         <span class="custom-radio-span"></span>
                                     </div>
                                     <label for="active" class="db-field-label">{{ $t("label.active") }}</label>
@@ -55,7 +55,7 @@
                                 <div class="db-field-radio">
                                     <div class="custom-radio">
                                         <input :value="enums.statusEnum.INACTIVE" v-model="props.form.status"
-                                            type="radio" id="inactive" class="custom-radio-field" />
+                                               type="radio" id="inactive" class="custom-radio-field"/>
                                         <span class="custom-radio-span"></span>
                                     </div>
                                     <label for="inactive" class="db-field-label">{{ $t("label.inactive") }}</label>
@@ -89,7 +89,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-col-12">
+
+                            <div class="form-col-12" v-if="isStockable===AskEnum.NO">
                                 <label class="db-field-title">Ingredients</label>
                                 <div class="db-table-responsive border rounded-md">
                                     <table class="db-table">
@@ -165,7 +166,7 @@
                         <div class="form-col-12">
                             <label for="caution" class="db-field-title">{{ $t("label.caution") }}</label>
                             <textarea v-model="props.form.caution" v-bind:class="errors.caution ? 'invalid' : ''"
-                                id="caution" class="db-field-control"></textarea>
+                                      id="caution" class="db-field-control"></textarea>
                             <small class="db-field-alert" v-if="errors.caution">{{ errors.caution[0] }}</small>
                         </div>
 
@@ -195,11 +196,12 @@ import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import AskEnum from "../../../../enums/modules/askEnum";
 
 export default {
     name: "ItemVariationCreateComponent",
-    components: {SmIconDeleteComponent, SmModalCreateComponent, LoadingComponent },
-    props: ["props"],
+    components: {SmIconDeleteComponent, SmModalCreateComponent, LoadingComponent},
+    props: ["props", "isStockable"],
     data() {
         return {
             loading: {
@@ -219,8 +221,11 @@ export default {
         };
     },
     computed: {
+        AskEnum() {
+            return AskEnum
+        },
         addButton: function () {
-            return { title: this.$t('button.add_variation') };
+            return {title: this.$t('button.add_variation')};
         },
         itemAttributes: function () {
             return this.$store.getters['itemAttribute/lists'];
@@ -247,6 +252,8 @@ export default {
             status: statusEnum.ACTIVE
         });
         this.ingredientsList();
+        // this.datatable =  JSON.parse(props.ingredients);
+        console.log(this.props);
     },
     methods: {
         numberOnly: function (e) {

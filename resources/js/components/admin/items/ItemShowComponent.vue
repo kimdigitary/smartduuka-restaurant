@@ -17,7 +17,7 @@
             <button type="button" class="db-tabBtn" data-tab="#extra"><i class="lab lab-extra lab-font-size-16"></i>
                 {{ $t('label.extra') }}
             </button>
-            <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"></i>
+            <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"  v-if="item.is_stockable===AskEnum.NO"></i>
                 {{ $t('label.addon') }}
             </button>
             <button type="button" class="db-tabBtn" data-tab="#ingredients" v-if="item.is_stockable===AskEnum.NO"><i
@@ -150,7 +150,7 @@
         </div>
 
         <div class="db-tabDiv" id="variations">
-            <ItemVariationListComponent :item="parseInt($route.params.id)" />
+            <ItemVariationListComponent :item="parseInt($route.params.id)" :isStockable="item.is_stockable"/>
         </div>
         <div class="db-tabDiv" id="ingredients">
             <ItemIngredientListComponent :item="parseInt($route.params.id)" />

@@ -78,7 +78,7 @@ class ItemAddonController extends AdminController
     {
         try {
             $item->ingredients()->detach($itemIngredient->id);
-            return response('', 202);
+            return response('', 200);
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
