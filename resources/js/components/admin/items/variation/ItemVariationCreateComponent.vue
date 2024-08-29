@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="overflow-x-scroll">
+                        <div class="overflow-x-scroll" v-if="isStockable===AskEnum.NO">
                             <div class="form-col-12">
                                 <div class="rounded-lg border border-amber-100">
                                     <div class="row p-5">
