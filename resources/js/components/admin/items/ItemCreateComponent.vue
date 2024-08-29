@@ -239,7 +239,7 @@
                                             <input v-on:keypress="onlyNumber($event) "
                                                    v-model="this.overallCost"
                                                    type="number"
-                                                   min="1" class="db-field-control">
+                                                    class="db-field-control">
                                         </th>
                                         <th class="db-table-body-td"></th>
                                     </tr>

@@ -59,7 +59,7 @@ class ItemVariationService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType = $request->get('order_type') ?? 'desc';
 
-            $itemVariations = ItemVariation::with('item', 'itemAttribute')->where(['item_id' => $item->id])->where(
+            $itemVariations = ItemVariation::with('item', 'itemAttribute', 'ingredients')->where(['item_id' => $item->id])->where(
                 function ($query) use ($requests) {
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->itemVariationFilter)) {
@@ -88,7 +88,8 @@ class ItemVariationService
                                     'caution'           => $itemVariation->caution,
                                     'status'            => $itemVariation->status,
                                     'item'              => $itemVariation->item,
-                                    'itemAttribute'     => $itemVariation->itemAttribute
+                                    'itemAttribute'     => $itemVariation->itemAttribute,
+                                    'ingredients'       => $itemVariation->ingredients
                                 ]
                             ]
                         ];
@@ -102,7 +103,8 @@ class ItemVariationService
                             'caution'           => $itemVariation->caution,
                             'status'            => $itemVariation->status,
                             'item'              => $itemVariation->item,
-                            'itemAttribute'     => $itemVariation->itemAttribute
+                            'itemAttribute'     => $itemVariation->itemAttribute,
+                            'ingredients'       => $itemVariation->ingredients
                         ];
                     }
                 }
@@ -146,6 +148,17 @@ class ItemVariationService
     {
         try {
             if ($item->id == $itemVariation->item_id) {
+                if ($request->ingredients) {
+                    $syncData = [];
+                    foreach (json_decode($request->ingredients, true) as $ingredient) {
+                        $syncData[$ingredient['ingredient_id']] = [
+                            'quantity'     => $ingredient['quantity'],
+                            'buying_price' => $ingredient['buying_price'],
+                            'total'        => $ingredient['total'],
+                        ];
+                    }
+                   $itemVariation->ingredients()->sync($syncData);
+                }
                 return tap($itemVariation)->update($request->validated());
             }
             return $itemVariation;

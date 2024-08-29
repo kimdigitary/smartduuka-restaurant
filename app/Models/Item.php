@@ -84,7 +84,7 @@ class Item extends Model implements HasMedia
 
     public function variations(): HasMany
     {
-        return $this->hasMany(ItemVariation::class)->with('itemAttribute')->where(['status' => Status::ACTIVE]);
+        return $this->hasMany(ItemVariation::class)->with(['itemAttribute','ingredients'])->where(['status' => Status::ACTIVE]);
     }
 
     public function extras(): HasMany
