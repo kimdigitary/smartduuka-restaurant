@@ -5,7 +5,7 @@
     <div id="modal" class="modal">
         <div class="modal-dialog">
             <div class="modal-header">
-                <h3 class="modal-title">{{ $t("menu.variations") }}dsfsdfds</h3>
+                <h3 class="modal-title">{{ $t("menu.variations") }}</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                         @click="reset"></button>
             </div>
@@ -162,7 +162,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-col-12">
                             <label for="caution" class="db-field-title">{{ $t("label.caution") }}</label>
                             <textarea v-model="props.form.caution" v-bind:class="errors.caution ? 'invalid' : ''"
@@ -244,6 +243,33 @@ export default {
             return total;
         },
     },
+    watch: {
+        'props.form.ingredients': {
+            handler(ingredients) {
+                if (ingredients) {
+                    this.datatable = []
+                    ingredients?.forEach(ingredient => {
+                        let item = {
+                            name: ingredient.name,
+                            quantity: ingredient.pivot.quantity,
+                            buying_price: ingredient.pivot.buying_price,
+                            discount: 0,
+                            ingredient_id: ingredient.pivot.ingredient_id,
+                            tax: 0,
+                            total_tax: 0,
+                            total_tax_rate: 0,
+                            total_discount: 0,
+                            subtotal: ingredient.pivot.quantity * ingredient.pivot.buying_price,
+                            total: (+(ingredient.pivot.quantity * ingredient.pivot.buying_price) + (+0) - (+0)).toFixed(2),
+                        }
+                        this.datatable.push(item);
+                    });
+                }
+            },
+            immediate: true,
+        },
+    },
+
     mounted() {
         this.$store.dispatch("itemAttribute/lists", {
             paginate: 0,
@@ -252,8 +278,6 @@ export default {
             status: statusEnum.ACTIVE
         });
         this.ingredientsList();
-        // this.datatable =  JSON.parse(props.ingredients);
-        console.log(this.props);
     },
     methods: {
         numberOnly: function (e) {

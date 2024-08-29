@@ -1,5 +1,5 @@
 <template>
-    <ItemVariationCreateComponent :props="variationProps" :isStockable="isStockable"/>
+    <ItemVariationCreateComponent :props="variationProps" :isStockable="isStockable" />
     <br><br>
     <div class="db-card mb-5" v-if="variations.length > 0" v-for="variation in variations" :key="variation">
         <div class="db-card-header border-none">
@@ -104,7 +104,6 @@ export default {
         list: function () {
             this.loading.isActive = true;
             this.$store.dispatch("itemVariation/listGroupByAttributes", this.variationProps.search).then((res) => {
-                console.log(res.data);
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;

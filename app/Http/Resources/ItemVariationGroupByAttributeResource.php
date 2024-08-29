@@ -15,7 +15,6 @@ class ItemVariationGroupByAttributeResource extends JsonResource
      */
     public function toArray($request) : array
     {
-        info($this->children);
         return [
             'item_attribute_id' => $this->item_attribute_id,
             'name'              => optional($this->item_attribute)->name,

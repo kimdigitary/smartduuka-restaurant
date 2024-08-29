@@ -59,6 +59,6 @@ class ItemVariation extends Model
     }
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class, 'variation_ingredients', 'variation_id', 'ingredient_id');
+        return $this->belongsToMany(Ingredient::class, 'variation_ingredients', 'variation_id', 'ingredient_id')->withPivot('quantity', 'buying_price', 'total', 'created_at', 'updated_at');
     }
 }

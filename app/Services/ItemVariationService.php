@@ -148,6 +148,17 @@ class ItemVariationService
     {
         try {
             if ($item->id == $itemVariation->item_id) {
+                if ($request->ingredients) {
+                    $syncData = [];
+                    foreach (json_decode($request->ingredients, true) as $ingredient) {
+                        $syncData[$ingredient['ingredient_id']] = [
+                            'quantity'     => $ingredient['quantity'],
+                            'buying_price' => $ingredient['buying_price'],
+                            'total'        => $ingredient['total'],
+                        ];
+                    }
+                   $itemVariation->ingredients()->sync($syncData);
+                }
                 return tap($itemVariation)->update($request->validated());
             }
             return $itemVariation;
