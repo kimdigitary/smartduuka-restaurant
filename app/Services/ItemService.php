@@ -251,7 +251,6 @@ class ItemService
             throw new Exception($exception->getMessage(), 422);
         }
     }
-
     /**
      * @throws Exception
      */
