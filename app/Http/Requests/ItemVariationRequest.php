@@ -2,28 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Libraries\AppLibrary;
 use App\Rules\IniAmount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ItemVariationRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -40,6 +29,7 @@ class ItemVariationRequest extends FormRequest
             'price'             => ['required', new IniAmount(true)],
             'caution'           => ['nullable', 'string', 'max:5000'],
             'status'            => ['required', 'numeric', 'max:24'],
+            'overall_cost'      => ['numeric'],
         ];
     }
 }

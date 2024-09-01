@@ -9,21 +9,11 @@ use Illuminate\Validation\Rule;
 
 class ItemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         $isStockable = Ask::YES;
@@ -44,6 +34,7 @@ class ItemRequest extends FormRequest
             'caution'          => ['nullable', 'string', 'max:5000'],
             'status'           => ['required', 'numeric', 'max:24'],
             'order'            => ['required', 'numeric'],
+            'overall_cost'     => ['numeric'],
             'buying_price'     => "required_if:is_stockable,{$isStockable}",
             'variations'       => ['nullable', 'json'],
             'ingredients'      => ['nullable', 'json'],

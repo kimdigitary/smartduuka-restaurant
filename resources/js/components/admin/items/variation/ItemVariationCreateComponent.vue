@@ -67,7 +67,7 @@
                                 <div class="rounded-lg border border-amber-100">
                                     <div class="row p-5">
                                         <div class="form-col-12 ">
-                                            <label class="db-field-title required">
+                                            <label class="db-field-title">
                                                 Add Ingredients
                                             </label>
                                             <div class="relative w-full h-12">
@@ -121,13 +121,13 @@
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.buying_price" @click=" $event.target.select()"
                                                        type="number"
-                                                       min="1" class="db-field-control">
+                                                       min="0" class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.quantity" @click=" $event.target.select()"
                                                        type="number"
-                                                       min="1" class="db-field-control">
+                                                       min="0" class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
                                                 {{ floatFormat(item.total) }}
@@ -153,7 +153,7 @@
                                                 <input v-on:keypress="onlyNumber($event) "
                                                        v-model="this.overallCost"
                                                        type="number"
-                                                       min="1" class="db-field-control">
+                                                       min="0" class="db-field-control">
                                             </th>
                                             <th class="db-table-body-td"></th>
                                         </tr>

@@ -554,6 +554,7 @@ export default {
                 fd.append('order', 1);
                 fd.append('status', this.props.form.status);
                 fd.append('ingredients', JSON.stringify(this.datatable));
+                fd.append('overall_cost', this.overallCost);
                 if (this.image) {
                     fd.append('image', this.image);
                 }

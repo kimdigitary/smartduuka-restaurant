@@ -23,6 +23,7 @@ class ItemIngredientResource extends JsonResource
             'quantity'                       => $this->quantity,
             'quantity_alert'                 => $this->quantity_alert,
             'status'                         => $this->status,
+            'pivot'                         => $this->pivot,
         ];
     }
 }

@@ -30,6 +30,7 @@ class Item extends Model implements HasMedia
         'caution',
         'status',
         'order',
+        'overall_cost',
         'creator_type', 'creator_id', 'editor_type', 'editor_id', 'is_stockable', 'buying_price', 'registerMediaConversionsUsingModelInstance'
     ];
     protected $dates = ['deleted_at'];
@@ -84,7 +85,7 @@ class Item extends Model implements HasMedia
 
     public function variations(): HasMany
     {
-        return $this->hasMany(ItemVariation::class)->with(['itemAttribute','ingredients'])->where(['status' => Status::ACTIVE]);
+        return $this->hasMany(ItemVariation::class)->with(['itemAttribute', 'ingredients'])->where(['status' => Status::ACTIVE]);
     }
 
     public function extras(): HasMany
@@ -94,7 +95,7 @@ class Item extends Model implements HasMedia
 
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class, 'item_ingredients', 'item_id', 'ingredient_id');
+        return $this->belongsToMany(Ingredient::class, 'item_ingredients', 'item_id', 'ingredient_id')->withPivot(['quantity', 'buying_price', 'total']);
     }
 
     public function addons(): HasMany
