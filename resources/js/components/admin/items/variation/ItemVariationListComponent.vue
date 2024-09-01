@@ -66,6 +66,7 @@ export default {
             loading: {
                 isActive: false
             },
+
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
