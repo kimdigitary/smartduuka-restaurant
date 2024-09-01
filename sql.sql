@@ -1,2 +1,2 @@
 select *
-from items;
+from item_variations;

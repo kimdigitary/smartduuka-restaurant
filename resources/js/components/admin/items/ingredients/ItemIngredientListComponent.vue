@@ -1,7 +1,7 @@
 <template>
     <ItemIngredientCreateComponent :props="addonProps" />
     <br><br>
-    <div class="db-card" v-if="addons.length > 0">
+    <div class="db-card" v-if="ingredients.length > 0">
         <div class="db-table-responsive">
             <table class="db-table stripe">
                 <thead class="db-table-head">
@@ -16,25 +16,25 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="db-table-body" v-if="addons.length > 0">
-                    <tr class="db-table-body-tr" v-for="addon in addons" :key="addon">
+                <tbody class="db-table-body" v-if="ingredients.length > 0">
+                    <tr class="db-table-body-tr" v-for="ingredient in ingredients" :key="ingredient">
                         <td class="db-table-body-td">
-                            {{ addon.name }}<br>
+                            {{ ingredient.name }}<br>
                         </td>
                         <td class="db-table-body-td">
-                            {{ addon.buying_price }}
+                            {{ ingredient.pivot.buying_price }}
                         </td>
                         <td class="db-table-body-td">
-                            {{ addon.quantity }}
+                            {{ ingredient.pivot.quantity }}
                         </td>
-                        <td class="db-table-body-td">{{ addon.unit }}</td>
+                        <td class="db-table-body-td">{{ ingredient.unit }}</td>
                         <td class="db-table-body-td">
-                            <span :class="statusClass(addon.status)">
-                                {{ enums.statusEnumArray[addon.status] }}
+                            <span :class="statusClass(ingredient.status)">
+                                {{ enums.statusEnumArray[ingredient.status] }}
                             </span>
                         </td>
                         <td class="db-table-body-td">
-                            <SmIconDeleteComponent @click="destroy(addon.id)" />
+                            <SmIconDeleteComponent @click="destroy(ingredient.id)" />
                         </td>
                     </tr>
                 </tbody>
@@ -90,7 +90,7 @@ export default {
         this.list();
     },
     computed: {
-        addons: function () {
+        ingredients: function () {
             return this.$store.getters['itemIngredients/lists'];
         }
     },
@@ -115,7 +115,7 @@ export default {
                     this.loading.isActive = true;
                     this.$store.dispatch('itemIngredients/destroy', { item: this.item, id: id, search: this.addonProps.search }).then((res) => {
                         this.loading.isActive = false;
-                        alertService.successFlip(null, this.$t('label.addon'));
+                        alertService.successFlip(null, this.$t('label.ingredient'));
                     }).catch((err) => {
                         this.loading.isActive = false;
                         alertService.error(err.response.data.message);

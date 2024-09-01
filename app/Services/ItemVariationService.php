@@ -89,7 +89,8 @@ class ItemVariationService
                                     'status'            => $itemVariation->status,
                                     'item'              => $itemVariation->item,
                                     'itemAttribute'     => $itemVariation->itemAttribute,
-                                    'ingredients'       => $itemVariation->ingredients
+                                    'ingredients'       => $itemVariation->ingredients,
+                                    'overall_cost'      => $itemVariation->overall_cost
                                 ]
                             ]
                         ];
@@ -104,7 +105,8 @@ class ItemVariationService
                             'status'            => $itemVariation->status,
                             'item'              => $itemVariation->item,
                             'itemAttribute'     => $itemVariation->itemAttribute,
-                            'ingredients'       => $itemVariation->ingredients
+                            'ingredients'       => $itemVariation->ingredients,
+                            'overall_cost'      => $itemVariation->overall_cost
                         ];
                     }
                 }
@@ -157,7 +159,7 @@ class ItemVariationService
                             'total'        => $ingredient['total'],
                         ];
                     }
-                   $itemVariation->ingredients()->sync($syncData);
+                    $itemVariation->ingredients()->sync($syncData);
                 }
                 return tap($itemVariation)->update($request->validated());
             }

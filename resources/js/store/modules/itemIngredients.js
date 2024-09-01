@@ -45,7 +45,6 @@ export const itemIngredients = {
                         context.commit('page', res.data.meta);
                         context.commit('pagination', res.data);
                     }
-
                     resolve(res);
                 }).catch((err) => {
                     reject(err);

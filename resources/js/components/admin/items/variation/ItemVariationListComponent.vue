@@ -11,6 +11,7 @@
                 <tr class="db-table-head-tr">
                     <th class="db-table-head-th">{{ $t("label.name") }}</th>
                     <th class="db-table-head-th">{{ $t("label.additional_price") }}</th>
+                    <th class="db-table-head-th">Cost price</th>
                     <th class="db-table-head-th">{{ $t("label.status") }}</th>
                     <th class="db-table-head-th">{{ $t("label.action") }}</th>
                 </tr>
@@ -22,6 +23,9 @@
                     </td>
                     <td class="db-table-body-td">
                         {{ child.flat_price }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ child.overall_cost }}
                     </td>
                     <td class="db-table-body-td">
                             <span :class="statusClass(child.status)">
@@ -62,6 +66,7 @@ export default {
             loading: {
                 isActive: false
             },
+
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
