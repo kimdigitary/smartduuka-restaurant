@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ItemExport;
+use App\Http\Resources\IngredientResource;
 use Exception;
 use App\Models\Item;
 use App\Services\ItemService;
 use App\Http\Requests\ItemRequest;
 use App\Http\Resources\ItemResource;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\ChangeImageRequest;
@@ -31,7 +36,7 @@ class ItemController extends AdminController
         $this->middleware(['permission:items_show'])->only('show');
     }
 
-    public function index(PaginateRequest $request): \Illuminate\Http\Response|\Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request): Response|AnonymousResourceCollection|Application|ResponseFactory
     {
         try {
             return ItemResource::collection($this->itemService->list($request));
@@ -39,9 +44,25 @@ class ItemController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+    public function purchasable(PaginateRequest $request): Response|AnonymousResourceCollection|Application|ResponseFactory
+    {
+        try {
+            return ItemResource::collection($this->itemService->purchasableList($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+    public function purchasableIngredients(PaginateRequest $request)
+    {
+        try {
+            return IngredientResource ::collection($this->itemService->purchasableIngredientsList($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception -> getMessage()], 422);
+        }
+    }
 
 
-    public function show(Item $item): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function show(Item $item): Response|ItemResource|Application|ResponseFactory
     {
         try {
             return new ItemResource($this->itemService->show($item));
@@ -50,7 +71,7 @@ class ItemController extends AdminController
         }
     }
 
-    public function store(ItemRequest $request): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function store(ItemRequest $request): Response|ItemResource|Application|ResponseFactory
     {
         try {
             if (env('DEMO')) {
@@ -66,7 +87,7 @@ class ItemController extends AdminController
         }
     }
 
-    public function update(ItemRequest $request, Item $item): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function update(ItemRequest $request, Item $item): Response|ItemResource|Application|ResponseFactory
     {
         try {
             return new ItemResource($this->itemService->update($request, $item));
@@ -75,7 +96,7 @@ class ItemController extends AdminController
         }
     }
 
-    public function destroy(Item $item): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(Item $item): Response|Application|ResponseFactory
     {
         try {
             $this->itemService->destroy($item);
@@ -85,7 +106,7 @@ class ItemController extends AdminController
         }
     }
 
-    public function changeImage(ChangeImageRequest $request, Item $item): \Illuminate\Http\Response|ItemResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function changeImage(ChangeImageRequest $request, Item $item): Response|ItemResource|Application|ResponseFactory
     {
         try {
             return new ItemResource($this->itemService->changeImage($request, $item));
@@ -94,7 +115,7 @@ class ItemController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request): \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request): Response|\Symfony\Component\HttpFoundation\BinaryFileResponse|Application|ResponseFactory
     {
         try {
             return Excel::download(new ItemExport($this->itemService, $request), 'Item.xlsx');

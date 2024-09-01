@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $permissions = [
             [
@@ -56,6 +56,48 @@ class PermissionTableSeeder extends Seeder
                         'name'       => 'items_show',
                         'guard_name' => 'sanctum',
                         'url'        => 'items/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
+                'title'      => 'Ingredients',
+                'name'       => 'ingredients',
+                'guard_name' => 'sanctum',
+                'url'        => 'ingredients',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Ingredients Create',
+                        'name'       => 'ingredients_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Edit',
+                        'name'       => 'ingredients_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Delete',
+                        'name'       => 'ingredients_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Ingredients Show',
+                        'name'       => 'ingredients_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'ingredients/show',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]
@@ -161,24 +203,6 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
-                'title'      => 'Kitchen Orders',
-                'name'       => 'kitchen-orders',
-                'guard_name' => 'sanctum',
-                'url'        => 'kitchen-orders',
-                'created_at' => now(),
-                'updated_at' => now(),
-                'children'   => [
-                    [
-                        'title'      => 'Kitchen Orders',
-                        'name'       => 'kitchen_orders',
-                        'guard_name' => 'sanctum',
-                        'url'        => 'kitchen-orders',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]
-                ]
-            ],
-            [
                 'title'      => 'Expenses',
                 'name'       => 'expenses',
                 'guard_name' => 'sanctum',
@@ -220,6 +244,49 @@ class PermissionTableSeeder extends Seeder
                     ]
                 ]
             ],
+            [
+                'title'      => 'Categories',
+                'name'       => 'categories',
+                'guard_name' => 'sanctum',
+                'url'        => 'categories',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Categories Create',
+                        'name'       => 'categories_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Edit',
+                        'name'       => 'categories_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Delete',
+                        'name'       => 'categories_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Categories Show',
+                        'name'       => 'categories_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'categories/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+
             [
                 'title'      => 'Table Orders',
                 'name'       => 'table-orders',
@@ -515,6 +582,56 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Product Stocking',
+                'name'       => 'purchase',
+                'guard_name' => 'sanctum',
+                'url'        => 'purchase',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Stocking Create',
+                        'name'       => 'purchase_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Edit',
+                        'name'       => 'purchase_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Delete',
+                        'name'       => 'purchase_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Stocking Show',
+                        'name'       => 'purchase_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'purchase/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
+                'title'      => 'Stock',
+                'name'       => 'itemStock',
+                'guard_name' => 'sanctum',
+                'url'        => 'itemStock',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'title'      => 'Transactions',
                 'name'       => 'transactions',
                 'guard_name' => 'sanctum',
@@ -553,6 +670,32 @@ class PermissionTableSeeder extends Seeder
                 'url'        => 'settings',
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],
+            [
+                'title'      => 'Ingredients & Items',
+                'name'       => 'ingredients_and_stock',
+                'guard_name' => 'sanctum',
+                'url'        => 'ingredients_and_stock',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title'      => 'Kitchen Orders',
+                'name'       => 'kitchen-orders',
+                'guard_name' => 'sanctum',
+                'url'        => 'kitchen-orders',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Kitchen Orders',
+                        'name'       => 'kitchen_orders',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'kitchen-orders',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
             ],
         ];
 

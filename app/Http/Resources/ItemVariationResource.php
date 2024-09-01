@@ -29,6 +29,8 @@ class ItemVariationResource extends JsonResource
             'status'            => $this->status,
             'item'              => optional($this->item)->name,
             'item_attribute'    => optional($this->itemAttribute)->name,
+            'ingredients'       => $this->ingredients,
+            'overall_cost'      => $this->overall_cost,
         ];
     }
 }

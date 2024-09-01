@@ -1,8 +1,7 @@
 <template>
-    <LoadingComponent :props="loading" />
-
+    <LoadingComponent :props="loading"/>
     <div class="col-12">
-        <div class="grid grid-cols-1 sm:grid-cols-5 mb-4 sm:mb-0">
+        <div class="grid grid-cols-1 sm:grid-cols-6 mb-4 sm:mb-0">
             <button type="button" class="db-tabBtn active" data-tab="#information">
                 <i class="lab lab-information lab-font-size-16"></i>
                 {{ $t('label.information') }}
@@ -11,14 +10,18 @@
                 {{ $t('label.images') }}
             </button>
             <button type="button" class="db-tabBtn" data-tab="#variations"><i
-                    class="lab lab-variation lab-font-size-16"></i>
+                class="lab lab-variation lab-font-size-16"></i>
                 {{ $t('label.variation') }}
             </button>
             <button type="button" class="db-tabBtn" data-tab="#extra"><i class="lab lab-extra lab-font-size-16"></i>
                 {{ $t('label.extra') }}
             </button>
-            <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16"></i>
+            <button type="button" class="db-tabBtn" data-tab="#addon"><i class="lab lab-addon lab-font-size-16" v-if="item.is_stockable===AskEnum.NO"></i>
                 {{ $t('label.addon') }}
+            </button>
+            <button type="button" class="db-tabBtn" data-tab="#ingredients" v-if="item.is_stockable===AskEnum.NO"><i
+                class="lab lab-variation lab-font-size-16"></i>
+                Ingredients
             </button>
         </div>
         <div class="db-tabDiv active" id="information">
@@ -33,6 +36,18 @@
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.price') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{ item.flat_price }}</span>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-6 !py-1.5" v-if="item.is_stockable===AskEnum.YES">
+                    <div class="db-list-item p-0">
+                        <span class="db-list-item-title w-full sm:w-1/2">Buying Price</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{ item.buying_price }}</span>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-6 !py-1.5" v-if="item.is_stockable===AskEnum.NO">
+                    <div class="db-list-item p-0">
+                        <span class="db-list-item-title w-full sm:w-1/2">Cost Price</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{ costPrice(item) }}</span>
                     </div>
                 </div>
 
@@ -54,8 +69,8 @@
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.type') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{
-                            enums.itemTypeEnumArray[item.item_type]
-                        }}</span>
+                                enums.itemTypeEnumArray[item.item_type]
+                            }}</span>
                     </div>
                 </div>
 
@@ -63,8 +78,16 @@
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.featured') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{
-                            enums.askEnumArray[item.is_featured]
-                        }}</span>
+                                enums.askEnumArray[item.is_featured]
+                            }}</span>
+                    </div>
+                </div>
+                <div class="col-12 sm:col-6 !py-1.5">
+                    <div class="db-list-item p-0">
+                        <span class="db-list-item-title w-full sm:w-1/2">Is Stockable</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{
+                                enums.askEnumArray[item.is_stockable]
+                            }}</span>
                     </div>
                 </div>
 
@@ -72,8 +95,8 @@
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.status') }}</span>
                         <span class="db-list-item-text w-full sm:w-1/2">{{
-                            enums.statusEnumArray[item.status]
-                        }}</span>
+                                enums.statusEnumArray[item.status]
+                            }}</span>
                     </div>
                 </div>
 
@@ -100,28 +123,28 @@
         <div class="db-tabDiv" id="image">
             <div class="row py-2">
                 <div class="col-12 sm:col-5">
-                    <img class="db-image" alt="slider" :src="previewImage" />
+                    <img class="db-image" alt="slider" :src="previewImage"/>
                 </div>
                 <form @submit.prevent="saveImage">
                     <p class="mt-2">{{ $t('label.size') }}: (262px,182px)</p>
                     <div class="flex gap-3 md:gap-4 py-4">
                         <label for="photo"
-                            class="db-btn relative cursor-pointer h-[38px] shadow-[0px_6px_10px_rgba(23,_114,_255,_0.24)] bg-primary text-white">
+                               class="db-btn relative cursor-pointer h-[38px] shadow-[0px_6px_10px_rgba(23,_114,_255,_0.24)] bg-primary text-white">
                             <i class="lab lab-upload-image"></i>
                             <span class="hidden sm:inline-block">{{
-                                $t("button.upload_new_image")
-                            }}</span>
+                                    $t("button.upload_new_image")
+                                }}</span>
                             <input v-if="uploadButton" @change="changePreviewImage" ref="imageProperty"
-                                accept="image/png, image/jpeg, image/jpg" type="file" id="photo"
-                                class="absolute top-0 left-0 w-full h-full -z-10 opacity-0" />
+                                   accept="image/png, image/jpeg, image/jpg" type="file" id="photo"
+                                   class="absolute top-0 left-0 w-full h-full -z-10 opacity-0"/>
                         </label>
                         <button v-if="saveButton" type="submit"
-                            class="db-btn h-[38px] shadow-[0px_6px_10px_rgba(26,_183,_89,_0.24)] text-white bg-[#1AB759]">
+                                class="db-btn h-[38px] shadow-[0px_6px_10px_rgba(26,_183,_89,_0.24)] text-white bg-[#1AB759]">
                             <i class="lab lab-tick-circle-2"></i>
                             <span class="hidden sm:inline-block">{{ $t("button.save") }}</span>
                         </button>
                         <button v-if="resetButton" @click="resetPreviewImage" type="button"
-                            class="db-btn-outline h-[38px] shadow-[0px_6px_10px_rgba(251,_78,_78,_0.24)] !text-[#FB4E4E] !bg-white !border-[#FB4E4E]">
+                                class="db-btn-outline h-[38px] shadow-[0px_6px_10px_rgba(251,_78,_78,_0.24)] !text-[#FB4E4E] !bg-white !border-[#FB4E4E]">
                             <i class="lab lab-reset"></i>
                             <span class="hidden sm:inline-block">{{ $t("button.reset") }}</span>
                         </button>
@@ -131,13 +154,16 @@
         </div>
 
         <div class="db-tabDiv" id="variations">
-            <ItemVariationListComponent :item="parseInt($route.params.id)" />
+            <ItemVariationListComponent :item="parseInt($route.params.id)" :isStockable="item.is_stockable"/>
+        </div>
+        <div class="db-tabDiv" id="ingredients">
+            <ItemIngredientListComponent :item="parseInt($route.params.id)"/>
         </div>
         <div class="db-tabDiv" id="extra">
-            <ItemExtraListComponent :item="parseInt($route.params.id)" />
+            <ItemExtraListComponent :item="parseInt($route.params.id)"/>
         </div>
         <div class="db-tabDiv" id="addon">
-            <ItemAddonListComponent :item="parseInt($route.params.id)" />
+            <ItemAddonListComponent :item="parseInt($route.params.id)"/>
         </div>
     </div>
 </template>
@@ -147,15 +173,21 @@ import LoadingComponent from "../components/LoadingComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";
+import AskEnum from "../../../enums/modules/askEnum";
 import appService from "../../../services/appService";
 import alertService from "../../../services/alertService";
 import ItemVariationListComponent from "./variation/ItemVariationListComponent";
 import ItemExtraListComponent from "./extra/ItemExtraListComponent";
 import ItemAddonListComponent from "./addon/ItemAddonListComponent";
+import IngredientAddonListComponent from "./ingredients/ItemIngredientListComponent.vue";
+import ItemIngredientListComponent from "./ingredients/ItemIngredientListComponent.vue";
+import {isProxy, toRaw} from "vue";
 
 export default {
     name: "ItemCategoryShowComponent",
     components: {
+        ItemIngredientListComponent,
+        IngredientAddonListComponent,
         ItemVariationListComponent,
         LoadingComponent,
         ItemExtraListComponent,
@@ -192,6 +224,9 @@ export default {
         }
     },
     computed: {
+        AskEnum() {
+            return AskEnum
+        },
         item: function () {
             return this.$store.getters['item/show'];
         }
@@ -209,6 +244,17 @@ export default {
     methods: {
         statusClass: function (status) {
             return appService.statusClass(status);
+        },
+        costPrice: function (item) {
+            if (item.variations.length === 0) {
+                return item.overall_cost;
+            } else {
+                if (isProxy(this.item)){
+                    const rawItem = toRaw(this.item);
+                    const variationsArray = Object.values(rawItem.variations).find(value => Array.isArray(value));
+                    return variationsArray[0].overall_cost
+                }
+            }
         },
         changePreviewImage: function (e) {
             if (e.target.files[0]) {

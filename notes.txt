@@ -10,11 +10,16 @@ Pos Operator
 email: posoperator@example.com
 password: 123456
 
+https://smartduuka-restaurant.test/menu/mirpur-1-main-mike
+https://smartduuka-restaurant.test/menu/mirpur-1-main-test
+
 cd /home/moodbox@smartduuka/public_html
 cd /home/vilagio@smartduuka/public_html
 http://phpmyadmin.smartduuka.com/
 
 https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
+https://resto.codehas.net/
+UPDATE `orders` SET `status`=1 WHERE 1;
 
 # Work on omoding branch
 git checkout omoding

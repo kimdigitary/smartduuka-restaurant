@@ -148,6 +148,7 @@ import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import paymentTypeEnum from "../../../enums/modules/paymentTypeEnum";
 import activityEnum from "../../../enums/modules/activityEnum";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
 
 export default {
     name : "OrderDetailsComponent",
@@ -157,6 +158,7 @@ export default {
             loading: {
                 isActive: false,
             },
+            interval: TimerEnums.INTERVAL,
             enums: {
                 activityEnum: activityEnum,
                 orderStatusEnum: orderStatusEnum,
@@ -192,6 +194,33 @@ export default {
             return this.$store.getters['tableDiningOrder/orderItems'];
         }
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        next();
+    },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    },
+    methods: {
+        startPolling() {
+            this.timer = setInterval(() => {
+                this.polling()
+            }, 5000)
+        },
+        polling: function () {
+            if (this.$route.params.id) {
+                this.$store.dispatch("tableDiningOrder/show", this.$route.params.id).then(res => {
+                    this.$store.dispatch("tableCart/resetPaymentMethod").then().catch();
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+        },
+    },
     mounted() {
         this.loading.isActive = true;
         if (this.$route.params.id) {
@@ -202,6 +231,7 @@ export default {
             }).catch((error) => {
                 this.loading.isActive = false;
             });
+            this.startPolling();
         }
     },
 }

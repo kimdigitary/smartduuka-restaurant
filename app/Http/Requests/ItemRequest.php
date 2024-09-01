@@ -2,31 +2,23 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Ask;
 use App\Rules\IniAmount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ItemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
+        $isStockable = Ask::YES;
         return [
-            'name'            => [
+            'name'             => [
                 'required',
                 'string',
                 'max:190',
@@ -37,11 +29,15 @@ class ItemRequest extends FormRequest
             'item_type'        => ['required', 'numeric', 'not_in:0'],
             'price'            => ['required', new IniAmount()],
             'is_featured'      => ['required', 'numeric', 'not_in:0'],
+            'is_stockable'     => ['required', 'numeric', 'not_in:0'],
             'description'      => ['nullable', 'string', 'max:5000'],
             'caution'          => ['nullable', 'string', 'max:5000'],
             'status'           => ['required', 'numeric', 'max:24'],
             'order'            => ['required', 'numeric'],
+            'overall_cost'     => ['numeric'],
+            'buying_price'     => "required_if:is_stockable,{$isStockable}",
             'variations'       => ['nullable', 'json'],
+            'ingredients'      => ['nullable', 'json'],
             'image'            => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }

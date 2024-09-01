@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
@@ -32,7 +33,8 @@ class OrderItem extends Model
         'editor_type',
         'editor_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'status'
     ];
     protected $casts = [
         'id'                   => 'integer',
@@ -64,7 +66,7 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
-    public function orderItem()
+    public function orderItem(): BelongsTo
     {
         return $this->belongsTo(Item::class, 'item_id', 'id')->withTrashed();
     }

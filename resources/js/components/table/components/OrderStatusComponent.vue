@@ -20,7 +20,7 @@
 
         <div v-if="parseInt(props.status) !== parseInt(enums.orderStatusEnum.DELIVERED)">
             <p class="text-xs text-center mb-4">{{ $t('label.estimated_delivery_time') }}</p>
-            <h4 class="text-xl font-medium text-center mb-4">{{ props.preparation_time }} min</h4>
+            <h4 class="text-xl font-medium text-center mb-4">{{ props.preparation_time }} min mike</h4>
         </div>
 
         <img v-if="parseInt(props.status) === parseInt(enums.orderStatusEnum.DELIVERED)" class="h-32 mx-auto mb-3" :src="setting.image_order_delivered" alt="gif">

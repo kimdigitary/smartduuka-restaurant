@@ -5,15 +5,16 @@ namespace App\Services;
 
 use App\Enums\Ask;
 use App\Enums\Status;
-use Exception;
-use App\Models\Item;
-use Illuminate\Support\Str;
-use App\Models\ItemVariation;
+use App\Http\Requests\ChangeImageRequest;
 use App\Http\Requests\ItemRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Models\Ingredient;
+use App\Models\Item;
+use App\Models\ItemVariation;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\PaginateRequest;
-use App\Http\Requests\ChangeImageRequest;
+use Illuminate\Support\Str;
 
 class ItemService
 {
@@ -38,11 +39,11 @@ class ItemService
     public function list(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_type') ?? 'desc';
+            $orderType = $request->get('order_type') ?? 'desc';
 
             return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
@@ -72,6 +73,83 @@ class ItemService
         }
     }
 
+    public function purchasableList(PaginateRequest $request)
+    {
+        try {
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType = $request->get('order_type') ?? 'desc';
+
+            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
+                $query->where('is_stockable', Ask::YES);
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->itemFilter)) {
+                        if ($key == "except") {
+                            $explodes = explode('|', $request);
+                            if (count($explodes)) {
+                                foreach ($explodes as $explode) {
+                                    $query->where('id', '!=', $explode);
+                                }
+                            }
+                        } else {
+                            if ($key == "item_category_id") {
+                                $query->where($key, $request);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method(
+                $methodValue
+            );
+
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    public function purchasableIngredientsList(PaginateRequest $request)
+    {
+        try {
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+            $orderColumn = $request->get('order_column') ?? 'id';
+            $orderType = $request->get('order_type') ?? 'desc';
+
+            return Ingredient::where(function ($query) use ($requests) {
+                foreach ($requests as $key => $request) {
+                    if (in_array($key, $this->itemFilter)) {
+                        if ($key == "except") {
+                            $explodes = explode('|', $request);
+                            if (count($explodes)) {
+                                foreach ($explodes as $explode) {
+                                    $query->where('id', '!=', $explode);
+                                }
+                            }
+                        } else {
+                            if ($key == "item_category_id") {
+                                $query->where($key, $request);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
+                        }
+                    }
+                }
+            })->orderBy($orderColumn, $orderType)->$method(
+                $methodValue
+            );
+
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
     /**
      * @throws Exception
      */
@@ -79,7 +157,19 @@ class ItemService
     {
         try {
             DB::transaction(function () use ($request) {
-                $this->item = Item::create($request->validated() + ['slug' => Str::slug($request->name)]);
+                $item = Item::create($request->validated() + ['slug' => Str::slug($request->name)]);
+                $syncData = [];
+                if ($request->is_stockable == Ask::NO && $request->ingredients) {
+                    foreach (json_decode($request->ingredients, true) as $ingredient) {
+                        $syncData[$ingredient['ingredient_id']] = [
+                            'quantity'     => $ingredient['quantity'],
+                            'buying_price' => $ingredient['buying_price'],
+                            'total'        => $ingredient['total'],
+                        ];
+                    }
+                    $item->ingredients()->syncWithoutDetaching($syncData);
+                }
+                $this->item = $item;
                 if ($request->image) {
                     $this->item->addMedia($request->image)->toMediaCollection('item');
                 }
@@ -107,14 +197,14 @@ class ItemService
                     $item->addMedia($request->image)->toMediaCollection('item');
                 }
                 if ($request->variations) {
-                    $variationIdsArray    = [];
+                    $variationIdsArray = [];
                     $variationDeleteArray = [];
-                    $oldVariations        = $item->variations->pluck('id')->toArray();
+                    $oldVariations = $item->variations->pluck('id')->toArray();
                     foreach (json_decode($request->variations, true) as $variation) {
                         if (isset($variation['id'])) {
                             $variationIdsArray[] = $variation['id'];
                             ItemVariation::where('id', $variation['id'])->update([
-                                'name'             => $variation['name'],
+                                'name'  => $variation['name'],
                                 'price' => $variation['price'],
                             ]);
                         } else {
@@ -161,7 +251,6 @@ class ItemService
             throw new Exception($exception->getMessage(), 422);
         }
     }
-
     /**
      * @throws Exception
      */
@@ -215,13 +304,13 @@ class ItemService
     public function itemReport(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             return Item::withCount('orders')->where(function ($query) use ($requests) {
-                if (isset($requests['from_date'])  && isset($requests['to_date'])) {
+                if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = date('Y-m-d', strtotime($requests['from_date']));
-                    $last_date  = date('Y-m-d', strtotime($requests['to_date']));
+                    $last_date = date('Y-m-d', strtotime($requests['to_date']));
                     $query->whereDate('created_at', '>=', $first_date)->whereDate(
                         'created_at',
                         '<=',

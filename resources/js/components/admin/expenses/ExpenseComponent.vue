@@ -21,7 +21,7 @@
           <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
                   @click="reset"></button>
         </div>
-        <PurchasePaymentListComponent v-if="show"/>
+        <ExpensePurchaseListComponent v-if="show"/>
       </div>
     </div>
   </div>
@@ -33,16 +33,18 @@ import ExpenseCreateComponent from "./ExpenseCreateComponent.vue";
 import ExpenseListComponent from "./ExpensetListComponent.vue";
 import appService from "../../../services/appService";
 import ExpensePaymentCreateComponent from "./ExpensePaymentCreateComponent.vue";
-import PurchasePaymentCreateComponent from "../components/purchase/PurchasePaymentCreateComponent.vue";
-import PurchasePaymentListComponent from "../components/purchase/PurchasePaymentListComponent.vue";
+import ExpensePurchasePaymentCreateComponent from "./payments/ExpensePurchasePaymentCreateComponent.vue";
+import ExpensePurchaseListComponent from "./payments/ExpensePurchaseListComponent.vue";
+import ExpensePurchasePaymentListComponent from "./payments/ExpensePurchasePaymentListComponent.vue";
 
 export default {
   name: "ExpenseComponent",
   components: {
+      ExpensePurchaseListComponent,
     ExpensePaymentCreateComponent,
     ExpenseListComponent,
     ExpenseCreateComponent,
-    PurchasePaymentCreateComponent, PurchasePaymentListComponent,
+      ExpensePurchasePaymentCreateComponent, ExpensePurchasePaymentListComponent,
     BreadcrumbComponent
   },
   computed: {

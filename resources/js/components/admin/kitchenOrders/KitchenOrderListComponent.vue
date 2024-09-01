@@ -3,9 +3,50 @@
     <div class="col-12">
         <!--        <div class="db-card">-->
         <div class="db-card-header border-none">
-            <h3 class="db-card-title">{{ $t('menu.pos_orders') }}</h3>
-            <div class="col-12">
-                <div class="db-card p-4 my-4 col-3" v-for="order in orders" :key="order">
+            <div class="w-1/2 gap-5 flex items-center">
+                <div class="custom-checkbox">
+                    <input type="checkbox" class="custom-checkbox-field" id="enableSound"
+                           :value="true"
+                           :checked="this.isSoundEnabled"
+                           @change="enableSound">
+                    <i class="fa-solid fa-check custom-checkbox-icon"></i>
+                </div>
+                <label class="cursor-pointer" for="enableSound">Enable Sound Notifications</label>
+            </div>
+            <div class="form-col-12 sm:form-col-6">
+                <label class="db-field-title" for="yes">Filter By</label>
+                <div class="db-field-radio-group">
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" v-model="props.form.itemType" id="food"
+                                   :value="enums.askEnum.YES" class="custom-radio-field">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="food" class="db-field-label">Food</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="Beverage" :value="enums.askEnum.NO">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="Beverage" class="db-field-label">Beverage</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="All" :value="enums.askEnum.ALL">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="All" class="db-field-label">All</label>
+                    </div>
+                </div>
+            </div>
+            <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
+                <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
+            </div>
+            <div class="grid w-full grid-cols-2 gap-5">
+                <div class="db-card w-full p-4 my-4 col-6" v-for="order in filteredOrders" :key="order">
                     <div class="flex flex-wrap gap-y-5 items-end justify-between">
                         <div>
                             <div class="flex flex-wrap items-start gap-y-2 gap-x-6 mb-5">
@@ -43,7 +84,7 @@
                                 {{ this.$t("label.pos") }}
                             </span>
                                 </li>
-                                <li class="text-xs">{{
+                                <li class="text-xs" v-if=" order.delivery_date">{{
                                         $t('label.delivery_time')
                                     }}:
                                     <span class="text-heading">
@@ -58,22 +99,32 @@
                             </span>
                                 </li>
                             </ul>
-                            <div>
+                            <div class="mt-5">
                                 <div class="flex gap-2 p-2 items-center" v-for="orderItem in order.orderItems">
                                     <div class="custom-checkbox">
-                                        <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id" :value="orderItem.id"
-                                               :checked="checkedStatue[orderItem.id]"
-                                               @change="enable($event)">
+                                        <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
+                                               :value="orderItem.id"
+                                               :checked="orderItem.status===2"
+                                               @change="enable(order.id,orderItem.id,$event)">
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
-                                        <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} X {{ orderItem.order_item.name }}</label>
+                                    <div class="">
+                                        <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} x
+                                            {{ orderItem.order_item.name }}</label>
+                                        <p v-if="orderItem.instruction">Instructions: {{ orderItem.instruction }}</p>
+                                    </div>
 
-<!--                                    <span class="me-3">{{ orderItem.quantity }} X {{ orderItem.order_item.name }}</span>-->
                                 </div>
                             </div>
                         </div>
-
                     </div>
+                    <div class="my-10"></div>
+                    <button v-if="showComplete(order.orderItems)" type="button"
+                            @click="completeOrder(order.id)"
+                            class="bottom-0 my-3 mt-10 flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#2AC769]">
+                        <i class="lab lab-save"></i>
+                        <span class="text-sm capitalize text-white">Complete</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -88,6 +139,7 @@ import PaginationBox from "../components/pagination/PaginationBox";
 import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
+import OrderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import TableLimitComponent from "../components/TableLimitComponent";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
@@ -106,6 +158,9 @@ import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
+import VueSimpleAlert from "vue3-simple-alert";
+import {TimerEnums} from "../../../enums/timerEnums.ts";
+import askEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -128,7 +183,6 @@ export default {
     },
     setup() {
         const date = ref();
-
         const presetRanges = ref([
             {label: 'Today', range: [new Date(), new Date()]},
             {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
@@ -154,14 +208,22 @@ export default {
             loading: {
                 isActive: false
             },
+            lastOrderId: 0,
+            isSoundEnabled: false,
+            interval1: TimerEnums.INTERVAL,
+            timer1: null,
+            imageSrc: require('./kitchen.png'),
+            orderStatus: orderStatusEnum.ACCEPT,
             disabledStatue: {},
             checkedStatue: {},
             enums: {
                 orderStatusEnum: orderStatusEnum,
                 paymentStatusEnum: paymentStatusEnum,
                 orderTypeEnum: orderTypeEnum,
+                askEnum: askEnum,
                 orderStatusEnumArray: {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
+                    [orderStatusEnum.PENDING]: this.$t("label.pending"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
                 },
@@ -181,6 +243,7 @@ export default {
             props: {
                 form: {
                     date: null,
+                    itemType: askEnum.ALL
                 },
                 search: {
                     paginate: 1,
@@ -189,9 +252,9 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
-                    order_type: orderTypeEnum.POS,
+                    order_type: orderTypeEnum.CHEF_BOARD,
                     user_id: null,
-                    status: null,
+                    status: orderStatusEnum.ACCEPT,
                     from_date: "",
                     to_date: "",
                 }
@@ -200,13 +263,39 @@ export default {
     },
     mounted() {
         this.list();
+        this.startPolling();
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer1) {
+            clearInterval(this.timer1);
+        }
+        next();
+    },
+    beforeDestroy() {
+        console.log('beforeDestroy 1')
+        if (this.timer1) {
+            clearInterval(this.timer1);
+        }
+    },
     computed: {
+        orderStatusEnum() {
+            return orderStatusEnum
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
+        },
+        filteredOrders() {
+            console.log('type: '+this.props.form.itemType)
+            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
+        },
+        OrderStatusEnum() {
+            return OrderStatusEnum
+        },
         orders: function () {
             return this.$store.getters['posOrder/lists'];
         },
@@ -224,26 +313,28 @@ export default {
         },
     },
     methods: {
+        startPolling() {
+            this.timer1 = setInterval(() => {
+                this.polling()
+            }, this.interval1)
+        },
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        enable: function (event) {
+        enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
-
+                this.changeStatus(orderID, orderItemID, 2)
+            } else {
+                this.changeStatus(orderID, orderItemID, 1)
             }
         },
-        // edit: function (product) {
-        //     this.loading.isActive = true;
-        //     appService.sideDrawerShow();
-        //     this.$store.dispatch('posOrder/edit', product.id);
-        //     this.loading.isActive = false;
-        //     this.props.form.name = product.name;
-        // },
-
         edit: function (product) {
             this.loading.isActive = true;
             this.$store.dispatch('posOrder/edit', product.id);
             this.loading.isActive = false;
+        },
+        enableSound: function () {
+            this.isSoundEnabled = true;
         },
         statusClass: function (status) {
             return appService.statusClass(status);
@@ -283,11 +374,46 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
-            this.$store.dispatch('posOrder/lists', this.props.search).then(res => {
+            const payload = {
+                ...this.props.search,type:this.props.form.itemType
+            }
+            this.$store.dispatch('posOrder/chefLists', payload).then(res => {
+                if (res.data.data.length > 0) {
+                    this.lastOrderId = res.data.data[0].id;
+                }
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        showComplete: function (orderItems) {
+            return orderItems.every(orderItem => orderItem.status === 2);
+        },
+        polling: function () {
+            const payload = {
+                ...this.props.search,type:this.props.form.itemType
+            }
+            this.$store.dispatch('posOrder/chefLists', payload).then(res => {
+                if (res.data.data.length > 0) {
+                    if (this.lastOrderId < res.data.data[0].id) {
+                        this.lastOrderId = res.data.data[0].id;
+                        this.playSound(res.data.data);
+                    } else {
+                        console.log(this.lastOrderId, res.data.data[0].id)
+                    }
+                }
+                // this.playSound(res.data.data);
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        playSound: function (orders) {
+            // if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
+            const audio = new Audio(orders[0].order_notification_audio);
+            audio.play().catch(error => {
+                console.error('Audio playback failed:', error);
+            });
+            // }
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
@@ -306,6 +432,68 @@ export default {
                 }
             }).catch((err) => {
                 this.loading.isActive = false;
+            })
+        },
+        changeStatus: function (orderID, orderItemID, orderItemStatus) {
+            try {
+                // this.loading.isActive = true;
+                this.$store.dispatch("posOrder/changeStatus", {
+                    id: orderID,
+                    orderItemID: orderItemID,
+                    status: orderStatusEnum.PROCESSING,
+                    orderItemStatus: orderItemStatus
+                }).then((res) => {
+                    this.loading.isActive = false;
+                    this.orders.find(order => order.id === id).status = res.data.data.status;
+                    alertService.successFlip(
+                        1,
+                        this.$t("label.status")
+                    );
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
+                });
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err.response.data.message);
+            }
+        },
+        completeOrder: function (id) {
+            VueSimpleAlert.confirm(
+                "Make this order complete",
+                "Are you sure?",
+                "warning",
+                {
+                    confirmButtonText: "Yes, Complete",
+                    cancelButtonText: "No, Cancel!",
+                    confirmButtonColor: "#696cff",
+                    cancelButtonColor: "#8592a3",
+                }
+            ).then(res => {
+                if (res) {
+                    try {
+                        this.loading.isActive = true;
+                        this.$store.dispatch("posOrder/changeStatus", {
+                            id: id,
+                            status: orderStatusEnum.DELIVERED,
+                        }).then((res) => {
+                            this.loading.isActive = false;
+                            this.orders.find(order => order.id === id).status = res.data.data.status;
+                            alertService.successFlip(
+                                1,
+                                this.$t("label.status")
+                            );
+                        }).catch((err) => {
+                            this.loading.isActive = false;
+                            alertService.error(err.response.data.message);
+                        });
+                    } catch (err) {
+                        this.loading.isActive = false;
+                        alertService.error(err.response.data.message);
+                    }
+                }
+            }).catch((err) => {
+                console.log('err', err)
             })
         },
         xls: function () {

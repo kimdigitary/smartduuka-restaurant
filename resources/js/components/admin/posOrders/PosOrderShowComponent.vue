@@ -304,6 +304,9 @@ export default {
                     {
                         name: this.$t("label.delivered"),
                         value: orderStatusEnum.DELIVERED,
+                    },{
+                        name: this.$t("label.pending"),
+                        value: orderStatusEnum.PENDING,
                     },
                 ],
             },
@@ -362,7 +365,7 @@ export default {
                 this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
                     id: this.$route.params.id,
-                    status: e.target.value,
+                    status: parseInt(e.target.value),
                 }).then((res) => {
                     this.loading.isActive = false;
                     alertService.successFlip(

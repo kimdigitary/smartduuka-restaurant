@@ -6,7 +6,6 @@ import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponen
 import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent";
 import store from "../store";
 import authRoutes from "./modules/authRoutes";
-import settingRoutes from "./modules/settingRoutes";
 import offerRoutes from "./modules/offerRoutes";
 import itemRoutes from "./modules/itemRoutes";
 import customerRoutes from "./modules/customerRoutes";
@@ -26,8 +25,12 @@ import SubscriptionListComponent from "../components/admin/Subscription/Subscrip
 import SubscriptionCreateComponent from "../components/admin/Subscription/SubscriptionCreateComponent.vue";
 import expensesRoutes from "./modules/expensesRoutes";
 import categoriesRoutes from "./modules/categoriesRoutes";
-import KitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
+import ingredientsRoutes from "./modules/ingredientsRoutes";
+import ingredientsStockRoutes from "./modules/ingredientsStockRoutes";
+import purchaseRoutes from "./modules/purchaseRoutes";
+import {purchaseIngredientsRoutes} from "./modules/purchaseIngredientsRoutes";
+import {settingRoutes} from "./modules/settingRoutes";
 
 
 const baseRoutes = [
@@ -100,9 +103,14 @@ const routes = baseRoutes.concat(
     transactionRoutes,
     creditBalanceReportRoutes,
     tableOrderRoutes,
+    // purchaseRoutes,
     adminTableOrderRoutes,
-    diningTableRoutes,
-    expensesRoutes, categoriesRoutes,kitchenOrderRoutes
+    // diningTableRoutes,
+    purchaseIngredientsRoutes,
+    expensesRoutes, categoriesRoutes,
+    kitchenOrderRoutes,
+    ingredientsRoutes,
+    ingredientsStockRoutes
 );
 
 const permission = store.getters.authPermission;

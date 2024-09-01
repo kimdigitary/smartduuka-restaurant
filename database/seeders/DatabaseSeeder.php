@@ -6,11 +6,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
         $this->call(MenuTableSeeder::class);
@@ -27,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SmsGatewayTableSeederVersionOne::class);
         $this->call(SmsGatewayTableSeederVersionTwo::class);
         $this->call(LanguageTableSeeder::class);
+
         $this->call(CurrencyTableSeeder::class);
         $this->call(BranchTableSeeder::class);
         $this->call(UserTableSeeder::class);

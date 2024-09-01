@@ -17,6 +17,10 @@
                 <i class="lab lab-branches text-sm"></i>
                 {{ $t("menu.branches") }}
             </router-link>
+            <router-link :to="{ name: 'admin.settings.diningTable' }" class="db-tab-btn">
+                <i class="lab lab-branches text-sm"></i>
+                Dining Tables
+            </router-link>
             <router-link :to="{ name: 'admin.settings.mail' }" class="db-tab-btn">
                 <i class="lab lab-mail text-sm"></i>
                 {{ $t("menu.mail") }}

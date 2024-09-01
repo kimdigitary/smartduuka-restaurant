@@ -50,7 +50,8 @@
             </form>
         </div>
 
-        <div v-if="demo === 'true' || demo === 'TRUE' || demo === 'True' || demo === '1' || demo === 1" class="container max-w-[360px] py-6 p-4 sm:px-6 shadow-xs rounded-2xl bg-white">
+        <div v-if="demo === 'true' || demo === 'TRUE' || demo === 'True' || demo === '1' || demo === 1"
+             class="container max-w-[360px] py-6 p-4 sm:px-6 shadow-xs rounded-2xl bg-white">
             <h2 class="mb-6 text-center text-lg font-medium text-heading">{{ $t('message.for_quick_demo') }}</h2>
             <nav class="grid grid-cols-2 gap-3">
                 <button @click.prevent="setupCredit('admin')"
@@ -99,7 +100,7 @@ export default {
             errors: {},
             permissions: {},
             firstMenu: null,
-            demo : ENV.DEMO
+            demo: ENV.DEMO
         }
     },
     methods: {
@@ -109,7 +110,12 @@ export default {
                 this.$store.dispatch('login', this.form).then((res) => {
                     this.loading.isActive = false;
                     alertService.success(res.data.message);
-                    router.push({name: "admin.dashboard"});
+                    // console.log(res.data.user)
+                    if (res.data.user.role_id === 7) {
+                        router.push({name: "admin.kitchen.orders.list"});
+                    } else {
+                        router.push({name: "admin.dashboard"});
+                    }
                 }).catch((err) => {
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;
@@ -131,12 +137,10 @@ export default {
             } else if (e === 'branchManager') {
                 this.form.email = 'branchmanager@example.com';
                 this.form.password = '123456';
-            }
-            else if (e === 'posOperator') {
+            } else if (e === 'posOperator') {
                 this.form.email = 'posoperator@example.com';
                 this.form.password = '123456';
-            }
-            else if (e === 'Chef') {
+            } else if (e === 'Chef') {
                 this.form.email = 'chef@example.com';
                 this.form.password = '123456';
             }
