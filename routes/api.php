@@ -144,7 +144,6 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::resource('expense-payments', ExpensePaymentController::class);
     Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
 
-
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {
             Route::get('/', [CompanyController::class, 'index']);

@@ -305,7 +305,7 @@ export default {
         SmSidebarModalCreateComponent,
         LoadingComponent
     },
-    props: ['props', 'form', 'errors'],
+    props: ['props', 'form', 'errors','item'],
     data() {
         return {
             internalPrice: '',

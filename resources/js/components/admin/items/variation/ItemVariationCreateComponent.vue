@@ -196,6 +196,7 @@ import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import AskEnum from "../../../../enums/modules/askEnum";
+import {isProxy, toRaw} from "vue";
 
 export default {
     name: "ItemVariationCreateComponent",
@@ -223,6 +224,9 @@ export default {
         AskEnum() {
             return AskEnum
         },
+        item: function () {
+            return this.$store.getters['item/show'];
+        },
         addButton: function () {
             return {title: this.$t('button.add_variation')};
         },
@@ -244,9 +248,37 @@ export default {
         },
     },
     watch: {
+        item: {
+            handler(item) {
+                if (item) {
+                    this.datatable = []
+                    if (isProxy(item)) {
+                        const rawItem = toRaw(item);
+                        rawItem?.ingredients?.forEach(ingredient => {
+                            let item = {
+                                name: ingredient.name,
+                                quantity: ingredient.pivot.quantity,
+                                buying_price: ingredient.pivot.buying_price,
+                                discount: 0,
+                                ingredient_id: ingredient.pivot.ingredient_id,
+                                tax: 0,
+                                total_tax: 0,
+                                total_tax_rate: 0,
+                                total_discount: 0,
+                                subtotal: ingredient.pivot.quantity * ingredient.pivot.buying_price,
+                                total: (+(ingredient.pivot.quantity * ingredient.pivot.buying_price) + (+0) - (+0)).toFixed(2),
+                            }
+                            this.datatable.push(item);
+                        })
+                    }
+                }
+            },
+            immediate: true,
+        },
         'props.form.ingredients': {
             handler(ingredients) {
                 if (ingredients) {
+                    console.log(ingredients)
                     this.datatable = []
                     ingredients?.forEach(ingredient => {
                         let item = {
@@ -375,7 +407,7 @@ export default {
             appService.modalHide();
             this.$store.dispatch("itemVariation/reset").then().catch();
             this.errors = {};
-            this.datatable = [];
+            // this.datatable = [];
             this.$props.props.form = {
                 name: "",
                 price: null,
