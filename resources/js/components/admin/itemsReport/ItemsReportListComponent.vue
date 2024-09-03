@@ -105,11 +105,11 @@
                     </tbody>
 
                     <tfoot class="db-table-foot border-t" v-if="itemsReports.length > 0">
-                        <td class="db-table-body-td">{{ $t('label.total') }}</td>
+                        <td class="db-table-body-td text-primary text-xl bg-[#FFFAF4]">{{ $t('label.total') }}</td>
                         <td></td>
                         <td></td>
-                        <td class="db-table-body-td"> {{ subTotal(itemsReports) }}</td>
-                        <td class="db-table-body-td"> {{totalEarning(itemsReports)}}</td>
+                        <td class="db-table-body-td text-primary text-xl "> {{ subTotal(itemsReports) }}</td>
+                        <td class="db-table-body-td text-primary text-xl "> {{totalEarning(itemsReports)}}</td>
                     </tfoot>
                 </table>
             </div>
@@ -145,6 +145,7 @@ import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'dat
 import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import {addThousandsSeparators} from "../../../utils/functions";
 
 export default {
     name: "ItemsReportListComponent",
@@ -259,6 +260,9 @@ export default {
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
         },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
+        },
     },
     methods: {
         floatNumber(e) {
@@ -287,12 +291,12 @@ export default {
         },
         subTotal(items) {
             return items.reduce((acc, ele) => {
-                return acc + parseInt(ele.order);
+                return addThousandsSeparators(acc + parseInt(ele.order),this.setting.site_default_currency_symbol);
             }, 0);
         },
         totalEarning(items) {
             return items.reduce((acc, ele) => {
-                return acc + parseInt(ele.price);
+                return addThousandsSeparators(acc + parseInt(ele.price));
             }, 0);
         },
         clear: function () {

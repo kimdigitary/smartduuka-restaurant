@@ -135,9 +135,9 @@
                         </tr>
                     </tbody>
                     <tfoot class="db-table-foot border-t" v-if="salesReports.length > 0">
-                    <td class="db-table-body-td">{{ $t('label.total') }}</td>
+                    <td class="db-table-body-td text-primary text-xl ">{{ $t('label.total') }}</td>
                     <td></td>
-                    <td class="db-table-body-td"> {{ total(salesReports) }}</td>
+                    <td class="db-table-body-td text-primary text-xl "> {{ total(salesReports) }}</td>
                     </tfoot>
                 </table>
             </div>
@@ -176,6 +176,7 @@ import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import sourceEnum from "../../../enums/modules/sourceEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import {addThousandsSeparators} from "../../../utils/functions";
 export default {
     name: "SalesReportListComponent",
     components: {
@@ -314,7 +315,7 @@ export default {
         },
         total(items) {
             return items.reduce((acc, ele) => {
-                return acc + parseInt(ele.total_amount_price);
+                return addThousandsSeparators(acc + parseInt(ele.total_amount_price));
             }, 0);
         },
         statusClass: function (status) {

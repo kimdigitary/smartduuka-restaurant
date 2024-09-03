@@ -16,3 +16,6 @@ export function cleanAmountV2(value: string) {
     return 0.0;
     // return value.replace(/\D/g, '');
 }
+export function addThousandsSeparators(value: string | number | undefined,currency:string) {
+    return `${currency} ${(parseInt(String(value))).toLocaleString()}`
+}
