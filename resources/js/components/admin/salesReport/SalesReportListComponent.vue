@@ -176,7 +176,6 @@ import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import sourceEnum from "../../../enums/modules/sourceEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
-
 export default {
     name: "SalesReportListComponent",
     components: {
