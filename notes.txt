@@ -68,3 +68,5 @@ jobs:
             npm update
             npm run production
 
+Notes on props watching in vuejs
+ItemCreateComponent.vue
