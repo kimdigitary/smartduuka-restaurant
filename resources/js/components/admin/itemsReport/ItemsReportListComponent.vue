@@ -109,7 +109,7 @@
                         <td></td>
                         <td></td>
                         <td class="db-table-body-td"> {{ subTotal(itemsReports) }}</td>
-                        <td class="db-table-body-td"> {{ itemsReports.convert_price}}</td>
+                        <td class="db-table-body-td"> {{totalEarning(itemsReports)}}</td>
                     </tfoot>
                 </table>
             </div>
@@ -288,6 +288,11 @@ export default {
         subTotal(items) {
             return items.reduce((acc, ele) => {
                 return acc + parseInt(ele.order);
+            }, 0);
+        },
+        totalEarning(items) {
+            return items.reduce((acc, ele) => {
+                return acc + parseInt(ele.price);
             }, 0);
         },
         clear: function () {

@@ -6,6 +6,10 @@ use Exception;
 use App\Services\ItemService;
 use App\Exports\ItemsReportExport;
 use App\Http\Resources\ItemResource;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\PaginateRequest;
 
@@ -21,7 +25,7 @@ class ItemsReportController extends AdminController
         $this->middleware(['permission:items-report'])->only('index', 'export');
     }
 
-    public function index(PaginateRequest $request) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request) : Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemResource::collection($this->itemService->itemReport($request));
@@ -30,7 +34,7 @@ class ItemsReportController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request) : \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request) : Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | Application | ResponseFactory
     {
         try {
             return Excel::download(new ItemsReportExport($this->itemService, $request), 'Item-Report.xlsx');
