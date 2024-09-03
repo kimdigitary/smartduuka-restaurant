@@ -88,7 +88,8 @@
                             <th class="db-table-head-th">{{ $t('label.name') }}</th>
                             <th class="db-table-head-th">{{ $t('label.category') }}</th>
                             <th class="db-table-head-th">{{ $t('label.type') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.quantity') }}</th>
+                            <th class="db-table-head-th">Orders</th>
+                            <th class="db-table-head-th">Earnings</th>
                         </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="itemsReports.length > 0">
@@ -99,6 +100,7 @@
                                 {{ enums.itemTypeEnumArray[itemsReport.item_type] }}
                             </td>
                             <td class="db-table-body-td">{{ itemsReport.order }}</td>
+                            <td class="db-table-body-td">{{ itemsReport.convert_price * itemsReport.order }}</td>
                         </tr>
                     </tbody>
 
@@ -107,6 +109,7 @@
                         <td></td>
                         <td></td>
                         <td class="db-table-body-td"> {{ subTotal(itemsReports) }}</td>
+                        <td class="db-table-body-td"> {{ itemsReports.convert_price}}</td>
                     </tfoot>
                 </table>
             </div>
