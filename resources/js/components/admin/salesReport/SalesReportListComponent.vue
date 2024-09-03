@@ -134,6 +134,11 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot class="db-table-foot border-t" v-if="salesReports.length > 0">
+                    <td class="db-table-body-td">{{ $t('label.total') }}</td>
+                    <td></td>
+                    <td class="db-table-body-td"> {{ total(salesReports) }}</td>
+                    </tfoot>
                 </table>
             </div>
 
@@ -307,6 +312,11 @@ export default {
     methods: {
         floatNumber(e) {
             return appService.floatNumber(e);
+        },
+        total(items) {
+            return items.reduce((acc, ele) => {
+                return acc + parseInt(ele.total_amount_price);
+            }, 0);
         },
         statusClass: function (status) {
             return appService.statusClass(status);
