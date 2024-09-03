@@ -239,7 +239,7 @@
                                             <input v-on:keypress="onlyNumber($event) "
                                                    v-model="this.overallCost"
                                                    type="number"
-                                                    class="db-field-control">
+                                                   class="db-field-control">
                                         </th>
                                         <th class="db-table-body-td"></th>
                                     </tr>
@@ -266,7 +266,6 @@
                                 errors.description[0]
                             }}</small>
                     </div>
-
                     <div class="col-12">
                         <div class="flex flex-wrap gap-3 mt-4">
                             <button type="submit" class="db-btn py-2 text-white bg-primary">
@@ -296,6 +295,7 @@ import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import {isProxy, toRaw} from "vue";
 
 export default {
     name: "ItemCreateComponent",
@@ -305,7 +305,7 @@ export default {
         SmSidebarModalCreateComponent,
         LoadingComponent
     },
-    props: ['props', 'form', 'errors','item'],
+    props: ['props', 'form', 'errors', 'item'],
     data() {
         return {
             internalPrice: '',
@@ -313,6 +313,8 @@ export default {
             loading: {
                 isActive: false
             },
+            ingredients: [],
+            data: this.props,
             ingredientId: null,
             finalItem: null,
             overallCost: null,
@@ -595,14 +597,45 @@ export default {
                 alertService.error(err)
             }
         },
-        watch: {
-            'props.form.price': {
-                immediate: true,
-                handler(newValue) {
-                    this.internalPrice = newValue || '';
+        updateIngredients(value) {
+            if (this.props && this.props.form && this.props.form.ingredients) {
+                this.ingredients = this.props.form.ingredients;
+                this.datatable = [];
+                if (isProxy(this.ingredients)) {
+                    toRaw(this.ingredients).forEach((ingredient) => {
+                        let item = {
+                            name: ingredient.name,
+                            quantity: ingredient.pivot.quantity,
+                            buying_price: ingredient.pivot.buying_price,
+                            discount: 0,
+                            ingredient_id: ingredient.pivot.ingredient_id,
+                            tax: 0,
+                            total_tax: 0,
+                            total_tax_rate: 0,
+                            total_discount: 0,
+                            subtotal: ingredient.pivot.quantity * ingredient.pivot.buying_price,
+                            total: (+(ingredient.pivot.quantity * ingredient.pivot.buying_price) + (+0) - (+0)).toFixed(2),
+                        }
+                        this.datatable.push(item);
+                    })
                 }
             }
+        }
+    },
+    watch: {
+        props: {
+            deep: true,
+            immediate: true,
+            handler(newValue, oldValue) {
+                this.updateIngredients(newValue);
+            }
         },
-    }
+        'props.form.price': {
+            immediate: true,
+            handler(newValue) {
+                this.internalPrice = newValue || '';
+            }
+        },
+    },
 }
 </script>

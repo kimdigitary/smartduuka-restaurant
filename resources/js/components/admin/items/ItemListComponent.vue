@@ -360,6 +360,7 @@ export default {
                 status: item.status,
                 buying_price: item.buying_price,
                 is_stockable: item.is_stockable,
+                ingredients: item.ingredients,
             };
         },
         destroy: function (id) {

@@ -193,6 +193,17 @@ class ItemService
         try {
             DB::transaction(function () use ($request, $item) {
                 $item->update($request->validated() + ['slug' => Str::slug($request->name)]);
+                $syncData = [];
+                if ($request->is_stockable == Ask::NO && $request->ingredients) {
+                    foreach (json_decode($request->ingredients, true) as $ingredient) {
+                        $syncData[$ingredient['ingredient_id']] = [
+                            'quantity'     => $ingredient['quantity'],
+                            'buying_price' => $ingredient['buying_price'],
+                            'total'        => $ingredient['total'],
+                        ];
+                    }
+                    $item->ingredients()->sync($syncData);
+                }
                 if ($request->image) {
                     $item->addMedia($request->image)->toMediaCollection('item');
                 }
@@ -251,6 +262,7 @@ class ItemService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
     /**
      * @throws Exception
      */
