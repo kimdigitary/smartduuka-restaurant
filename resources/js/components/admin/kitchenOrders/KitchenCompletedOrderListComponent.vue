@@ -157,6 +157,7 @@ export default {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
+                    [orderStatusEnum.PREPARED]: this.$t("label.prepared"),
                 },
                 orderTypeEnumArray: {
                     [orderTypeEnum.POS]: this.$t("label.pos"),

@@ -18,6 +18,14 @@
                 <div class="db-field-radio-group">
                     <div class="db-field-radio">
                         <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="All" :value="enums.askEnum.ALL">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="All" class="db-field-label">All</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
                             <input type="radio" v-model="props.form.itemType" id="food"
                                    :value="enums.askEnum.YES" class="custom-radio-field">
                             <span class="custom-radio-span"></span>
@@ -32,14 +40,7 @@
                         </div>
                         <label for="Beverage" class="db-field-label">Beverage</label>
                     </div>
-                    <div class="db-field-radio">
-                        <div class="custom-radio">
-                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
-                                   id="All" :value="enums.askEnum.ALL">
-                            <span class="custom-radio-span"></span>
-                        </div>
-                        <label for="All" class="db-field-label">All</label>
-                    </div>
+
                 </div>
             </div>
             <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
@@ -290,8 +291,8 @@ export default {
             return this.$store.getters['frontendSetting/lists'];
         },
         filteredOrders() {
-            console.log('type: '+this.props.form.itemType)
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
+            // return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
+            return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED);
         },
         OrderStatusEnum() {
             return OrderStatusEnum
@@ -475,7 +476,8 @@ export default {
                         this.loading.isActive = true;
                         this.$store.dispatch("posOrder/changeStatus", {
                             id: id,
-                            status: orderStatusEnum.DELIVERED,
+                            // status: orderStatusEnum.DELIVERED,
+                            status: orderStatusEnum.PREPARED,
                         }).then((res) => {
                             this.loading.isActive = false;
                             this.orders.find(order => order.id === id).status = res.data.data.status;

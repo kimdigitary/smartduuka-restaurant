@@ -4198,6 +4198,10 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(255 245 222 / var(--tw-bg-opacity));
 }
+.bg-\[\#FFFAF4\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 250 244 / var(--tw-bg-opacity));
+}
 .bg-amber-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 243 199 / var(--tw-bg-opacity));
@@ -4290,10 +4294,6 @@ input:checked + div svg {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.bg-\[\#FFFAF4\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 250 244 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));

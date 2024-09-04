@@ -290,14 +290,16 @@ export default {
 
         },
         subTotal(items) {
-            return items.reduce((acc, ele) => {
-                return addThousandsSeparators(acc + parseInt(ele.order),this.setting.site_default_currency_symbol);
+            const total = items.reduce((acc, ele) => {
+                return acc + parseInt(ele.order);
             }, 0);
+            return addThousandsSeparators(total,'');
         },
         totalEarning(items) {
-            return items.reduce((acc, ele) => {
-                return addThousandsSeparators(acc + parseInt(ele.price));
+            const total =  items.reduce((acc, ele) => {
+                return acc + parseInt(ele.price);
             }, 0);
+            return addThousandsSeparators(total,this.setting.site_default_currency_symbol);
         },
         clear: function () {
             this.props.search.paginate = 1;
