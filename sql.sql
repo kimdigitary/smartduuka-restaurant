@@ -1,2 +1,2 @@
-select *
-from item_variations;
+select status
+from orders;

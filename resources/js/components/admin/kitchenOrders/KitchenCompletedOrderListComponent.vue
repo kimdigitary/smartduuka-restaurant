@@ -218,7 +218,7 @@ export default {
             return this.$store.getters['posOrder/lists'];
         },
         filteredOrders() {
-            return this.orders.filter(order => order.status === orderStatusEnum.DELIVERED);
+            return this.orders.filter(order => order.status === orderStatusEnum.PREPARED);
         },
         customers: function () {
             return this.$store.getters['user/lists'];

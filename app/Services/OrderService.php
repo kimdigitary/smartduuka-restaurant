@@ -118,7 +118,7 @@ class OrderService
                             ->orWhere('status', OrderStatus::PROCESSING);
                     }
                     if ($request->order_type == OrderType::COMPLETED) {
-                        $query->Where('status', OrderStatus::DELIVERED);
+                        $query->Where('status', OrderStatus::PREPARED);
                     }
                 })
                 ->orderBy('id')->get();
@@ -488,6 +488,7 @@ class OrderService
 
                     $order->status = $request->status;
                     $order->save();
+
                 }
             } else {
                 if ($request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED) {
@@ -507,7 +508,7 @@ class OrderService
                         );
                     }
                 }
-                if ($request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED) {
+                if ($request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED|| $request->status == OrderStatus::PREPARED) {
                     if ($request->orderItemID) {
                         OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
                     }
