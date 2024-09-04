@@ -60,8 +60,8 @@
                             }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="searchItemType"
                                 v-model="props.search.item_type" :options="[
-                                    { id: enums.itemTypeEnum.VEG, name: $t('label.veg') },
-                                    { id: enums.itemTypeEnum.NON_VEG, name: $t('label.non_veg') },
+                                    { id: enums.itemTypeEnum.FOOD, name: $t('label.veg') },
+                                    { id: enums.itemTypeEnum.BEVERAGE, name: $t('label.non_veg') },
                                 ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                 :clearOnClose="true" placeholder="--" search-placeholder="--" />
                         </div>
@@ -247,7 +247,7 @@ export default {
                     is_featured: askEnum.YES,
                     is_stockable: askEnum.NO,
                     buying_price: 0,
-                    item_type: itemTypeEnum.VEG,
+                    item_type: itemTypeEnum.FOOD,
                     item_category_id: null,
                     tax_id: null,
                     status: statusEnum.ACTIVE,

@@ -30,7 +30,7 @@ class Item extends Model implements HasMedia
         'caution',
         'status',
         'order',
-        'overall_cost',
+        'overall_cost','item_type',
         'creator_type', 'creator_id', 'editor_type', 'editor_id', 'is_stockable', 'buying_price', 'registerMediaConversionsUsingModelInstance'
     ];
     protected $dates = ['deleted_at'];

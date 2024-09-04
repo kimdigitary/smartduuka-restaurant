@@ -162,6 +162,7 @@ import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
 import askEnum from "../../../enums/modules/askEnum";
+import AskEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -292,7 +293,12 @@ export default {
         },
         filteredOrders() {
             // return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED);
+            if (this.props.form.itemType !== AskEnum.ALL) {
+                return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED && order.orderItems.some(orderItem => orderItem.order_item.item_type ===
+                    this.props.form.itemType));
+            }else{
+                return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED);
+            }
         },
         OrderStatusEnum() {
             return OrderStatusEnum
@@ -376,7 +382,7 @@ export default {
             this.loading.isActive = true;
             this.props.search.page = page;
             const payload = {
-                ...this.props.search,type:this.props.form.itemType
+                ...this.props.search, type: this.props.form.itemType
             }
             this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
@@ -392,7 +398,7 @@ export default {
         },
         polling: function () {
             const payload = {
-                ...this.props.search,type:this.props.form.itemType
+                ...this.props.search, type: this.props.form.itemType
             }
             this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
