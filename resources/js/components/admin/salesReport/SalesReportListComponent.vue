@@ -105,18 +105,17 @@
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
                             <th class="db-table-head-th">{{ $t('label.discount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
                             <th class="db-table-head-th">{{ $t('label.payment_type') }}</th>
                             <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
                         </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="salesReports.length > 0">
                         <tr class="db-table-body-tr" v-for="salesReport in salesReports" :key="salesReport">
                             <td class="db-table-body-td">{{ salesReport.order_serial_no }}</td>
                             <td class="db-table-body-td">{{ salesReport.order_datetime }}</td>
-                            <td class="db-table-body-td">{{ salesReport.total_amount_price }}</td>
                             <td class="db-table-body-td">{{ salesReport.discount_amount_price }}</td>
                             <td class="db-table-body-td">{{ salesReport.delivery_charge_amount_price }}</td>
                             <td class="db-table-body-td">
@@ -132,10 +131,15 @@
                                     {{ enums.paymentStatusEnumArray[salesReport.payment_status] }}
                                 </span>
                             </td>
+                            <td class="db-table-body-td">{{ salesReport.total_amount_price }}</td>
                         </tr>
                     </tbody>
                     <tfoot class="db-table-foot border-t" v-if="salesReports.length > 0">
                     <td class="db-table-body-td text-primary text-xl ">{{ $t('label.total') }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td class="db-table-body-td text-primary text-xl "> {{ total(salesReports) }}</td>
                     </tfoot>
@@ -314,9 +318,10 @@ export default {
             return appService.floatNumber(e);
         },
         total(items) {
-            return items.reduce((acc, ele) => {
-                return addThousandsSeparators(acc + parseInt(ele.total_amount_price));
+           const total =  items.reduce((acc, ele) => {
+                return acc + parseInt(ele.total_amount_price);
             }, 0);
+            return addThousandsSeparators(total,'UGX');
         },
         statusClass: function (status) {
             return appService.statusClass(status);

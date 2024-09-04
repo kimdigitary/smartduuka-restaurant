@@ -12,4 +12,5 @@ interface OrderStatus
     const CANCELED         = 16;
     const REJECTED         = 19;
     const RETURNED         = 22;
+    const PREPARED         = 23;
 }
