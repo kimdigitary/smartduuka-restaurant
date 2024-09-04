@@ -56,14 +56,13 @@
                                class="db-field-control" ref="imageProperty" accept="image/png, image/jpeg, image/jpg">
                         <small class="db-field-alert" v-if="errors.image">{{ errors.image[0] }}</small>
                     </div>
-
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title" for="veg">{{ $t("label.item_type") }}</label>
                         <div class="db-field-radio-group">
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" v-model="props.form.item_type" id="veg"
-                                           :value="enums.itemTypeEnum.VEG" class="custom-radio-field">
+                                           :value="enums.itemTypeEnum.FOOD" class="custom-radio-field">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="veg" class="db-field-label">Food</label>
@@ -71,7 +70,7 @@
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" class="custom-radio-field" v-model="props.form.item_type"
-                                           id="nonVeg" :value="enums.itemTypeEnum.NON_VEG">
+                                           id="nonVeg" :value="enums.itemTypeEnum.BEVERAGE">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="nonVeg" class="db-field-label">Beverage</label>
@@ -328,8 +327,8 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive")
                 },
                 itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
+                    [itemTypeEnum.FOOD]: this.$t("label.veg"),
+                    [itemTypeEnum.BEVERAGE]: this.$t("label.non_veg")
                 },
                 askEnumArray: {
                     [askEnum.YES]: this.$t("label.yes"),
@@ -528,7 +527,7 @@ export default {
                 description: "",
                 caution: "",
                 is_featured: askEnum.YES,
-                item_type: itemTypeEnum.VEG,
+                item_type: itemTypeEnum.FOOD,
                 item_category_id: null,
                 tax_id: null,
                 status: statusEnum.ACTIVE,
@@ -575,7 +574,7 @@ export default {
                         description: "",
                         caution: "",
                         is_featured: askEnum.YES,
-                        item_type: itemTypeEnum.VEG,
+                        item_type: itemTypeEnum.FOOD,
                         item_category_id: null,
                         tax_id: null,
                         status: statusEnum.ACTIVE,

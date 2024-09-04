@@ -27,9 +27,9 @@
 
             <div v-if="categories.length > 0" class="flex flex-wrap gap-3 w-full mb-5 veg-navs">
                 <button
-                    :disabled="itemProps.property.type !== null && itemProps.property.type === enums.itemTypeEnum.VEG"
-                    @click.prevent="itemProps.property.type === enums.itemTypeEnum.NON_VEG ? itemTypeReset() : itemTypeSet(enums.itemTypeEnum.NON_VEG)"
-                    :class="itemProps.property.type === enums.itemTypeEnum.NON_VEG ? 'veg-active' : ''" type="button"
+                    :disabled="itemProps.property.type !== null && itemProps.property.type === enums.itemTypeEnum.FOOD"
+                    @click.prevent="itemProps.property.type === enums.itemTypeEnum.BEVERAGE ? itemTypeReset() : itemTypeSet(enums.itemTypeEnum.BEVERAGE)"
+                    :class="itemProps.property.type === enums.itemTypeEnum.BEVERAGE ? 'veg-active' : ''" type="button"
                     class="flex items-center gap-3 w-fit pl-3 pr-4 py-1.5 rounded-3xl transition hover:shadow-filter hover:bg-white bg-[#EFF0F6]">
                     <img :src="setting.image_vag" alt="category" class="h-6">
                     <span class="capitalize text-sm font-medium text-heading">{{ $t('label.frontend_non_veg') }}</span>
@@ -37,9 +37,9 @@
                         class="lab-close-circle-line text-xl text-red-500 transition opacity-0 ltr:-ml-8 rtl:-mr-8 clear-item-type-filter font-fill-danger lab-font-size-24"></i>
                 </button>
                 <button
-                    :disabled="itemProps.property.type !== null && itemProps.property.type === enums.itemTypeEnum.NON_VEG"
-                    @click.prevent="itemProps.property.type === enums.itemTypeEnum.VEG ? itemTypeReset() : itemTypeSet(enums.itemTypeEnum.VEG)"
-                    :class="itemProps.property.type === enums.itemTypeEnum.VEG ? 'veg-active' : ''" type="button"
+                    :disabled="itemProps.property.type !== null && itemProps.property.type === enums.itemTypeEnum.BEVERAGE"
+                    @click.prevent="itemProps.property.type === enums.itemTypeEnum.FOOD ? itemTypeReset() : itemTypeSet(enums.itemTypeEnum.FOOD)"
+                    :class="itemProps.property.type === enums.itemTypeEnum.FOOD ? 'veg-active' : ''" type="button"
                     class="flex items-center gap-3 w-fit pl-3 pr-4 py-1.5 rounded-3xl transition hover:shadow-filter hover:bg-white bg-[#EFF0F6]">
                     <img :src="setting.image_non_vag" alt="category" class="h-6">
                     <span class="capitalize text-sm font-medium text-heading">{{ $t('label.veg') }}</span>

@@ -1,2 +1,2 @@
-select status
-from orders;
+select item_type
+from items where name = 'testing';

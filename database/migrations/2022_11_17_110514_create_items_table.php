@@ -27,7 +27,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->decimal('price', 13, 6)->default(0);
             $table->tinyInteger('status')->default(Status::ACTIVE)->comment(Status::ACTIVE . '=' . trans('statuse.' . Status::ACTIVE) . ', ' . Status::INACTIVE . '=' . trans('statuse.' . Status::INACTIVE));
-            $table->tinyInteger('item_type')->default(ItemType::VEG);
+            $table->tinyInteger('item_type')->default(ItemType::FOOD);
             $table->bigInteger('order')->default(1);
             $table->tinyInteger('is_featured')->default(Ask::YES);
             $table->string('creator_type',)->nullable();
