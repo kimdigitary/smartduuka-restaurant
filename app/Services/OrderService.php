@@ -470,6 +470,7 @@ class OrderService
     public function changeStatus(Order $order, $auth = false, OrderStatusRequest $request): Order|array
     {
         try {
+            info($request);
             if ($auth) {
                 if ($order->user_id == Auth::user()->id) {
                     if ($request->reason) {
@@ -491,6 +492,7 @@ class OrderService
 
                 }
             } else {
+
                 if ($request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED) {
                     $request->validate([
                         'reason' => 'required|max:700',
