@@ -698,7 +698,6 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
         ];
-
         $permissions = AppLibrary::associativeToNumericArrayBuilder($permissions);
         Permission::insert($permissions);
     }
