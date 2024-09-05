@@ -330,9 +330,9 @@ export default {
         },
         enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(orderID, orderItemID, 2)
+                this.changeStatusChefBoard(orderID, orderItemID, 2)
             } else {
-                this.changeStatus(orderID, orderItemID, 1)
+                this.changeStatusChefBoard(orderID, orderItemID, 1)
             }
         },
         edit: function (product) {
@@ -405,8 +405,6 @@ export default {
                     if (this.lastOrderId < res.data.data[0].id) {
                         this.lastOrderId = res.data.data[0].id;
                         this.playSound(res.data.data);
-                    } else {
-                        console.log(this.lastOrderId, res.data.data[0].id)
                     }
                 }
                 // this.playSound(res.data.data);
@@ -445,6 +443,30 @@ export default {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
+                    id: orderID,
+                    orderItemID: orderItemID,
+                    status: orderStatusEnum.PROCESSING,
+                    orderItemStatus: orderItemStatus
+                }).then((res) => {
+                    this.loading.isActive = false;
+                    this.orders.find(order => order.id === id).status = res.data.data.status;
+                    alertService.successFlip(
+                        1,
+                        this.$t("label.status")
+                    );
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
+                });
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err.response.data.message);
+            }
+        },
+        changeStatusChefBoard: function (orderID, orderItemID, orderItemStatus) {
+            try {
+                // this.loading.isActive = true;
+                this.$store.dispatch("posOrder/changeStatusChefBoard", {
                     id: orderID,
                     orderItemID: orderItemID,
                     status: orderStatusEnum.PROCESSING,

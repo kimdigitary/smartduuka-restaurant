@@ -78,10 +78,15 @@ use App\Http\Controllers\Table\DiningTableController as TableDiningTableControll
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
 use App\Http\Controllers\Table\OrderController as TableOrderController;
 use App\Http\Controllers\TestController;
+use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('seed', [TestController::class, 'seedDatabase']);
+Route::prefix('chef-board')->name('chefBoard.')->group(function () {
+    Route::post('/change-status/{order}', [PosOrderController::class, 'changeStatus']);
+});
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
@@ -90,6 +95,7 @@ Route::apiResource('expense-categories', ExpenseCategoryController::class);
 Route::apiResource('subscriptions', SubscriptionController::class);
 
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
+
 
 Route::prefix('auth')->middleware(['installed', 'apiKey', 'localization'])->name('auth.')->namespace('Auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
