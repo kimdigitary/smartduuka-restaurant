@@ -105,13 +105,10 @@ class OrderService
     public function chef(PaginateRequest $request)
     {
         try {
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
 
             return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')
-//                ->when($request->item_type !== Ask::ALL, function ($query) use ($request) {
-//                    $query->whereHas('orderItems.orderItem', function ($query) use ($request) {
-//                        $query->where('item_type', $request->item_type);
-//                    });
-//                })
                 ->where(function ($query) use ($request) {
                     if ($request->order_type == OrderType::CHEF_BOARD) {
                         $query->where('status', $request->status)
@@ -121,7 +118,10 @@ class OrderService
                         $query->Where('status', OrderStatus::PREPARED);
                     }
                 })
-                ->orderBy('id')->get();
+//                ->orderBy('id')->get();
+                ->orderBy('id')->$method(
+                    $methodValue
+                );
 
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
