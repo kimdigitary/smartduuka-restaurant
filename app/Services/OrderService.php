@@ -122,7 +122,6 @@ class OrderService
                 ->orderBy('id')->$method(
                     $methodValue
                 );
-
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
