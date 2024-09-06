@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Supplier extends Model implements HasMedia
+class Supplier extends TenantModel implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;

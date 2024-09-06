@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Tenancy\Tenancy;
 use Exception;
 use Illuminate\Support\Str;
 use App\Models\ItemCategory;
@@ -68,7 +69,12 @@ class ItemCategoryService
     public function store(ItemCategoryRequest $request)
     {
         try {
-            $itemCategory = ItemCategory::create($request->validated() + ['slug' => Str::slug($request->name)]);
+            $itemCategory = ItemCategory::create(
+                $request->validated() +
+                [
+                    'slug' => Str::slug($request->name),
+                    'tenant_id' => Tenancy::getTenantId(),
+            ]);
             if ($request->image) {
                 $itemCategory->addMediaFromRequest('image')->toMediaCollection('item-category');
             }

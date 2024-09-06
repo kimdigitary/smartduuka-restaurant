@@ -9,6 +9,7 @@ use App\Http\Resources\MenuResource;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\UserResource;
 use App\Libraries\AppLibrary;
+use App\Models\TenantUser;
 use App\Models\User;
 use App\Services\DefaultAccessService;
 use App\Services\MenuService;
@@ -103,6 +104,9 @@ class LoginController extends Controller
             'menu'              => MenuResource::collection(collect($this->menuService->menu($user->roles[0]))),
             'permission'        => $permission,
             'defaultPermission' => $defaultPermission,
+            'tenant_id'         => TenantUser::query()->where([
+                'user_id' => Auth::id(),
+            ])->first()->tenant_id,
         ], 201);
     }
 

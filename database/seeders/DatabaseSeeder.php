@@ -8,6 +8,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        $this->call(TenantSeeder::class);
         $this->call(MenuTableSeeder::class);
         $this->call(MenuTemplateTableSeeder::class);
         $this->call(MenuSectionTableSeeder::class);

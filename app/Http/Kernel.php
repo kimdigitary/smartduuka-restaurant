@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiKeyMiddleware;
+use App\Http\Middleware\TenantMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -74,5 +75,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'localization'       => \App\Http\Middleware\localization::class,
         'installed'          => \App\Http\Middleware\Installed::class,
+        'tenantID'           => TenantMiddleware::class,
     ];
 }

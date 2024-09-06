@@ -147,7 +147,8 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("supplier/edit", supplier.id);
 
-            let worldMapData = require('city-state-country');
+            // let worldMapData = require('city-state-country');
+            let worldMapData = "";
             if (supplier.country !== "") {
                 if (supplier.state !== "") {
                     this.props.states = worldMapData.getAllStatesFromCountry(supplier.country);

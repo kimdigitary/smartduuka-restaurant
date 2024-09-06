@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Razorpay\Api\Product;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
-class Stock extends Model
+class Stock extends TenantModel
 {
     use HasFactory;
     use HasRecursiveRelationships;

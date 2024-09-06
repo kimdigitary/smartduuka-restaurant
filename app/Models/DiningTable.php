@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\Scopes\BranchScope;
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DiningTable extends Model
+class DiningTable extends TenantModel
 {
     use HasFactory;
     protected $table = "dining_tables";

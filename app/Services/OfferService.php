@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Enums\Status;
+use App\Tenancy\Tenancy;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Offer;
@@ -123,6 +124,7 @@ class OfferService
                     'start_date' => date('Y-m-d H:i:s', strtotime($request->start_date)),
                     'end_date'   => date('Y-m-d H:i:s', strtotime($request->end_date)),
                     'status'     => $request->status,
+                    'tenant_id' => Tenancy::getTenantId(),
                 ]);
                 if ($request->image) {
                     $this->offer->addMedia($request->image)->toMediaCollection('offer');

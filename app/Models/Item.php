@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Tenancy\TenantModel;
 use Carbon\Carbon;
 use App\Enums\Status;
 use Spatie\MediaLibrary\HasMedia;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Item extends Model implements HasMedia
+class Item extends TenantModel implements HasMedia
 {
     use HasFactory, InteractsWithMedia, SoftDeletes;
 

@@ -182,9 +182,9 @@ export default {
     mounted() {
         try {
             this.loading.isActive = true;
-            setTimeout(() => {
-                this.callCountry();
-            }, 300);
+            // setTimeout(() => {
+            //     this.callCountry();
+            // }, 300);
             this.$store.dispatch('countryCode/lists');
             this.$store.dispatch('company/lists').then(companyRes => {
                 this.$store.dispatch('countryCode/show', companyRes.data.data.company_country_code).then(res => {
@@ -219,11 +219,11 @@ export default {
         phoneNumber(e) {
             return appService.phoneNumber(e);
         },
-        callCountry: function () {
-            this.worldMapData = require('city-state-country');
-            this.countries = this.worldMapData.getAllCountries();
-            this.loading.isActive = false;
-        },
+        // callCountry: function () {
+        //     this.worldMapData = require('city-state-country');
+        //     this.countries = this.worldMapData.getAllCountries();
+        //     this.loading.isActive = false;
+        // },
         callStates: function (countryName) {
             this.props.states = this.worldMapData.getAllStatesFromCountry(countryName);
             this.props.form.state = null;

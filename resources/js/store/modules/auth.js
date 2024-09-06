@@ -22,6 +22,9 @@ export const auth = {
         authBranchId: function (state) {
             return state.authBranchId;
         },
+        authTenantId: function (state) {
+            return state.authTenantId;
+        },
         authInfo: function (state) {
             return state.authInfo;
         },
@@ -129,6 +132,7 @@ export const auth = {
             state.authStatus = true;
             state.authToken = payload.token;
             state.authBranchId = payload.branch_id;
+            state.authTenantId = payload.tenant_id;
             state.authInfo = payload.user;
             state.authMenu = payload.menu;
             state.authPermission = payload.permission;
@@ -138,6 +142,7 @@ export const auth = {
             state.authStatus = false;
             state.authToken = null;
             state.authBranchId = '';
+            state.authTenantId = '';
             state.authInfo = {};
             state.authMenu = [];
             state.authPermission = {};

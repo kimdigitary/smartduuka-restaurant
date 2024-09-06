@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\Status;
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ItemCategory extends Model implements HasMedia
+class ItemCategory extends TenantModel implements HasMedia
 {
     use InteractsWithMedia;
 

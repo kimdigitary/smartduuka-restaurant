@@ -133,7 +133,7 @@ Route::prefix('profile')->name('profile.')->middleware(['installed', 'apiKey', '
     Route::post('/change-image', [ProfileController::class, 'changeImage']);
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth:sanctum', 'localization'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tenantID', 'auth:sanctum', 'localization'])->group(function () {
     Route::prefix('default-access')->name('default-access.')->group(function () {
         Route::get('/', [DefaultAccessController::class, 'index']);
         Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
@@ -597,7 +597,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     });
 });
 
-Route::prefix('table')->name('table.')->middleware(['installed', 'apiKey', 'localization'])->group(function () {
+Route::prefix('table')->name('table.')->middleware(['installed', 'apiKey', 'tenantID', 'localization'])->group(function () {
 
     Route::prefix('item-category')->name('item-category.')->group(function () {
         Route::get('/', [TableItemCategoryController::class, 'index']);

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Models\Scopes\BranchScope;
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Order extends TenantModel
 {
     use HasFactory;
 
