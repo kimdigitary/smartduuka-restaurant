@@ -1,7 +1,7 @@
 <template>
     <LoadingComponent :props="loading" />
 
-    <div class="db-card db-tab-div active">
+    <div class="db-card  active">
         <div class="db-card-header border-none">
             <h3 class="db-card-title">{{ $t("menu.suppliers") }}</h3>
             <div class="db-card-filter">
@@ -14,7 +14,6 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                     <tr class="db-table-head-tr">
-                        <th class="db-table-head-th">{{ $t("label.company") }}</th>
                         <th class="db-table-head-th">{{ $t("label.name") }}</th>
                         <th class="db-table-head-th">{{ $t("label.email") }}</th>
                         <th class="db-table-head-th">{{ $t("label.phone") }}</th>
@@ -26,9 +25,6 @@
                 <tbody class="db-table-body" v-if="suppliers.length > 0">
                     <tr class="db-table-body-tr" v-for="supplier in suppliers" :key="supplier">
                         <td class="db-table-body-td">
-                            {{ supplier.company }}
-                        </td>
-                        <td class="db-table-body-td">
                             {{ supplier.name }}
                         </td>
                         <td class="db-table-body-td">
@@ -39,7 +35,7 @@
                         </td>
                         <td class="db-table-body-td">
                             <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
-                                <SmViewComponent :link="'admin.settings.supplier.show'" :id="supplier.id" />
+                                <SmViewComponent :link="'admin.ingredients_and_stock.supplier.show'" :id="supplier.id" />
                                 <SmModalEditComponent @click="edit(supplier)" />
                                 <SmDeleteComponent @click="destroy(supplier.id)" />
                             </div>
@@ -170,38 +166,13 @@ export default {
 
             setTimeout(() => {
                 this.props.form = {
-                    company: supplier.company,
                     name: supplier.name,
                     email: supplier.email,
                     phone: supplier.phone,
-                    country_code: supplier.country_code,
-                    country: supplier.country,
-                    state: supplier.state,
-                    city: supplier.city,
-                    zip_code: supplier.zip_code,
-                    address: supplier.address,
                 };
-
-                if (supplier.country === "") {
-                    this.props.form.country = null;
-                }
-
-                if (supplier.state === "") {
-                    this.props.form.state = null;
-                }
-
-                if (supplier.city === "") {
-                    this.props.form.city = null;
-                }
 
             }, 200);
 
-            this.$store.dispatch('countryCode/callingCode', supplier.country_code).then(res => {
-                this.props.flag = res.data.data.flag_emoji;
-                this.loading.isActive = false;
-            }).catch((err) => {
-                this.loading.isActive = false;
-            });
             this.loading.isActive = false;
         },
         destroy: function (id) {

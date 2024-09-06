@@ -7,6 +7,8 @@ use App\Models\Scopes\BranchScope;
 use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends TenantModel
 {
@@ -33,7 +35,7 @@ class Order extends TenantModel
         'payment_status',
         'status',
         'dining_table_id',
-        'source'
+        'source',
     ];
 
     protected $casts = [
@@ -65,12 +67,12 @@ class Order extends TenantModel
         static::addGlobalScope(new BranchScope());
     }
 
-    public function orderItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class, 'order_items')->withTrashed();
     }

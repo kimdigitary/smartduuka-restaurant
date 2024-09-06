@@ -4,7 +4,8 @@ import statusEnum from "../enums/modules/statusEnum";
 import orderStatusEnum from "../enums/modules/orderStatusEnum";
 import askEnum from "../enums/modules/askEnum";
 import taxTypeEnum from "../enums/modules/taxTypeEnum";
-import currencyPositionEnum from "../enums/modules/currencyPositionEnum";
+import purchaseStatusEnum from "../enums/modules/purchaseStatusEnum";
+import purchasePaymentStatusEnum from "../enums/modules/purchasePaymentStatusEnum";
 
 export default {
     sideDrawerShow: function (id = 'sideDrawer') {
@@ -20,6 +21,17 @@ export default {
             document?.querySelector(".backdrop")?.classList?.add("active");
         });
     },
+    purchasePaymentStatusClass: function (status) {
+        if(status === purchasePaymentStatusEnum.PENDING){
+            return "bg-green-100 text-[#F6A609]";
+        }
+        else if(status === purchasePaymentStatusEnum.PARTIAL_PAID){
+            return "bg-green-100 text-[#7F56F0]";
+        }
+        else if(status === purchasePaymentStatusEnum.FULLY_PAID){
+            return "bg-green-100 text-[#2AC769]";
+        }
+    },
     sideDrawerHide: function (id = 'sideDrawer') {
         const drawerDivs = document?.querySelectorAll(".drawer");
         const drawerSets = document?.querySelectorAll("[data-drawer]");
@@ -29,6 +41,17 @@ export default {
             document?.querySelector(".backdrop")?.classList?.remove("active");
             document.body.style.overflowY = "auto"
         });
+    },
+    purchaseStatusClass: function (status) {
+        if(status === purchaseStatusEnum.PENDING){
+            return "bg-green-100 text-[#F6A609]";
+        }
+        else if(status === purchaseStatusEnum.ORDERED){
+            return "bg-green-100 text-[#7F56F0]";
+        }
+        else if(status === purchaseStatusEnum.RECEIVED){
+            return "bg-green-100 text-[#2AC769]";
+        }
     },
 
     modalShow: function (id = '.modal') {

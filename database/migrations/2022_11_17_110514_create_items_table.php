@@ -3,6 +3,7 @@
 use App\Enums\Ask;
 use App\Enums\Featured;
 use App\Enums\ItemType;
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,8 +26,8 @@ return new class extends Migration
             $table->longText('caution')->nullable();
             $table->longText('description')->nullable();
             $table->decimal('price', 13, 6)->default(0);
-            $table->tinyInteger('status')->default(\App\Enums\Status::ACTIVE)->comment(\App\Enums\Status::ACTIVE . '=' . trans('statuse.' . \App\Enums\Status::ACTIVE) . ', ' . \App\Enums\Status::INACTIVE . '=' . trans('statuse.' . \App\Enums\Status::INACTIVE));
-            $table->tinyInteger('item_type')->default(ItemType::VEG);
+            $table->tinyInteger('status')->default(Status::ACTIVE)->comment(Status::ACTIVE . '=' . trans('statuse.' . Status::ACTIVE) . ', ' . Status::INACTIVE . '=' . trans('statuse.' . Status::INACTIVE));
+            $table->tinyInteger('item_type')->default(ItemType::FOOD);
             $table->bigInteger('order')->default(1);
             $table->tinyInteger('is_featured')->default(Ask::YES);
             $table->string('creator_type',)->nullable();

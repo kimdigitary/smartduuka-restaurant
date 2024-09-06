@@ -77,6 +77,11 @@ import {productCategory} from "./modules/productCategory";
 import {ingredient} from "./modules/ingredient";
 import {supplier} from "./modules/supplier";
 import {stock} from "./modules/stock";
+import {productVariation} from "./modules/productVariation";
+import {purchase} from "./modules/purchase";
+import {ingredientPurchase} from "./modules/ingredientPurchase";
+import {ingredientProduct} from "./modules/ingredientProduct";
+import {itemIngredients} from "./modules/itemIngredients";
 
 
 export default new createStore({
@@ -101,13 +106,17 @@ export default new createStore({
         customer,
         customerAddress,
         otp,
+        purchase,
+        ingredientPurchase,
         administrator,
         defaultAccess,
         administratorAddress,
+        productVariation,
         license,
         analytic,
         supplier,
         stock,
+        itemIngredients,
         analyticSection,
         role,
         permission,
@@ -156,6 +165,7 @@ export default new createStore({
         expense,
         product,
         productBrand,
+        ingredientProduct,
         unit,
         barcode,
         productCategory,

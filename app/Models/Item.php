@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Tenancy\TenantModel;
 use Carbon\Carbon;
 use App\Enums\Status;
-use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Item extends TenantModel implements HasMedia
@@ -29,21 +32,30 @@ class Item extends TenantModel implements HasMedia
         'caution',
         'status',
         'order',
+        'overall_cost',
+        'item_type',
+        'creator_type',
+        'creator_id',
+        'editor_type',
+        'editor_id',
+        'is_stockable',
+        'buying_price',
+        'registerMediaConversionsUsingModelInstance'
     ];
     protected $dates = ['deleted_at'];
     protected $casts = [
-        'id'               => 'integer',
-        'name'             => 'string',
+        'id' => 'integer',
+        'name' => 'string',
         'item_category_id' => 'integer',
-        'slug'             => 'string',
-        'tax_id'           => 'integer',
-        'item_type'        => 'integer',
-        'price'            => 'decimal:6',
-        'is_featured'      => 'integer',
-        'description'      => 'string',
-        'caution'          => 'string',
-        'status'           => 'integer',
-        'order'            => 'integer',
+        'slug' => 'string',
+        'tax_id' => 'integer',
+        'item_type' => 'integer',
+        'price' => 'decimal:6',
+        'is_featured' => 'integer',
+        'description' => 'string',
+        'caution' => 'string',
+        'status' => 'integer',
+        'order' => 'integer',
     ];
 
     public function getThumbAttribute(): string
@@ -80,37 +92,42 @@ class Item extends TenantModel implements HasMedia
         $this->addMediaConversion('preview')->width(400)->keepOriginalImageFormat()->sharpen(10);
     }
 
-    public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function variations(): HasMany
     {
-        return $this->hasMany(ItemVariation::class)->with('itemAttribute')->where(['status' => Status::ACTIVE]);
+        return $this->hasMany(ItemVariation::class)->with(['itemAttribute', 'ingredients'])->where(['status' => Status::ACTIVE]);
     }
 
-    public function extras(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function extras(): HasMany
     {
         return $this->hasMany(ItemExtra::class)->where(['status' => Status::ACTIVE]);
     }
 
-    public function addons(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function ingredients(): BelongsToMany
+    {
+        return $this->belongsToMany(Ingredient::class, 'item_ingredients', 'item_id', 'ingredient_id')->withPivot(['quantity', 'buying_price', 'total']);
+    }
+
+    public function addons(): HasMany
     {
         return $this->hasMany(ItemAddon::class);
     }
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(ItemCategory::class, 'item_category_id', 'id');
     }
 
-    public function tax(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function tax(): BelongsTo
     {
         return $this->belongsTo(Tax::class);
     }
 
-    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'item_id', 'id');
     }
 
-    public function offer(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function offer(): BelongsToMany
     {
         return $this->belongsToMany(Offer::class, 'offer_items');
     }

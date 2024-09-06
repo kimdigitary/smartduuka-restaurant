@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Libraries\AppLibrary;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ItemVariation extends Model
 {
@@ -20,7 +21,8 @@ class ItemVariation extends Model
         'name',
         'price',
         'caution',
-        'status'
+        'status',
+        'overall_cost'
     ];
     protected $casts = [
         'id'                => 'integer',
@@ -55,5 +57,10 @@ class ItemVariation extends Model
     public function getConvertPriceAttribute(): float
     {
         return AppLibrary::convertAmountFormat($this->price);
+    }
+
+    public function ingredients(): BelongsToMany
+    {
+        return $this->belongsToMany(Ingredient::class, 'variation_ingredients', 'variation_id', 'ingredient_id')->withPivot('quantity', 'buying_price', 'total', 'created_at', 'updated_at');
     }
 }

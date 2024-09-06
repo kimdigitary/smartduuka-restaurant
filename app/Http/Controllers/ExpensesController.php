@@ -15,7 +15,6 @@
     class ExpensesController extends Controller
     {
         use ApiResponse, FilesTrait, AuthUser;
-
         public function index(Request $request)
         {
             $name = $request -> name;

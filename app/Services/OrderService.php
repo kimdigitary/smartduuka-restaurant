@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Ask;
 use App\Enums\OrderStatus;
 use App\Enums\OrderType;
 use App\Enums\PaymentStatus;
@@ -104,6 +105,9 @@ class OrderService
     public function chef(PaginateRequest $request)
     {
         try {
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
+
             return Order::with('transaction', 'orderItems.orderItem.variations', 'orderItems.orderItem.extras')
                 ->where(function ($query) use ($request) {
                     if ($request->order_type == OrderType::CHEF_BOARD) {
@@ -111,11 +115,13 @@ class OrderService
                             ->orWhere('status', OrderStatus::PROCESSING);
                     }
                     if ($request->order_type == OrderType::COMPLETED) {
-                        $query->Where('status', OrderStatus::DELIVERED);
+                        $query->Where('status', OrderStatus::PREPARED);
                     }
                 })
-                ->orderBy('id', 'desc')->get();
-
+//                ->orderBy('id')->get();
+                ->orderBy('id')->$method(
+                    $methodValue
+                );
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -463,6 +469,7 @@ class OrderService
     public function changeStatus(Order $order, $auth = false, OrderStatusRequest $request): Order|array
     {
         try {
+            info($request);
             if ($auth) {
                 if ($order->user_id == Auth::user()->id) {
                     if ($request->reason) {
@@ -481,8 +488,10 @@ class OrderService
 
                     $order->status = $request->status;
                     $order->save();
+
                 }
-            }  else {
+            } else {
+
                 if ($request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED) {
                     $request->validate([
                         'reason' => 'required|max:700',
@@ -500,14 +509,14 @@ class OrderService
                         );
                     }
                 }
-                if ($request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED) {
+                if ($request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED|| $request->status == OrderStatus::PREPARED) {
                     if ($request->orderItemID) {
                         OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
                     }
                     $order->status = $request->status;
                     $order->save();
                 }
-                if ($request->status == OrderStatus::ACCEPT ) {
+                if ($request->status == OrderStatus::ACCEPT) {
                     if ($request->orderItemID) {
                         OrderItem::find($request->orderItemID)->update(['status' => $request->orderItemStatus]);
                     }

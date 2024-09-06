@@ -1,137 +1,43 @@
 <template>
-    <LoadingComponent :props="loading" />
-    <SmModalCreateComponent :props="addButton" />
+    <LoadingComponent :props="loading"/>
+    <SmModalCreateComponent :props="addButton"/>
 
     <div id="modal" class="modal">
         <div class="modal-dialog">
             <div class="modal-header">
                 <h3 class="modal-title">{{ $t("menu.suppliers") }}</h3>
                 <button class="modal-close fa-solid fa-xmark text-xl text-slate-400 hover:text-red-500"
-                    @click="reset"></button>
+                        @click="reset"></button>
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
                     <div class="form-row">
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="company" class="db-field-title required">
-                                {{ $t("label.company") }}
-                            </label>
-                            <input v-model="props.form.company" type="text" id="company" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.company">{{
-                                errors.company[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label for="name" class="db-field-title required">
-                                {{ $t("label.name") }}
+                                {{ $t("label.company") }} / {{ $t("label.name") }}
                             </label>
-                            <input v-model="props.form.name" type="text" id="name" class="db-field-control" />
+                            <input v-model="props.form.name" type="text" id="name" class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.name">{{
-                                errors.name[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="email" class="db-field-title">
-                                {{ $t("label.email") }}
-                            </label>
-                            <input v-model="props.form.email" type="text" id="email" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.email">{{
-                                errors.email[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="phone" class="db-field-title">{{ $t("label.phone") }}</label>
-                            <div :class="errors.phone ? 'invalid' : ''" class="db-field-control flex items-center">
-                                <div class="w-fit flex-shrink-0 dropdown-group">
-                                    <button type="button" class="flex items-center gap-1 dropdown-btn">
-                                        {{ props.flag }}
-                                        <span class="whitespace-nowrap flex-shrink-0 text-xs">{{ props.form.country_code
-                                        }}</span>
-                                        <i class="fa-solid fa-caret-down text-xs"></i>
-                                    </button>
-                                    <ul
-                                        class="p-1.5 w-24 rounded-lg shadow-xl absolute top-8 -left-4 z-10 border border-gray-200 bg-white hidden dropdown-list !h-52 !overflow-x-hidden !overflow-y-auto thin-scrolling">
-                                        <li v-for="countryCode in countryCodes" @click="change(countryCode)"
-                                            class="flex items-center gap-2 p-1.5 rounded-md cursor-pointer hover:bg-gray-100">
-                                            {{ countryCode.flag_emoji }}
-                                            <span class="whitespace-nowrap text-xs">{{ countryCode.calling_code }}</span>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                                <input v-model="props.form.phone" v-on:keypress="phoneNumber($event)" v-bind:class="errors.phone
-                                    ? 'invalid' : ''" type="text" id="phone" class="pl-2 text-sm w-full h-full" />
-                            </div>
-
-                            <small class="db-field-alert" v-if="errors.phone">
-                                {{ errors.phone[0] }}
-                            </small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title" for="country">{{
-                                $t('label.country') }}</label>
-                            <vue-select class="db-field-control" id="country"
-                                v-bind:class="errors.country ? 'is-invalid' : ''" v-model="props.form.country"
-                                @update:modelValue="callStates($event)" :options="countries" label-by="name" value-by="name"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
-                            <small class="db-field-alert" v-if="errors.country">
-                                {{ errors.country[0] }}
-                            </small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title" for="state">{{
-                                $t('label.state') }}</label>
-                            <vue-select class="db-field-control" id="state" v-bind:class="errors.state ? 'is-invalid' : ''"
-                                v-model="props.form.state" @update:modelValue="callCities($event)" :options="props.states"
-                                label-by="name" value-by="name" :closeOnSelect="true" :searchable="true"
-                                :clearOnClose="true" placeholder="--" search-placeholder="--" />
-                            <small class="db-field-alert" v-if="errors.state">
-                                {{ errors.state[0] }}
-                            </small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title">{{
-                                $t('label.city') }}</label>
-                            <vue-select class="db-field-control" id="city" v-bind:class="errors.city ? 'is-invalid' : ''"
-                                v-model="props.form.city" :options="props.cities" label-by="name" value-by="name"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
-                            <small class="db-field-alert" v-if="errors.city">
-                                {{ errors.city[0] }}
-                            </small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="zip_code" class="db-field-title">
-                                {{ $t("label.zip_code") }}
-                            </label>
-                            <input v-model="props.form.zip_code" type="text" id="zip_code" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.zip_code">{{
-                                errors.zip_code[0]
-                            }}</small>
+                                    errors.name[0]
+                                }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-12">
-                            <label for="image" class="db-field-title">{{ $t('label.image') }}</label>
-                            <input @change="changeImage" v-bind:class="errors.image ? 'invalid' : ''" id="image" type="file"
-                                class="db-field-control" ref="imageProperty" accept="image/png, image/jpeg, image/jpg">
-                            <small class="db-field-alert" v-if="errors.image">{{ errors.image[0] }}</small>
+                            <label for="email" class="db-field-title">
+                                {{ $t("label.email") }}
+                            </label>
+                            <input v-model="props.form.email" type="text" id="email" class="db-field-control"/>
+                            <small class="db-field-alert" v-if="errors.email">{{
+                                    errors.email[0]
+                                }}</small>
                         </div>
 
-                        <div class="form-col-12">
-                            <label for="address" class="db-field-title">{{ $t("label.address") }}</label>
-                            <textarea v-model="props.form.address" v-bind:class="errors.address ? 'invalid' : ''"
-                                id="address" class="db-field-control"></textarea>
-                            <small class="db-field-alert" v-if="errors.address">{{
-                                errors.address[0]
-                            }}</small>
+                        <div class="form-col-12 sm:form-col-12">
+                            <label for="phone" class="db-field-title">{{ $t("label.phone") }}</label>
+                            <input v-model="props.form.phone" type="text" placeholder="eg. 256701234567" id="phone" class="db-field-control"/>
+                            <small class="db-field-alert" v-if="errors.phone">
+                                {{ errors.phone[0] }}
+                            </small>
                         </div>
 
                         <div class="form-col-12">
@@ -161,7 +67,7 @@ import appService from "../../../../services/appService";
 
 export default {
     name: "SupplierCreateComponent",
-    components: { SmModalCreateComponent, LoadingComponent },
+    components: {SmModalCreateComponent, LoadingComponent},
     props: ["props"],
     data() {
         return {
@@ -273,6 +179,7 @@ export default {
         save: function () {
             try {
                 const fd = new FormData();
+                this.props.form.company = 'Supplier';
                 fd.append('company', this.props.form.company);
                 fd.append('name', this.props.form.name);
                 fd.append('email', this.props.form.email);

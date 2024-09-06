@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiKeyMiddleware;
+use App\Http\Middleware\PermissionChecker;
 use App\Http\Middleware\TenantMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -71,7 +72,8 @@ class Kernel extends HttpKernel
         'apiKey'             => ApiKeyMiddleware::class,
         'verify.api'         => \App\Http\Middleware\VerifyEmail::class,
         'role'               => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission'         => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+//        'permission'         => PermissionMiddleware::class,
+        'permission'         => PermissionChecker::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'localization'       => \App\Http\Middleware\localization::class,
         'installed'          => \App\Http\Middleware\Installed::class,

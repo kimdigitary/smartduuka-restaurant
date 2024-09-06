@@ -58,6 +58,24 @@ export const purchase = {
                 })
             })
         },
+        ingredientsLists: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = 'admin/purchase/ingredients';
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit('lists', res.data.data);
+                        context.commit('page', res.data.meta);
+                        context.commit('pagination', res.data)
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        },
         save: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
@@ -76,10 +94,28 @@ export const purchase = {
                 });
             })
         },
+        saveIngredient: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = 'admin/purchase/ingredient';
+                if (this.state['purchase'].temp.isEditing) {
+                    method = axios.post;
+                    url = `admin/purchase/update/${this.state['purchase'].temp.temp_id}`;
+                }
+
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', {vuex: true}).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            })
+        },
         saveStock: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
-                let url = 'admin/purchase/store-stock';
+                let url = 'admin/purchase/store-itemStock';
                 if (this.state['purchase'].temp.isEditing) {
                     method = axios.post;
                     url = `admin/purchase/update/${this.state['purchase'].temp.temp_id}`;

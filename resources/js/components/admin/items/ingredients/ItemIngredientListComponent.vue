@@ -1,39 +1,40 @@
 <template>
     <ItemIngredientCreateComponent :props="addonProps" />
     <br><br>
-    <div class="db-card" v-if="addons.length > 0">
+    <div class="db-card" v-if="ingredients.length > 0">
         <div class="db-table-responsive">
             <table class="db-table stripe">
                 <thead class="db-table-head">
                     <tr class="db-table-head-tr">
                         <th class="db-table-head-th">{{ $t("label.name") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.price") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.status") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.action") }}</th>
+                        <th class="db-table-head-th"> Buying Price</th>
+                        <th class="db-table-head-th">Quantity</th>
+                        <th class="db-table-head-th">Units</th>
+                        <th class="db-table-head-th hidden-print"
+                            v-if="permissionChecker('ingredients_delete') || permissionChecker('ingredients_edit') || permissionChecker('ingredients_show')">
+                            {{ $t('label.action') }}
+                        </th>
                     </tr>
                 </thead>
-                <tbody class="db-table-body" v-if="addons.length > 0">
-                    <tr class="db-table-body-tr" v-for="addon in addons" :key="addon">
+                <tbody class="db-table-body" v-if="ingredients.length > 0">
+                    <tr class="db-table-body-tr" v-for="ingredient in ingredients" :key="ingredient">
                         <td class="db-table-body-td">
-                            {{ addon.addon_item_name }}<br>
-                            <span v-if="addon.variation_names.length > 0"
-                                v-for="(variationName, index) in addon.variation_names">
-                                <span>{{ variationName.attribute_name }} : {{ variationName.name }}
-                                    <span v-if="index + 1 < addon.variation_names.length">, </span>
-                                </span>
-
+                            {{ ingredient.name }}<br>
+                        </td>
+                        <td class="db-table-body-td">
+                            {{ ingredient.pivot.buying_price }}
+                        </td>
+                        <td class="db-table-body-td">
+                            {{ ingredient.pivot.quantity }}
+                        </td>
+                        <td class="db-table-body-td">{{ ingredient.unit }}</td>
+                        <td class="db-table-body-td">
+                            <span :class="statusClass(ingredient.status)">
+                                {{ enums.statusEnumArray[ingredient.status] }}
                             </span>
                         </td>
                         <td class="db-table-body-td">
-                            {{ addon.total_flat_price }}
-                        </td>
-                        <td class="db-table-body-td">
-                            <span :class="statusClass(addon.addon_item_status)">
-                                {{ enums.statusEnumArray[addon.addon_item_status] }}
-                            </span>
-                        </td>
-                        <td class="db-table-body-td">
-                            <SmIconDeleteComponent @click="destroy(addon.id)" />
+                            <SmIconDeleteComponent @click="destroy(ingredient.id)" />
                         </td>
                     </tr>
                 </tbody>
@@ -54,8 +55,7 @@ import ItemIngredientCreateComponent from "./ItemIngredientCreateComponent.vue";
 export default {
     name: "ItemIngredientListComponent",
     components: {
-        ItemIngredientCreateComponent,
-         SmSidebarModalCreateComponent, SmIconModalEditComponent, SmIconDeleteComponent
+        ItemIngredientCreateComponent, SmSidebarModalCreateComponent, SmIconModalEditComponent, SmIconDeleteComponent
     },
     props: {
         item: { type: Number },
@@ -75,8 +75,7 @@ export default {
             addonProps: {
                 id: this.item,
                 form: {
-                    addon_item_id: null,
-                    addon_item_variation: {},
+                    ingredient_item_id: null,
                 },
                 search: {
                     id: this.item,
@@ -85,24 +84,26 @@ export default {
                     order_type: 'desc',
                 }
             },
-            variations: [],
         }
     },
     mounted() {
         this.list();
     },
     computed: {
-        addons: function () {
-            return this.$store.getters['itemAddon/lists'];
+        ingredients: function () {
+            return this.$store.getters['itemIngredients/lists'];
         }
     },
     methods: {
         statusClass: function (status) {
             return appService.statusClass(status);
         },
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
+        },
         list: function () {
             this.loading.isActive = true;
-            this.$store.dispatch("itemAddon/lists", this.addonProps.search).then((res) => {
+            this.$store.dispatch("itemIngredients/lists", this.addonProps.search).then((res) => {
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
@@ -112,9 +113,9 @@ export default {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
-                    this.$store.dispatch('itemAddon/destroy', { item: this.item, id: id, search: this.addonProps.search }).then((res) => {
+                    this.$store.dispatch('itemIngredients/destroy', { item: this.item, id: id, search: this.addonProps.search }).then((res) => {
                         this.loading.isActive = false;
-                        alertService.successFlip(null, this.$t('label.addon'));
+                        alertService.successFlip(null, this.$t('label.ingredient'));
                     }).catch((err) => {
                         this.loading.isActive = false;
                         alertService.error(err.response.data.message);

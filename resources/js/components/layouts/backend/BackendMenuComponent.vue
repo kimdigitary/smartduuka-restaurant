@@ -1,5 +1,5 @@
 <template>
-    <aside class="db-sidebar">
+    <aside class="db-sidebar mt-5">
         <div class="db-sidebar-header">
             <button class="fa-solid fa-xmark xmark-btn close-db-menu"></button>
         </div>

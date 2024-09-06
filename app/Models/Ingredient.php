@@ -13,7 +13,7 @@ class Ingredient extends TenantModel implements HasMedia
 
     protected $table = "ingredients";
     protected $fillable = [
-        'name', 'buying_price', 'unit', 'quantity', 'quantity_alert', 'registerMediaConversionsUsingModelInstance'
+        'name', 'buying_price', 'unit', 'quantity', 'quantity_alert', 'registerMediaConversionsUsingModelInstance','status'
     ];
     protected $dates = ['deleted_at'];
     protected $casts = [

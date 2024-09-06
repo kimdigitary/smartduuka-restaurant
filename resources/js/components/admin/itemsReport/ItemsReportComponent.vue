@@ -3,7 +3,6 @@
         <div class="col-12">
             <BreadcrumbComponent />
         </div>
-
         <router-view></router-view>
     </div>
 </template>

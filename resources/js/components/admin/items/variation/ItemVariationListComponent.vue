@@ -1,5 +1,5 @@
 <template>
-    <ItemVariationCreateComponent :props="variationProps" />
+    <ItemVariationCreateComponent :props="variationProps" :isStockable="isStockable" />
     <br><br>
     <div class="db-card mb-5" v-if="variations.length > 0" v-for="variation in variations" :key="variation">
         <div class="db-card-header border-none">
@@ -8,31 +8,35 @@
         <div class="db-table-responsive">
             <table class="db-table stripe">
                 <thead class="db-table-head">
-                    <tr class="db-table-head-tr">
-                        <th class="db-table-head-th">{{ $t("label.name") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.additional_price") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.status") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.action") }}</th>
-                    </tr>
+                <tr class="db-table-head-tr">
+                    <th class="db-table-head-th">{{ $t("label.name") }}</th>
+                    <th class="db-table-head-th">{{ $t("label.additional_price") }}</th>
+                    <th class="db-table-head-th">Cost price</th>
+                    <th class="db-table-head-th">{{ $t("label.status") }}</th>
+                    <th class="db-table-head-th">{{ $t("label.action") }}</th>
+                </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="variation.children">
-                    <tr class="db-table-body-tr" v-for="child in variation.children" :key="child">
-                        <td class="db-table-body-td">
-                            {{ child.name }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ child.flat_price }}
-                        </td>
-                        <td class="db-table-body-td">
+                <tr class="db-table-body-tr" v-for="child in variation.children" :key="child">
+                    <td class="db-table-body-td">
+                        {{ child.name }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ child.flat_price }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ child.overall_cost }}
+                    </td>
+                    <td class="db-table-body-td">
                             <span :class="statusClass(child.status)">
                                 {{ enums.statusEnumArray[child.status] }}
                             </span>
-                        </td>
-                        <td class="db-table-body-td">
-                            <SmIconModalEditComponent @click="edit(child)" />
-                            <SmIconDeleteComponent @click="destroy(child.id)" />
-                        </td>
-                    </tr>
+                    </td>
+                    <td class="db-table-body-td">
+                        <SmIconModalEditComponent @click="edit(child)"/>
+                        <SmIconDeleteComponent @click="destroy(child.id)"/>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -54,13 +58,15 @@ export default {
         ItemVariationCreateComponent, SmSidebarModalCreateComponent, SmIconModalEditComponent, SmIconDeleteComponent
     },
     props: {
-        item: { type: Number },
+        item: {type: Number},
+        isStockable: {type: Number}
     },
     data() {
         return {
             loading: {
                 isActive: false
             },
+
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
@@ -118,14 +124,19 @@ export default {
                 price: itemVariation.flat_price,
                 item_attribute_id: itemVariation.item_attribute_id,
                 caution: itemVariation.caution,
-                status: itemVariation.status
+                status: itemVariation.status,
+                ingredients: itemVariation.ingredients
             };
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
-                    this.$store.dispatch('itemVariation/destroy', { item: this.item, id: id, search: this.variationProps.search }).then((res) => {
+                    this.$store.dispatch('itemVariation/destroy', {
+                        item: this.item,
+                        id: id,
+                        search: this.variationProps.search
+                    }).then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip(null, this.$t('label.variation'));
                     }).catch((err) => {

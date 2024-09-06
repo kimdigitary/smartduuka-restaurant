@@ -50,6 +50,7 @@ use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\SimpleUserController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\SmsGatewayController;
+use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
 use App\Http\Controllers\Admin\TaxController;
@@ -77,10 +78,15 @@ use App\Http\Controllers\Table\DiningTableController as TableDiningTableControll
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
 use App\Http\Controllers\Table\OrderController as TableOrderController;
 use App\Http\Controllers\TestController;
+use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('seed', [TestController::class, 'seedDatabase']);
+Route::prefix('chef-board')->name('chefBoard.')->group(function () {
+    Route::post('/change-status/{order}', [PosOrderController::class, 'changeStatus']);
+});
 Route::match(['get', 'post'], '/login', function () {
     return response()->json(['errors' => 'unauthenticated'], 401);
 })->name('login');
@@ -89,6 +95,7 @@ Route::apiResource('expense-categories', ExpenseCategoryController::class);
 Route::apiResource('subscriptions', SubscriptionController::class);
 
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
+
 
 Route::prefix('auth')->middleware(['installed', 'apiKey', 'localization'])->name('auth.')->namespace('Auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
@@ -142,7 +149,6 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
     Route::resource('expenses', ExpensesController::class);
     Route::resource('expense-payments', ExpensePaymentController::class);
     Route::get('expense-categories-export', [ExpenseCategoryController::class, 'export']);
-
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {
@@ -366,7 +372,8 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
         Route::get('/export', [ProductController::class, 'export']);
         Route::get('/generate-sku', [ProductController::class, 'generateSku']);
         Route::post('/offer/{product}', [ProductController::class, 'productOffer']);
-        Route::get('/purchasable-product', [ItemController::class, 'index']);
+        Route::get('/purchasable-product', [ItemController::class, 'purchasable']);
+        Route::get('/purchasable-ingredient', [ItemController::class, 'purchasableIngredients']);
         Route::get('/simple-product', [ProductController::class, 'simpleProducts']);
 
         Route::prefix('variation')->name('variation.')->group(function () {
@@ -434,6 +441,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
         Route::get('/addon/{item}', [ItemAddonController::class, 'index']);
         Route::post('/addon/{item}', [ItemAddonController::class, 'store']);
         Route::delete('/addon/{item}/{itemAddon}', [ItemAddonController::class, 'destroy']);
+
+        Route::get('/ingredient/{item}', [ItemAddonController::class, 'ingredients']);
+        Route::post('/ingredient/{item}', [ItemAddonController::class, 'storeIngredients']);
+        Route::delete('/ingredient/{item}/{itemIngredient}', [ItemAddonController::class, 'destroyIngredient']);
     });
 
     Route::prefix('pos')->name('pos.')->group(function () {
@@ -521,8 +532,10 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('/', [PurchaseController::class, 'index']);
+        Route::get('/ingredients', [PurchaseController::class, 'indexIngredients']);
         Route::post('/', [PurchaseController::class, 'store']);
-        Route::post('/store-stock', [PurchaseController::class, 'storeStock']);
+        Route::post('/ingredient', [PurchaseController::class, 'storeIngredient']);
+        Route::post('/store-itemStock', [PurchaseController::class, 'storeStock']);
         Route::get('/show/{purchase}', [PurchaseController::class, 'show']);
         Route::get('/edit/{purchase}', [PurchaseController::class, 'edit']);
         Route::match(['post', 'put', 'patch'], '/update/{purchase}', [PurchaseController::class, 'update']);
@@ -533,6 +546,12 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
         Route::post('/payment/{purchase}', [PurchaseController::class, 'payment']);
         Route::get('/payment/download-attachment/{purchasePayment}', [PurchaseController::class, 'paymentDownloadAttachment']);
         Route::delete('/payment/{purchase}/{purchasePayment}', [PurchaseController::class, 'paymentDestroy']);
+    });
+
+    Route::prefix('itemStock')->name('itemStock.')->group(function () {
+        Route::get('/', [StockController::class, 'index']);
+        Route::get('/ingredients', [StockController::class, 'indexIngredients']);
+        Route::get('/export', [StockController::class, 'export']);
     });
 
 

@@ -100,6 +100,7 @@ class PosOrderController extends AdminController
         OrderStatusRequest $request
     ): Response | OrderDetailsResource | Application | ResponseFactory {
         try {
+            info($request);
             return new OrderDetailsResource($this->orderService->changeStatus($order, false, $request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);

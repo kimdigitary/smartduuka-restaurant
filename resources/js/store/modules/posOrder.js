@@ -70,7 +70,8 @@ export const posOrder = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url).then((res) => {
+
+                axios.get(url,{}).then((res) => {
                     if(typeof payload.vuex === "undefined" || payload.vuex === true) {
                         context.commit('lists', res.data.data);
                         context.commit('page', res.data.meta);
@@ -150,6 +151,16 @@ export const posOrder = {
         changeStatus: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.post(`admin/pos-order/change-status/${payload.id}`,payload).then((res) => {
+                    context.commit('show', res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        changeStatusChefBoard: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post(`chef-board/change-status/${payload.id}`,payload).then((res) => {
                     context.commit('show', res.data.data);
                     resolve(res);
                 }).catch((err) => {

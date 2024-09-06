@@ -9,13 +9,25 @@
                 <i class="lab lab-company text-sm"></i>
                Ingredients
             </router-link>
-            <router-link :to="{ name: 'admin.settings.supplier' }" class="db-tab-btn">
-                <i class="lab lab-line-supplier text-sm"></i>
-                {{ $t("menu.suppliers") }}
+            <router-link :to="{ name: 'admin.ingredients_and_stock.ingredients.stock_list' }" class="db-tab-btn">
+                <i class="lab lab-branches text-sm"></i>
+                Ingredient stock
+            </router-link>
+            <router-link :to="{ name: 'admin.ingredients_and_stock.purchase.ingredients' }" class="db-tab-btn">
+                <i class="lab lab-company text-sm"></i>
+                Purchase Ingredient
             </router-link>
             <router-link :to="{ name: 'admin.ingredients_and_stock.stock_list' }" class="db-tab-btn">
                 <i class="lab lab-branches text-sm"></i>
-               Ingredient Purchasing
+               Item Stock
+            </router-link>
+            <router-link :to="{ name: 'admin.ingredients_and_stock.purchase' }" class="db-tab-btn">
+                <i class="lab lab-company text-sm"></i>
+                Purchase Items
+            </router-link>
+            <router-link :to="{ name: 'admin.ingredients_and_stock.supplier' }" class="db-tab-btn">
+                <i class="lab lab-line-supplier text-sm"></i>
+                {{ $t("menu.suppliers") }}
             </router-link>
         </nav>
     </div>

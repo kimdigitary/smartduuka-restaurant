@@ -2,11 +2,11 @@
     <div class="backdrop"></div>
     <header class="db-header">
         <router-link class="w-40 flex-shrink-0" :to="{ name: 'admin.dashboard' }">
-            <img class="w-full" :src="setting.theme_logo" alt="logo">
+            <img class="w-full" :src="setting.theme_logo" width="200" alt="logo">
         </router-link>
         <div class="flex items-center justify-end w-full gap-4">
             <div
-                class="sub-header flex items-center gap-4 transition xh:justify-between xh:fixed xh:left-0 xh:w-full xh:p-4 xh:border-y xh:border-[#EFF0F6] xh:bg-white">
+                class="sub-header flex items-center gap-4 transition xh:justify-between xh:fixed xh:left-0 xh:w-full xh:p-4 xh:border-y xh:border-[#EFF0F6] xh:bg-white mt-5 lg:mt-0">
                 <div v-if="authBranch === 0" class="relative dropdown-group">
                     <button class="flex items-center text-left gap-2 dropdown-btn">
                         <i class="lab lab-shop lab-font-size-24 font-fill-primary"></i>

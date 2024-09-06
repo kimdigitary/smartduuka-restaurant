@@ -10,6 +10,10 @@ use App\Services\ItemVariationService;
 use App\Http\Requests\ItemVariationRequest;
 use App\Http\Resources\ItemVariationResource;
 use App\Models\ItemVariation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class ItemVariationController extends AdminController
 {
@@ -22,7 +26,7 @@ class ItemVariationController extends AdminController
         $this->middleware(['permission:items_show'])->only('index', 'listGroupByAttribute', 'show', 'store', 'update', 'destroy');
     }
 
-    public function index(PaginateRequest $request, Item $item) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request, Item $item) : Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemVariationResource::collection($this->itemVariationService->list($request, $item));
@@ -31,7 +35,7 @@ class ItemVariationController extends AdminController
         }
     }
 
-    public function listGroupByAttribute(PaginateRequest $request, Item $item): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function listGroupByAttribute(PaginateRequest $request, Item $item): Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemVariationGroupByAttributeResource::collection($this->itemVariationService->listGroupByAttribute($request, $item));
@@ -40,8 +44,7 @@ class ItemVariationController extends AdminController
         }
     }
 
-
-    public function store(ItemVariationRequest $request, Item $item): \Illuminate\Http\Response | ItemVariationResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function store(ItemVariationRequest $request, Item $item): Response | ItemVariationResource | Application | ResponseFactory
     {
         try {
             return new ItemVariationResource($this->itemVariationService->store($request, $item));
@@ -51,7 +54,7 @@ class ItemVariationController extends AdminController
     }
 
 
-    public function update(ItemVariationRequest $request, Item $item, ItemVariation $itemVariation): \Illuminate\Http\Response | ItemVariationResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function update(ItemVariationRequest $request, Item $item, ItemVariation $itemVariation): Response | ItemVariationResource | Application | ResponseFactory
     {
         try {
             return new ItemVariationResource($this->itemVariationService->update($request, $item, $itemVariation));
@@ -61,7 +64,7 @@ class ItemVariationController extends AdminController
     }
 
 
-    public function show(Item $item, ItemVariation $itemVariation): \Illuminate\Http\Response | ItemVariationResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function show(Item $item, ItemVariation $itemVariation): Response | ItemVariationResource | Application | ResponseFactory
     {
         try {
             return new ItemVariationResource($this->itemVariationService->show($item, $itemVariation));
@@ -71,7 +74,7 @@ class ItemVariationController extends AdminController
     }
 
 
-    public function destroy(Item $item, ItemVariation $itemVariation): \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(Item $item, ItemVariation $itemVariation): Response | Application | ResponseFactory
     {
         try {
             $this->itemVariationService->destroy($item, $itemVariation);
