@@ -5,7 +5,7 @@
     use Illuminate\Support\Facades\Schema;
 
     return new class extends Migration {
-        public function up()
+        public function up() : void
         {
             Schema::table('ingredients' , function (Blueprint $table) {
                 $table->string('buying_price')->nullable()->change();
@@ -14,8 +14,12 @@
             });
         }
 
-        public function down()
+        public function down() : void
         {
-            //
+            Schema::table('ingredients' , function (Blueprint $table) {
+                $table->string('buying_price')->nullable(false)->change();
+                $table->string('quantity')->nullable(false)->change();
+                $table->string('quantity_alert')->nullable(false)->change();
+            });
         }
     };

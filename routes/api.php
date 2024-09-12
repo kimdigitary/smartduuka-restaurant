@@ -556,6 +556,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::prefix('itemStock')->name('itemStock.')->group(function () {
         Route::get('/', [StockController::class, 'index']);
         Route::get('/ingredients', [StockController::class, 'indexIngredients']);
+        Route::post('/ingredients', [StockController::class, 'indexIngredients']);
         Route::get('/export', [StockController::class, 'export']);
     });
 
