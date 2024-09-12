@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Services\OrderService;
 use App\Exports\EmployeeExport;
 use App\Services\EmployeeService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\EmployeeRequest;
@@ -32,7 +35,7 @@ class EmployeeController extends AdminController
         $this->middleware(['permission:employees_show'])->only('show');
     }
 
-    public function index(PaginateRequest $request): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return EmployeeResource::collection($this->employeeService->list($request));
@@ -41,7 +44,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function store(EmployeeRequest $request): \Illuminate\Http\Response | EmployeeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function store(EmployeeRequest $request): Response | EmployeeResource | Application | ResponseFactory
     {
         try {
             return new EmployeeResource($this->employeeService->store($request));
@@ -50,7 +53,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function update(EmployeeRequest $request, User $employee): \Illuminate\Http\Response | EmployeeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function update(EmployeeRequest $request, User $employee): Response | EmployeeResource | Application | ResponseFactory
     {
         try {
             return new EmployeeResource($this->employeeService->update($request, $employee));
@@ -59,7 +62,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function destroy(User $employee): \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(User $employee): Response | Application | ResponseFactory
     {
         try {
             $this->employeeService->destroy($employee);
@@ -69,7 +72,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function show(User $employee): \Illuminate\Http\Response | EmployeeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function show(User $employee): Response | EmployeeResource | Application | ResponseFactory
     {
         try {
             return new EmployeeResource($this->employeeService->show($employee));
@@ -78,7 +81,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request): \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request): Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | Application | ResponseFactory
     {
         try {
             return Excel::download(new EmployeeExport($this->employeeService, $request), 'Employee.xlsx');
@@ -87,7 +90,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function changePassword(UserChangePasswordRequest $request, User $employee): \Illuminate\Http\Response | EmployeeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function changePassword(UserChangePasswordRequest $request, User $employee): Response | EmployeeResource | Application | ResponseFactory
     {
         try {
             return new EmployeeResource($this->employeeService->changePassword($request, $employee));
@@ -96,7 +99,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function changeImage(ChangeImageRequest $request, User $employee): \Illuminate\Http\Response | EmployeeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function changeImage(ChangeImageRequest $request, User $employee): Response | EmployeeResource | Application | ResponseFactory
     {
         try {
             return new EmployeeResource($this->employeeService->changeImage($request, $employee));
@@ -105,7 +108,7 @@ class EmployeeController extends AdminController
         }
     }
 
-    public function myOrder(PaginateRequest $request, User $employee) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function myOrder(PaginateRequest $request, User $employee) : Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return OrderResource::collection($this->orderService->userOrder($request, $employee));
