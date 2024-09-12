@@ -2,12 +2,11 @@
 
 namespace App\Http\Resources;
 
-
 use Illuminate\Http\Resources\Json\JsonResource;
-use JetBrains\PhpStorm\Pure;
 
 class CountryCodeResource extends JsonResource
 {
+
 
     public function toArray($request)
     {
@@ -18,6 +17,22 @@ class CountryCodeResource extends JsonResource
 //            "flag_svg_path" => $this->flag->svg_path,
 //            "capital"       => $this->capital_rinvex,
 //            "nationality"   => $this->demonym,
-        ];
+          ];
+
+    }
+
+    /**
+     * Get the calling code with fallback.
+     *
+     * @return string|null
+     */
+    private function getCallingCode()
+    {
+        if (!isset($this['calling_codes']) || !is_array($this['calling_codes']) || empty($this['calling_codes'])) {
+            return '+256';
+        }
+
+        $code = $this['calling_codes'][0];
+        return $code == '+1201' ? '+1' : $code;
     }
 }

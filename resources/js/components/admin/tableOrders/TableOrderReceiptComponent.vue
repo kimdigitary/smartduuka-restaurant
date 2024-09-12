@@ -68,7 +68,8 @@
                                         <span v-if="index + 1 < item.item_extras.length">, </span>
                                     </span>
                                 </p>
-                                <p v-if="item.instruction" class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                <p v-if="item.instruction"
+                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
                                     {{ $t("label.instruction") }}: {{ item.instruction }}
                                 </p>
 
@@ -153,7 +154,7 @@
                     <h5 class="text-[8px] font-normal text-left w-[46px] leading-[10px]">
                         {{ $t("label.powered_by") }}
                     </h5>
-                    <h6 class="text-xs font-normal leading-4">{{ company.company_name }}</h6>
+                    <h6 class="text-xs font-normal leading-4">Digi-volve Technologies Limited</h6>
                 </div>
             </div>
         </div>

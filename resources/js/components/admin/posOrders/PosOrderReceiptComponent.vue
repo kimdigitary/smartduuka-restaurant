@@ -46,7 +46,8 @@
                             <td class="text-left font-normal align-top py-1">
                                 <div class="flex items-center justify-between">
                                     <h4 class="text-sm font-normal capitalize">{{ item.item_name }}</h4>
-                                    <p class="text-xs leading-5 text-heading">{{ item.total_without_tax_currency_price }}
+                                    <p class="text-xs leading-5 text-heading">{{ item.total_without_tax_currency_price
+                                        }}
                                     </p>
                                 </div>
                                 <p v-if="Object.keys(item.item_variations).length !== 0"
@@ -64,7 +65,8 @@
                                         <span v-if="index + 1 < item.item_extras.length">, </span>
                                     </span>
                                 </p>
-                                <p v-if="item.instruction" class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                <p v-if="item.instruction"
+                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
                                     {{ $t('label.instruction') }}: {{ item.instruction }}
                                 </p>
 
@@ -126,7 +128,8 @@
                         {{ $t('message.please_come_again') }}
                     </p>
                     <h5 class="text-[8px] font-normal leading-[10px]">
-                        {{ $t('label.powered_by') }} <span class="border-t border-b border-dashed">Kim Digitary</span>
+                        {{ $t('label.powered_by') }} <span class="border-t border-b border-dashed">Digi-volve
+                            Technologies Limited</span>
                     </h5>
                 </div>
                 <!-- <div class="flex flex-col items-end">
