@@ -42,7 +42,7 @@ class EmployeeService
                         $query->where('id', '!=', EnumRole::ADMIN);
                         $query->where('id', '!=', EnumRole::CUSTOMER);
                         $query->where('id', '!=', EnumRole::WAITER);
-                        $query->where('id', '!=', EnumRole::CHEF);
+//                        $query->where('id', '!=', EnumRole::CHEF);
                     });
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->roleFilter)) {
