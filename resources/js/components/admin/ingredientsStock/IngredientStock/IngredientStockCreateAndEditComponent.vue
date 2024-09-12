@@ -1,554 +1,372 @@
 <template>
-    <LoadingComponent :props="loading"/>
+    <LoadingComponent :props="loading" />
     <div class="col-12">
-        <form @submit.prevent="save" class="block w-full">
-            <div class="db-card mb-6">
-                <div class="db-card-header">
-                    <h3 class="db-card-title">Ingredient Purchasing</h3>
+        <div class="db-card">
+            <div class="db-card-header border-none">
+                <h3 class="db-card-title">{{ $t('label.purchases') }}</h3>
+                <div class="db-card-filter">
+                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
+                    <FilterComponent />
+                    <div class="dropdown-group">
+                        <ExportComponent />
+                        <div class="dropdown-list db-card-filter-dropdown-list">
+                            <PrintComponent :props="printObj" />
+                            <ExcelComponent :method="xls" />
+                        </div>
+                    </div>
+                    <router-link @click="reset" v-if="permissionChecker('purchase_create')" to="ingredients/add"
+                        class="db-btn h-[37px] text-white bg-primary">
+                        <i class="lab lab-line-add-circle"></i>
+                        <span>{{ $t('button.add_purchase') }}</span>
+                    </router-link>
                 </div>
-                <div class="db-card-body">
+            </div>
+            <div class="table-filter-div">
+                <form class="p-4 sm:p-5 mb-5" @submit.prevent="search">
                     <div class="row">
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.date")
-                                }}</label>
-                            <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="true"
-                                        :is24="false" :monthChangeOnScroll="false" utc="false"
-                                        :input-class-name="errors.date ? 'invalid' : ''">
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="supplier" class="db-field-title after:hidden">{{ $t('label.supplier') }}</label>
+                            <vue-select class="db-field-control f-b-custom-select" id="supplier"
+                                v-model="props.search.supplier_id" :options="suppliers" label-by="name" value-by="id"
+                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                search-placeholder="--" />
+                        </div>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="date" class="db-field-title after:hidden">{{ $t('label.date') }}</label>
+                            <Datepicker hideInputIcon autoApply v-model="props.search.date" :enableTimePicker="true"
+                                :is24="false" :monthChangeOnScroll="false" utc="false">
                                 <template #am-pm-button="{ toggle, value }">
                                     <button @click="toggle">{{ value }}</button>
                                 </template>
                             </Datepicker>
-                            <small class="db-field-alert" v-if="errors.date">
-                                {{ errors.date[0] }}
-                            </small>
                         </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.status")
-                                }}</label>
-
-                            <vue-select v-model="props.form.status" class="db-field-control f-b-custom-select"
-                                        :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
-                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                        search-placeholder="--"/>
-                            <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="searchCode" class="db-field-title after:hidden">{{
+                                $t('label.reference_no')
+                            }}</label>
+                            <input id="searchCode" v-model="props.search.reference_no" type="text" class="db-field-control">
                         </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{ $t("label.supplier") }}</label>
-
-                            <vue-select v-model="props.form.supplier_id" class="db-field-control f-b-custom-select"
-                                        :options="suppliers" label-by="name" value-by="id" :closeOnSelect="true"
-                                        :searchable="true"
-                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
-
-                            <small class="db-field-alert" v-if="errors.supplier_id">{{
-                                    errors.supplier_id[0]
-                                }}</small>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="status" class="db-field-title after:hidden">{{ $t('label.status') }}</label>
+                            <vue-select class="db-field-control f-b-custom-select" id="status" v-model="props.search.status"
+                                :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
+                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                search-placeholder="--" />
                         </div>
-                        <div class="form-col-12">
-                            <div class="rounded-lg border border-amber-100">
-                                <h4 class="w-full px-4 py-3 font-medium rounded-t-lg bg-amber-100 text-amber-600">
-                                    {{ $t("message.selection_message") }}
-                                </h4>
-                                <div class="row p-5">
-                                    <div class="form-col-12 ">
-                                        <label class="db-field-title required">{{
-                                                $t("label.add_products")
-                                            }}</label>
-                                        <div class="relative w-full h-12">
-                                            <button type="button"
-                                                    class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
-                                            <vue-select class="h-full pr-4 pl-11" v-model="productId"
-                                                        :options="products"
-                                                        label-by="name" value-by="id" :closeOnSelect="true"
-                                                        :searchable="true"
-                                                        :clearOnClose="true" :placeholder="$t('label.select_one')"
-                                                        search-placeholder="--"
-                                                        @update:modelValue="selectProduct($event)"/>
-                                        </div>
-                                        <small class="db-field-alert" v-if="errors.products">{{
-                                                errors.products[0]
-                                            }}</small>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="total" class="db-field-title after:hidden">{{ $t('label.total') }}</label>
+                            <input id="total" v-model="props.search.total" v-on:keypress="floatNumber($event)" type="text"
+                                class="db-field-control">
                         </div>
-
-                        <div class="form-col-12">
-                            <label class="db-field-title">{{ $t('label.products') }}</label>
-                            <div class="db-table-responsive border rounded-md">
-                                <table class="db-table">
-                                    <thead class="db-table-head border-t-0">
-                                    <tr class="db-table-head-tr">
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.product") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.unit_cost") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.quantity") }}
-                                        </th>
-                                        <th class="db-table-head-th">
-                                            {{ $t("label.sub_total") }}
-                                        </th>
-                                        <th class="db-table-head-th" colspan="2">
-                                            {{ $t("label.actions") }}
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="db-table-body">
-                                    <tr v-for="(item, index) of datatable" :key="index" class="db-table-body-tr">
-                                        <td class="db-table-body-td font-medium">
-                                            {{ item.name }}
-                                            <span v-if="item.variation_names">
-                                                    ( {{ $t('label.variation') }} : {{ item.variation_names }})
-                                                </span>
-                                        </td>
-                                        <td class="db-table-body-td">
-
-                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateUnitCost(index)"
-                                                   v-model="item.price" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
-                                        </td>
-                                        <td class="db-table-body-td">
-                                            <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
-                                                   v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
-                                        </td>
-
-                                        <td class="db-table-body-td">
-                                            {{ floatFormat(item.total) }}
-                                        </td>
-                                        <td class="db-table-body-td"  colspan="2">
-<!--                                            <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)"/>-->
-                                            <SmIconDeleteComponent @click.prevent="removeProduct(index)"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="db-table-body-td" colspan="2">{{ $t('label.total') }}</th>
-                                        <th class="db-table-body-td ">
-                                                <span class="pl-3">
-                                                    {{ Number.isInteger(totalQuantity) ? totalQuantity : 0 }}
-                                                </span>
-                                        </th>
-                                        <th class="db-table-body-td">
-                                            {{ floatFormat(totalPrice) }}
-                                        </th>
-                                        <th class="db-table-body-td"></th>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="note" class="db-field-title after:hidden">{{ $t('label.note') }} </label>
+                            <input id="note" v-model="props.search.note" type="text" class="db-field-control">
                         </div>
-
-                        <ProductModalComponent :item="selectedProduct" :modal="modal" :productId="this.productId"
-                                               v-on:submitItem="modalSubmit" ref="productModal"/>
-
-                    </div>
-                    <div class="row pt-5">
-                        <div class="form-col-12">
-                            <div :class="errors.note ? 'invalid textarea-error-box-style' : ''">
-                                <label class="db-field-title">
-                                    {{ $t("label.note") }}
-                                </label>
-                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius"/>
-                                <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
-                            </div>
-                        </div>
-                        <div class="form-col-12">
-                            <div class="flex flex-wrap gap-3">
-                                <button v-if="permissionChecker('purchase_create')" type="submit"
-                                        class="db-btn text-white bg-primary">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    <span class="tracking-wide">
-                                        {{ $t("button.save") }}
-                                    </span>
+                        <div class="col-12">
+                            <div class="flex flex-wrap gap-3 mt-4">
+                                <button class="db-btn py-2 text-white bg-primary">
+                                    <i class="lab lab-line-search lab-font-size-16"></i>
+                                    <span>{{ $t('button.search') }}</span>
+                                </button>
+                                <button class="db-btn py-2 text-white bg-gray-600" @click="clear">
+                                    <i class="lab lab-line-cross lab-font-size-22"></i>
+                                    <span>{{ $t('button.clear') }}</span>
                                 </button>
                             </div>
                         </div>
                     </div>
+                </form>
+            </div>
+
+            <div class="db-table-responsive">
+                <table class="db-table stripe" id="print">
+                    <thead class="db-table-head">
+                        <tr class="db-table-head-tr">
+                            <th class="db-table-head-th">{{ $t('label.supplier') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.reference_no') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.status') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
+                            <th class="db-table-head-th">Balance</th>
+                            <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
+                            <th v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')"
+                                class="db-table-head-th hidden-print">{{ $t('label.action') }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="db-table-body border-b border-gray-200">
+                        <tr class="db-table-body-tr" v-for="(purchase, index) of purchases" :key="index">
+                            <td class="db-table-body-td font-medium">{{ purchase.supplier.name }}</td>
+                            <td class="db-table-body-td">{{ purchase.converted_date }}</td>
+                            <td class="db-table-body-td">{{ purchase.reference_no }}</td>
+                            <td class="db-table-body-td"><span class="db-table-badge"
+                                    :class="purchaseStatusClass(purchase.status)">{{
+                                        enums.statusEnumObj[purchase.status] }}</span></td>
+                            <td class="db-table-body-td">{{ purchase.total_flat_price }}</td>
+                            <td class="db-table-body-td">{{ purchase.balance }}</td>
+                            <td class="db-table-body-td">
+                                <span class="db-table-badge" :class="purchasePaymentStatusClass(purchase.payment_status)">
+                                    {{ enums.purchasePaymentStatusEnumArray[purchase.payment_status] }}
+                                </span>
+                            </td>
+                            <td class="db-table-body-td hidden-print"
+                                v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')">
+                                <SmIconViewComponent :link="'admin.ingredients_and_stock.purchase.show'" :id="purchase.id"
+                                    v-if="permissionChecker('purchase_show')" />
+                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.ingredients_and_stock.purchase.edit'" :id="purchase.id"
+                                    v-if="permissionChecker('purchase_edit')" />
+                                <SmIconDeleteComponent @click="destroy(purchase.id)"
+                                    v-if="permissionChecker('purchase_delete')" />
+                                <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"
+                                    class="db-table-action">
+                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
+                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
+                                </button>
+                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
+                                    class="db-table-action">
+                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
+                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
+                <PaginationSMBox :pagination="pagination" :method="list" />
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <PaginationTextComponent :props="{ page: paginationPage }" />
+                    <PaginationBox :pagination="pagination" :method="list" />
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </template>
 
+
 <script lang="js">
-import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import Datepicker from "@vuepic/vue-datepicker";
-import {quillEditor} from 'vue3-quill'
-import alertService from "../../../../services/alertService";
-import LoadingComponent from "../../components/LoadingComponent.vue";
-import ProductModalComponent from "../../components/product/ProductModalComponent.vue"
-import appService from '../../../../services/appService';
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import FilterComponent from "../../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
+import ExportComponent from "../../components/buttons/export/ExportComponent.vue";
+import SmIconViewComponent from "../../components/buttons/SmIconViewComponent.vue";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconEditComponent from "../../components/buttons/SmIconEditComponent.vue";
+import purchasePaymentStatusEnum from "../../../../enums/modules/purchasePaymentStatusEnum";
+import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
+import askEnum from "../../../../enums/modules/askEnum";
+import appService from "../../../../services/appService";
+
+import IngredientPurchasePaymentCreateComponent from "../purchaseIngredients/IngredientPurchasePaymentCreateComponent.vue";
+import IngredientPurchasePaymentListComponent from "../purchaseIngredients/IngredientPurchasePaymentListComponent.vue";
 
 export default {
-    name: 'IngredientStockCreateAndEditComponent',
+    name: 'IngredientPurchaseListComponent',
     components: {
+        PaginationBox,
+        PaginationSMBox,
+        PaginationTextComponent,
+        TableLimitComponent,
+        FilterComponent,
+        PrintComponent,
+        ExcelComponent,
+        ExportComponent,
         Datepicker,
-        quillEditor,
-        LoadingComponent,
-        ProductModalComponent,
+        SmIconViewComponent,
         SmIconDeleteComponent,
-        SmIconSidebarModalEditComponent
+        LoadingComponent,
+        SmIconSidebarModalEditComponent,
+        SmIconEditComponent,
+        IngredientPurchasePaymentCreateComponent,
+        IngredientPurchasePaymentListComponent
     },
     data() {
         return {
-            file: "",
-            productId: null,
-            errors: {},
-            datatable: [],
             loading: {
                 isActive: false
             },
-            modal: {
-                isShowModal: false
+            printObj: {
+                id: "print",
+                popTitle: this.$t('menu.purchase')
             },
             enums: {
-                statusEnum: purchaseStatusEnum,
+                purchasePaymentStatusEnum: purchasePaymentStatusEnum,
                 statusEnumArray: [
-                    {statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending')},
-                    {statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered')},
-                    {statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received')},
-                ]
-            },
-            props: {
-                form: {
-                    purchase_id: 0,
-                    supplier_id: null,
-                    date: "",
-                    reference_no: '',
-                    total: null,
-                    status: null,
-                    note: "",
-                    products: []
+                    { statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending') },
+                    { statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered') },
+                    { statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received') },
+                ],
+                statusEnumObj: {
+                    [purchaseStatusEnum.PENDING]: this.$t("label.pending"),
+                    [purchaseStatusEnum.ORDERED]: this.$t("label.ordered"),
+                    [purchaseStatusEnum.RECEIVED]: this.$t("label.received"),
+                },
+                purchasePaymentStatusEnumArray: {
+                    [purchasePaymentStatusEnum.PENDING]: this.$t("label.pending"),
+                    [purchasePaymentStatusEnum.PARTIAL_PAID]: this.$t("label.partial_paid"),
+                    [purchasePaymentStatusEnum.FULLY_PAID]: this.$t("label.fully_paid"),
                 }
             },
-            selectedProduct: {
-                name: "",
-                quantity: 0,
-                tax_id: [],
-                price: 0,
-                discount: 0,
-                variation_id: 0,
-                variation_names: "",
-                product_id: 0,
-                sku: "",
-                is_variation: false,
-                mode: 'add'
+            props: {
+                search: {
+                    paginate: 1,
+                    page: 1,
+                    per_page: 10,
+                    order_column: 'id',
+                    order_type: 'desc',
+                    supplier_id: null,
+                    date: "",
+                    reference_no: "",
+                    addPayment: askEnum.NO,
+                    status: null,
+                    total: null,
+                    note: ""
+                }
             },
-            dataTableIndex: null
+            items: []
         }
     },
     mounted() {
-        this.productList();
-        this.$store.dispatch('supplier/lists', {page: 1});
-        this.purchaseInfo();
+        this.list();
+        this.$store.dispatch('supplier/lists', { page: 1 });
     },
     computed: {
-        setting: function () {
-            return this.$store.getters['frontendSetting/lists']
+        purchases: function () {
+            return this.$store.getters['purchase/lists'];
         },
-        products: function () {
-            return this.$store.getters['product/purchasableList'];
+        pagination: function () {
+            return this.$store.getters['purchase/pagination'];
         },
-        subtotal: function () {
-            return this.datatable.reduce((sum, item) => {
-                return sum + +item.subtotal;
-            }, 0);
+        paginationPage: function () {
+            return this.$store.getters['purchase/page'];
         },
         suppliers: function () {
             return this.$store.getters['supplier/lists'];
         },
-        totalPrice: function () {
-            return this.datatable.reduce((sum, item) => {
-                return sum + +item.total;
-            }, 0);
-        },
-        totalQuantity: function () {
-            return this.datatable.reduce((sum, item) => {
-                return sum + +item.quantity;
-            }, 0);
-        },
-        totalDiscount: function () {
-            return this.datatable.reduce((sum, item) => {
-                return sum + +item.total_discount;
-            }, 0);
-        },
-        totalTax: function () {
-            return this.datatable.reduce((sum, item) => {
-                return sum + +item.total_tax;
-            }, 0);
-        },
     },
     methods: {
+        addPayment: function (id) {
+            appService.modalShow('#purchasePayment');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", id);
+            this.loading.isActive = false;
+        },
+        paymentList: function (id) {
+            appService.modalShow('#purchasePaymentList');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", id);
+            this.loading.isActive = false;
+        },
+        purchasePaymentStatusClass: function (status) {
+            return appService.purchasePaymentStatusClass(status);
+        },
+        purchaseStatusClass: function (status) {
+            return appService.purchaseStatusClass(status);
+        },
+        textShortener: function (text, number = 30) {
+            text = appService.htmlTagRemover(text);
+            return appService.textShortener(text, number);
+        },
+        search: function () {
+            this.list();
+        },
+        floatNumber(e) {
+            return appService.floatNumber(e);
+        },
+        decimalPoint: function (num) {
+            return appService.decimalPoint(num);
+        },
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
-        changeFile: function (e) {
-            this.file = e.target.files[0];
+        edit: function (purchase) {
+            this.$store.dispatch('product/edit', purchase.id);
         },
-        floatFormat: function (num) {
-            return appService.floatFormat(num, this.setting.site_digit_after_decimal_point);
-        },
-        onlyNumber: function (e) {
-            return appService.onlyNumber(e);
-        },
-        taxRateById(id) {
-            return this.$refs.productModal.taxRateById(id);
-        },
-        selectProduct: function (id) {
-            console.log(id)
-            const product = this.products.find(product => product.id === id);
-            if (product) {
-                this.selectedProduct = {
-                    name: product.name,
-                    quantity: 1,
-                    tax_id: product.tax_id,
-                    tax_rate: product.tax.tax_rate,
-                    price: product.price,
-                    discount: 0,
-                    variation_id: 0,
-                    variation_names: '',
-                    product_id: product.id,
-                    mode: 'add'
-                }
-
-                if (product.is_variation) {
-                    this.loadInitialVariations(product.id);
-                    this.modal.isShowModal = true;
-                } else {
-                    this.productCheck();
-                }
-            }
-        },
-        modalSubmit: function () {
-            this.productCheck();
-            this.modal.isShowModal = false;
-            this.productId = null;
-        },
-        productCheck: function () {
-            let productExist = null;
-            let oldQuantity = null;
-            if (this.selectedProduct.mode === 'edit') {
-                productExist = this.datatable[this.dataTableIndex];
-            } else {
-                if (this.datatable.length > 0) {
-                    productExist = this.datatable.find(p =>
-                        p.product_id === this.selectedProduct.product_id
-                    );
-                }
-            }
-
-            if (productExist) {
-                oldQuantity = this.selectedProduct.mode === 'edit' ? 0 : productExist.quantity;
-            }
-
-            // let tax = 0;
-            // let total_tax = 0;
-            // let total_tax_rate = 0;
-            const total_tax_rate = this.selectedProduct.tax_rate;
-            const tax = total_tax_rate / 100;
-            const total_tax = tax * this.selectedProduct.quantity;
-            let totalDiscount = this.selectedProduct.discount * this.selectedProduct.quantity;
-            // const test = this.taxRateById(this.selectedProduct.tax_id);
-            // if (this.selectedProduct?.tax.length > 0) {
-            //     for (let i = 0; i < this.selectedProduct?.tax?.length; i++) {
-            //         const id = this.selectedProduct.tax[i];
-            //         const tax_rate = this.taxRateById(id);
-            //         tax += +((this.selectedProduct.price * tax_rate) / 100);
-            //         total_tax_rate += +tax_rate;
-            //     }
-            //     total_tax = tax * this.selectedProduct.quantity;
-            // }
-
-            let finalItem = {
-                mode: this.selectedProduct.mode,
-                name: this.selectedProduct.name,
-                quantity: this.selectedProduct.quantity + oldQuantity,
-                tax_id: this.selectedProduct?.tax_id,
-                price: +this.selectedProduct.price,
-                discount: this.selectedProduct.discount,
-                product_id: this.selectedProduct.product_id,
-                tax: tax,
-                total_tax: total_tax,
-                total_tax_rate: total_tax_rate,
-                total_discount: totalDiscount,
-                subtotal: this.selectedProduct.quantity * this.selectedProduct.price,
-                total: (+(this.selectedProduct.quantity * this.selectedProduct.price) + (+total_tax) - (+totalDiscount)).toFixed(2),
-            }
-
-            if (!productExist) {
-                this.datatable.push(finalItem);
-            } else {
-                productExist.quantity = finalItem.quantity;
-                productExist.tax_id = finalItem?.tax_id;
-                productExist.price = finalItem.price;
-                productExist.discount = finalItem.discount;
-                productExist.tax = finalItem.tax;
-                productExist.total_tax = finalItem.total_tax;
-                productExist.total_tax_rate = finalItem.total_tax_rate;
-                productExist.total_discount = finalItem.total_discount;
-                productExist.subtotal = finalItem.subtotal;
-                productExist.total = finalItem.total;
-            }
-        },
-        editDatatable: function (index) {
-            const product = this.datatable[index];
-            this.selectedProduct = {
-                name: product.name,
-                quantity: product.quantity,
-                tax_id: product?.tax_id,
-                price: product.price,
-                discount: product.discount,
-                product_id: product.product_id,
-                mode: 'edit'
-            }
-
-            this.dataTableIndex = index;
-            // this.loadInitialVariations(product.product_id);
-            this.modal.isShowModal = true;
-        },
-        save: function () {
-            try {
-                const fd = new FormData();
-                fd.append('supplier_id', this.props.form.supplier_id);
-                fd.append('date', this.props.form.date ? this.props.form.date : '');
-                fd.append('reference_no', this.props.form.reference_no);
-                fd.append('subtotal', this.subtotal);
-                fd.append('tax', this.totalTax);
-                fd.append('discount', this.totalDiscount);
-                fd.append('total', this.totalPrice);
-                fd.append('status', this.props.form.status);
-                fd.append('note', this.props.form.note);
-                fd.append('products', JSON.stringify(this.datatable));
-                if (this.file) {
-                    fd.append('file', this.file);
-                }
-                this.loading.isActive = true;
-                const tempId = this.$store.getters['purchase/temp'].temp_id;
-                this.$store.dispatch('purchase/saveStock', {form: fd})
-                    .then((res) => {
-                        this.loading.isActive = false;
-                        alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));
-                        this.reset();
-                        this.$router.push({name: 'admin.itemStock'});
-                    })
-                    .catch((err) => {
-                        this.loading.isActive = false;
-                        this.errors = err.response.data.errors;
-                        if (this.errors.global) {
-                            alertService.error(this.errors.global[0]);
-                        }
-                    })
-            } catch (err) {
-                this.loading.isActive = false;
-                alertService.error(err);
-            }
-        },
-        removeProduct: function (productIndex) {
-            this.datatable.splice(productIndex, 1);
-        },
-        updateQuantity: function (i) {
-            const tax = this.datatable[i].tax > 0 ? this.datatable[i].tax : 0;
-            this.datatable[i].total_tax = tax * this.datatable[i].quantity;
-            this.datatable[i].total_discount = this.datatable[i].discount * this.datatable[i].quantity;
-            this.datatable[i].subtotal = (Number(this.datatable[i].quantity) * Number(this.datatable[i].price)).toFixed(2);
-            this.datatable[i].total = (+(this.datatable[i].quantity * this.datatable[i].price) + (+this.datatable[i].total_tax) - (+this.datatable[i].total_discount)).toFixed(2);
-        },
-        updateUnitCost: function (i) {
-            this.datatable[i].subtotal = (Number(this.datatable[i].quantity) * Number(this.datatable[i].price)).toFixed(2);
-            this.datatable[i].total = (+(this.datatable[i].quantity * this.datatable[i].price) + (+this.datatable[i].total_tax) - (+this.datatable[i].total_discount)).toFixed(2);
-        },
-
-        productList: function () {
+        list: function (page = 1) {
             this.loading.isActive = true;
-            this.$store.dispatch('product/getPurchasableProduct').then(res => {
-                this.loading.isActive = false;
-            }).catch((err) => {
-                this.loading.isActive = false;
-            });
-        },
-        loadInitialVariations: function (product_id) {
-            this.loading.isActive = true;
-            this.$store.commit('productVariation/initialVariation', []);
-            this.$store.dispatch("productVariation/initialVariation", product_id).then((res) => {
-                this.loading.isActive = false;
-            }).catch((err) => {
-                this.loading.isActive = false;
-            });
-        },
-        purchaseInfo: function () {
-            if (!isNaN(this.$route.params.id)) {
-                this.$store.dispatch('purchase/edit', this.$route.params.id).then((res) => {
-                    this.getPurchase(res.data.data);
+            this.props.search.page = page;
+            this.$store.dispatch('purchase/ingredientsLists', this.props.search)
+                .then((res) => {
+                    this.loading.isActive = false;
                 })
-            }
+                .catch((err) => {
+                    this.loading.isActive = false;
+                })
         },
-        getPurchase: function (purchase) {
-            this.props.form.purchase_id = purchase.id;
-            this.props.form.date = purchase.date;
-            this.props.form.supplier_id = purchase.supplier_id;
-            this.props.form.reference_no = purchase.reference_no ? purchase.reference_no : '';
-            this.props.form.total = purchase.total;
-            this.props.form.status = purchase.status;
-            this.props.form.note = purchase.note;
-            const products = [];
-            for (let i = 0; i < purchase.products.length; i++) {
-                const product = purchase.products[i];
-                const tax_id = [];
-                let total_tax_rate = 0;
-                if (product.taxes) {
-                    for (let j = 0; j < product.taxes.length; j++) {
-                        const tax = product.taxes[j];
-                        tax_id.push(tax.tax_id);
-                        total_tax_rate = total_tax_rate + +tax.tax_rate;
-                    }
+        destroy: function (id) {
+            appService.destroyConfirmation().then((res) => {
+                try {
+                    this.loading.isActive = true;
+                    this.$store.dispatch("purchase/destroy", {
+                        id: id,
+                        search: this.props.search,
+                    }).then((res) => {
+                        this.loading.isActive = false;
+                        alertService.successFlip(
+                            null,
+                            this.$t("menu.purchase")
+                        );
+                    }).catch((err) => {
+                        this.loading.isActive = false;
+                        alertService.error(err.response.data.message);
+                    });
+                } catch (err) {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
                 }
-                products.push({
-                    product_id: product.product_id,
-                    item_id: product.item_id,
-                    variation_names: product.variation_names,
-                    sku: product.sku,
-                    name: product.product_name,
-                    price: this.floatFormat(product.price),
-                    quantity: product.quantity,
-                    discount: product.discount > 0 ? product.discount / product.quantity : 0,
-                    total_discount: +product.discount,
-                    tax: product.tax > 0 ? product.tax / product.quantity : 0,
-                    total_tax: product.tax,
-                    total_tax_rate: total_tax_rate,
-                    tax_id: tax_id,
-                    subtotal: product.subtotal,
-                    total: product.total,
-                    is_variation: !!product.product_variation,
-                    variation_id: product.product_variation ? product.item_id : 0,
-                });
-            }
-            this.datatable = products;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        clear: function () {
+            this.props.search = {
+                paginate: 1,
+                page: 1,
+                per_page: 10,
+                order_column: 'id',
+                order_type: 'desc',
+                supplier_id: null,
+                date: "",
+                reference_no: "",
+                status: null,
+                total: null,
+                note: ""
+            },
+                this.list();
+        },
+        xls: function () {
+            this.loading.isActive = true;
+            this.$store.dispatch('purchase/export', this.props.search).then(res => {
+                this.loading.isActive = false;
+                const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = this.$t("menu.purchase");
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }).catch((err) => {
+                this.loading.isActive = false;
+                alertService.error(err.response.data.message);
+            });
         },
         reset: function () {
-            this.props.form.purchase_id = 0;
-            this.props.form.supplier_id = null;
-            this.props.form.date = "";
-            this.props.form.reference_no = "";
-            this.props.form.total = null;
-            this.props.form.status = null;
-            this.props.form.note = "";
-            this.props.form.products = [];
-            this.datatable = [];
-            this.file = "";
-            this.$refs["fileProperty"].value = "";
-            this.errors = {}
+            this.$store.dispatch('purchase/reset').then().catch();
         }
     }
 }
 </script>
+
+<style scoped>
+@media print {
+    .hidden-print {
+        display: none !important;
+    }
+}
+</style>

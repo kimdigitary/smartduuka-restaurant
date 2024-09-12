@@ -250,15 +250,15 @@ export default {
         this.$store.dispatch("role/lists", {
             order_column: "id",
             order_type: "asc",
-            excepts: "1|2|3|4|5",
+            // excepts: "1|2|3|4|5",
         });
         this.$store.dispatch('company/lists').then(companyRes => {
             this.$store.dispatch('countryCode/show', companyRes.data.data.company_country_code).then(res => {
-
                 if (this.props.form.country_code === "") {
                     this.props.form.country_code = res.data.data.calling_code;
                     this.country_code = res.data.data.calling_code;
                 }
+
                 this.flag = res.data.data.flag_emoji;
                 this.loading.isActive = false;
 

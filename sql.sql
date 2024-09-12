@@ -1,1 +1,2 @@
-truncate  permissions;
+select *
+from stocks;

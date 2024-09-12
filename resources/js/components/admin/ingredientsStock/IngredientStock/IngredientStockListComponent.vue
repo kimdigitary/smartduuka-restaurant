@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">{{ $t('menu.itemStock') }}</h3>
+                <h3 class="db-card-title">Ingredients Stock</h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
                     <FilterComponent />
@@ -14,7 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <router-link @click="reset" to="stock/create"
+                    <router-link  to="ingredientStock/create"
                        class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
                         <span>Add Stock</span>

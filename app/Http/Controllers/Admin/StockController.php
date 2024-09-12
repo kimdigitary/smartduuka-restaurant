@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PurchaseStatus;
+use App\Enums\Status;
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\StoreIngredientStockRequest;
+use App\Http\Resources\PurchaseResource;
+use App\Models\Ingredient;
+use App\Models\Item;
+use App\Models\Purchase;
 use App\Models\Stock;
 use Exception;
 use App\Exports\StockExport;
@@ -37,6 +45,28 @@ class StockController extends AdminController
     {
         try {
             return StockResource::collection($this->stockService->listIngredients($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+    public function storeIngredientStock(StoreIngredientStockRequest $request):
+    Application|Response|PurchaseResource|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    {
+        try {
+            $stock = Stock::create([
+                'model_type' => Purchase::class,
+                'model_id'   => 1,
+                'item_type'  => Ingredient::class,
+                'item_id'    => $product['product_id'],
+                'price'      => $product['price'],
+                'quantity'   => $product['quantity'],
+                'discount'   => $product['total_discount'],
+                'tax'        => $product['total_tax'],
+                'subtotal'   => $product['subtotal'],
+                'total'      => $product['total'],
+                'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
+            ]);
+            return new PurchaseResource($stored);
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

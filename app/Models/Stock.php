@@ -52,6 +52,10 @@ class Stock extends Model
     {
         return $this->morphTo();
     }
+    public function ingredient(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
 //    public function item(): BelongsTo
 //    {
