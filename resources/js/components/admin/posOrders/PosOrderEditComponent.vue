@@ -123,8 +123,8 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive")
                 },
                 itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
+                    [itemTypeEnum.FOOD]: this.$t("label.veg"),
+                    [itemTypeEnum.BEVERAGE]: this.$t("label.non_veg")
                 },
                 askEnumArray: {
                     [askEnum.YES]: this.$t("label.yes"),
@@ -220,7 +220,7 @@ export default {
                 description: "",
                 caution: "",
                 is_featured: askEnum.YES,
-                item_type: itemTypeEnum.VEG,
+                item_type: itemTypeEnum.FOOD,
                 item_category_id: null,
                 tax_id: null,
                 status: statusEnum.ACTIVE,
@@ -253,7 +253,7 @@ export default {
                         description: "",
                         caution: "",
                         is_featured: askEnum.YES,
-                        item_type: itemTypeEnum.VEG,
+                        item_type: itemTypeEnum.FOOD,
                         item_category_id: null,
                         tax_id: null,
                         status: statusEnum.ACTIVE,

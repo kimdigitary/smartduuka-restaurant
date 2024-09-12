@@ -37,8 +37,8 @@
                             }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="item_type"
                                 v-model="props.search.item_type" :options="[
-                                    { id: enums.itemTypeEnum.VEG, name: $t('label.veg') },
-                                    { id: enums.itemTypeEnum.NON_VEG, name: $t('label.non_veg') }
+                                    { id: enums.itemTypeEnum.FOOD, name: $t('label.veg') },
+                                    { id: enums.itemTypeEnum.BEVERAGE, name: $t('label.non_veg') }
                                 ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                 :clearOnClose="true" placeholder="--" search-placeholder="--" />
                         </div>
@@ -88,7 +88,8 @@
                             <th class="db-table-head-th">{{ $t('label.name') }}</th>
                             <th class="db-table-head-th">{{ $t('label.category') }}</th>
                             <th class="db-table-head-th">{{ $t('label.type') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.quantity') }}</th>
+                            <th class="db-table-head-th">Orders</th>
+                            <th class="db-table-head-th">Earnings</th>
                         </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="itemsReports.length > 0">
@@ -99,18 +100,19 @@
                                 {{ enums.itemTypeEnumArray[itemsReport.item_type] }}
                             </td>
                             <td class="db-table-body-td">{{ itemsReport.order }}</td>
+                            <td class="db-table-body-td">{{ itemsReport.convert_price * itemsReport.order }}</td>
                         </tr>
                     </tbody>
 
                     <tfoot class="db-table-foot border-t" v-if="itemsReports.length > 0">
-                        <td class="db-table-body-td">{{ $t('label.total') }}</td>
+                        <td class="db-table-body-td text-primary text-xl bg-[#FFFAF4]">{{ $t('label.total') }}</td>
                         <td></td>
                         <td></td>
-                        <td class="db-table-body-td"> {{ subTotal(itemsReports) }}</td>
+                        <td class="db-table-body-td text-primary text-xl "> {{ subTotal(itemsReports) }}</td>
+                        <td class="db-table-body-td text-primary text-xl "> {{totalEarning(itemsReports)}}</td>
                     </tfoot>
                 </table>
             </div>
-
             <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
                 <PaginationSMBox :pagination="pagination" :method="list" />
                 <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
@@ -143,6 +145,7 @@ import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'dat
 import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import {addThousandsSeparators} from "../../../utils/functions";
 
 export default {
     name: "ItemsReportListComponent",
@@ -191,8 +194,8 @@ export default {
                 itemTypeEnum: itemTypeEnum,
                 paymentTypeEnum: paymentTypeEnum,
                 itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
+                    [itemTypeEnum.FOOD]: this.$t("label.veg"),
+                    [itemTypeEnum.BEVERAGE]: this.$t("label.non_veg")
                 },
                 paymentTypeEnumArray: {
                     [paymentTypeEnum.CASH_ON_DELIVERY]: this.$t("label.cash_on_delivery"),
@@ -257,6 +260,9 @@ export default {
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
         },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
+        },
     },
     methods: {
         floatNumber(e) {
@@ -284,9 +290,16 @@ export default {
 
         },
         subTotal(items) {
-            return items.reduce((acc, ele) => {
+            const total = items.reduce((acc, ele) => {
                 return acc + parseInt(ele.order);
             }, 0);
+            return addThousandsSeparators(total,'');
+        },
+        totalEarning(items) {
+            const total =  items.reduce((acc, ele) => {
+                return acc + parseInt(ele.price);
+            }, 0);
+            return addThousandsSeparators(total,this.setting.site_default_currency_symbol);
         },
         clear: function () {
             this.props.search.paginate = 1;

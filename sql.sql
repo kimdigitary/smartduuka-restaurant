@@ -1,2 +1,1 @@
-select *
-from item_variations;
+truncate  permissions;

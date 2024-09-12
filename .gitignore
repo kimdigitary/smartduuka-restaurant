@@ -30,3 +30,7 @@ _ide_helper_models.php
 storage/media-library/
 smartduuka.db
 .env
+public/css/app.css
+public/css/app.css
+public/css/app.css.map
+smartduuka.db

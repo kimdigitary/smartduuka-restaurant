@@ -1,5 +1,5 @@
 const itemTypeEnum = Object.freeze({
-    VEG: 5,
-    NON_VEG: 10
+    FOOD: 5,
+    BEVERAGE: 10
 });
 export default itemTypeEnum;

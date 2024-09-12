@@ -56,14 +56,13 @@
                                class="db-field-control" ref="imageProperty" accept="image/png, image/jpeg, image/jpg">
                         <small class="db-field-alert" v-if="errors.image">{{ errors.image[0] }}</small>
                     </div>
-
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title" for="veg">{{ $t("label.item_type") }}</label>
                         <div class="db-field-radio-group">
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" v-model="props.form.item_type" id="veg"
-                                           :value="enums.itemTypeEnum.VEG" class="custom-radio-field">
+                                           :value="enums.itemTypeEnum.FOOD" class="custom-radio-field">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="veg" class="db-field-label">Food</label>
@@ -71,7 +70,7 @@
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input type="radio" class="custom-radio-field" v-model="props.form.item_type"
-                                           id="nonVeg" :value="enums.itemTypeEnum.NON_VEG">
+                                           id="nonVeg" :value="enums.itemTypeEnum.BEVERAGE">
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="nonVeg" class="db-field-label">Beverage</label>
@@ -239,7 +238,7 @@
                                             <input v-on:keypress="onlyNumber($event) "
                                                    v-model="this.overallCost"
                                                    type="number"
-                                                    class="db-field-control">
+                                                   class="db-field-control">
                                         </th>
                                         <th class="db-table-body-td"></th>
                                     </tr>
@@ -266,7 +265,6 @@
                                 errors.description[0]
                             }}</small>
                     </div>
-
                     <div class="col-12">
                         <div class="flex flex-wrap gap-3 mt-4">
                             <button type="submit" class="db-btn py-2 text-white bg-primary">
@@ -296,6 +294,7 @@ import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import {isProxy, toRaw} from "vue";
 
 export default {
     name: "ItemCreateComponent",
@@ -305,7 +304,7 @@ export default {
         SmSidebarModalCreateComponent,
         LoadingComponent
     },
-    props: ['props', 'form', 'errors'],
+    props: ['props', 'form', 'errors', 'item'],
     data() {
         return {
             internalPrice: '',
@@ -313,6 +312,8 @@ export default {
             loading: {
                 isActive: false
             },
+            ingredients: [],
+            data: this.props,
             ingredientId: null,
             finalItem: null,
             overallCost: null,
@@ -326,8 +327,8 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive")
                 },
                 itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
+                    [itemTypeEnum.FOOD]: this.$t("label.veg"),
+                    [itemTypeEnum.BEVERAGE]: this.$t("label.non_veg")
                 },
                 askEnumArray: {
                     [askEnum.YES]: this.$t("label.yes"),
@@ -526,7 +527,7 @@ export default {
                 description: "",
                 caution: "",
                 is_featured: askEnum.YES,
-                item_type: itemTypeEnum.VEG,
+                item_type: itemTypeEnum.FOOD,
                 item_category_id: null,
                 tax_id: null,
                 status: statusEnum.ACTIVE,
@@ -573,7 +574,7 @@ export default {
                         description: "",
                         caution: "",
                         is_featured: askEnum.YES,
-                        item_type: itemTypeEnum.VEG,
+                        item_type: itemTypeEnum.FOOD,
                         item_category_id: null,
                         tax_id: null,
                         status: statusEnum.ACTIVE,
@@ -595,14 +596,45 @@ export default {
                 alertService.error(err)
             }
         },
-        watch: {
-            'props.form.price': {
-                immediate: true,
-                handler(newValue) {
-                    this.internalPrice = newValue || '';
+        updateIngredients(value) {
+            if (this.props && this.props.form && this.props.form.ingredients) {
+                this.ingredients = this.props.form.ingredients;
+                this.datatable = [];
+                if (isProxy(this.ingredients)) {
+                    toRaw(this.ingredients).forEach((ingredient) => {
+                        let item = {
+                            name: ingredient.name,
+                            quantity: ingredient.pivot.quantity,
+                            buying_price: ingredient.pivot.buying_price,
+                            discount: 0,
+                            ingredient_id: ingredient.pivot.ingredient_id,
+                            tax: 0,
+                            total_tax: 0,
+                            total_tax_rate: 0,
+                            total_discount: 0,
+                            subtotal: ingredient.pivot.quantity * ingredient.pivot.buying_price,
+                            total: (+(ingredient.pivot.quantity * ingredient.pivot.buying_price) + (+0) - (+0)).toFixed(2),
+                        }
+                        this.datatable.push(item);
+                    })
                 }
             }
+        }
+    },
+    watch: {
+        props: {
+            deep: true,
+            immediate: true,
+            handler(newValue, oldValue) {
+                this.updateIngredients(newValue);
+            }
         },
-    }
+        'props.form.price': {
+            immediate: true,
+            handler(newValue) {
+                this.internalPrice = newValue || '';
+            }
+        },
+    },
 }
 </script>

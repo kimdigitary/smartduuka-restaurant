@@ -1,6 +1,7 @@
 <template>
     <div class="db-breadcrumb">
         <ul class="db-breadcrumb-list">
+
             <li v-if="Object.keys(authDefaultPermission).length > 0" class="db-breadcrumb-item">
                 <router-link class="db-breadcrumb-link" :to="'/admin/'+authDefaultPermission.url">
                     {{ $t('menu.'+authDefaultPermission.name) }}

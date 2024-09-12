@@ -207,8 +207,9 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive")
                 },
                 itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
+                    // [itemTypeEnum.FOOD]: this.$t("label.veg"),
+                    [itemTypeEnum.FOOD]: this.$t("label.non_veg"),
+                    [itemTypeEnum.BEVERAGE]: this.$t("label.veg")
                 },
                 askEnumArray: {
                     [askEnum.YES]: this.$t("label.yes"),

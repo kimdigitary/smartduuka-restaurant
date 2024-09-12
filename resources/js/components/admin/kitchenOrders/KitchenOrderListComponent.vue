@@ -18,6 +18,14 @@
                 <div class="db-field-radio-group">
                     <div class="db-field-radio">
                         <div class="custom-radio">
+                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
+                                   id="All" :value="enums.askEnum.ALL">
+                            <span class="custom-radio-span"></span>
+                        </div>
+                        <label for="All" class="db-field-label">All</label>
+                    </div>
+                    <div class="db-field-radio">
+                        <div class="custom-radio">
                             <input type="radio" v-model="props.form.itemType" id="food"
                                    :value="enums.askEnum.YES" class="custom-radio-field">
                             <span class="custom-radio-span"></span>
@@ -32,14 +40,7 @@
                         </div>
                         <label for="Beverage" class="db-field-label">Beverage</label>
                     </div>
-                    <div class="db-field-radio">
-                        <div class="custom-radio">
-                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
-                                   id="All" :value="enums.askEnum.ALL">
-                            <span class="custom-radio-span"></span>
-                        </div>
-                        <label for="All" class="db-field-label">All</label>
-                    </div>
+
                 </div>
             </div>
             <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
@@ -161,6 +162,7 @@ import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import VueSimpleAlert from "vue3-simple-alert";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
 import askEnum from "../../../enums/modules/askEnum";
+import AskEnum from "../../../enums/modules/askEnum";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -290,8 +292,13 @@ export default {
             return this.$store.getters['frontendSetting/lists'];
         },
         filteredOrders() {
-            console.log('type: '+this.props.form.itemType)
-            return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
+            // return this.orders.filter(order => order.status !== this.orderStatusEnum.DELIVERED && order.order_type === this.props.form.itemType);
+            if (this.props.form.itemType !== AskEnum.ALL) {
+                return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED && order.orderItems.some(orderItem => orderItem.order_item.item_type ===
+                    this.props.form.itemType));
+            }else{
+                return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED);
+            }
         },
         OrderStatusEnum() {
             return OrderStatusEnum
@@ -323,9 +330,9 @@ export default {
         },
         enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
-                this.changeStatus(orderID, orderItemID, 2)
+                this.changeStatusChefBoard(orderID, orderItemID, 2)
             } else {
-                this.changeStatus(orderID, orderItemID, 1)
+                this.changeStatusChefBoard(orderID, orderItemID, 1)
             }
         },
         edit: function (product) {
@@ -375,7 +382,7 @@ export default {
             this.loading.isActive = true;
             this.props.search.page = page;
             const payload = {
-                ...this.props.search,type:this.props.form.itemType
+                ...this.props.search, type: this.props.form.itemType
             }
             this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
@@ -391,15 +398,13 @@ export default {
         },
         polling: function () {
             const payload = {
-                ...this.props.search,type:this.props.form.itemType
+                ...this.props.search, type: this.props.form.itemType
             }
             this.$store.dispatch('posOrder/chefLists', payload).then(res => {
                 if (res.data.data.length > 0) {
                     if (this.lastOrderId < res.data.data[0].id) {
                         this.lastOrderId = res.data.data[0].id;
                         this.playSound(res.data.data);
-                    } else {
-                        console.log(this.lastOrderId, res.data.data[0].id)
                     }
                 }
                 // this.playSound(res.data.data);
@@ -458,6 +463,30 @@ export default {
                 alertService.error(err.response.data.message);
             }
         },
+        changeStatusChefBoard: function (orderID, orderItemID, orderItemStatus) {
+            try {
+                // this.loading.isActive = true;
+                this.$store.dispatch("posOrder/changeStatusChefBoard", {
+                    id: orderID,
+                    orderItemID: orderItemID,
+                    status: orderStatusEnum.PROCESSING,
+                    orderItemStatus: orderItemStatus
+                }).then((res) => {
+                    this.loading.isActive = false;
+                    this.orders.find(order => order.id === id).status = res.data.data.status;
+                    alertService.successFlip(
+                        1,
+                        this.$t("label.status")
+                    );
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
+                });
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err.response.data.message);
+            }
+        },
         completeOrder: function (id) {
             VueSimpleAlert.confirm(
                 "Make this order complete",
@@ -475,7 +504,8 @@ export default {
                         this.loading.isActive = true;
                         this.$store.dispatch("posOrder/changeStatus", {
                             id: id,
-                            status: orderStatusEnum.DELIVERED,
+                            // status: orderStatusEnum.DELIVERED,
+                            status: orderStatusEnum.PREPARED,
                         }).then((res) => {
                             this.loading.isActive = false;
                             this.orders.find(order => order.id === id).status = res.data.data.status;

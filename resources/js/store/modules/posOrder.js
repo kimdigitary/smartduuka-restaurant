@@ -158,6 +158,16 @@ export const posOrder = {
                 });
             });
         },
+        changeStatusChefBoard: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post(`chef-board/change-status/${payload.id}`,payload).then((res) => {
+                    context.commit('show', res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         changePaymentStatus: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.post(`admin/pos-order/change-payment-status/${payload.id}`,payload).then((res) => {
