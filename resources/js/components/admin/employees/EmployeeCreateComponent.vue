@@ -254,7 +254,6 @@ export default {
         });
         this.$store.dispatch('company/lists').then(companyRes => {
             this.$store.dispatch('countryCode/show', companyRes.data.data.company_country_code).then(res => {
-
                 if (this.props.form.country_code === "") {
                     this.props.form.country_code = res.data.data.calling_code;
                     this.country_code = res.data.data.calling_code;
