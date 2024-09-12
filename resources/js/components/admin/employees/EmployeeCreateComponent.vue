@@ -258,6 +258,7 @@ export default {
                     this.props.form.country_code = res.data.data.calling_code;
                     this.country_code = res.data.data.calling_code;
                 }
+
                 this.flag = res.data.data.flag_emoji;
                 this.loading.isActive = false;
 
