@@ -25,6 +25,7 @@ https://kimdigitary.enerpize.com/
 email: kimdigitary@gmail.com
 Password: Atmbvrg@aG3qr8@
 
+
 # Work on omoding branch
 git checkout omoding
 git rm --cached resources/js/config/env.js                  # Remove .env from the repository but keep it locally
