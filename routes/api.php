@@ -395,6 +395,8 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
 
     Route::prefix('stock')->name('stock.')->group(function () {
         Route::get('/', [StockController::class, 'index']);
+        Route::post('/ingredients', [StockController::class, 'storeIngredientStock']);
+        Route::get('/ingredients', [StockController::class, 'indexIngredients']);
         Route::get('/export', [StockController::class, 'export']);
     });
 
@@ -556,7 +558,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::prefix('itemStock')->name('itemStock.')->group(function () {
         Route::get('/', [StockController::class, 'index']);
         Route::get('/ingredients', [StockController::class, 'indexIngredients']);
-        Route::post('/ingredients', [StockController::class, 'indexIngredients']);
+        Route::post('/ingredients', [StockController::class, 'storeIngredientStock']);
         Route::get('/export', [StockController::class, 'export']);
     });
 

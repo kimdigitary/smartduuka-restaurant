@@ -35,12 +35,12 @@
 <!--                            id="quantity" class="db-field-control">-->
 <!--                        <small class="db-field-alert" v-if="errors.quantity">{{ errors.quantity[0] }}</small>-->
 <!--                    </div>-->
-<!--                    <div class="form-col-12 sm:form-col-6">-->
-<!--                        <label for="price" class="db-field-title required">Alert Quantity</label>-->
-<!--                        <input v-model="props.form.alert_quantity" v-bind:class="errors.alert_quantity ? 'invalid' : ''" type="number"-->
-<!--                            id="alert_quantity" class="db-field-control">-->
-<!--                        <small class="db-field-alert" v-if="errors.alert_quantity">{{ errors.alert_quantity[0] }}</small>-->
-<!--                    </div>-->
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="price" class="db-field-title required">Alert Quantity</label>
+                        <input v-model="props.form.alert_quantity" v-bind:class="errors.alert_quantity ? 'invalid' : ''" type="number"
+                            id="alert_quantity" class="db-field-control">
+                        <small class="db-field-alert" v-if="errors.alert_quantity">{{ errors.alert_quantity[0] }}</small>
+                    </div>
 
                     <div class="col-12">
                         <div class="flex flex-wrap gap-3 mt-4">

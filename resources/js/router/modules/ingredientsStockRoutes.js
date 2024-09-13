@@ -15,6 +15,7 @@ import IngredientPurchaseCreateAndEditComponent from "../../components/admin/ing
 import IngredientPurchaseShowComponent from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseShowComponent.vue";
 import IngredientStockListComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockListComponent.vue";
 import IngredientStockCreateAndEditComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockCreateAndEditComponent.vue";
+import IngredientStockCreateComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockCreateComponent.vue";
 
 export default [
     {
@@ -53,7 +54,7 @@ export default [
             },
             {
                 path: 'ingredientStock/create',
-                component: IngredientStockCreateAndEditComponent,
+                component: IngredientStockCreateComponent,
                 name: 'admin.ingredients_and_stock.ingredientStock.create',
                 meta: {
                     isFrontend: false,

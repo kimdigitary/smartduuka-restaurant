@@ -107,14 +107,9 @@ class StockService
                         'status'       => $item->first()['item']['status'],
                         'itemStock'    => $item->sum('quantity'),
                     ];
-//                    $this->items[] = [
-//                        'item_id'      => $item->first()['item_id'],
-//                        'product_name' => $item->first()['item']['name'],
-//                        'status'       => $item->first()['item']['status'],
-//                        'itemStock'    => $item->sum('quantity'),
-//                    ];
                 });
             });
+            return $stocks;
         } else {
             info($this->items);
             $this->items = [];
