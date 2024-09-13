@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\Status;
 use App\Http\Requests\PaginateRequest;
+use App\Models\Ingredient;
 use App\Models\Item;
 use App\Models\Stock;
 use Exception;
@@ -85,6 +86,7 @@ class StockService
         $orderType = $request->get('order_type') ?? 'desc';
 
         $stocks = Stock::with('ingredient')->where('status', Status::ACTIVE)->where(function ($query) use ($requests) {
+            $query->where('model_type', Ingredient::class);
             foreach ($requests as $key => $request) {
                 if (in_array($key, $this->stockFilter)) {
                     if ($key == 'product_name') {
