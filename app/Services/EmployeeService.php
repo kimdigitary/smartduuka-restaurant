@@ -42,7 +42,7 @@ class EmployeeService
                         $query->where('id', '!=', EnumRole::ADMIN);
                         $query->where('id', '!=', EnumRole::CUSTOMER);
                         $query->where('id', '!=', EnumRole::WAITER);
-                        $query->where('id', '!=', EnumRole::CHEF);
+//                        $query->where('id', '!=', EnumRole::CHEF);
                     });
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->roleFilter)) {
@@ -102,10 +102,10 @@ class EmployeeService
     public function update(EmployeeRequest $request, User $employee)
     {
         try {
-            if (!in_array($request->role_id, $this->blockRoles) && !in_array(
-                optional($employee->roles[0])->id,
-                $this->blockRoles
-            )) {
+//            if (!in_array($request->role_id, $this->blockRoles) && !in_array(
+//                optional($employee->roles[0])->id,
+//                $this->blockRoles
+//            )) {
                 DB::transaction(function () use ($employee, $request) {
                     $this->user               = $employee;
                     $this->user->name         = $request->name;
@@ -121,9 +121,9 @@ class EmployeeService
                 });
                 $this->user->syncRoles($request->role_id);
                 return $this->user;
-            } else {
-                throw new Exception(trans('all.message.permission_denied'), 422);
-            }
+//            } else {
+//                throw new Exception(trans('all.message.permission_denied'), 422);
+//            }
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             DB::rollBack();

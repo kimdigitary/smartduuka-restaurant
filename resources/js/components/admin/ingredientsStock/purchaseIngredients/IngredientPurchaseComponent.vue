@@ -32,10 +32,14 @@ import BreadcrumbComponent from "../../components/BreadcrumbComponent.vue";
 import appService from "../../../../services/appService";
 import IngredientPurchasePaymentCreateComponent from "./IngredientPurchasePaymentCreateComponent.vue";
 import IngredientPurchasePaymentListComponent from "./IngredientPurchasePaymentListComponent.vue";
+import PurchasePaymentListComponent from "../purchase/PurchasePaymentListComponent.vue";
+import PurchasePaymentCreateComponent from "../purchase/PurchasePaymentCreateComponent.vue";
 
 export default {
     name: 'IngredientPurchaseComponent',
     components: {
+        PurchasePaymentCreateComponent,
+        PurchasePaymentListComponent,
         BreadcrumbComponent,
         IngredientPurchasePaymentCreateComponent,
         IngredientPurchasePaymentListComponent

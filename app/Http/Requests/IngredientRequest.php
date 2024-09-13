@@ -17,9 +17,9 @@ class IngredientRequest extends FormRequest
     {
         return [
             'name'            => ['required', 'string', 'max:255'],
-            'buying_price'    => ['required', 'numeric', 'min:0'],
+//            'buying_price'    => ['required', 'numeric', 'min:0'],
             'unit'            => ['required', 'string', 'max:255'],
-            'quantity'        => ['required', 'integer', 'min:0'],
+//            'quantity'        => ['required', 'integer', 'min:0'],
             'quantity_alert'  => ['required', 'integer', 'min:0'],
         ];
     }

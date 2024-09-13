@@ -1,34 +1,28 @@
-import IngredientsStockSettingsComponent
-    from "../../components/admin/ingredientsStock/IngredientsStockSettingsComponent.vue";
+import IngredientsStockSettingsComponent from "../../components/admin/ingredientsStock/IngredientsStockSettingsComponent.vue";
 import IngredientsListComponent from "../../components/admin/ingredients/IngredientsListComponent.vue";
 import SupplierComponent from "../../components/admin/ingredientsStock/Supplier/SupplierComponent.vue";
 import SupplierListComponent from "../../components/admin/ingredientsStock/Supplier/SupplierListComponent.vue";
 import SupplierShowComponent from "../../components/admin/ingredientsStock/Supplier/SupplierShowComponent.vue";
 import StockListComponent from "../../components/admin/ingredientsStock/itemStock/StockListComponent.vue";
-import StockCreateOrEditComponent
-    from "../../components/admin/ingredientsStock/itemStock/StockCreateAndEditComponent.vue";
+import StockCreateOrEditComponent from "../../components/admin/ingredientsStock/itemStock/StockCreateAndEditComponent.vue";
 import PurchaseComponent from "../../components/admin/ingredientsStock/purchase/PurchaseComponent.vue";
 import PurchaseListComponent from "../../components/admin/ingredientsStock/purchase/PurchaseListComponent.vue";
-import PurchaseCreateAndEditComponent
-    from "../../components/admin/ingredientsStock/purchase/PurchaseCreateAndEditComponent.vue";
+import PurchaseCreateAndEditComponent from "../../components/admin/ingredientsStock/purchase/PurchaseCreateAndEditComponent.vue";
 import PurchaseShowComponent from "../../components/admin/ingredientsStock/purchase/PurchaseShowComponent.vue";
-import IngredientPurchaseComponent
-    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
-import IngredientPurchaseListComponent
-    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseListComponent.vue";
-import IngredientPurchaseCreateAndEditComponent
-    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseCreateAndEditComponent.vue";
-import IngredientPurchaseShowComponent
-    from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseShowComponent.vue";
-import IngredientStockListComponent
-    from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockListComponent.vue";
+import IngredientPurchaseComponent from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
+import IngredientPurchaseListComponent from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseListComponent.vue";
+import IngredientPurchaseCreateAndEditComponent from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseCreateAndEditComponent.vue";
+import IngredientPurchaseShowComponent from "../../components/admin/ingredientsStock/purchaseIngredients/IngredientPurchaseShowComponent.vue";
+import IngredientStockListComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockListComponent.vue";
+import IngredientStockCreateAndEditComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockCreateAndEditComponent.vue";
+import IngredientStockCreateComponent from "../../components/admin/ingredientsStock/IngredientStock/IngredientStockCreateComponent.vue";
 
 export default [
     {
         path: "/admin/ingredients_and_stock",
         component: IngredientsStockSettingsComponent,
         name: "admin.ingredients_and_stock",
-        redirect: { name: "admin.ingredients_and_stock.ingredients" },
+        redirect: {name: "admin.ingredients_and_stock.ingredients"},
         meta: {
             isFrontend: false,
             auth: true,
@@ -48,17 +42,6 @@ export default [
                 },
             },
             {
-                path: "stock_list",
-                component: StockListComponent,
-                name: "admin.ingredients_and_stock.stock_list",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "stock_create",
-                    breadcrumb: "ingredients_purchasing",
-                },
-            },
-            {
                 path: "ingredients_stock_list",
                 component: IngredientStockListComponent,
                 name: "admin.ingredients_and_stock.ingredients.stock_list",
@@ -70,12 +53,35 @@ export default [
                 },
             },
             {
+                path: 'ingredientStock/create',
+                component: IngredientStockCreateComponent,
+                name: 'admin.ingredients_and_stock.ingredientStock.create',
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: 'stock_create',
+                    breadcrumb: 'create'
+                }
+            },
+            {
+                path: "stock_list",
+                component: StockListComponent,
+                name: "admin.ingredients_and_stock.stock_list",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "stock_create",
+                    breadcrumb: "ingredients_purchasing",
+                },
+            },
+
+            {
                 path: 'itemStock/create',
                 component: StockCreateOrEditComponent,
                 name: 'admin.ingredients_and_stock.itemStock.create',
                 meta: {
-                    isFrontend:false,
-                    auth:true,
+                    isFrontend: false,
+                    auth: true,
                     permissionUrl: 'stock_create',
                     breadcrumb: 'create'
                 }
@@ -85,31 +91,31 @@ export default [
                 component: StockCreateOrEditComponent,
                 name: 'admin.ingredients_and_stock.itemStock.edit',
                 meta: {
-                    isFrontend:false,
-                    auth:true,
+                    isFrontend: false,
+                    auth: true,
                     permissionUrl: 'stock_edit',
                     breadcrumb: 'edit'
                 }
             },
             {
-                path:'/admin/ingredients_and_stock/purchase',
+                path: '/admin/ingredients_and_stock/purchase',
                 component: PurchaseComponent,
                 name: 'admin.ingredients_and_stock.purchase',
                 redirect: {name: 'admin.ingredients_and_stock.purchase.list'},
                 meta: {
-                    isFrontend:false,
-                    auth:true,
+                    isFrontend: false,
+                    auth: true,
                     permissionUrl: 'purchase',
-                    breadcrumb:'purchase'
+                    breadcrumb: 'purchase'
                 },
                 children: [
                     {
-                        path:'',
+                        path: '',
                         component: PurchaseListComponent,
                         name: 'admin.ingredients_and_stock.purchase.list',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase',
                             breadcrumb: ''
                         }
@@ -120,8 +126,8 @@ export default [
                         component: PurchaseCreateAndEditComponent,
                         name: 'admin.ingredients_and_stock.purchase.create',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_create',
                             breadcrumb: 'create'
                         }
@@ -131,8 +137,8 @@ export default [
                         component: PurchaseCreateAndEditComponent,
                         name: 'admin.ingredients_and_stock.purchase.edit',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_edit',
                             breadcrumb: 'edit'
                         }
@@ -142,32 +148,33 @@ export default [
                         component: PurchaseShowComponent,
                         name: 'admin.ingredients_and_stock.purchase.show',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_show',
                             breadcrumb: 'view'
                         }
                     }
                 ]
-            }, {
-                path:'/admin/ingredients_and_stock/ingredients',
+            },
+            {
+                path: '/admin/ingredients_and_stock/ingredients',
                 component: IngredientPurchaseComponent,
                 name: 'admin.ingredients_and_stock.purchase.ingredients',
                 redirect: {name: 'admin.ingredients_and_stock.ingredients.purchase.list'},
                 meta: {
-                    isFrontend:false,
-                    auth:true,
+                    isFrontend: false,
+                    auth: true,
                     permissionUrl: 'purchase',
-                    breadcrumb:'purchase'
+                    breadcrumb: 'purchase'
                 },
                 children: [
                     {
-                        path:'',
+                        path: '',
                         component: IngredientPurchaseListComponent,
                         name: 'admin.ingredients_and_stock.ingredients.purchase.list',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase',
                             breadcrumb: ''
                         }
@@ -178,8 +185,8 @@ export default [
                         component: IngredientPurchaseCreateAndEditComponent,
                         name: 'admin.ingredients_and_stock.ingredients.purchase.create',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_create',
                             breadcrumb: 'create'
                         }
@@ -189,8 +196,8 @@ export default [
                         component: IngredientPurchaseCreateAndEditComponent,
                         name: 'admin.ingredients_and_stock.ingredients.purchase.edit',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_edit',
                             breadcrumb: 'edit'
                         }
@@ -200,8 +207,8 @@ export default [
                         component: IngredientPurchaseShowComponent,
                         name: 'admin.ingredients_and_stock.ingredients.purchase.show',
                         meta: {
-                            isFrontend:false,
-                            auth:true,
+                            isFrontend: false,
+                            auth: true,
                             permissionUrl: 'purchase_show',
                             breadcrumb: 'view'
                         }
@@ -212,7 +219,7 @@ export default [
                 path: "suppliers",
                 component: SupplierComponent,
                 name: "admin.ingredients_and_stock.supplier",
-                redirect: { name: "admin.ingredients_and_stock.supplier.list" },
+                redirect: {name: "admin.ingredients_and_stock.supplier.list"},
                 meta: {
                     isFrontend: false,
                     auth: true,

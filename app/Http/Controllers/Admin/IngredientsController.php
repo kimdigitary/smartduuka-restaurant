@@ -24,7 +24,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class IngredientsController extends AdminController
 {
     use ApiRequestTrait;
-
     public IngredientsService $ingredientsService;
 
     public function __construct(IngredientsService $ingredientsService)
@@ -46,7 +45,6 @@ class IngredientsController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-
 
     public function show(Ingredient $ingredient)
     {
