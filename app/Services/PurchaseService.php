@@ -243,6 +243,7 @@
                             'paid_on'       => date('Y-m-d H:i:s' , strtotime($request->payment_date))
                         ]);
                     }
+
                     if ( $request->products ) {
                         $products = json_decode($request->products , true);
                         foreach ( $products as $product ) {
