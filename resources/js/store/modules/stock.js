@@ -6,6 +6,7 @@ export const stock = {
     namespaced: true,
     state: {
         lists: [],
+        ingredients: [],
         page: {},
         pagination: [],
         show: {},
@@ -13,16 +14,19 @@ export const stock = {
             temp_id: null,
             isEditing: false,
         },
-},
+    },
     getters: {
         lists: function (state) {
             return state.lists;
+        },
+        ingredients: function (state) {
+            return state.ingredients;
         },
 
         pagination: function (state) {
             return state.pagination
         },
-        page: function(state) {
+        page: function (state) {
             return state.page;
         },
         show: function (state) {
@@ -40,7 +44,7 @@ export const stock = {
                     url = url + appService.requestHandler(payload);
                 }
                 axios.get(url).then((res) => {
-                    if(typeof payload.vuex === "undefined" || payload.vuex === true) {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
                         context.commit('lists', res.data.data);
                         context.commit('page', res.data.meta);
                         context.commit('pagination', res.data);
@@ -59,8 +63,9 @@ export const stock = {
                     url = url + appService.requestHandler(payload);
                 }
                 axios.get(url).then((res) => {
-                    if(typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('lists', res.data.data);
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        // context.commit('lists', res.data.data);
+                        context.commit('ingredients', res.data);
                         context.commit('page', res.data.meta);
                         context.commit('pagination', res.data);
                     }
@@ -77,7 +82,7 @@ export const stock = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url, { responseType: 'blob' }).then((res) => {
+                axios.get(url, {responseType: 'blob'}).then((res) => {
                     resolve(res);
                 }).catch((err) => {
                     reject(err);
@@ -89,11 +94,14 @@ export const stock = {
         lists: function (state, payload) {
             state.lists = payload
         },
+        ingredients: function (state, payload) {
+            state.ingredients = payload
+        },
         pagination: function (state, payload) {
             state.pagination = payload;
         },
         page: function (state, payload) {
-            if(typeof payload !== "undefined" && payload !== null) {
+            if (typeof payload !== "undefined" && payload !== null) {
                 state.page = {
                     from: payload.from,
                     to: payload.to,
@@ -108,7 +116,7 @@ export const stock = {
             state.temp.temp_id = payload;
             state.temp.isEditing = true;
         },
-        reset: function(state) {
+        reset: function (state) {
             state.temp.temp_id = null;
             state.temp.isEditing = false;
         }

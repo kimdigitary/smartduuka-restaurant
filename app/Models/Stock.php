@@ -39,7 +39,7 @@ class Stock extends Model
         'model_type'    => 'string',
         'model_id'      => 'integer',
         'item_type'     => 'string',
-        'price'         => 'decimal:6',
+        'price'         => 'integer',
         'quantity'      => 'integer',
         'discount'      => 'decimal:6',
         'tax'           => 'decimal:6',
@@ -75,5 +75,4 @@ class Stock extends Model
     {
         return $this->hasMany(StockTax::class);
     }
-
 }

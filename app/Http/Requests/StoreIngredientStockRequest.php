@@ -12,13 +12,26 @@
             return true;
         }
 
+        protected function prepareForValidation() : void
+        {
+            if ( $this->has('products') ) {
+                $this->merge([
+                    'products' => json_decode($this->products , true) ,
+                ]);
+            }
+        }
+
         public function rules() : array
         {
             return [
-                'name'           => [ 'required' , 'string' ] ,
-                'quantity'       => [ 'required' , 'numeric' ] ,
-                'buying_price'   => [ 'required' , 'numeric' ] ,
-                'quantity_alert' => [ 'required' , 'numeric' ] ,
+                'products' => [ 'required' , 'array' ]
+            ];
+        }
+
+        public function messages() : array
+        {
+            return [
+                'products' => 'Select Ingredients' ,
             ];
         }
     }
