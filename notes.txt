@@ -14,12 +14,17 @@ https://smartduuka-restaurant.test/menu/mirpur-1-main-mike
 https://smartduuka-restaurant.test/menu/mirpur-1-main-test
 
 cd /home/moodbox@smartduuka/public_html
-cd /home/vilagio@smartduuka/public_html
+cd /home/villagio@smartduuka/public_html
 http://phpmyadmin.smartduuka.com/
 
 https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
 https://resto.codehas.net/
 UPDATE `orders` SET `status`=1 WHERE 1;
+
+https://kimdigitary.enerpize.com/
+email: kimdigitary@gmail.com
+Password: Atmbvrg@aG3qr8@
+
 
 # Work on omoding branch
 git checkout omoding

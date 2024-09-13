@@ -262,7 +262,7 @@ export default {
         this.$store.dispatch("role/lists", {
             order_column: "id",
             order_type: "asc",
-            excepts: "1|2|3|4",
+            // excepts: "1|2|3|4",
         });
         this.$store.dispatch('company/lists').then(companyRes => {
             this.loading.isActive = true;

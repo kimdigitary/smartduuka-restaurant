@@ -104,7 +104,7 @@
                             </span>
                         </td>
                         <td class="db-table-body-td">{{ expense.date }}</td>
-                        <td class="db-table-body-td">{{ expense.category.name }}</td>
+                        <td class="db-table-body-td">{{ (expense.category)? expense.category.name:'Purchase' }}</td>
                         <td class="db-table-body-td hidden-print"
                             v-if="permissionChecker('expenses_show') || permissionChecker('expenses_edit') || permissionChecker('expenses_delete')">
                             <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">

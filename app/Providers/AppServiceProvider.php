@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Menu;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 
 class

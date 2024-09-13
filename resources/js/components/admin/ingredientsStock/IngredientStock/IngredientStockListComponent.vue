@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">{{ $t('menu.itemStock') }}</h3>
+                <h3 class="db-card-title">Ingredients Stock</h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
                     <FilterComponent />
@@ -14,7 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <router-link @click="reset" to="stock/create"
+                    <router-link  to="ingredientStock/create"
                        class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
                         <span>Add Stock</span>
@@ -68,21 +68,27 @@
                                 {{ $t('label.name') }}
                             </th>
                             <th class="db-table-head-th">
-                                {{ $t('label.quantity') }}
+                            Buying Price
+                            </th>
+                            <th class="db-table-head-th">
+                                Quantity
+                            </th>
+                            <th class="db-table-head-th">
+                                Alert Quantity
                             </th>
                             <th class="db-table-head-th">
                                 {{ $t('label.status') }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="db-table-body" v-if="stocks?.length > 0">
-                        <tr class="db-table-body-tr" v-for="stock in stocks" :key="stock">
+                    <tbody class="db-table-body" v-if="ingredientStocks?.length > 0">
+                        <tr class="db-table-body-tr" v-for="stock in ingredientStocks" :key="stock">
                             <td class="db-table-body-td">
-                                {{ textShortener(stock.product_name, 40) }}
-                                <span v-if="stock.variation_names"> ( {{ $t('label.variation') }} : {{ stock.variation_names
-                                }} )</span>
+                                {{ textShortener(stock?.item?.name, 40) }}
                             </td>
-                            <td class="db-table-body-td">{{ stock.stock }}</td>
+                            <td class="db-table-body-td">{{ currency(stock.price)}}</td>
+                            <td class="db-table-body-td">{{ currency(stock.quantity)}}</td>
+                            <td class="db-table-body-td">{{ currency(stock?.item?.quantity_alert)}}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(stock.status)">
                                     {{ enums.statusEnumArray[stock.status] }}
@@ -120,6 +126,8 @@ import ExportComponent from "../../components/buttons/export/ExportComponent.vue
 import PrintComponent from "../../components/buttons/export/PrintComponent.vue";
 import ExcelComponent from "../../components/buttons/export/ExcelComponent.vue";
 import _ from "lodash";
+import {stock} from "../../../../store/modules/stock";
+import {currency} from "../../../../utils/functions";
 
 export default {
     name: "IngredientStockListComponent",
@@ -142,6 +150,7 @@ export default {
             loading: {
                 isActive: false
             },
+            ingredientStocks:[],
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
@@ -168,8 +177,11 @@ export default {
         }
     },
     computed: {
+        stock() {
+            return stock
+        },
         stocks: function () {
-            return this.$store.getters['stock/lists'];
+            return this.$store.getters['stock/ingredients'];
         },
         pagination: function () {
             return this.$store.getters['stock/pagination'];
@@ -182,6 +194,7 @@ export default {
         this.list();
     },
     methods: {
+        currency,
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
@@ -205,6 +218,7 @@ export default {
             this.loading.isActive = true;
             this.props.search.page = page;
             this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
+                this.ingredientStocks = res.data
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;

@@ -54,9 +54,26 @@ export const ingredient = {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
                 let url = '/admin/ingredients';
-                if (this.state['item'].temp.isEditing) {
+                if (this.state['ingredient'].temp.isEditing) {
                     method = axios.post;
-                    url = `/admin/ingredients/${this.state['item'].temp.temp_id}`;
+                    url = `/admin/ingredients/${this.state['ingredient'].temp.temp_id}`;
+                }
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', payload.search).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        stock: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = '/admin/stock/ingredients';
+                if (this.state['ingredient'].temp.isEditing) {
+                    method = axios.post;
+                    url = `/admin/stock/ingredients/${this.state['ingredient'].temp.temp_id}`;
                 }
                 method(url, payload.form).then(res => {
                     context.dispatch('lists', payload.search).then().catch();

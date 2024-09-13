@@ -19,9 +19,9 @@ class Ingredient extends TenantModel implements HasMedia
     protected $casts = [
         'id'             => 'integer',
         'name'           => 'string',
-        'buying_price'   => 'integer',
+//        'buying_price'   => 'integer',
         'unit'           => 'string',
-        'quantity'       => 'integer',
-        'quantity_alert' => 'integer',
+//        'quantity'       => 'integer',
+//        'quantity_alert' => 'integer',
     ];
 }

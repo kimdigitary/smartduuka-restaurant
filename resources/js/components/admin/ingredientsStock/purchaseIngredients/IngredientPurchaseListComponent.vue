@@ -1,23 +1,23 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">{{ $t('label.purchases') }}</h3>
+                <h3 class="db-card-title">Ingredient purchasing</h3>
                 <div class="db-card-filter">
-                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
-                    <FilterComponent />
+                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage"/>
+                    <FilterComponent/>
                     <div class="dropdown-group">
-                        <ExportComponent />
+                        <ExportComponent/>
                         <div class="dropdown-list db-card-filter-dropdown-list">
-                            <PrintComponent :props="printObj" />
-                            <ExcelComponent :method="xls" />
+                            <PrintComponent :props="printObj"/>
+                            <ExcelComponent :method="xls"/>
                         </div>
                     </div>
                     <router-link @click="reset" v-if="permissionChecker('purchase_create')" to="ingredients/add"
-                        class="db-btn h-[37px] text-white bg-primary">
+                                 class="db-btn h-[37px] text-white bg-primary">
                         <i class="lab lab-line-add-circle"></i>
-                        <span>{{ $t('button.add_purchase') }}</span>
+                        <span>Purchase</span>
                     </router-link>
                 </div>
             </div>
@@ -27,14 +27,14 @@
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="supplier" class="db-field-title after:hidden">{{ $t('label.supplier') }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="supplier"
-                                v-model="props.search.supplier_id" :options="suppliers" label-by="name" value-by="id"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
+                                        v-model="props.search.supplier_id" :options="suppliers" label-by="name" value-by="id"
+                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                        search-placeholder="--"/>
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="date" class="db-field-title after:hidden">{{ $t('label.date') }}</label>
                             <Datepicker hideInputIcon autoApply v-model="props.search.date" :enableTimePicker="true"
-                                :is24="false" :monthChangeOnScroll="false" utc="false">
+                                        :is24="false" :monthChangeOnScroll="false" utc="false">
                                 <template #am-pm-button="{ toggle, value }">
                                     <button @click="toggle">{{ value }}</button>
                                 </template>
@@ -42,21 +42,21 @@
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="searchCode" class="db-field-title after:hidden">{{
-                                $t('label.reference_no')
-                            }}</label>
+                                    $t('label.reference_no')
+                                }}</label>
                             <input id="searchCode" v-model="props.search.reference_no" type="text" class="db-field-control">
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="status" class="db-field-title after:hidden">{{ $t('label.status') }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="status" v-model="props.search.status"
-                                :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
-                                :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
+                                        :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
+                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                        search-placeholder="--"/>
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="total" class="db-field-title after:hidden">{{ $t('label.total') }}</label>
                             <input id="total" v-model="props.search.total" v-on:keypress="floatNumber($event)" type="text"
-                                class="db-field-control">
+                                   class="db-field-control">
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="note" class="db-field-title after:hidden">{{ $t('label.note') }} </label>
@@ -81,62 +81,63 @@
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print">
                     <thead class="db-table-head">
-                        <tr class="db-table-head-tr">
-                            <th class="db-table-head-th">{{ $t('label.supplier') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.reference_no') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.status') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
-                            <th class="db-table-head-th">Balance</th>
-                            <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
-                            <th v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')"
-                                class="db-table-head-th hidden-print">{{ $t('label.action') }}
-                            </th>
-                        </tr>
+                    <tr class="db-table-head-tr">
+                        <th class="db-table-head-th">{{ $t('label.supplier') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.reference_no') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.status') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.total') }}</th>
+                        <th class="db-table-head-th">Balance</th>
+                        <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
+                        <th v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')"
+                            class="db-table-head-th hidden-print">{{ $t('label.action') }}
+                        </th>
+                    </tr>
                     </thead>
                     <tbody class="db-table-body border-b border-gray-200">
-                        <tr class="db-table-body-tr" v-for="(purchase, index) of purchases" :key="index">
-                            <td class="db-table-body-td font-medium">{{ purchase.supplier.name }}</td>
-                            <td class="db-table-body-td">{{ purchase.converted_date }}</td>
-                            <td class="db-table-body-td">{{ purchase.reference_no }}</td>
-                            <td class="db-table-body-td"><span class="db-table-badge"
-                                    :class="purchaseStatusClass(purchase.status)">{{
-                                        enums.statusEnumObj[purchase.status] }}</span></td>
-                            <td class="db-table-body-td">{{ purchase.total_flat_price }}</td>
-                            <td class="db-table-body-td">{{ purchase.balance }}</td>
-                            <td class="db-table-body-td">
+                    <tr class="db-table-body-tr" v-for="(purchase, index) of purchases" :key="index">
+                        <td class="db-table-body-td font-medium">{{ purchase.supplier.name }}</td>
+                        <td class="db-table-body-td">{{ purchase.converted_date }}</td>
+                        <td class="db-table-body-td">{{ purchase.reference_no }}</td>
+                        <td class="db-table-body-td"><span class="db-table-badge"
+                                                           :class="purchaseStatusClass(purchase.status)">{{
+                                enums.statusEnumObj[purchase.status]
+                            }}</span></td>
+                        <td class="db-table-body-td">{{ purchase.total_flat_price }}</td>
+                        <td class="db-table-body-td">{{ purchase.balance }}</td>
+                        <td class="db-table-body-td">
                                 <span class="db-table-badge" :class="purchasePaymentStatusClass(purchase.payment_status)">
                                     {{ enums.purchasePaymentStatusEnumArray[purchase.payment_status] }}
                                 </span>
-                            </td>
-                            <td class="db-table-body-td hidden-print"
-                                v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')">
-                                <SmIconViewComponent :link="'admin.ingredients_and_stock.purchase.show'" :id="purchase.id"
-                                    v-if="permissionChecker('purchase_show')" />
-                                <SmIconEditComponent @click="edit(purchase)" :link="'admin.ingredients_and_stock.purchase.edit'" :id="purchase.id"
-                                    v-if="permissionChecker('purchase_edit')" />
-                                <SmIconDeleteComponent @click="destroy(purchase.id)"
-                                    v-if="permissionChecker('purchase_delete')" />
-                                <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"
+                        </td>
+                        <td class="db-table-body-td hidden-print"
+                            v-if="permissionChecker('purchase_show') || permissionChecker('purchase_edit') || permissionChecker('purchase_delete')">
+                            <SmIconViewComponent :link="'admin.ingredients_and_stock.purchase.show'" :id="purchase.id"
+                                                 v-if="permissionChecker('purchase_show')"/>
+                            <SmIconEditComponent @click="edit(purchase)" :link="'admin.ingredients_and_stock.purchase.edit'" :id="purchase.id"
+                                                 v-if="permissionChecker('purchase_edit')"/>
+                            <SmIconDeleteComponent @click="destroy(purchase.id)"
+                                                   v-if="permissionChecker('purchase_delete')"/>
+                            <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"
                                     class="db-table-action">
-                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
-                                </button>
-                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
+                                <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
+                                <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
+                            </button>
+                            <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
                                     class="db-table-action">
-                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
-                                </button>
-                            </td>
-                        </tr>
+                                <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
+                                <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
+                            </button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
-                <PaginationSMBox :pagination="pagination" :method="list" />
+                <PaginationSMBox :pagination="pagination" :method="list"/>
                 <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                    <PaginationTextComponent :props="{ page: paginationPage }" />
-                    <PaginationBox :pagination="pagination" :method="list" />
+                    <PaginationTextComponent :props="{ page: paginationPage }"/>
+                    <PaginationBox :pagination="pagination" :method="list"/>
                 </div>
             </div>
         </div>
@@ -198,9 +199,9 @@ export default {
             enums: {
                 purchasePaymentStatusEnum: purchasePaymentStatusEnum,
                 statusEnumArray: [
-                    { statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending') },
-                    { statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered') },
-                    { statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received') },
+                    {statusValue: purchaseStatusEnum.PENDING, statusKey: this.$t('label.pending')},
+                    {statusValue: purchaseStatusEnum.ORDERED, statusKey: this.$t('label.ordered')},
+                    {statusValue: purchaseStatusEnum.RECEIVED, statusKey: this.$t('label.received')},
                 ],
                 statusEnumObj: {
                     [purchaseStatusEnum.PENDING]: this.$t("label.pending"),
@@ -234,7 +235,7 @@ export default {
     },
     mounted() {
         this.list();
-        this.$store.dispatch('supplier/lists', { page: 1 });
+        this.$store.dispatch('supplier/lists', {page: 1});
     },
     computed: {
         purchases: function () {
@@ -337,14 +338,14 @@ export default {
                 status: null,
                 total: null,
                 note: ""
-            },
-                this.list();
+            }
+            this.list();
         },
         xls: function () {
             this.loading.isActive = true;
             this.$store.dispatch('purchase/export', this.props.search).then(res => {
                 this.loading.isActive = false;
-                const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = this.$t("menu.purchase");

@@ -4,79 +4,19 @@
         <form @submit.prevent="save" class="block w-full">
             <div class="db-card mb-6">
                 <div class="db-card-header">
-                    <h3 class="db-card-title">Ingredient purchasing</h3>
+                    <h3 class="db-card-title">Ingredient Stocking</h3>
                 </div>
                 <div class="db-card-body">
                     <div class="row">
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.date")
-                                }}</label>
-                            <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="true"
-                                        :is24="false" :monthChangeOnScroll="false" utc="false"
-                                        :input-class-name="errors.date ? 'invalid' : ''">
-                                <template #am-pm-button="{ toggle, value }">
-                                    <button @click="toggle">{{ value }}</button>
-                                </template>
-                            </Datepicker>
-                            <small class="db-field-alert" v-if="errors.date">
-                                {{ errors.date[0] }}
-                            </small>
-                        </div>
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title ">{{
-                                    $t("label.reference_no")
-                                }}</label>
-                            <input name="reference_no" v-model="props.form.reference_no" type="text"
-                                   class="db-field-control"/>
-                            <small class="db-field-alert" v-if="errors.reference_no">{{
-                                    errors.reference_no[0]
-                                }}</small>
-                        </div>
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.status")
-                                }}</label>
-
-                            <vue-select v-model="props.form.status" class="db-field-control f-b-custom-select"
-                                        :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
-                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                        search-placeholder="--"/>
-                            <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
-                        </div>
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title ">{{
-                                    $t("label.attachments")
-                                }}</label>
-                            <input @change="changeFile" v-bind:class="errors.file ? 'invalid' : ''" type="file"
-                                   ref="fileProperty" accept="image/png , image/jpeg, image/jpg , application/pdf "
-                                   class="db-field-control cursor-pointer" id="image"/>
-                            <small class="db-field-alert" v-if="errors.file">{{
-                                    errors.file[0]
-                                }}</small>
-                        </div>
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{ $t("label.supplier") }}</label>
-
-                            <vue-select v-model="props.form.supplier_id" class="db-field-control f-b-custom-select"
-                                        :options="suppliers" label-by="name" value-by="id" :closeOnSelect="true"
-                                        :searchable="true"
-                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
-
-                            <small class="db-field-alert" v-if="errors.supplier_id">{{
-                                    errors.supplier_id[0]
-                                }}</small>
-                        </div>
                         <div class="form-col-12">
                             <div class="rounded-lg border border-amber-100">
                                 <h4 class="w-full px-4 py-3 font-medium rounded-t-lg bg-amber-100 text-amber-600">
-                                    Select Ingredient to be purchased
+                                    Select Ingredient to be stocked
                                 </h4>
                                 <div class="row p-5">
                                     <div class="form-col-12 ">
-                                        <label class="db-field-title required">{{
-                                                Ingredients
-                                            }}</label>
+                                        <label class="db-field-title required">
+                                                Add Ingredients</label>
                                         <div class="relative w-full h-12">
                                             <button type="button"
                                                     class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
@@ -103,10 +43,10 @@
                                     <thead class="db-table-head border-t-0">
                                     <tr class="db-table-head-tr">
                                         <th class="db-table-head-th">
-                                           Ingredient
+                                            Ingredient
                                         </th>
                                         <th class="db-table-head-th">
-                                            buying price
+                                            Buying price
                                         </th>
                                         <th class="db-table-head-th">
                                             {{ $t("label.quantity") }}
@@ -129,7 +69,7 @@
                                         </td>
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
-                                                   v-model="item.price" @click=" $event.target.select()" type="number"
+                                                   v-model="item.buying_price" @click=" $event.target.select()" type="number"
                                                    min="1" class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
@@ -168,95 +108,6 @@
                     </div>
                     <div class="row pt-5">
                         <div class="form-col-12">
-                            <div :class="errors.note ? 'invalid textarea-error-box-style' : ''">
-                                <label class="db-field-title">
-                                    {{ $t("label.note") }}
-                                </label>
-                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius"/>
-                                <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
-                            </div>
-                        </div>
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title" for="active">Add Payment</label>
-                            <div class="db-field-radio-group">
-                                <div class="db-field-radio">
-                                    <div class="custom-radio">
-                                        <input :value="enums.askEnum.YES" v-model="props.form.addPayment" id="yes"
-                                               type="radio" class="custom-radio-field">
-                                        <span class="custom-radio-span"></span>
-                                    </div>
-                                    <label for="yes" class="db-field-label">Yes</label>
-                                </div>
-                                <div class="db-field-radio">
-                                    <div class="custom-radio">
-                                        <input :value="enums.askEnum.NO" v-model="props.form.addPayment" type="radio"
-                                               id="no" class="custom-radio-field">
-                                        <span class="custom-radio-span"></span>
-                                    </div>
-                                    <label for="no" class="db-field-label">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2" v-show="props.form.addPayment===AskEnum.YES">
-                            <div>
-                                <label for="amount" class="db-field-title required">Amount</label>
-                                <input v-model="props.form.amount"
-                                       v-bind:class="errors.amount ? 'invalid' : ''" type="number"
-                                       id="amount" class="db-field-control">
-                                <small class="db-field-alert" v-if="errors.amount">
-                                    {{ errors.amount }}
-                                </small>
-                            </div>
-                            <div class="">
-                                <label for="searchStartDate" class="db-field-title after:hidden required">Paid On</label>
-                                <Datepicker hideInputIcon autoApply v-model="props.form.payment_date"
-                                            :enableTimePicker="false"
-                                            :is24="false" :monthChangeOnScroll="false" utc="false">
-                                    <template #am-pm-button="{ toggle, value }">
-                                        <button @click="toggle">{{ value }}</button>
-                                    </template>
-                                </Datepicker>
-                                <small class="db-field-alert" v-if="errors.payment_date">{{ errors.payment_date }}</small>
-                            </div>
-                            <div class="">
-                                <label for="unit" class="db-field-title required">Payment Method</label>
-                                <vue-select class="db-field-control f-b-custom-select" id="unit_id"
-                                            v-bind:class="errors.payment_method ? 'invalid' : ''"
-                                            v-model="props.form.payment_method" :options="paymentMethods"
-                                            label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                            :clearOnClose="true"
-                                            placeholder="--" search-placeholder="--" />
-                                <small class="db-field-alert" v-if="errors.payment_method">
-                                    {{ errors.payment_method }}
-                                </small>
-                            </div>
-                            <div class=""
-                                 v-show="props.form.payment_method===2 || props.form.payment_method===3 || props.form.payment_method===4 ">
-                                <label for="maximum_purchase_quantity" class="db-field-title required">{{
-                                        referenceLabel
-                                    }}</label>
-                                <input v-model="props.form.reference_no"
-                                       v-bind:class="errors.reference_no ? 'invalid' : ''" type="text"
-                                       id="maximum_purchase_quantity" class="db-field-control">
-
-                                <small class="db-field-alert" v-if="errors.reference_no">
-                                    {{ errors.reference_no }}
-                                </small>
-                            </div>
-                            <div class="form-col-12">
-                                <label for="file" class="db-field-title">
-                                    {{ $t("label.file") }}
-                                </label>
-                                <input @change="changePaymentFile" v-bind:class="errors.paymentFile ? 'invalid' : ''" id="payment-file" type="file"
-                                       class="db-field-control" ref="paymentFileProperty" accept="file/png, file/jpeg, file/jpg" />
-                                <small class="db-field-alert" v-if="errors.paymentFile">{{
-                                        errors.paymentFile[0]
-                                    }}</small>
-                            </div>
-                        </div>
-
-
-                        <div class="form-col-12">
                             <div class="flex flex-wrap gap-3">
                                 <button v-if="permissionChecker('purchase_create')" type="submit"
                                         class="db-btn text-white bg-primary">
@@ -268,7 +119,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -284,14 +134,14 @@ import ProductModalComponent from "../../components/product/ProductModalComponen
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import askEnum from "../../../../enums/modules/askEnum";
+import AskEnum from "../../../../enums/modules/askEnum";
 import {paymentMethods} from "../../../../utils/data";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import appService from "../../../../services/appService";
-import AskEnum from "../../../../enums/modules/askEnum";
 import alertService from "../../../../services/alertService";
 
 export default {
-    name: 'IngredientPurchaseCreateAndEditComponent',
+    name: 'IngredientStockCreateComponent',
     components: {
         Datepicker,
         quillEditor,
@@ -344,7 +194,7 @@ export default {
                 name: "",
                 quantity: 0,
                 tax_id: [],
-                price: 0,
+                buying_price: 0,
                 discount: 0,
                 variation_id: 0,
                 variation_names: "",
@@ -444,7 +294,7 @@ export default {
                     sku: product.sku,
                     tax_id: product.taxes,
                     tax: product.tax,
-                    price: product.buying_price,
+                    buying_price: product.buying_price,
                     discount: 0,
                     variation_id: 0,
                     variation_names: '',
@@ -495,7 +345,7 @@ export default {
                 name: this.selectedProduct.name,
                 quantity: this.selectedProduct.quantity + oldQuantity,
                 tax_id: this.selectedProduct.tax_id,
-                price: +this.selectedProduct.price,
+                buying_price: +this.selectedProduct.buying_price,
                 discount: this.selectedProduct.discount,
                 variation_id: this.selectedProduct.variation_id,
                 variation_names: this.selectedProduct.variation_names,
@@ -505,8 +355,8 @@ export default {
                 total_tax: total_tax,
                 total_tax_rate: total_tax_rate,
                 total_discount: totalDiscount,
-                subtotal: this.selectedProduct.quantity * this.selectedProduct.price,
-                total: (+(this.selectedProduct.quantity * this.selectedProduct.price) + (+total_tax) - (+totalDiscount)).toFixed(2),
+                subtotal: this.selectedProduct.quantity * this.selectedProduct.buying_price,
+                total: (+(this.selectedProduct.quantity * this.selectedProduct.buying_price) + (+total_tax) - (+totalDiscount)).toFixed(2),
                 sku: this.selectedProduct.sku,
                 item_id: this.selectedProduct.is_variation ? this.selectedProduct.variation_id : this.selectedProduct.product_id
             }
@@ -516,7 +366,7 @@ export default {
             } else {
                 productExist.quantity = finalItem.quantity;
                 productExist.tax_id = finalItem.tax_id;
-                productExist.price = finalItem.price;
+                productExist.buying_price = finalItem.buying_price;
                 productExist.discount = finalItem.discount;
                 productExist.tax = finalItem.tax;
                 productExist.total_tax = finalItem.total_tax;
@@ -536,7 +386,7 @@ export default {
                 name: product.name,
                 quantity: product.quantity,
                 tax_id: product.tax_id,
-                price: product.price,
+                buying_price: product.buying_price,
                 discount: product.discount,
                 variation_id: product.variation_id,
                 variation_names: product.variation_names,
@@ -577,12 +427,12 @@ export default {
                 }
                 this.loading.isActive = true;
                 const tempId = this.$store.getters['purchase/temp'].temp_id;
-                this.$store.dispatch('purchase/saveIngredient', {form: fd})
+                this.$store.dispatch('ingredient/stock', {form: fd})
                     .then((res) => {
                         this.loading.isActive = false;
-                        alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));
+                        alertService.successFlip((tempId === null ? 0 : 1), "Ingredient Stocked Successfully");
                         this.reset();
-                        this.$router.push({name: 'admin.purchase.list'});
+                        this.$router.push({name: 'admin.ingredients_and_stock.ingredients.stock_list'});
                     })
                     .catch((err) => {
                         this.loading.isActive = false;
@@ -603,8 +453,8 @@ export default {
             const tax = this.datatable[i].tax > 0 ? this.datatable[i].tax : 0;
             this.datatable[i].total_tax = tax * this.datatable[i].quantity;
             this.datatable[i].total_discount = this.datatable[i].discount * this.datatable[i].quantity;
-            this.datatable[i].subtotal = (Number(this.datatable[i].quantity) * Number(this.datatable[i].price)).toFixed(2);
-            this.datatable[i].total = (+(this.datatable[i].quantity * this.datatable[i].price) + (+this.datatable[i].total_tax) - (+this.datatable[i].total_discount)).toFixed(2);
+            this.datatable[i].subtotal = (Number(this.datatable[i].quantity) * Number(this.datatable[i].buying_price)).toFixed(2);
+            this.datatable[i].total = (+(this.datatable[i].quantity * this.datatable[i].buying_price) + (+this.datatable[i].total_tax) - (+this.datatable[i].total_discount)).toFixed(2);
         },
         productList: function () {
             this.loading.isActive = true;
@@ -656,7 +506,7 @@ export default {
                     variation_names: product.variation_names,
                     sku: product.sku,
                     name: product.product_name,
-                    price: this.floatFormat(product.price),
+                    buying_price: this.floatFormat(product.buying_price),
                     quantity: product.quantity,
                     discount: product.discount > 0 ? product.discount / product.quantity : 0,
                     total_discount: +product.discount,
@@ -683,7 +533,7 @@ export default {
             this.props.form.products = [];
             this.datatable = [];
             this.file = "";
-            this.$refs["fileProperty"].value = "";
+            // this.$refs["fileProperty"].value = "";
             this.errors = {}
         }
     }
