@@ -81,14 +81,14 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="db-table-body" v-if="stocks?.length > 0">
-                        <tr class="db-table-body-tr" v-for="stock in stocks" :key="stock">
+                    <tbody class="db-table-body" v-if="ingredientStocks?.length > 0">
+                        <tr class="db-table-body-tr" v-for="stock in ingredientStocks" :key="stock">
                             <td class="db-table-body-td">
-                                {{ textShortener(stock.item.name, 40) }}
+                                {{ textShortener(stock?.item?.name, 40) }}
                             </td>
                             <td class="db-table-body-td">{{ currency(stock.price)}}</td>
                             <td class="db-table-body-td">{{ currency(stock.quantity)}}</td>
-                            <td class="db-table-body-td">{{ currency(stock.item.quantity_alert)}}</td>
+                            <td class="db-table-body-td">{{ currency(stock?.item?.quantity_alert)}}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(stock.status)">
                                     {{ enums.statusEnumArray[stock.status] }}
@@ -150,6 +150,7 @@ export default {
             loading: {
                 isActive: false
             },
+            ingredientStocks:[],
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
@@ -217,6 +218,7 @@ export default {
             this.loading.isActive = true;
             this.props.search.page = page;
             this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
+                this.ingredientStocks = res.data
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
