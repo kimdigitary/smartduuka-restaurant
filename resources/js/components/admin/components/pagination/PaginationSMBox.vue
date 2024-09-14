@@ -27,7 +27,6 @@ export default {
     props: {
         pagination: {type: Object},
         method: {type: Function}
-
     },
     data() {
         return {
