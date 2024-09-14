@@ -51,18 +51,19 @@
                             <th class="db-table-head-th">
                                 {{ $t('label.name') }}
                             </th>
-<!--                            <th class="db-table-head-th">-->
-<!--                                Buying Price-->
-<!--                            </th>-->
+                            <th class="db-table-head-th">
+                                Units
+                            </th>
+                            <th class="db-table-head-th">
+                                Buying Price
+                            </th>
 <!--                            <th class="db-table-head-th">-->
 <!--                                Quantity-->
 <!--                            </th>-->
                             <th class="db-table-head-th">
                                 Alert Quantity
                             </th>
-                            <th class="db-table-head-th">
-                                Units
-                            </th>
+
                             <th class="db-table-head-th hidden-print"
                                 v-if="permissionChecker('ingredients_delete') || permissionChecker('ingredients_edit') || permissionChecker('ingredients_show')">
                                 {{ $t('label.action') }}
@@ -72,10 +73,10 @@
                     <tbody class="db-table-body" v-if="ingredients.length > 0">
                         <tr class="db-table-body-tr" v-for="ingredient in ingredients" :key="ingredient">
                             <td class="db-table-body-td">{{ ingredient.name }}</td>
-<!--                            <td class="db-table-body-td">{{ ingredient.buying_price }}</td>-->
 <!--                            <td class="db-table-body-td">{{ ingredient.quantity }}</td>-->
-                            <td class="db-table-body-td">{{ ingredient.quantity_alert }}</td>
                             <td class="db-table-body-td">{{ ingredient.unit }}</td>
+                            <td class="db-table-body-td">{{ ingredient.buying_price }}</td>
+                            <td class="db-table-body-td">{{ ingredient.quantity_alert }}</td>
                             <td class="db-table-body-td hidden-print"
                                 v-if="permissionChecker('ingredients_show') || permissionChecker('ingredients_edit') || permissionChecker('ingredients_delete')">
                                 <div class="flex justify-start ingredients-center sm:ingredients-start sm:justify-start gap-1.5">

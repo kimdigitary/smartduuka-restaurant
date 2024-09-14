@@ -52,7 +52,7 @@
                 $orderType   = $request->get('order_type') ?? 'desc';
 
                 return Purchase::with('supplier')->where(function ($query) use ($requests) {
-                    $query->where('type' , PurchaseType::ITEM);
+                    $query->where('type' , $requests['type']);
                     foreach ( $requests as $key => $request ) {
                         if ( in_array($key , $this->purchaseFilter) ) {
                             if ( $key == "except" ) {
@@ -93,7 +93,7 @@
                 $orderType   = $request->get('order_type') ?? 'desc';
 
                 return Purchase::with('supplier')->where(function ($query) use ($requests) {
-                    $query->where('type' , PurchaseType::INGREDIENT);
+                    $query->where('type' , $requests['type']);
                     foreach ( $requests as $key => $request ) {
                         if ( in_array($key , $this->purchaseFilter) ) {
                             if ( $key == "except" ) {
@@ -474,16 +474,62 @@
             }
         }
 
-        public function paymentHistory(Purchase $purchase) : object
+        public function paymentHistory(PaginateRequest $request,Purchase $purchase) : object
         {
             try {
-                return PurchasePayment::where('purchase_id' , $purchase->id)->get();
+                $requests    = $request->all();
+                $method      = $request->get('paginate' , 0) == 1 ? 'paginate' : 'get';
+                $methodValue = $request->get('paginate' , 0) == 1 ? $request->get('per_page' , 10) : '*';
+                $orderColumn = $request->get('order_column') ?? 'id';
+                $orderType   = $request->get('order_type') ?? 'desc';
+//                return PurchasePayment::where('purchase_id' , $purchase->id)->get();
+                return PurchasePayment::where('purchase_id' , $purchase->id)->orderBy($orderColumn , $orderType)->$method($methodValue);;
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 DB::rollBack();
                 throw new Exception($exception->getMessage() , 422);
             }
         }
+
+//        public function list(PaginateRequest $request)
+//        {
+//            try {
+//                $requests    = $request->all();
+//                $method      = $request->get('paginate' , 0) == 1 ? 'paginate' : 'get';
+//                $methodValue = $request->get('paginate' , 0) == 1 ? $request->get('per_page' , 10) : '*';
+//                $orderColumn = $request->get('order_column') ?? 'id';
+//                $orderType   = $request->get('order_type') ?? 'desc';
+//
+//                return Purchase::with('supplier')->where(function ($query) use ($requests) {
+//                    $query->where('type' , $requests['type']);
+//                    foreach ( $requests as $key => $request ) {
+//                        if ( in_array($key , $this->purchaseFilter) ) {
+//                            if ( $key == 'except' ) {
+//                                $explodes = explode('|' , $request);
+//                                if ( count($explodes) ) {
+//                                    foreach ( $explodes as $explode ) {
+//                                        $query->where('id' , '!=' , $explode);
+//                                    }
+//                                }
+//                            } else {
+//                                if ( $key == 'supplier_id' || $key == 'status' ) {
+//                                    $query->where($key , $request);
+//                                } else if ( $key == 'date' && ! empty($request) ) {
+//                                    $date_start = date('Y-m-d 00:00:00' , strtotime($request));
+//                                    $date_end   = date('Y-m-d 23:59:59' , strtotime($request));
+//                                    $query->where($key , '>=' , $date_start)->where($key , '<=' , $date_end);
+//                                } else {
+//                                    $query->where($key , 'like' , '%' . $request . '%');
+//                                }
+//                            }
+//                        }
+//                    }
+//                })->orderBy($orderColumn , $orderType)->$method($methodValue);
+//            } catch ( Exception $exception ) {
+//                Log::info($exception->getMessage());
+//                throw new Exception($exception->getMessage() , 422);
+//            }
+//        }
 
         public function storeStock(PurchaseRequest $request) : object
         {
