@@ -1,5 +1,6 @@
 import axios from 'axios'
 import appService from '../../services/appService';
+import purchaseTypeEnum from "../../enums/modules/purchaseTypeEnum";
 
 
 export const purchase = {
@@ -15,6 +16,7 @@ export const purchase = {
             temp_id: null,
             isEditing: false,
         },
+        type: 0
     },
     getters: {
         lists: function (state) {
@@ -37,7 +39,7 @@ export const purchase = {
         },
         temp: function (state) {
             return state.temp;
-        }
+        },
     },
     actions: {
         lists: function (context, payload) {
@@ -59,6 +61,7 @@ export const purchase = {
             })
         },
         ingredientsLists: function (context, payload) {
+            payload.type = purchaseTypeEnum.INGREDIENT;
             return new Promise((resolve, reject) => {
                 let url = 'admin/purchase/ingredients';
                 if (payload) {
@@ -185,15 +188,15 @@ export const purchase = {
             });
         },
         payment: function (context, payload) {
-            context.commit("temp", payload);
+            context.commit("temp", payload.id);
+            context.commit("type", payload.type);
         },
         addPayment: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
                 let url = `admin/purchase/payment/${this.state['purchase'].temp.temp_id}`;
-
                 method(url, payload.form).then(res => {
-                    context.dispatch('lists', {vuex: true}).then().catch();
+                    context.dispatch('lists', {vuex: true,type:this.state['purchase'].type}).then().catch();
                     context.commit('reset');
                     resolve(res);
                 }).catch((err) => {
@@ -203,8 +206,14 @@ export const purchase = {
         },
         viewPayment: function (context, payload) {
             return new Promise((resolve, reject) => {
-                axios.get(`admin/purchase/payment/${this.state['purchase'].temp.temp_id}`).then((res) => {
+                let url = `admin/purchase/payment/${this.state['purchase'].temp.temp_id}`;
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
                     context.commit('viewPayment', res.data.data);
+                    context.commit('page', res.data.meta);
+                    context.commit('pagination', res.data);
                     resolve(res);
                 }).catch((err) => {
                     reject(err);
@@ -263,6 +272,9 @@ export const purchase = {
         temp: function (state, payload) {
             state.temp.temp_id = payload;
             state.temp.isEditing = true;
+        },
+        type: function (state, payload) {
+            state.type = payload;
         },
         reset: function (state) {
             state.temp.temp_id = null;

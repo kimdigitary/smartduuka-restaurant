@@ -118,16 +118,20 @@
                                                  v-if="permissionChecker('purchase_edit')"/>
                             <SmIconDeleteComponent @click="destroy(purchase.id)"
                                                    v-if="permissionChecker('purchase_delete')"/>
-                            <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"
-                                    class="db-table-action">
-                                <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
-                                <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
-                            </button>
-                            <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
-                                    class="db-table-action">
-                                <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
-                                <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
-                            </button>
+                            <SmAddPaymentComponent @click="addPayment(purchase.id)" data-modal="#purchasePayment"
+                                                   v-if="permissionChecker('expenses_delete')"/>
+                            <smViewPaymentComponent @click="paymentList(purchase.id)" data-modal="#purchasePaymentList"
+                                                   v-if="permissionChecker('expenses_delete')"/>
+<!--                            <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"-->
+<!--                                    class="db-table-action">-->
+<!--                                <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>-->
+<!--                                <span class="db-tooltip">{{ $t('button.add_payment') }}</span>-->
+<!--                            </button>-->
+<!--                            <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"-->
+<!--                                    class="db-table-action">-->
+<!--                                <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>-->
+<!--                                <span class="db-tooltip">{{ $t('button.view_payments') }}</span>-->
+<!--                            </button>-->
                         </td>
                     </tr>
                     </tbody>
@@ -166,10 +170,15 @@ import askEnum from "../../../../enums/modules/askEnum";
 import appService from "../../../../services/appService";
 import IngredientPurchasePaymentCreateComponent from "./IngredientPurchasePaymentCreateComponent.vue";
 import IngredientPurchasePaymentListComponent from "./IngredientPurchasePaymentListComponent.vue";
+import SmAddPaymentComponent from "../../components/buttons/SmAddPaymentComponent.vue";
+import SmViewPaymentComponent from "../../components/buttons/SmViewPaymentComponent.vue";
+import purchaseTypeEnum from "../../../../enums/modules/purchaseTypeEnum";
 
 export default {
     name: 'IngredientPurchaseListComponent',
     components: {
+        SmViewPaymentComponent,
+        SmAddPaymentComponent,
         PaginationBox,
         PaginationSMBox,
         PaginationTextComponent,
@@ -255,13 +264,13 @@ export default {
         addPayment: function (id) {
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
-            this.$store.dispatch("purchase/payment", id);
+            this.$store.dispatch("purchase/payment", {id,type:purchaseTypeEnum.INGREDIENT});
             this.loading.isActive = false;
         },
         paymentList: function (id) {
             appService.modalShow('#purchasePaymentList');
             this.loading.isActive = true;
-            this.$store.dispatch("purchase/payment", id);
+            this.$store.dispatch("purchase/payment", {id,type:purchaseTypeEnum.INGREDIENT});
             this.loading.isActive = false;
         },
         purchasePaymentStatusClass: function (status) {

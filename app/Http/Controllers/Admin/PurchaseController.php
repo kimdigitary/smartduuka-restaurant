@@ -143,10 +143,10 @@ class PurchaseController extends AdminController
         }
     }
 
-    public function paymentHistory(Purchase $purchase): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+    public function paymentHistory(PaginateRequest $request,Purchase $purchase): Application|Response|AnonymousResourceCollection|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         try {
-            return  PurchasePaymentResource::collection($this->purchaseService->paymentHistory($purchase));
+            return  PurchasePaymentResource::collection($this->purchaseService->paymentHistory($request,$purchase));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
