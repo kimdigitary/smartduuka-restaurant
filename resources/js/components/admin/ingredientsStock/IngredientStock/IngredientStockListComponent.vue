@@ -67,9 +67,9 @@
                             <th class="db-table-head-th">
                                 {{ $t('label.name') }}
                             </th>
-                            <th class="db-table-head-th">
-                            Buying Price
-                            </th>
+<!--                            <th class="db-table-head-th">-->
+<!--                            Buying Price-->
+<!--                            </th>-->
                             <th class="db-table-head-th">
                                 Quantity
                             </th>
@@ -86,7 +86,7 @@
                             <td class="db-table-body-td">
                                 {{ textShortener(stock?.item?.name, 40) }}
                             </td>
-                            <td class="db-table-body-td">{{ currency(stock.price)}}</td>
+<!--                            <td class="db-table-body-td">{{ currency(stock.price)}}</td>-->
                             <td class="db-table-body-td">{{ currency(stock.quantity)}}</td>
                             <td class="db-table-body-td">{{ currency(stock?.item?.quantity_alert)}}</td>
                             <td class="db-table-body-td">

@@ -62,7 +62,7 @@ class OrderItem extends Model
         'updated_at'           => 'datetime'
     ];
 
-    public function order()
+    public function order() : BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
