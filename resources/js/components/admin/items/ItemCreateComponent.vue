@@ -162,7 +162,7 @@
                                             <button type="button"
                                                     class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
                                             <vue-select class="h-full pr-4 pl-11" v-model="ingredientId"
-                                                        :options="ingredients"
+                                                        :options="AllIngredients"
                                                         label-by="name" value-by="id" :closeOnSelect="true"
                                                         :searchable="true"
                                                         :clearOnClose="true" :placeholder="$t('label.select_one')"
@@ -344,7 +344,7 @@ export default {
         AskEnum() {
             return AskEnum
         },
-        ingredients: function () {
+        AllIngredients: function () {
             return this.$store.getters['ingredient/lists'];
         },
         formattedPrice: {
@@ -447,7 +447,7 @@ export default {
             return appService.floatFormat(num, this.setting.site_digit_after_decimal_point);
         },
         selectIngredient: function (id) {
-            const ingredient = this.ingredients.find(ingredient => ingredient.id === id);
+            const ingredient = this.AllIngredients.find(ingredient => ingredient.id === id);
             if (ingredient) {
                 this.selectedIngredient = {
                     name: ingredient.name,

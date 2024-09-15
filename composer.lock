@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "542ac991e030c7c0f961b5dcd141b7ee",
+    "content-hash": "690acca4f1044ee6aae0fd549d107250",
     "packages": [
         {
             "name": "anandsiddharth/laravel-paytm-wallet",
