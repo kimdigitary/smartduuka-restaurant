@@ -508,6 +508,7 @@
                             );
                         }
                     }
+
                     if ( $request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED ) {
                         if ( $request->orderItemID ) {
                             $order_item = OrderItem::find($request->orderItemID);
