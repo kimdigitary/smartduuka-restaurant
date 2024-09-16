@@ -21,6 +21,7 @@
     use App\Models\FrontendOrder;
     use App\Models\Ingredient;
     use App\Models\Item;
+    use App\Models\ItemVariation;
     use App\Models\Order;
     use App\Models\OrderAddress;
     use App\Models\OrderItem;
@@ -484,10 +485,8 @@
                                 );
                             }
                         }
-
                         $order->status = $request->status;
                         $order->save();
-
                     }
                 } else {
 
@@ -519,10 +518,38 @@
                     }
                     if ( $request->status == OrderStatus::PREPARED ) {
                         foreach ( $order->items as $order_item ) {
-                            foreach ( $order_item->ingredients as $ingredient ) {
-                                Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id])->decrement('quantity', $ingredient->pivot->quantity);
+                            $item_variations = json_decode($order_item->item_variations);
+                            if ( $item_variations ) {
+                                foreach ( $item_variations as $item_variation ) {
+                                    foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
+                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+                                    }
+                                }
+                            } else {
+                                foreach ( $order_item->ingredients as $ingredient ) {
+                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+                                }
                             }
+//                            foreach ( $item_variations as $item_variation ) {
+//                                foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
+//                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+//                               }
+//                            }
                         }
+
+//                        foreach ( $order->items as $order_item ) {
+//                            if ( $order_item->variations ) {
+//                                foreach ( $order_item->variations as $variation ) {
+//                                    foreach ( $variation->ingredients as $ingredient ) {
+//                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+//                                    }
+//                                }
+//                            } else {
+//                                foreach ( $order_item->ingredients as $ingredient ) {
+//                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+//                                }
+//                            }
+//                        }
                         $order->status = $request->status;
                         $order->save();
                     }
