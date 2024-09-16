@@ -550,6 +550,7 @@
 //                                }
 //                            }
 //                        }
+
                         $order->status = $request->status;
                         $order->save();
                     }
