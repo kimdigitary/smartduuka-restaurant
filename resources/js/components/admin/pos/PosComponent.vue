@@ -702,6 +702,8 @@ export default {
                         _.forEach(err.response.data.errors, (error) => {
                             alertService.error(error[0]);
                         });
+                    }else {
+                        alertService.error(err.response.data.message);
                     }
                 });
             }).catch((err) => {
