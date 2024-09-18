@@ -311,11 +311,31 @@
 
                     if ( ! blank($requestItems) ) {
                         foreach ( $requestItems as $item ) {
-                            $taxId          = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                            $taxName        = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                            $taxRate        = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                            $taxType        = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                            $taxPrice       = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
+                            $taxId      = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                            $taxName    = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                            $taxRate    = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                            $taxType    = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                            $taxPrice   = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
+                            $_item      = Item::find($item->item_id);
+                            $variations = $_item->variations;
+
+                            if ( count($variations) > 0 ) {
+                                foreach ( $variations as $variation ) {
+                                    foreach ( $variation->ingredients as $ingredient ) {
+                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                        if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
+                                            throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
+                                        }
+                                    }
+                                }
+                            } else {
+                                foreach ( $item->ingredients as $ingredient ) {
+                                    $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                    if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
+                                        throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
+                                    }
+                                }
+                            }
                             $itemsArray[$i] = [
                                 'order_id'             => $this->order->id ,
                                 'branch_id'            => $item->branch_id ,
@@ -534,26 +554,7 @@
                                     Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
                                 }
                             }
-//                            foreach ( $item_variations as $item_variation ) {
-//                                foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
-//                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
-//                               }
-//                            }
                         }
-
-//                        foreach ( $order->items as $order_item ) {
-//                            if ( $order_item->variations ) {
-//                                foreach ( $order_item->variations as $variation ) {
-//                                    foreach ( $variation->ingredients as $ingredient ) {
-//                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
-//                                    }
-//                                }
-//                            } else {
-//                                foreach ( $order_item->ingredients as $ingredient ) {
-//                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
-//                                }
-//                            }
-//                        }
 
                         $order->status = $request->status;
                         $order->save();
