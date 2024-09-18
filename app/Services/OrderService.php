@@ -522,7 +522,11 @@
                             if ( $item_variations ) {
                                 foreach ( $item_variations as $item_variation ) {
                                     foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
-                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                        if ( $stock->quantity > $ingredient->pivot->quantity ) {
+                                            $stock->decrement('quantity' , $ingredient->pivot->quantity);
+                                        }
+//                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
                                     }
                                 }
                             } else {
