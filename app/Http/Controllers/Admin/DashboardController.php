@@ -8,11 +8,14 @@ use App\Services\ItemService;
 use App\Services\DashboardService;
 use App\Http\Resources\ItemResource;
 use App\Http\Resources\UserResource;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderSummaryResource;
 use App\Http\Resources\SalesSummaryResource;
 use App\Http\Resources\CustomerStatesResource;
 use App\Http\Resources\OrderStatisticsResource;
+use Illuminate\Http\Response;
 
 class DashboardController extends AdminController
 {
@@ -39,7 +42,7 @@ class DashboardController extends AdminController
         );
     }
 
-    public function totalSales(Request $request): \Illuminate\Http\Response | array | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function totalSales(Request $request): Response | array | Application | ResponseFactory
     {
         try {
             return ['data' => ['total_sales' => AppLibrary::currencyAmountFormat($this->dashboardService->totalSales($request))]];
@@ -48,7 +51,7 @@ class DashboardController extends AdminController
         }
     }
 
-    public function totalOrders(Request $request): \Illuminate\Http\Response | array | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function totalOrders(Request $request): Response | array | Application | ResponseFactory
     {
         try {
             return ['data' => ['total_orders' => $this->dashboardService->totalOrders($request)]];
@@ -57,7 +60,7 @@ class DashboardController extends AdminController
         }
     }
 
-    public function totalCustomers(Request $request): \Illuminate\Http\Response | array | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function totalCustomers(Request $request): Response | array | Application | ResponseFactory
     {
         try {
             return ['data' => ['total_customers' => $this->dashboardService->totalCustomers($request)]];
@@ -66,7 +69,7 @@ class DashboardController extends AdminController
         }
     }
 
-    public function totalMenuItems(Request $request): \Illuminate\Http\Response | array | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function totalMenuItems(Request $request): Response | array | Application | ResponseFactory
     {
         try {
             return ['data' => ['total_menu_items' => $this->dashboardService->totalMenuItems($request)]];
@@ -77,7 +80,7 @@ class DashboardController extends AdminController
 
     public function salesSummary(
         Request $request
-    ): \Illuminate\Http\Response | SalesSummaryResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+    ): Response | SalesSummaryResource | Application | ResponseFactory {
         try {
             return new SalesSummaryResource($this->dashboardService->salesSummary($request));
         } catch (Exception $exception) {
@@ -87,7 +90,7 @@ class DashboardController extends AdminController
 
     public function customerStates(
         Request $request
-    ): \Illuminate\Http\Response | CustomerStatesResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+    ): Response | CustomerStatesResource | Application | ResponseFactory {
         try {
             return new CustomerStatesResource($this->dashboardService->customerStates($request));
         } catch (Exception $exception) {
@@ -95,7 +98,7 @@ class DashboardController extends AdminController
         }
     }
 
-    public function featuredItems(): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function featuredItems(): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemResource::collection($this->itemService->featuredItems());
@@ -104,7 +107,7 @@ class DashboardController extends AdminController
         }
     }
 
-    public function mostPopularItems(): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function mostPopularItems(): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return ItemResource::collection($this->itemService->mostPopularItems());

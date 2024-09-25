@@ -1,46 +1,54 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="modal-body p-0">
         <div class="db-table-responsive">
             <table class="db-table stripe">
                 <thead class="db-table-head">
-                    <tr class="db-table-head-tr">
-                        <th class="db-table-head-th">{{ $t("label.date") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.reference_no") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.amount") }}</th>
-                        <th class="db-table-head-th">{{ $t("label.payment_method") }}</th>
-                        <th class="db-table-head-th">
-                            {{ $t("label.action") }}
-                        </th>
-                    </tr>
+                <tr class="db-table-head-tr">
+                    <th class="db-table-head-th">{{ $t("label.date") }}</th>
+                    <th class="db-table-head-th">{{ $t("label.reference_no") }}</th>
+                    <th class="db-table-head-th">{{ $t("label.amount") }}</th>
+                    <th class="db-table-head-th">{{ $t("label.payment_method") }}</th>
+                    <th class="db-table-head-th">
+                        {{ $t("label.action") }}
+                    </th>
+                </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
-                    <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
-                        <td class="db-table-body-td">
-                            {{ purchasePayment.converted_date }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ purchasePayment.reference_no }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ purchasePayment.amount }} <span v-if="purchasePayment.file">
+                <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
+                    <td class="db-table-body-td">
+                        {{ purchasePayment.converted_date }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ purchasePayment.reference_no }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ purchasePayment.amount }} <span v-if="purchasePayment.file">
                                 <button class="db-table-action" @click="download(purchasePayment.id)" type="button">
                                     <i class="lab lab-line-link-square text-blue-500"></i>
                                     <span class="db-tooltip">{{ $t('label.file') }}</span>
                                 </button>
                             </span>
 
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ enums.purchasePaymentMethodEnumArray[purchasePayment.payment_method] }}
-                        </td>
-                        <td class="db-table-body-td">
-                            <SmIconDeleteComponent @click="destroy(purchasePayment.id)"
-                                v-if="permissionChecker('purchase_delete')" />
-                        </td>
-                    </tr>
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ enums.purchasePaymentMethodEnumArray[purchasePayment.payment_method] }}
+                    </td>
+                    <td class="db-table-body-td">
+                        <SmIconDeleteComponent @click="destroy(purchasePayment.id)"
+                                               v-if="permissionChecker('purchase_delete')"/>
+                    </td>
+                </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
+
+            <PaginationSMBox :pagination="pagination" :method="list"/>
+            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <PaginationTextComponent :props="{ page: paginationPage }"/>
+                <PaginationBox :pagination="pagination" :method="list"/>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
@@ -61,10 +69,13 @@ import LoadingComponent from "../../components/LoadingComponent.vue";
 import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
 import appService from "../../../../services/appService";
 import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 
 export default {
     name: "PurchasePaymentListComponent",
-    components: { SmModalCreateComponent, LoadingComponent, Datepicker, SmIconDeleteComponent },
+    components: {PaginationSMBox, PaginationBox, PaginationTextComponent, SmModalCreateComponent, LoadingComponent, Datepicker, SmIconDeleteComponent},
     data() {
         return {
             loading: {
@@ -94,6 +105,12 @@ export default {
         purchasePaymentList: function () {
             return this.$store.getters['purchase/viewPayment'];
         },
+        pagination: function () {
+            return this.$store.getters['purchase/pagination'];
+        },
+        paginationPage: function () {
+            return this.$store.getters['purchase/page'];
+        },
     },
     mounted() {
         this.loading.isActive = true;
@@ -109,9 +126,12 @@ export default {
         close: function () {
             this.errors.global = ""
         },
-        list: function () {
+
+        list: function (page = 1) {
+            this.loading.isActive = true;
+            this.search.page = page;
             this.$store
-                .dispatch("purchase/viewPayment")
+                .dispatch("purchase/viewPayment",this.search)
                 .then((res) => {
                     this.loading.isActive = false;
                 })

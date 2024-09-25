@@ -144,6 +144,8 @@ class AppLibrary
 
     public static function menu(&$menus, $permissions, $role): array
     {
+        info($permissions);
+        info($role);
         if ($menus && $permissions) {
             foreach ($menus as $key => $menu) {
                 if (isset($permissions[$menu['url']]) && !$permissions[$menu['url']]['access']) {

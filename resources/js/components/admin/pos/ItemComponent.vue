@@ -85,7 +85,7 @@
 
                                     <option :value="variation.id" v-for="variation in item.variations[itemAttribute.id]"
                                             :key="variation">{{ variation.name }}
-                                       UGX {{
+                                        UGX {{
                                             item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
                                         }}
                                     </option>
@@ -123,9 +123,9 @@
                                             <h4 v-if="variation.price > 0"
                                                 class="block text-xs font-medium text-heading">
 
-<!--                                                {{-->
-<!--                                                    item.offer.length > 0 ? parseInt(cleanAmount(item.offer[0].currency_price)) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)-->
-<!--                                                }}-->
+                                                <!--                                                {{-->
+                                                <!--                                                    item.offer.length > 0 ? parseInt(cleanAmount(item.offer[0].currency_price)) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)-->
+                                                <!--                                                }}-->
                                                 UGX {{
                                                     item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
                                                 }}
@@ -336,7 +336,6 @@ export default {
         },
         variationModalShow: function (item) {
             this.item = item;
-
             if (this.item.itemAttributes.length > 0) {
                 _.forEach(this.item.itemAttributes, (element) => {
                     if (typeof this.item.variations[element.id][0] !== "undefined") {
@@ -368,7 +367,6 @@ export default {
         },
         variationModalHide: function () {
             this.item = null;
-
             this.temp.name = "";
             this.temp.image = "";
             this.temp.item_id = 0;
@@ -612,13 +610,11 @@ export default {
                     this.temp.instruction = "";
                     this.addons = {};
                     this.itemArrays = [];
-
                     alertService.success(this.$t('message.add_to_cart'));
                     appService.modalHide('#item-variation-modal');
                 }).catch();
             }
         },
     }
-
 }
 </script>

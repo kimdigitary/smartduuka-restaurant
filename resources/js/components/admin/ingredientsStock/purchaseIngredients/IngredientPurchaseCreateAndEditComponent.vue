@@ -4,7 +4,7 @@
         <form @submit.prevent="save" class="block w-full">
             <div class="db-card mb-6">
                 <div class="db-card-header">
-                    <h3 class="db-card-title">{{ $t("menu.purchase") }}</h3>
+                    <h3 class="db-card-title">Ingredient purchasing</h3>
                 </div>
                 <div class="db-card-body">
                     <div class="row">
@@ -70,12 +70,12 @@
                         <div class="form-col-12">
                             <div class="rounded-lg border border-amber-100">
                                 <h4 class="w-full px-4 py-3 font-medium rounded-t-lg bg-amber-100 text-amber-600">
-                                    {{ $t("message.selection_message") }}
+                                    Select Ingredient to be purchased
                                 </h4>
                                 <div class="row p-5">
                                     <div class="form-col-12 ">
                                         <label class="db-field-title required">{{
-                                                $t("label.add_products")
+                                                Ingredients
                                             }}</label>
                                         <div class="relative w-full h-12">
                                             <button type="button"
@@ -97,16 +97,16 @@
                         </div>
 
                         <div class="form-col-12">
-                            <label class="db-field-title">{{ $t('label.products') }}</label>
+                            <label class="db-field-title">Ingredients</label>
                             <div class="db-table-responsive border rounded-md">
                                 <table class="db-table">
                                     <thead class="db-table-head border-t-0">
                                     <tr class="db-table-head-tr">
                                         <th class="db-table-head-th">
-                                            {{ $t("label.product") }}
+                                           Ingredient
                                         </th>
                                         <th class="db-table-head-th">
-                                            {{ $t("label.unit_cost") }}
+                                            buying price
                                         </th>
                                         <th class="db-table-head-th">
                                             {{ $t("label.quantity") }}
@@ -142,7 +142,7 @@
                                             {{ floatFormat(item.total) }}
                                         </td>
                                         <td class="db-table-body-td">
-                                            <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)"/>
+<!--                                            <SmIconSidebarModalEditComponent @click.prevent="editDatatable(index)"/>-->
                                             <SmIconDeleteComponent @click.prevent="removeProduct(index)"/>
                                         </td>
                                     </tr>

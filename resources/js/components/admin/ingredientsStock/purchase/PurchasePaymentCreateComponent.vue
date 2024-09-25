@@ -101,6 +101,8 @@ import LoadingComponent from "../../components/LoadingComponent.vue";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
 import purchasePaymentMethodEnum from "../../../../enums/modules/purchasePaymentMethodEnum";
+import PurchaseTypeEnum from "../../../../enums/modules/purchaseTypeEnum";
+import purchaseTypeEnum from "../../../../enums/modules/purchaseTypeEnum";
 
 export default {
     name: "PurchasePaymentCreateComponent",
@@ -185,6 +187,57 @@ export default {
                 fd.append("reference_no", this.form.reference_no);
                 fd.append("amount", this.form.amount);
                 fd.append("payment_method", this.form.payment_method);
+                fd.append("type", purchaseTypeEnum.INGREDIENT);
+                if (this.file) {
+                    fd.append("file", this.file);
+                }
+
+                this.loading.isActive = true;
+                this.$store
+                    .dispatch("purchase/addPayment", {
+                        form: fd,
+                    })
+                    .then((res) => {
+                        appService.modalHide();
+                        this.loading.isActive = false;
+                        alertService.successFlip(
+                            0,
+                            this.$t("menu.add_payment")
+                        );
+                        this.$store.dispatch("purchase/reset");
+                        this.form = {
+                            purchase_id: "",
+                            date: "",
+                            reference_no: "",
+                            amount: "",
+                            payment_method: null,
+                        };
+                        this.dueAmount = "";
+                        this.errors = {};
+                        if (this.file) {
+                            this.file = "";
+                            this.$refs.fileProperty.value = null;
+                        }
+                    })
+                    .catch((err) => {
+                        this.loading.isActive = false;
+                        this.errors = err.response.data.errors;
+                    });
+            } catch (err) {
+                this.loading.isActive = false;
+                alertService.error(err);
+            }
+        },
+        saveIngredient: function () {
+            try {
+                const tempId = this.$store.getters["purchase/temp"].temp_id;
+                const fd = new FormData();
+                fd.append("purchase_id", tempId);
+                fd.append("date", this.form.date);
+                fd.append("reference_no", this.form.reference_no);
+                fd.append("amount", this.form.amount);
+                fd.append("payment_method", this.form.payment_method);
+                fd.append("type", PurchaseTypeEnum.INGREDIENT);
                 if (this.file) {
                     fd.append("file", this.file);
                 }

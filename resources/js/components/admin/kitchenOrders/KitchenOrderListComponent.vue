@@ -109,9 +109,10 @@
                                                @change="enable(order.id,orderItem.id,$event)">
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
+
                                     <div class="">
-                                        <label class="cursor-pointer" :for="orderItem.id">{{ orderItem.quantity }} x
-                                            {{ orderItem.order_item.name }}</label>
+                                        <label class="cursor-pointer" :for="orderItem.id">
+                                            {{ orderItem.quantity }} x {{`${variations(orderItem)} ${orderItem.order_item.name }`}}</label>
                                         <p v-if="orderItem.instruction">Instructions: {{ orderItem.instruction }}</p>
                                     </div>
 
@@ -296,7 +297,7 @@ export default {
             if (this.props.form.itemType !== AskEnum.ALL) {
                 return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED && order.orderItems.some(orderItem => orderItem.order_item.item_type ===
                     this.props.form.itemType));
-            }else{
+            } else {
                 return this.orders.filter(order => order.status !== this.orderStatusEnum.PREPARED);
             }
         },
@@ -324,6 +325,13 @@ export default {
             this.timer1 = setInterval(() => {
                 this.polling()
             }, this.interval1)
+        },
+        variations: function (orderItem) {
+            const variations = JSON.parse(orderItem.item_variations);
+            if (variations.length > 0) {
+                return variations[0]?.name;
+            }
+            return '';
         },
         permissionChecker(e) {
             return appService.permissionChecker(e);
