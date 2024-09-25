@@ -20,7 +20,9 @@
                                 <th class="db-table-head-th">{{ $t('label.cancel') }}</th>
                             </tr>
                         </thead>
+
                         <tbody v-if="permissions.length > 0" class="db-table-body">
+                        {{permission.children}}
                             <tr v-for="permission in permissions" :key="permission" class="db-table-body-tr">
                                 <td class="db-table-body-td">
                                     <div class="custom-checkbox">
@@ -42,7 +44,6 @@
                                         <i class="fa-solid fa-check custom-checkbox-icon"></i>
                                     </div>
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -60,6 +61,7 @@
 <script>
 import LoadingComponent from "../../components/LoadingComponent";
 import alertService from "../../../../services/alertService";
+import {permission} from "../../../../store/modules/permission";
 
 export default {
     name: "RoleShowComponent",
@@ -77,6 +79,9 @@ export default {
         }
     },
     computed: {
+        permission() {
+            return permission
+        },
         permissions: function () {
             return this.$store.getters['permission/lists'];
         },

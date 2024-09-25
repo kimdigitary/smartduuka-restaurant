@@ -164,12 +164,9 @@ class MenuTableSeeder extends Seeder
                         'status'     => 1,
                         'created_at' => now(),
                         'updated_at' => now()
-
                     ],
                 ],
             ],
-
-
             [
                 'name'       => 'Promo',
                 'language'   => 'promo',
@@ -323,40 +320,8 @@ class MenuTableSeeder extends Seeder
                         'created_at' => now(),
                         'updated_at' => now()
                     ],
-//                    [
-//                        'name'       => 'Credit Balance Report',
-//                        'language'   => 'credit_balance_report',
-//                        'url'        => 'credit-balance-report',
-//                        'icon'       => 'lab lab-credit-balance-report',
-//                        'priority'   => 100,
-//                        'status'     => 1,
-//                        'created_at' => now(),
-//                        'updated_at' => now()
-//                    ]
                 ]
             ],
-//            [
-//                'name'       => 'Payments',
-//                'language'   => 'subscriptions',
-//                'url'        => '#',
-//                'icon'       => 'lab ',
-//                'priority'   => 100,
-//                'status'     => 1,
-//                'created_at' => now(),
-//                'updated_at' => now(),
-//                'children'   => [
-//                    [
-//                        'name'       => 'Subscriptions',
-//                        'language'   => 'subscriptions',
-//                        'url'        => 'subscriptions',
-//                        'icon'       => 'lab lab-line-settings',
-//                        'priority'   => 100,
-//                        'status'     => 1,
-//                        'created_at' => now(),
-//                        'updated_at' => now()
-//                    ]
-//                ]
-//            ],
             [
                 'name'       => 'Setup',
                 'language'   => 'setup',
