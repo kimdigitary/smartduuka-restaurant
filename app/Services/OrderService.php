@@ -329,10 +329,12 @@
                                     }
                                 }
                             } else {
-                                foreach ( $item->ingredients as $ingredient ) {
-                                    $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
-                                    if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
-                                        throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
+                                if ( $item->ingredients ) {
+                                    foreach ( $item->ingredients as $ingredient ) {
+                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                        if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
+                                            throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
+                                        }
                                     }
                                 }
                             }

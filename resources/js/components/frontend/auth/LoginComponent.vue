@@ -50,32 +50,32 @@
             </form>
         </div>
 
-        <div v-if="demo === 'true' || demo === 'TRUE' || demo === 'True' || demo === '1' || demo === 1"
-             class="container max-w-[360px] py-6 p-4 sm:px-6 shadow-xs rounded-2xl bg-white">
-            <h2 class="mb-6 text-center text-lg font-medium text-heading">{{ $t('message.for_quick_demo') }}</h2>
-            <nav class="grid grid-cols-2 gap-3">
-                <button @click.prevent="setupCredit('admin')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-orange-500"
-                        id="adminClick">
-                    {{ $t('label.admin') }}
-                </button>
-                <button @click.prevent="setupCredit('branchManager')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-sky-600"
-                        id="branchManagerClick">
-                    {{ $t('label.branch_manager') }}
-                </button>
-                <button @click.prevent="setupCredit('posOperator')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-purple-500"
-                        id="posOperatorClick">
-                    {{ $t('label.pos_operator') }}
-                </button>
-                <button @click.prevent="setupCredit('Chef')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-purple-500"
-                        id="posOperatorClick">
-                    {{ $t('label.chef_operator') }}
-                </button>
-            </nav>
-        </div>
+<!--        <div v-if="demo === 'true' || demo === 'TRUE' || demo === 'True' || demo === '1' || demo === 1"-->
+<!--             class="container max-w-[360px] py-6 p-4 sm:px-6 shadow-xs rounded-2xl bg-white">-->
+<!--            <h2 class="mb-6 text-center text-lg font-medium text-heading">{{ $t('message.for_quick_demo') }}</h2>-->
+<!--            <nav class="grid grid-cols-2 gap-3">-->
+<!--                <button @click.prevent="setupCredit('admin')"-->
+<!--                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-orange-500"-->
+<!--                        id="adminClick">-->
+<!--                    {{ $t('label.admin') }}-->
+<!--                </button>-->
+<!--                <button @click.prevent="setupCredit('branchManager')"-->
+<!--                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-sky-600"-->
+<!--                        id="branchManagerClick">-->
+<!--                    {{ $t('label.branch_manager') }}-->
+<!--                </button>-->
+<!--                <button @click.prevent="setupCredit('posOperator')"-->
+<!--                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-purple-500"-->
+<!--                        id="posOperatorClick">-->
+<!--                    {{ $t('label.pos_operator') }}-->
+<!--                </button>-->
+<!--                <button @click.prevent="setupCredit('Chef')"-->
+<!--                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center text-sm capitalize text-white bg-purple-500"-->
+<!--                        id="posOperatorClick">-->
+<!--                    {{ $t('label.chef_operator') }}-->
+<!--                </button>-->
+<!--            </nav>-->
+<!--        </div>-->
     </section>
 </template>
 

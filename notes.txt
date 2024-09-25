@@ -6,9 +6,11 @@ Branch Manager
 email: branchmanager@example.com
 password: 123456
 
-Pos Operator
-email: posoperator@example.com
-password: 123456
+NEW MOODBOX
+username: moodbox.smartduuka
+password: piExVVK8j47xWM0
+DB: moodbox_smartduuka
+cd /home/moodbox.smartduuka/public_html
 
 https://smartduuka-restaurant.test/menu/mirpur-1-main-mike
 https://smartduuka-restaurant.test/menu/mirpur-1-main-test
