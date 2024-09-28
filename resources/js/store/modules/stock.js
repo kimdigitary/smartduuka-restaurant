@@ -58,7 +58,8 @@ export const stock = {
         },
         listsIngredients: function (context, payload) {
             return new Promise((resolve, reject) => {
-                let url = 'admin/itemStock/ingredients';
+                // let url = 'admin/itemStock/ingredients';
+                let url = 'admin/stock/ingredients';
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }

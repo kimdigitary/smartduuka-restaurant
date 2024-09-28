@@ -117,11 +117,15 @@
                                     v-if="permissionChecker('purchase_edit')" />
                                 <SmIconDeleteComponent @click="destroy(purchase.id)"
                                     v-if="permissionChecker('purchase_delete')" />
-                                <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"
-                                    class="db-table-action">
-                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>
-                                </button>
+                                <SmAddPaymentComponent @click="addPayment(purchase.id)" data-modal="#purchasePayment"
+                                                       v-if="permissionChecker('expenses_delete')"/>
+                                <smViewPaymentComponent @click="paymentList(purchase.id)" data-modal="#purchasePaymentList"
+                                                        v-if="permissionChecker('expenses_delete')"/>
+<!--                                <button type="button" data-modal="#purchasePayment" @click="addPayment(purchase.id)"-->
+<!--                                    class="db-table-action">-->
+<!--                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>-->
+<!--                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>-->
+<!--                                </button>-->
                                 <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
                                     class="db-table-action">
                                     <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
@@ -165,10 +169,14 @@ import purchasePaymentStatusEnum from "../../../../enums/modules/purchasePayment
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import askEnum from "../../../../enums/modules/askEnum";
 import appService from "../../../../services/appService";
+import SmAddPaymentComponent from "../../components/buttons/SmAddPaymentComponent.vue";
+import SmViewPaymentComponent from "../../components/buttons/SmViewPaymentComponent.vue";
 
 export default {
     name: 'PurchaseListComponent',
     components: {
+        SmViewPaymentComponent,
+        SmAddPaymentComponent,
         PaginationBox,
         PaginationSMBox,
         PaginationTextComponent,

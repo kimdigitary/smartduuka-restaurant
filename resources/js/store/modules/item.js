@@ -67,6 +67,23 @@ export const item = {
                 });
             });
         },
+        stock: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = '/admin/stock/items';
+                if (this.state['item'].temp.isEditing) {
+                    method = axios.post;
+                    url = `/admin/stock/items/${this.state['item'].temp.temp_id}`;
+                }
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', payload.search).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         edit: function (context, payload) {
             context.commit('temp', payload);
         },

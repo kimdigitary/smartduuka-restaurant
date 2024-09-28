@@ -217,6 +217,7 @@ export default {
         list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
+            // this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
             this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
                 this.ingredientStocks = res.data
                 this.loading.isActive = false;

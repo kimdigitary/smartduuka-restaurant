@@ -4,60 +4,18 @@
         <form @submit.prevent="save" class="block w-full">
             <div class="db-card mb-6">
                 <div class="db-card-header">
-                    <h3 class="db-card-title">Ingredient Purchasing</h3>
+                    <h3 class="db-card-title">Item Stocking</h3>
                 </div>
                 <div class="db-card-body">
                     <div class="row">
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.date")
-                                }}</label>
-                            <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="true"
-                                        :is24="false" :monthChangeOnScroll="false" utc="false"
-                                        :input-class-name="errors.date ? 'invalid' : ''">
-                                <template #am-pm-button="{ toggle, value }">
-                                    <button @click="toggle">{{ value }}</button>
-                                </template>
-                            </Datepicker>
-                            <small class="db-field-alert" v-if="errors.date">
-                                {{ errors.date[0] }}
-                            </small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{
-                                    $t("label.status")
-                                }}</label>
-
-                            <vue-select v-model="props.form.status" class="db-field-control f-b-custom-select"
-                                        :options="enums.statusEnumArray" label-by="statusKey" value-by="statusValue"
-                                        :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                        search-placeholder="--"/>
-                            <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label class="db-field-title required">{{ $t("label.supplier") }}</label>
-
-                            <vue-select v-model="props.form.supplier_id" class="db-field-control f-b-custom-select"
-                                        :options="suppliers" label-by="name" value-by="id" :closeOnSelect="true"
-                                        :searchable="true"
-                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
-
-                            <small class="db-field-alert" v-if="errors.supplier_id">{{
-                                    errors.supplier_id[0]
-                                }}</small>
-                        </div>
                         <div class="form-col-12">
                             <div class="rounded-lg border border-amber-100">
                                 <h4 class="w-full px-4 py-3 font-medium rounded-t-lg bg-amber-100 text-amber-600">
-                                    {{ $t("message.selection_message") }}
+                                    Select Item to be stocked
                                 </h4>
                                 <div class="row p-5">
                                     <div class="form-col-12 ">
-                                        <label class="db-field-title required">{{
-                                                $t("label.add_products")
-                                            }}</label>
+                                        <label class="db-field-title required">Add Items</label>
                                         <div class="relative w-full h-12">
                                             <button type="button"
                                                     class="lab-line-qrcode absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer"></button>
@@ -78,13 +36,13 @@
                         </div>
 
                         <div class="form-col-12">
-                            <label class="db-field-title">{{ $t('label.products') }}</label>
+                            <label class="db-field-title">Items</label>
                             <div class="db-table-responsive border rounded-md">
                                 <table class="db-table">
                                     <thead class="db-table-head border-t-0">
                                     <tr class="db-table-head-tr">
                                         <th class="db-table-head-th">
-                                            {{ $t("label.product") }}
+                                            Item
                                         </th>
                                         <th class="db-table-head-th">
                                             {{ $t("label.unit_cost") }}
@@ -435,7 +393,8 @@ export default {
                 }
                 this.loading.isActive = true;
                 const tempId = this.$store.getters['purchase/temp'].temp_id;
-                this.$store.dispatch('purchase/saveStock', {form: fd})
+                // this.$store.dispatch('purchase/saveStock', {form: fd})
+                this.$store.dispatch('item/stock', {form: fd})
                     .then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));
