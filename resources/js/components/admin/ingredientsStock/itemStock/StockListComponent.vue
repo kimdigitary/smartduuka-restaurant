@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">{{ $t('menu.itemStock') }}</h3>
+                <h3 class="db-card-title">Item stock </h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
                     <FilterComponent />

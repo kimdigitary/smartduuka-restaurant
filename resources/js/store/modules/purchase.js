@@ -43,6 +43,7 @@ export const purchase = {
     },
     actions: {
         lists: function (context, payload) {
+            payload.type = purchaseTypeEnum.ITEM;
             return new Promise((resolve, reject) => {
                 let url = 'admin/purchase';
                 if (payload) {
