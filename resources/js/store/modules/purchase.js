@@ -61,6 +61,7 @@ export const purchase = {
                 })
             })
         },
+
         ingredientsLists: function (context, payload) {
             payload.type = purchaseTypeEnum.INGREDIENT;
             return new Promise((resolve, reject) => {
