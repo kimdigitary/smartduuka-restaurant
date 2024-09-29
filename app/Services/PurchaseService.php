@@ -11,7 +11,6 @@
     use App\Http\Requests\PurchasePaymentRequest;
     use App\Http\Requests\PurchaseRequest;
     use App\Libraries\QueryExceptionLibrary;
-    use App\Models\Expense;
     use App\Models\Ingredient;
     use App\Models\Item;
     use App\Models\Product;
@@ -229,19 +228,6 @@
                             'amount'         => $request->amount ,
                             'payment_method' => $request->payment_method ,
                         ]);
-                        Expense::create([
-                            'name'          => 'Purchased Ingredients' ,
-                            'amount'        => $request->total ,
-                            'date'          => date('Y-m-d H:i:s' , strtotime($request->date)) ,
-                            'paymentMethod' => $request->payment_method ,
-                            'referenceNo'   => $request->reference_no ,
-                            'isRecurring'   => 0 ,
-                            'user_id'       => auth()->user()->id ,
-                            'repetitions'   => 0 ,
-                            'repeats_on'    => null ,
-                            'paid'          => $request->amount ,
-                            'paid_on'       => date('Y-m-d H:i:s' , strtotime($request->payment_date))
-                        ]);
                     }
 
                     if ( $request->products ) {
@@ -257,6 +243,99 @@
                                     'model_type' => Ingredient::class ,
                                     'model_id'   => $product['item_id'] ,
                                     'item_type'  => Ingredient::class ,
+                                    'item_id'    => $product['item_id'] ,
+                                    'price'      => $product['price'] ,
+                                    'type'       => PurchaseType::INGREDIENT ,
+                                    'quantity'   => $product['quantity'] ,
+                                    'discount'   => $product['total_discount'] ,
+                                    'tax'        => $product['total_tax'] ,
+                                    'subtotal'   => $product['subtotal'] ,
+                                    'total'      => $product['total'] ,
+                                    'status'     => $request->status == PurchaseStatus::RECEIVED ? Status::ACTIVE : Status::INACTIVE
+                                ]);
+                            }
+                        }
+                    }
+
+                    if ( $request->file ) {
+                        $this->purchase->addMediaFromRequest('file')->toMediaCollection('purchase');
+                    }
+                    if ( $request->payment_file ) {
+                        $purchasePayment->addMediaFromRequest('payment_file')->toMediaCollection('purchase_payment');
+                    }
+                    $checkPurchasePayment = PurchasePayment::where('purchase_id' , $purchase->id)->sum('amount');
+                    if ( $checkPurchasePayment == $purchase->total ) {
+                        $purchase->payment_status = PurchasePaymentStatus::FULLY_PAID;
+                        $purchase->save();
+                    }
+                    if ( $checkPurchasePayment < $purchase->total ) {
+                        $purchase->payment_status = PurchasePaymentStatus::PARTIAL_PAID;
+                        $purchase->save();
+                    }
+                });
+                return $this->purchase;
+            } catch ( Exception $exception ) {
+                Log::info($exception->getMessage());
+                DB::rollBack();
+                throw new Exception($exception->getMessage() , 422);
+            }
+        }
+
+        public function storeStock(PurchaseRequest $request) : object
+        {
+            try {
+                DB::transaction(function () use ($request) {
+                    $purchase       = Purchase::create([
+                        'supplier_id'    => $request->supplier_id ,
+                        'date'           => date('Y-m-d H:i:s' , strtotime($request->date)) ,
+                        'reference_no'   => $request->reference_no ,
+                        'subtotal'       => $request->subtotal ,
+                        'tax'            => $request->tax ,
+                        'type'           => PurchaseType::ITEM ,
+                        'discount'       => $request->discount ,
+                        'balance'        => $request->amount ? $request->amount : $request->total ,
+                        'total'          => $request->total ,
+                        'note'           => $request->note ? $request->note : "" ,
+                        'status'         => $request->status ,
+                        'payment_status' => PurchasePaymentStatus::PENDING ,
+                    ]);
+                    $this->purchase = $purchase;
+                    if ( $request->add_payment == Ask::YES ) {
+                        $purchasePayment = PurchasePayment::create([
+                            'purchase_id'    => $purchase->id ,
+                            'date'           => date('Y-m-d H:i:s' , strtotime($request->payment_date)) ,
+                            'reference_no'   => $request->reference_no ,
+                            'amount'         => $request->amount ,
+                            'payment_method' => $request->payment_method ,
+                        ]);
+//                        Expense::create([
+//                            'name'          => 'Purchased Items' ,
+//                            'amount'        => $request->total ,
+//                            'date'          => date('Y-m-d H:i:s' , strtotime($request->date)) ,
+//                            'paymentMethod' => $request->payment_method ,
+//                            'referenceNo'   => $request->reference_no ,
+//                            'isRecurring'   => 0 ,
+//                            'user_id'       => auth()->user()->id ,
+//                            'repetitions'   => 0 ,
+//                            'repeats_on'    => null ,
+//                            'paid'          => $request->amount ,
+//                            'paid_on'       => date('Y-m-d H:i:s' , strtotime($request->payment_date))
+//                        ]);
+                    }
+
+                    if ( $request->products ) {
+                        $products = json_decode($request->products , true);
+                        foreach ( $products as $product ) {
+                            $stock = Stock::where('model_type' , Item::class)
+                                          ->where('model_id' , $product['item_id'])
+                                          ->first();
+                            if ( $stock ) {
+                                return $stock->increment('quantity' , $product['quantity']);
+                            } else {
+                                Stock::create([
+                                    'model_type' => Item::class ,
+                                    'model_id'   => $product['item_id'] ,
+                                    'item_type'  => Item::class ,
                                     'item_id'    => $product['item_id'] ,
                                     'price'      => $product['price'] ,
                                     'type'       => PurchaseType::ITEM ,
@@ -474,7 +553,7 @@
             }
         }
 
-        public function paymentHistory(PaginateRequest $request,Purchase $purchase) : object
+        public function paymentHistory(PaginateRequest $request , Purchase $purchase) : object
         {
             try {
                 $requests    = $request->all();
@@ -531,7 +610,7 @@
 //            }
 //        }
 
-        public function storeStock(PurchaseRequest $request) : object
+        public function storeStock1(PurchaseRequest $request) : object
         {
             try {
                 DB::transaction(function () use ($request) {
@@ -539,7 +618,8 @@
                         $products = json_decode($request->products , true);
                         foreach ( $products as $product ) {
 //                        $this->itemStock = Stock::create([
-                            $existing_stock = Stock::where('item_id' , $product['product_id'])->first();
+                            $existing_stock = Stock::where('item_id' , $product['product_id'])
+                                                   ->where('model_type' , Item::class)->first();
                             if ( $existing_stock ) {
                                 $existing_stock->update([
                                     'quantity' => $existing_stock->quantity + $product['quantity'] ,
@@ -549,8 +629,8 @@
                                 $this->stock = $existing_stock;
                             } else {
                                 $stock       = Stock::create([
-                                    'model_type' => Ingredient::class ,
-                                    'item_type'  => Ingredient::class ,
+                                    'model_type' => Item::class ,
+                                    'item_type'  => Item::class ,
                                     'model_id'   => $product['product_id'] ,
                                     'item_id'    => $product['product_id'] ,
                                     'price'      => $product['price'] ,

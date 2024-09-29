@@ -1,11 +1,11 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="mb-9">
         <div class="flex items-center justify-between mb-4">
             <h4 class="font-semibold text-[22px] leading-[34px] mb-3 capitalize">{{ $t("menu.overview") }}</h4>
             <div class="relative cursor-pointer">
                 <Datepicker hideInputIcon autoApply :enableTimePicker="false" utc="false" @update:modelValue="handleDate"
-                    v-model="date" range :preset-ranges="presetRanges">
+                            v-model="date" range :preset-ranges="presetRanges">
                     <template #yearly="{ label, range, presetDateRange }">
                         <span @click="presetDateRange(range)">{{ label }}</span>
                     </template>
@@ -21,6 +21,39 @@
                     <div>
                         <h3 class="font-medium text-white">{{ $t('label.total_sales') }}</h3>
                         <h4 class="font-semibold text-[22px] leading-[34px] text-white">{{ total_sales }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col-6 xl:col-3">
+                <div class="p-4 rounded-lg flex items-center gap-4 bg-[#567DFF]">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white">
+                        <i class="lab lab-total-customers lab-font-size-24 lab-color-cornflower-blue"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-white">Total Profits</h3>
+                        <h4 class="font-semibold text-[22px] leading-[34px] text-white">{{ total_profits }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col-6 xl:col-3">
+                <div class="p-4 rounded-lg flex items-center gap-4 bg-[#A953FF]">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white">
+                        <i class="lab lab-total-menu-items lab-font-size-24 lab-color-heliotrope"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-white">Total Expenses</h3>
+                        <h4 class="font-semibold text-[22px] leading-[34px] text-white">{{ total_expenses }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 sm:col-6 xl:col-3">
+                <div class="p-4 rounded-lg flex items-center gap-4 bg-[#FF4F99]">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white">
+                        <i class="lab lab-total-sale lab-font-size-24 lab-color-pink"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-white">Pending Expenses</h3>
+                        <h4 class="font-semibold text-[22px] leading-[34px] text-white">{{ total_pending_expenses }}</h4>
                     </div>
                 </div>
             </div>
@@ -52,11 +85,12 @@
                         <i class="lab lab-total-menu-items lab-font-size-24 lab-color-heliotrope"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-white">{{ $t('label.total_menu_items') }}</h3>
+                        <h3 class="font-medium text-white">Total Items</h3>
                         <h4 class="font-semibold text-[22px] leading-[34px] text-white">{{ total_menu_items }}</h4>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -65,11 +99,11 @@
 import LoadingComponent from "../components/LoadingComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref } from 'vue';
-import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears } from 'date-fns';
+import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears} from 'date-fns';
+
 export default {
     name: "OverviewComponent",
-    components: { LoadingComponent, Datepicker },
+    components: {LoadingComponent, Datepicker},
     data() {
         return {
             loading: {
@@ -82,14 +116,17 @@ export default {
             total_orders: null,
             total_customers: null,
             total_menu_items: null,
+            total_expenses: null,
+            total_pending_expenses: null,
+            total_profits: null,
             presetRanges: [
-                { label: 'Today', range: [new Date(), new Date()] },
-                { label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())] },
+                {label: 'Today', range: [new Date(), new Date()]},
+                {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
                 {
                     label: 'Last month',
                     range: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
                 },
-                { label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())] },
+                {label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())]},
                 {
                     label: 'Last year',
                     range: [startOfYear(subYears(new Date(), 1)), endOfYear(subYears(new Date(), 1))],
@@ -103,6 +140,9 @@ export default {
         const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         this.date = [startDate, endDate];
         this.totalSales();
+        this.totalExpenses();
+        this.totalPendingExpenses();
+        this.totalProfits();
         this.totalOrders();
         this.totalCustomers();
         this.totalMenuItems();
@@ -113,6 +153,9 @@ export default {
                 this.first_date = e[0];
                 this.last_date = e[1];
                 this.totalSales();
+                this.totalExpenses();
+                this.totalPendingExpenses();
+                this.totalProfits();
                 this.totalOrders();
                 this.totalCustomers();
                 this.totalMenuItems();
@@ -120,6 +163,9 @@ export default {
                 this.first_date = null;
                 this.last_date = null;
                 this.totalSales();
+                this.totalExpenses();
+                this.totalPendingExpenses();
+                this.totalProfits();
                 this.totalOrders();
                 this.totalCustomers();
                 this.totalMenuItems();
@@ -132,6 +178,42 @@ export default {
                 last_date: this.last_date,
             }).then((res) => {
                 this.total_sales = res.data.data.total_sales;
+                this.loading.isActive = false;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        totalExpenses: function () {
+            this.loading.isActive = true;
+            this.$store.dispatch("dashboard/totalExpenses", {
+                first_date: this.first_date,
+                last_date: this.last_date,
+            }).then((res) => {
+                this.total_expenses = res.data.data.total_expenses;
+                this.loading.isActive = false;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        totalPendingExpenses: function () {
+            this.loading.isActive = true;
+            this.$store.dispatch("dashboard/totalPendingExpenses", {
+                first_date: this.first_date,
+                last_date: this.last_date,
+            }).then((res) => {
+                this.total_pending_expenses = res.data.data.total_pending_expenses;
+                this.loading.isActive = false;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        totalProfits: function () {
+            this.loading.isActive = true;
+            this.$store.dispatch("dashboard/totalProfits", {
+                first_date: this.first_date,
+                last_date: this.last_date,
+            }).then((res) => {
+                this.total_profits = res.data.data.total_profits;
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
