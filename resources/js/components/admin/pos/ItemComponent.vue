@@ -90,7 +90,6 @@
                                         }}
                                     </option>
                                 </select>
-
                             </div>
                         </div>
                     </div>
@@ -109,7 +108,7 @@
                                         :class="temp.item_variations.variations[variation.item_attribute_id] === variation.id ? 'active' : ''"
                                         :for="variation.item_attribute_id + '-' + variation.name"
                                         class="variation-margin-right w-full h-[52px] cursor-pointer py-2 px-3 gap-2 rounded-lg flex items-center border transition border-[#F7F7FC] bg-[#F7F7FC]">
-                                        <div class="custom-radio sm">
+                                        <div class="custom-radio sm" v-if="item.itemAttributes[0].name!=='meat'">
                                             <input :value="variation.id"
                                                    @click="changeVariation(variation.item_attribute_id, variation.id, variation.name, variation.convert_price)"
                                                    v-model="temp.item_variations.variations[variation.item_attribute_id]"
@@ -117,19 +116,34 @@
                                                    class="custom-radio-field">
                                             <span class="custom-radio-span"></span>
                                         </div>
+                                        <div class="custom-checkbox " v-if="item.itemAttributes[0].name==='meat'">
+                                            <input type="checkbox" class="custom-checkbox-field"
+                                                   :name="'feature_' + variation.id" :value="variation.id"
+                                                   :id="'feature_' + variation.id" :checked="false"
+                                                   @change="">
+                                            <i class="fa-solid fa-check custom-checkbox-icon"></i>
+                                        </div>
                                         <div>
                                             <h3 class="block capitalize text-xs text-heading">
                                                 {{ textShortener(variation.name, 15) }}</h3>
                                             <h4 v-if="variation.price > 0"
                                                 class="block text-xs font-medium text-heading">
-
-                                                <!--                                                {{-->
-                                                <!--                                                    item.offer.length > 0 ? parseInt(cleanAmount(item.offer[0].currency_price)) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)-->
-                                                <!--                                                }}-->
                                                 UGX {{
                                                     item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
                                                 }}
                                             </h4>
+                                        </div>
+
+                                        <div class="flex items-center indec-group" v-if="item.itemAttributes[0].name==='meat'">
+                                            <button @click.prevent="variationQuantityDecrement(variation.id)"
+                                                    class="fa-solid fa-minus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
+                                            <input v-on:keypress="onlyNumber($event)"
+                                                   v-on:keyup="variationQuantityUp(variation.id)"
+                                                   v-model="variationQuantity[variation.id]"
+                                                   type="number"
+                                                   class="text-center w-5 text-xs font-semibold text-heading indec-value">
+                                            <button @click.prevent="variationQuantityIncrement(variation.id)"
+                                                    class="fa-solid fa-plus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
                                         </div>
                                     </label>
                                 </SwiperSlide>
@@ -170,8 +184,8 @@
                 <div class="mb-5" v-if="item.addons.length > 0">
                     <h3 class="text-sm leading-6 font-medium capitalize mb-2 text-heading">{{ $t('label.addons') }}</h3>
                     <div class="swiper addon-swiper">
-                        <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
-                            <SwiperSlide v-for="addon in item.addons" :key="addon">
+                        <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="1">
+                            <swiper-slide v-for="addon in item.addons" :key="addon">
                                 <div class="!w-fit !relative">
                                     <div @click.prevent="changeAddon(addon)"
                                          class="addon cursor-pointer w-fit min-w-[200px] h-[70px] rounded-lg flex border border-[#EFF0F6]">
@@ -216,7 +230,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </SwiperSlide>
+                            </swiper-slide>
                         </Swiper>
                     </div>
                 </div>
@@ -252,6 +266,7 @@ import alertService from "../../../services/alertService";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import {cleanAmount, cleanAmountV2} from "../../../utils/functions";
+import {toRaw} from "vue";
 
 export default {
     name: "itemComponent",
@@ -267,7 +282,12 @@ export default {
             item: null,
             itemInfo: null,
             addons: {},
+            variations: {},
             addonQuantity: {},
+            variationQuantity: {},
+            adultsVariationQuantity: {},
+            fiveToNineVariationQuantity: {},
+            belowFiveVariationQuantity: {},
             itemArrays: [],
             settings: {
                 itemsToShow: 4.3,
@@ -338,6 +358,12 @@ export default {
             this.item = item;
             if (this.item.itemAttributes.length > 0) {
                 _.forEach(this.item.itemAttributes, (element) => {
+                    _.forEach(this.item.variations, (variation) => {
+                        const rawVariation = toRaw(variation);
+                        rawVariation.forEach((item) => {
+                            this.variationQuantity[item.id] = 1;
+                        })
+                    });
                     if (typeof this.item.variations[element.id][0] !== "undefined") {
                         this.temp.item_variations.variations[this.item.variations[element.id][0].item_attribute_id] = this.item.variations[element.id][0].id;
                         this.temp.item_variations.names[element.name] = this.item.variations[element.id][0].name;
@@ -485,6 +511,18 @@ export default {
 
             this.totalPriceSetup();
         },
+        variationQuantityUp: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                if (this.variationQuantity[id] === 0) {
+                    this.variationQuantity[id] = 1;
+                }
+            }
+            if (typeof this.variations[id] !== "undefined") {
+                this.variations[id].quantity = this.variationQuantity[id];
+            }
+
+            this.totalPriceSetup();
+        },
         addonQuantityIncrement: function (id) {
             if (typeof this.addonQuantity[id] !== "undefined") {
                 this.addonQuantity[id]++;
@@ -497,6 +535,42 @@ export default {
                 this.totalPriceSetup();
             }
         },
+        variationQuantityIncrement: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                this.variationQuantity[id]++;
+                if (this.variationQuantity[id] <= 0) {
+                    this.variationQuantity[id] = 1;
+                }
+                if (typeof this.variations[id] !== "undefined") {
+                    this.variations[id].quantity = this.variationQuantity[id];
+                }
+                this.totalPriceSetup();
+            }
+        },
+        adultVariationQuantityIncrement: function (id) {
+            if (typeof this.adultsVariationQuantity[id] !== "undefined") {
+                this.adultsVariationQuantity[id]++;
+                if (this.adultsVariationQuantity[id] <= 0) {
+                    this.adultsVariationQuantity[id] = 1;
+                }
+                // if (typeof this.addons[id] !== "undefined") {
+                //     this.addons[id].quantity = this.addonQuantity[id];
+                // }
+                this.totalPriceSetup();
+            }
+        },
+        adultVariationQuantityDecrement: function (id) {
+            if (typeof this.adultsVariationQuantity[id] !== "undefined") {
+                this.adultsVariationQuantity[id]--;
+                if (this.adultsVariationQuantity[id] <= 0) {
+                    this.adultsVariationQuantity[id] = 1;
+                }
+                // if (typeof this.addons[id] !== "undefined") {
+                //     this.addons[id].quantity = this.addonQuantity[id];
+                // }
+                this.totalPriceSetup();
+            }
+        },
         addonQuantityDecrement: function (id) {
             if (typeof this.addonQuantity[id] !== "undefined") {
                 this.addonQuantity[id]--;
@@ -505,6 +579,18 @@ export default {
                 }
                 if (typeof this.addons[id] !== "undefined") {
                     this.addons[id].quantity = this.addonQuantity[id];
+                }
+                this.totalPriceSetup();
+            }
+        },
+        variationQuantityDecrement: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                this.variationQuantity[id]--;
+                if (this.variationQuantity[id] <= 0) {
+                    this.variationQuantity[id] = 1;
+                }
+                if (typeof this.variations[id] !== "undefined") {
+                    this.variations[id].quantity = this.variationQuantity[id];
                 }
                 this.totalPriceSetup();
             }

@@ -277,10 +277,10 @@ export default {
         },
         'props.form.ingredients': {
             handler(ingredients) {
-                if (ingredients) {
-                    console.log(ingredients)
+                if (Array.isArray(ingredients)) {
                     this.datatable = []
-                    ingredients?.forEach(ingredient => {
+                    console.log(ingredients)
+                    ingredients.forEach(ingredient => {
                         let item = {
                             name: ingredient.name,
                             quantity: ingredient.pivot.quantity,

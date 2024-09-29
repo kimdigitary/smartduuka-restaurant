@@ -1,6 +1,7 @@
 <template>
     <LoadingComponent :props="loading"/>
     <PoscustomerComponent v-on:onCustomverCreate="onCustomverCreate"/>
+    <PosMeatOrderComponent v-on:onCustomverCreate="onCustomverCreate"/>
 
     <div class="md:w-[calc(100%-340px)] lg:w-[calc(100%-320px)] xl:w-[calc(100%-377px)]">
         <form @submit.prevent="search"
@@ -29,6 +30,12 @@
                     </router-link>
                 </SwiperSlide>
             </Swiper>
+
+            <button @click="addMeatOrder" type="button"
+                    class="flex items-center justify-center gap-1.5 px-3 h-10 rounded-lg text-white bg-primary">
+                <i class="lab lab-add-circle-line"></i>
+                <span class="capitalize text-sm font-bold">Meat Order</span>
+            </button>
         </div>
         <ItemComponent :items="items"/>
     </div>
@@ -158,24 +165,24 @@
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
 
             <div class="mt-2">
-                    <div class="flex h-[38px] mb-4">
-                        <div class="db-field-down-arrow">
-                            <select v-model="paymentMethod" @change="handlePaymentMethodChange"
+                <div class="flex h-[38px] mb-4">
+                    <div class="db-field-down-arrow">
+                        <select v-model="paymentMethod" @change="handlePaymentMethodChange"
                                 class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">
-                                <option value="4">Cash</option>
-                                <option value="2">Mobile Money</option>
-                                <option value="1">Cash on Delivery</option>
-                            </select>
-                        </div>
-                        <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
-                            v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
-                            class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
-                        <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
-                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
-                            {{ $t('button.apply') }}
-                        </button>
+                            <option value="4">Cash</option>
+                            <option value="2">Mobile Money</option>
+                            <option value="1">Cash on Delivery</option>
+                        </select>
                     </div>
+                    <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
+                           v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
+                           class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
+                    <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
+                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
+                        {{ $t('button.apply') }}
+                    </button>
                 </div>
+            </div>
 
             <ul class="flex flex-col gap-1.5 mb-4 mt-4">
                 <li class="flex items-center justify-between">
@@ -213,7 +220,7 @@
                     </span>
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-                            currencyFormat(subtotal + deliveryPrice  - posDiscount,
+                            currencyFormat(subtotal + deliveryPrice - posDiscount,
                                 setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
                                 setting.site_currency_position)
                         }}
@@ -263,10 +270,12 @@ import ReceiptComponent from "./ReceiptComponent";
 import PoscustomerComponent from './PosCustomerComponent';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+import PosMeatOrderComponent from "./PosMeatOrderComponent.vue";
 
 export default {
     name: "PosComponent",
     components: {
+        PosMeatOrderComponent,
         ReceiptComponent,
         LoadingComponent,
         ItemComponent,
@@ -702,7 +711,7 @@ export default {
                         _.forEach(err.response.data.errors, (error) => {
                             alertService.error(error[0]);
                         });
-                    }else {
+                    } else {
                         alertService.error(err.response.data.message);
                     }
                 });
@@ -721,6 +730,9 @@ export default {
         },
         addCustomer: function () {
             appService.modalShow("#customerModal");
+        },
+        addMeatOrder: function () {
+            appService.modalShow("#meatModal");
         },
         onCustomverCreate: function (customerId) {
             appService.modalHide();

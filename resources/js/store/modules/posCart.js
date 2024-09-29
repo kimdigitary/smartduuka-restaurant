@@ -71,7 +71,7 @@ export const posCart = {
                         _.forEach(state.lists, (list, listKey) => {
                             if (list.item_id === pay.item_id) {
                                 if (state.lists[listKey].item_variations.variations !== "undefined") {
-                                    if (Object.keys(state.lists[listKey].item_variations.variations).length !== 0) {
+                                    if (Object.keys(state.lists[listKey]?.item_variations?.variations)?.length !== 0) {
                                         _.forEach(state.lists[listKey].item_variations.variations, (variationId, variationKey) => {
                                             if (pay.item_variations.variations[variationKey] !== "undefined" && pay.item_variations.variations[variationKey] === variationId) {
                                                 variationAndExtraChecker.push(true);
