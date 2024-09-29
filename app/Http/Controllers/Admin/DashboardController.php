@@ -83,7 +83,9 @@
 //            return ['data' => ['total_profits' => $this->dashboardService->totalProfits($request)]];
                 return [ 'data' => [ 'total_profits' => AppLibrary::currencyAmountFormat(
                     $this->dashboardService->totalSales($request) -
-                    ($this->dashboardService->totalExpenses($request) + $this->totalPendingExpenses($request))) ] ];
+                    ( $this->dashboardService->totalExpenses($request) + $this->dashboardService->totalPurchases($request) ))
+                ]
+                ];
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
             }
