@@ -58,6 +58,54 @@ export const dashboard = {
                     });
             });
         },
+        totalExpenses: function (context,payload) {
+            return new Promise((resolve, reject) => {
+                let url = "admin/dashboard/total-expenses";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url)
+                    .then((res) => {
+                        context.commit("totalExpenses", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        },
+        totalPendingExpenses: function (context,payload) {
+            return new Promise((resolve, reject) => {
+                let url = "admin/dashboard/total-pending-expenses";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url)
+                    .then((res) => {
+                        context.commit("totalPendingExpenses", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        },
+        totalProfits: function (context,payload) {
+            return new Promise((resolve, reject) => {
+                let url = "admin/dashboard/total-profits";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url)
+                    .then((res) => {
+                        context.commit("totalProfits", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        },
         totalOrders: function (context,payload) {
             return new Promise((resolve, reject) => {
                 let url = "admin/dashboard/total-orders";
@@ -166,6 +214,15 @@ export const dashboard = {
     mutations: {
         totalSales: function (state, payload) {
             state.totalSales = payload;
+        },
+        totalExpenses: function (state, payload) {
+            state.totalExpenses = payload;
+        },
+        totalProfits: function (state, payload) {
+            state.totalProfits = payload;
+        },
+        totalPendingExpenses: function (state, payload) {
+            state.totalPendingExpenses = payload;
         },
         totalOrders: function (state, payload) {
             state.totalOrders = payload;

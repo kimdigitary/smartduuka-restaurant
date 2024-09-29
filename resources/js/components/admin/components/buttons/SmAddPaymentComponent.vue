@@ -1,5 +1,5 @@
 <template>
-    <router-link class="db-table-action view" :to="{ name: this.$props.link, params: { id: this.$props.id } }">
+    <router-link class="db-table-action view db-table-action edit" :to="{ name: this.$props.link, params: { id: this.$props.id } }">
         <i class="fa fa-credit-card"></i>
         <span class="db-tooltip">Add Payment</span>
     </router-link>
