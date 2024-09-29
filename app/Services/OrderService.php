@@ -289,93 +289,93 @@
          */
         public function posOrderStore(PosOrderRequest $request) : object
         {
-            try {
-                DB::transaction(function () use ($request) {
-                    $this->order = Order::create(
-                        $request->validated() + [
-                            'user_id'          => $request->customer_id ,
-                            'status'           => OrderStatus::ACCEPT ,
-                            'token'            => $request->token ,
-                            'payment_status'   => PaymentStatus::PAID ,
-                            'order_datetime'   => date('Y-m-d H:i:s') ,
-                            'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
-                        ]
-                    );
+//            try {
+            DB::transaction(function () use ($request) {
+                $this->order = Order::create(
+                    $request->validated() + [
+                        'user_id'          => $request->customer_id ,
+                        'status'           => OrderStatus::ACCEPT ,
+                        'token'            => $request->token ,
+                        'payment_status'   => PaymentStatus::PAID ,
+                        'order_datetime'   => date('Y-m-d H:i:s') ,
+                        'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
+                    ]
+                );
 
-                    $i            = 0;
-                    $totalTax     = 0;
-                    $itemsArray   = [];
-                    $requestItems = json_decode($request->items);
-                    $items        = Item::get()->pluck('tax_id' , 'id');
-                    $taxes        = AppLibrary::pluck(Tax::get() , 'obj' , 'id');
+                $i            = 0;
+                $totalTax     = 0;
+                $itemsArray   = [];
+                $requestItems = json_decode($request->items);
+                $items        = Item::get()->pluck('tax_id' , 'id');
+                $taxes        = AppLibrary::pluck(Tax::get() , 'obj' , 'id');
 
-                    if ( ! blank($requestItems) ) {
-                        foreach ( $requestItems as $item ) {
-                            $taxId      = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                            $taxName    = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                            $taxRate    = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                            $taxType    = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                            $taxPrice   = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
-                            $_item      = Item::find($item->item_id);
-                            $variations = $_item->variations;
+                if ( ! blank($requestItems) ) {
+                    foreach ( $requestItems as $item ) {
+                        $taxId      = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                        $taxName    = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                        $taxRate    = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                        $taxType    = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                        $taxPrice   = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
+                        $_item      = Item::find($item->item_id);
+                        $variations = $_item->variations;
 
-                            if ( count($variations) > 0 ) {
-                                foreach ( $variations as $variation ) {
-                                    foreach ( $variation->ingredients as $ingredient ) {
-                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
-                                        if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
-                                            throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if ( $item->ingredients ) {
-                                    foreach ( $item->ingredients as $ingredient ) {
-                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
-                                        if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
-                                            throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
-                                        }
+                        if ( count($variations) > 0 ) {
+                            foreach ( $variations as $variation ) {
+                                foreach ( $variation->ingredients as $ingredient ) {
+                                    $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                    if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
+                                        throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
                                     }
                                 }
                             }
-                            $itemsArray[$i] = [
-                                'order_id'             => $this->order->id ,
-                                'branch_id'            => $item->branch_id ,
-                                'item_id'              => $item->item_id ,
-                                'quantity'             => $item->quantity ,
-                                'discount'             => (float) $item->discount ,
-                                'tax_name'             => $taxName ,
-                                'tax_rate'             => $taxRate ,
-                                'tax_type'             => $taxType ,
-                                'tax_amount'           => $taxPrice ,
-                                'price'                => $item->item_price ,
-                                'item_variations'      => json_encode($item->item_variations) ,
-                                'item_extras'          => json_encode($item->item_extras) ,
-                                'instruction'          => $item->instruction ,
-                                'item_variation_total' => $item->item_variation_total ,
-                                'item_extra_total'     => $item->item_extra_total ,
-                                'total_price'          => $item->total_price ,
-                            ];
-                            $totalTax       = $totalTax + $taxPrice;
-                            $i++;
+                        } else {
+                            if ( property_exists($item , 'ingredients') ) {
+                                foreach ( $item->ingredients as $ingredient ) {
+                                    $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+                                    if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
+                                        throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
+                                    }
+                                }
+                            }
                         }
+                        $itemsArray[$i] = [
+                            'order_id'             => $this->order->id ,
+                            'branch_id'            => $item->branch_id ,
+                            'item_id'              => $item->item_id ,
+                            'quantity'             => $item->quantity ,
+                            'discount'             => (float) $item->discount ,
+                            'tax_name'             => $taxName ,
+                            'tax_rate'             => $taxRate ,
+                            'tax_type'             => $taxType ,
+                            'tax_amount'           => $taxPrice ,
+                            'price'                => $item->item_price ,
+                            'item_variations'      => json_encode($item->item_variations) ,
+                            'item_extras'          => json_encode($item->item_extras) ,
+                            'instruction'          => $item->instruction ,
+                            'item_variation_total' => $item->item_variation_total ,
+                            'item_extra_total'     => $item->item_extra_total ,
+                            'total_price'          => $item->total_price ,
+                        ];
+                        $totalTax       = $totalTax + $taxPrice;
+                        $i++;
                     }
+                }
 
 
-                    if ( ! blank($itemsArray) ) {
-                        OrderItem::insert($itemsArray);
-                    }
+                if ( ! blank($itemsArray) ) {
+                    OrderItem::insert($itemsArray);
+                }
 
-                    $this->order->order_serial_no = date('dmy') . $this->order->id;
-                    $this->order->total_tax       = $totalTax;
-                    $this->order->save();
-                });
-                return $this->order;
-            } catch ( Exception $exception ) {
-                DB::rollBack();
-                Log::info($exception->getMessage());
-                throw new Exception($exception->getMessage() , 422);
-            }
+                $this->order->order_serial_no = date('dmy') . $this->order->id;
+                $this->order->total_tax       = $totalTax;
+                $this->order->save();
+            });
+            return $this->order;
+//            } catch ( Exception $exception ) {
+//                DB::rollBack();
+//                Log::info($exception->getMessage());
+//                throw new Exception($exception->getMessage() , 422);
+//            }
         }
 
 

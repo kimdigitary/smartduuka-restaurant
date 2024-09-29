@@ -37,11 +37,11 @@
 
         public function store(PosOrderRequest $request) : Response | OrderDetailsResource | Application | ResponseFactory
         {
-            try {
+//            try {
                 return new OrderDetailsResource($this->orderService->posOrderStore($request));
-            } catch ( Exception $exception ) {
-                return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
-            }
+//            } catch ( Exception $exception ) {
+//                return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
+//            }
         }
 
         public function update(Request $request)
