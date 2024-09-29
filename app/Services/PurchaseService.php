@@ -564,16 +564,16 @@
                                 $this->stock = $stock;
                             }
 
-                            $tax = Tax::find($product['tax_id']);
-                            StockTax::create([
-                                'stock_id'   => $this->stock->id ,
-                                'item_id'    => $product['product_id'] ,
-                                'tax_id'     => $product['tax_id'] ,
-                                'name'       => $tax->name ,
-                                'code'       => $tax->code ,
-                                'tax_rate'   => $tax->tax_rate ,
-                                'tax_amount' => ( $tax->tax_rate * ( $product['price'] * $product['quantity'] ) ) / 100 ,
-                            ]);
+//                            $tax = Tax::find($product['tax_id']);
+//                            StockTax::create([
+//                                'stock_id'   => $this->stock->id ,
+//                                'item_id'    => $product['product_id'] ,
+//                                'tax_id'     => $product['tax_id'] ,
+//                                'name'       => $tax->name ,
+//                                'code'       => $tax->code ,
+//                                'tax_rate'   => $tax->tax_rate ,
+//                                'tax_amount' => ( $tax->tax_rate * ( $product['price'] * $product['quantity'] ) ) / 100 ,
+//                            ]);
                         }
                     }
                 });

@@ -396,6 +396,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::prefix('stock')->name('stock.')->group(function () {
         Route::get('/', [StockController::class, 'index']);
         Route::post('/ingredients', [StockController::class, 'storeIngredientStock']);
+        Route::post('/items', [StockController::class, 'storeItemStock']);
         Route::get('/ingredients', [StockController::class, 'indexIngredients']);
         Route::get('/export', [StockController::class, 'export']);
     });

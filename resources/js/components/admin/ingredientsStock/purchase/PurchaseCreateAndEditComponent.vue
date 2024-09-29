@@ -4,7 +4,7 @@
         <form @submit.prevent="save" class="block w-full">
             <div class="db-card mb-6">
                 <div class="db-card-header">
-                    <h3 class="db-card-title">{{ $t("menu.purchase") }}</h3>
+                    <h3 class="db-card-title">Item purchase</h3>
                 </div>
                 <div class="db-card-body">
                     <div class="row">
@@ -577,7 +577,7 @@ export default {
                 }
                 this.loading.isActive = true;
                 const tempId = this.$store.getters['purchase/temp'].temp_id;
-                this.$store.dispatch('purchase/save', {form: fd})
+                this.$store.dispatch('purchase/saveStock', {form: fd})
                     .then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.purchase'));

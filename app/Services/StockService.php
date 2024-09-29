@@ -85,7 +85,7 @@ class StockService
         $orderColumn = $request->get('order_column') ?? 'id';
         $orderType = $request->get('order_type') ?? 'desc';
 
-        $stocks = Stock::with('ingredient')->where('status', Status::ACTIVE)->where(function ($query) use ($requests) {
+        $stocks = Stock::with('item')->where('status', Status::ACTIVE)->where(function ($query) use ($requests) {
             $query->where('model_type', Ingredient::class);
             foreach ($requests as $key => $request) {
                 if (in_array($key, $this->stockFilter)) {
@@ -103,17 +103,17 @@ class StockService
         if (!blank($stocks)) {
             $stocks->groupBy('item_id')?->map(function ($item) {
                 $item->groupBy('item_id')?->map(function ($item) {
-                    $stock_item = [
-                        'item_id'      => $item->first()['item_id'],
-                        'product_name' => $item->first()['item']['name'],
-                        'status'       => $item->first()['item']['status'],
-                        'itemStock'    => $item->sum('quantity'),
-                    ];
+                    info($item);
+//                    $stock_item = [
+//                        'item_id'      => $item->first()['item_id'],
+//                        'product_name' => $item->first()['item']['name'],
+//                        'status'       => $item->first()['item']['status'],
+//                        'itemStock'    => $item->sum('quantity'),
+//                    ];
                 });
             });
             return $stocks;
         } else {
-            info($this->items);
             $this->items = [];
         }
 
