@@ -73,6 +73,7 @@
     use App\Http\Controllers\Frontend\ProfileController;
     use App\Http\Controllers\Frontend\SettingController;
     use App\Http\Controllers\Frontend\TokenStoreController;
+    use App\Http\Controllers\MeatPriceController;
     use App\Http\Controllers\SubscriptionController;
     use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
     use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
@@ -171,6 +172,11 @@
             Route::prefix('mail')->name('mail.')->group(function () {
                 Route::get('/' , [ MailController::class , 'index' ]);
                 Route::match([ 'put' , 'patch' ] , '/' , [ MailController::class , 'update' ]);
+            });
+
+            Route::prefix('meat-price')->name('meat.')->group(function () {
+                Route::get('/' , [ MeatPriceController::class , 'index' ]);
+                Route::match([ 'put' , 'patch' ] , '/' , [ MeatPriceController::class , 'update' ]);
             });
 
             Route::prefix('currency')->name('currency.')->group(function () {
