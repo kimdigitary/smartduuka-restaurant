@@ -126,11 +126,11 @@
 <!--                                    <i class="lab lab-line-card text-blue-500 bg-blue-100"></i>-->
 <!--                                    <span class="db-tooltip">{{ $t('button.add_payment') }}</span>-->
 <!--                                </button>-->
-                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"
-                                    class="db-table-action">
-                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>
-                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>
-                                </button>
+<!--                                <button type="button" data-modal="#purchasePaymentList" @click="paymentList(purchase.id)"-->
+<!--                                    class="db-table-action">-->
+<!--                                    <i class="lab lab lab-line-menu text-cyan-500 bg-cyan-100"></i>-->
+<!--                                    <span class="db-tooltip">{{ $t('button.view_payments') }}</span>-->
+<!--                                </button>-->
                             </td>
                         </tr>
                     </tbody>
@@ -171,6 +171,7 @@ import askEnum from "../../../../enums/modules/askEnum";
 import appService from "../../../../services/appService";
 import SmAddPaymentComponent from "../../components/buttons/SmAddPaymentComponent.vue";
 import SmViewPaymentComponent from "../../components/buttons/SmViewPaymentComponent.vue";
+import purchaseTypeEnum from "../../../../enums/modules/purchaseTypeEnum";
 
 export default {
     name: 'PurchaseListComponent',
@@ -259,10 +260,16 @@ export default {
         },
     },
     methods: {
+        // addPayment: function (id) {
+        //     appService.modalShow('#purchasePayment');
+        //     this.loading.isActive = true;
+        //     this.$store.dispatch("purchase/payment", id);
+        //     this.loading.isActive = false;
+        // },
         addPayment: function (id) {
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
-            this.$store.dispatch("purchase/payment", id);
+            this.$store.dispatch("purchase/payment", {id,type:purchaseTypeEnum.ITEM});
             this.loading.isActive = false;
         },
         paymentList: function (id) {

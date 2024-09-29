@@ -444,7 +444,7 @@ export default {
                     sku: product.sku,
                     tax_id: product.taxes,
                     tax: product.tax,
-                    price: product.buying_price,
+                    price: product.price,
                     discount: 0,
                     variation_id: 0,
                     variation_names: '',

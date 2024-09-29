@@ -5,12 +5,15 @@
     use App\Enums\PaymentStatus;
     use App\Enums\Role as EnumRole;
     use App\Libraries\AppLibrary;
+    use App\Models\Expense;
     use App\Models\Item;
     use App\Models\Order;
+    use App\Models\PurchasePayment;
     use App\Models\User;
     use Carbon\Carbon;
     use Exception;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Log;
 
     class DashboardService
@@ -123,6 +126,97 @@
 //                            -> where('status' ,'<>', OrderStatus::CANCELED)
                             ->whereDate('order_datetime' , '<=' , $last_date)
                             ->count();
+
+            } catch ( Exception $exception ) {
+                Log::info($exception->getMessage());
+                throw new Exception($exception->getMessage() , 422);
+            }
+        }
+
+        public function totalExpenses(Request $request)
+        {
+            try {
+                if ( $request->first_date && $request->last_date ) {
+                    $first_date = Date('Y-m-d' , strtotime($request->first_date));
+                    $last_date  = Date('Y-m-d' , strtotime($request->last_date));
+                } else {
+                    $first_date = Date('Y-m-01' , strtotime(Carbon::today()->toDateString()));
+                    $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
+                }
+                $expenses = Expense::whereDate('date' , '>=' , $first_date)
+                                   ->whereDate('date' , '<=' , $last_date)->sum('amount');
+
+                $purchases = PurchasePayment::whereDate('date' , '>=' , $first_date)
+                                            ->whereDate('date' , '<=' , $last_date)
+                                            ->sum('amount');
+                return $expenses + $purchases;
+
+            } catch ( Exception $exception ) {
+                Log::info($exception->getMessage());
+                throw new Exception($exception->getMessage() , 422);
+            }
+        }
+
+        public function totalPendingExpenses(Request $request)
+        {
+            try {
+                if ( $request->first_date && $request->last_date ) {
+                    $first_date = Date('Y-m-d' , strtotime($request->first_date));
+                    $last_date  = Date('Y-m-d' , strtotime($request->last_date));
+                } else {
+                    $first_date = Date('Y-m-01' , strtotime(Carbon::today()->toDateString()));
+                    $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
+                }
+                // sum difference paid and amount in Expenses
+
+                return Expense::whereDate('date' , '>=' , $first_date)
+                              ->whereDate('date' , '<=' , $last_date)
+                              ->sum(DB::raw('amount - paid'));
+
+            } catch ( Exception $exception ) {
+                Log::info($exception->getMessage());
+                throw new Exception($exception->getMessage() , 422);
+            }
+        }
+
+        public function totalPurchases(Request $request)
+        {
+            try {
+                if ( $request->first_date && $request->last_date ) {
+                    $first_date = Date('Y-m-d' , strtotime($request->first_date));
+                    $last_date  = Date('Y-m-d' , strtotime($request->last_date));
+                } else {
+                    $first_date = Date('Y-m-01' , strtotime(Carbon::today()->toDateString()));
+                    $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
+                }
+
+                return PurchasePayment::whereDate('date' , '>=' , $first_date)
+                                      ->whereDate('date' , '<=' , $last_date)
+                                      ->sum('amount');
+
+            } catch ( Exception $exception ) {
+                Log::info($exception->getMessage());
+                throw new Exception($exception->getMessage() , 422);
+            }
+        }
+
+        public function totalProfits(Request $request)
+        {
+            try {
+                if ( $request->first_date && $request->last_date ) {
+                    $first_date = Date('Y-m-d' , strtotime($request->first_date));
+                    $last_date  = Date('Y-m-d' , strtotime($request->last_date));
+                } else {
+                    $first_date = Date('Y-m-01' , strtotime(Carbon::today()->toDateString()));
+                    $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
+                }
+                $expenses = Expense::whereDate('date' , '>=' , $first_date)
+                                   ->whereDate('date' , '<=' , $last_date)->sum('amount');
+
+                $purchases = PurchasePayment::whereDate('date' , '>=' , $first_date)
+                                            ->whereDate('date' , '<=' , $last_date)
+                                            ->sum('amount');
+                return $expenses + $purchases;
 
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());

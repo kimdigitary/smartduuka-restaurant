@@ -30,6 +30,15 @@ class MailService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+    public function meatPrices()
+    {
+        try {
+            return Settings::group('meatPrices')->all();
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
 
     /**
      * @throws Exception

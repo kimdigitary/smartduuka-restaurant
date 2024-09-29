@@ -26,9 +26,32 @@ export const mail = {
                     });
             });
         },
+        meatPrice: function (context) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get("admin/setting/meat-price")
+                    .then((res) => {
+                        context.commit("meatPrices", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        },
         save: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.put(`/admin/setting/mail`, payload).then((res) => {
+                    context.commit("lists", payload);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        saveMeatPrices: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.put(`/admin/setting/meat-price`, payload).then((res) => {
                     context.commit("lists", payload);
                     resolve(res);
                 }).catch((err) => {
@@ -40,6 +63,9 @@ export const mail = {
 
     mutations: {
         lists: function (state, payload) {
+            state.lists = payload;
+        },
+        meatPrices: function (state, payload) {
             state.lists = payload;
         },
     },
