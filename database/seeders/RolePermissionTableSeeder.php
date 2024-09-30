@@ -17,6 +17,37 @@ class RolePermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        $superAdminRole = Role::find(EnumRole::SUPER_ADMIN);
+
+        $superAdminPermissions = [
+            ['name' => 'dashboard'],
+            ['name' => 'push-notifications'],
+            ['name' => 'push-notifications_create'],
+            ['name' => 'push-notifications_edit'],
+            ['name' => 'push-notifications_delete'],
+            ['name' => 'push-notifications_show'],
+            ['name' => 'delivery-boys'],
+            ['name' => 'delivery-boys_create'],
+            ['name' => 'delivery-boys_edit'],
+            ['name' => 'delivery-boys_delete'],
+            ['name' => 'delivery-boys_show'],
+            ['name' => 'customers'],
+            ['name' => 'customers_create'],
+            ['name' => 'customers_edit'],
+            ['name' => 'customers_delete'],
+            ['name' => 'customers_show'],
+            ['name' => 'employees'],
+            ['name' => 'employees_create'],
+            ['name' => 'employees_edit'],
+            ['name' => 'employees_delete'],
+            ['name' => 'employees_show'],
+            ['name' => 'settings'],
+        ];
+
+        $superAdminPermissions = Permission::whereIn('name', $superAdminPermissions)->get();
+        $superAdminRole->givePermissionTo($superAdminPermissions);
+
+
         $adminRole = Role::find(EnumRole::ADMIN);
         $adminRole?->givePermissionTo(Permission::all());
 

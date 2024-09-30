@@ -32,7 +32,7 @@ return new class extends Migration
     public function getTenantRelatedTables(): array
     {
         return [
-            // Your tenant related tables list. This list is just an example.
+            // Your tenant related tables list.
             'branches',
             'item_categories',
             'offers',

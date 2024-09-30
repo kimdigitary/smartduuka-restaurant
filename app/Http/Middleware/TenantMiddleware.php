@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Role;
 use App\Models\TenantUser;
 use App\Tenancy\Tenancy;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class TenantMiddleware
 {
@@ -16,15 +16,17 @@ class TenantMiddleware
     {
         $tenantId = $request->header('X-Tenant'); // Get tenant id from the header
 
-        // Check if current user has access to this tenant
-        $hasAccess = TenantUser::query()->where([
-            'tenant_id' => $tenantId,
-            'user_id' => Auth::id(),
-        ])->exists();
+        // Check if the user has the SUPER_ADMIN role
+        if (!Auth::user()->hasRole(Role::SUPER_ADMIN)) {
+            // If not SUPER_ADMIN, check if the current user has access to this tenant
+            $hasAccess = TenantUser::query()->where(column: [
+                'tenant_id' => $tenantId,
+                'user_id' => Auth::id(),
+            ])->exists();
 
-        if (!$hasAccess) {
-            Log::info("You have no access to this content!");
-            throw new Exception('Unauthorized');
+            if (!$hasAccess) {
+                throw new Exception('Unauthorized');
+            }
         }
 
         Tenancy::setTenantId($tenantId); // Set tenant context

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 
+use App\Enums\Role;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
@@ -104,7 +105,7 @@ class LoginController extends Controller
             'menu'              => MenuResource::collection(collect($this->menuService->menu($user->roles[0]))),
             'permission'        => $permission,
             'defaultPermission' => $defaultPermission,
-            'tenant_id'         => TenantUser::query()->where([
+            'tenant_id'         => Auth::user()->hasRole(Role::SUPER_ADMIN) ? 0 : TenantUser::query()->where([
                 'user_id' => Auth::id(),
             ])->first()->tenant_id,
         ], 201);

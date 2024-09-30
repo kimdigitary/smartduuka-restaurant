@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Status;
+use App\Tenancy\TenantModel;
 use Illuminate\Database\Eloquent\Model;
 
 class Tax extends Model

@@ -32,6 +32,7 @@ import {employeeAddress} from './modules/employeeAddress';
 import {itemExtra} from './modules/itemExtra';
 import {itemAddon} from './modules/itemAddon';
 import {language} from './modules/language';
+import {tenant} from './modules/tenant';
 import {frontendBranch} from "./modules/frontend/frontendBranch";
 import {frontendLanguage} from "./modules/frontend/frontendLanguage";
 import {frontendSetting} from "./modules/frontend/frontendSetting";
@@ -126,6 +127,7 @@ export default new createStore({
         itemExtra,
         itemAddon,
         language,
+        tenant,
         globalState,
         frontendBranch,
         frontendLanguage,

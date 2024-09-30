@@ -20,7 +20,7 @@ import BreadcrumbComponent from "../components/BreadcrumbComponent";
 
 export default {
     name: "SettingsComponent",
-    components: {MenuComponent, BreadcrumbComponent},
+    components: { MenuComponent, BreadcrumbComponent },
 
 }
 </script>

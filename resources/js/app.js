@@ -44,16 +44,18 @@ axios.interceptors.request.use(
         if (localStorage.getItem('vuex')) {
             const vuex = JSON.parse(localStorage.getItem('vuex'));
             const token = vuex.auth.authToken;
-            const tenant = vuex.auth.authTenantId;
+            const tenant = vuex.auth.authTenantId; // Fetch tenant ID dynamically
             const language = vuex.globalState.lists.language_code;
+
             config.headers['Authorization'] = token ? `Bearer ${token}` : '';
             config.headers['x-localization'] = language;
-            config.headers['x-tenant'] = 1;
+            config.headers['x-tenant'] = tenant ? tenant : ''; // Set tenant ID dynamically
         }
         return config;
     },
     error => Promise.reject(error),
 );
+
 /* End axios code */
 
 const app = createApp({});

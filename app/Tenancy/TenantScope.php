@@ -8,8 +8,17 @@ use Illuminate\Database\Eloquent\Scope;
 
 class TenantScope implements Scope
 {
-    public function apply(Builder $builder, Model $model): void
+
+    // Ensure the TenantScope is correctly applied
+    public function apply(Builder $builder, Model $model)
     {
-        $builder->where($model->getTable(). '.tenant_id', Tenancy::getTenantId());
+        $tenantId = Tenancy::getTenantId();
+
+        if ($tenantId) {
+            $builder->where($model->getTable() . '.tenant_id', $tenantId);
+        } else {
+            \Log::warning("No Tenant ID found. Scope might not work as expected.");
+        }
     }
+
 }

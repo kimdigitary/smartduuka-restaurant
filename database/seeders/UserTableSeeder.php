@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Ask;
 use App\Models\Address;
 use App\Enums\Role as EnumRole;
+use App\Models\TenantUser;
 use Dipokhalder\EnvEditor\EnvEditor;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -21,6 +22,20 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $envService = new EnvEditor();
+        $superAdmin      = User::create([
+            'name'              => 'Super Admin',
+            'email'             => 'super@admin.com',
+            'phone'             => '1254875855',
+            'username'          => 'superadmin',
+            'email_verified_at' => now(),
+            'password'          => bcrypt('123456'),
+            'branch_id'         => 0,
+            'status'            => Status::ACTIVE,
+            'country_code'      => '+880',
+            'is_guest'          => Ask::NO
+        ]);
+        $superAdmin->assignRole(EnumRole::SUPER_ADMIN);
+
         $admin      = User::create([
             'name'              => 'John Doe',
             'email'             => 'admin@example.com',
@@ -296,6 +311,9 @@ class UserTableSeeder extends Seeder
                 'longitude' => '90.4161',
                 'user_id'   => $stuffTwo->id,
             ]);
+
+            // assign super admin to default tenant/company (Food Scan)
+            TenantUser::create(['tenant_id' => 1, 'user_id'=> $superAdmin->id]);
         }
     }
 }

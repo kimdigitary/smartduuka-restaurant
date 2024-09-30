@@ -37,470 +37,508 @@ import SubscriptionCreateComponent from "../../components/admin/Subscription/Sub
 import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent.vue";
 import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent.vue";
 import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent.vue";
+import TenantComponent from "../../components/admin/settings/Tenant/TenantComponent";
+import TenantListComponent from "../../components/admin/settings/Tenant/TenantListComponent";
+import TenantShowComponent from "../../components/admin/settings/Tenant/TenantShowComponent";
 
-export const settingRoutes= [
-    {
-        path: "/admin/settings",
-        component: SettingsComponent,
-        name: "admin.settings",
-        redirect: { name: "admin.settings.company" },
+export const settingRoutes = [
+  {
+    path: "/admin/settings",
+    component: SettingsComponent,
+    name: "admin.settings",
+    redirect: { name: "admin.settings.company" },
+    meta: {
+      isFrontend: false,
+      auth: true,
+      permissionUrl: "settings",
+      breadcrumb: "settings",
+    },
+    children: [
+      {
+        path: "company",
+        component: CompanyComponent,
+        name: "admin.settings.company",
         meta: {
-            isFrontend: false,
-            auth: true,
-            permissionUrl: "settings",
-            breadcrumb: "settings",
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "company",
+        },
+      },
+      {
+        path: "site",
+        component: SiteComponent,
+        name: "admin.settings.site",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "site",
+        },
+      },
+      {
+        path: "dining-tables",
+        component: DiningTableComponent,
+        name: "admin.settings.diningTable",
+        redirect: { name: "admin.settings.diningTable.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "dining_tables",
         },
         children: [
-            {
-                path: "company",
-                component: CompanyComponent,
-                name: "admin.settings.company",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "company",
-                },
+          {
+            path: "list",
+            component: DiningTableListComponent,
+            name: "admin.settings.diningTable.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
             },
-            {
-                path: "site",
-                component: SiteComponent,
-                name: "admin.settings.site",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "site",
-                },
+          },
+          {
+            path: "show/:id",
+            component: DiningTableShowComponent,
+            name: "admin.settings.diningTable.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
             },
-            {
-                path: "dining-tables",
-                component: DiningTableComponent,
-                name: "admin.settings.diningTable",
-                redirect: { name: "admin.settings.diningTable.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "dining_tables",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: DiningTableListComponent,
-                        name: "admin.settings.diningTable.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: DiningTableShowComponent,
-                        name: "admin.settings.diningTable.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "branches",
-                component: BranchComponent,
-                name: "admin.settings.branch",
-                redirect: { name: "admin.settings.branch.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "branches",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: BranchListComponent,
-                        name: "admin.settings.branch.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: BranchShowComponent,
-                        name: "admin.settings.branch.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "mail",
-                component: MailComponent,
-                name: "admin.settings.mail",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "mail",
-                },
-            },
-            {
-                path: "otp",
-                component: OtpComponent,
-                name: "admin.settings.otp",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "otp",
-                },
-            },
-            {
-                path: "analytics",
-                component: AnalyticComponent,
-                name: "admin.settings.analytic",
-                redirect: { name: "admin.settings.analytic.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "analytics",
-                },
-                children: [
-                    {
-
-                        path: "list",
-                        component: AnalyticListComponent,
-                        name: "admin.settings.analytic.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: AnalyticShowComponent,
-                        name: "admin.settings.analytic.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ]
-            },
-            {
-                path: "theme",
-                component: ThemeComponent,
-                name: "admin.settings.theme",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "theme",
-                },
-            },
-            {
-                path: "currencies",
-                component: CurrencyComponent,
-                name: "admin.settings.currency",
-                redirect: { name: "admin.settings.currency.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "currencies",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: CurrencyListComponent,
-                        name: "admin.settings.currency.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "item-categories",
-                component: ItemCategoryComponent,
-                name: "admin.settings.itemCategory",
-                redirect: { name: "admin.settings.itemCategory.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "item_categories",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: ItemCategoryListComponent,
-                        name: "admin.settings.itemCategory.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: ItemCategoryShowComponent,
-                        name: "admin.settings.itemCategory.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "item-attributes",
-                component: ItemAttributeComponent,
-                name: "admin.settings.itemAttribute",
-                redirect: { name: "admin.settings.itemAttribute.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "item_attributes",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: ItemAttributeListComponent,
-                        name: "admin.settings.itemAttribute.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "taxes",
-                component: TaxComponent,
-                name: "admin.settings.tax",
-                redirect: { name: "admin.settings.tax.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "taxes",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: TaxListComponent,
-                        name: "admin.settings.tax.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "pages",
-                component: PageComponent,
-                name: "admin.settings.page",
-                redirect: { name: "admin.settings.page.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "pages",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: PageListComponent,
-                        name: "admin.settings.page.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: PageShowComponent,
-                        name: "admin.settings.page.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "role",
-                component: RoleComponent,
-                name: "admin.settings.role",
-                redirect: { name: "admin.settings.role.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "role_permissions",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: RoleListComponent,
-                        name: "admin.settings.role.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: RoleShowComponent,
-                        name: "admin.settings.role.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "languages",
-                component: LanguageComponent,
-                name: "admin.settings.language",
-                redirect: { name: "admin.settings.language.list" },
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "languages",
-                },
-                children: [
-                    {
-                        path: "list",
-                        component: LanguageListComponent,
-                        name: "admin.settings.language.list",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "",
-                        },
-                    },
-                    {
-                        path: "show/:id",
-                        component: LanguageShowComponent,
-                        name: "admin.settings.language.show",
-                        meta: {
-                            isFrontend: false,
-                            auth: true,
-                            permissionUrl: "settings",
-                            breadcrumb: "view",
-                        },
-                    },
-                ],
-            },
-            {
-                path: "sms-gateway",
-                component: SmsGatewayComponent,
-                name: "admin.settings.smsGateway",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "sms_gateway",
-                },
-            },
-            {
-                path: "payment-gateway",
-                component: PaymentGatewayComponent,
-                name: "admin.settings.paymentGateway",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "payment_gateway",
-                },
-            },
-            {
-                path: "payments",
-                component: SubscriptionListComponent,
-                name: "admin.settings.payments",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "license",
-                }
-            },
-            {
-                path: "payments/create",
-                component: SubscriptionCreateComponent,
-                // component: LicenseComponent,
-                name: "admin.settings.payments.create",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "license",
-                }
-            },
-            {
-                path: "notification-alert",
-                component: NotificationAlertComponent,
-                name: "admin.settings.notificationAlert",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "notification_alert",
-                }
-            },
-            {
-                path: "notification",
-                component: NotificationComponent,
-                name: "admin.settings.notification",
-                meta: {
-                    isFrontend: false,
-                    auth: true,
-                    permissionUrl: "settings",
-                    breadcrumb: "notification",
-                },
-            },
+          },
         ],
+      },
+      {
+        path: "branches",
+        component: BranchComponent,
+        name: "admin.settings.branch",
+        redirect: { name: "admin.settings.branch.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "branches",
+        },
+        children: [
+          {
+            path: "list",
+            component: BranchListComponent,
+            name: "admin.settings.branch.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: BranchShowComponent,
+            name: "admin.settings.branch.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "mail",
+        component: MailComponent,
+        name: "admin.settings.mail",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "mail",
+        },
+      },
+      {
+        path: "otp",
+        component: OtpComponent,
+        name: "admin.settings.otp",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "otp",
+        },
+      },
+      {
+        path: "analytics",
+        component: AnalyticComponent,
+        name: "admin.settings.analytic",
+        redirect: { name: "admin.settings.analytic.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "analytics",
+        },
+        children: [
+          {
+            path: "list",
+            component: AnalyticListComponent,
+            name: "admin.settings.analytic.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: AnalyticShowComponent,
+            name: "admin.settings.analytic.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "theme",
+        component: ThemeComponent,
+        name: "admin.settings.theme",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "theme",
+        },
+      },
+      {
+        path: "currencies",
+        component: CurrencyComponent,
+        name: "admin.settings.currency",
+        redirect: { name: "admin.settings.currency.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "currencies",
+        },
+        children: [
+          {
+            path: "list",
+            component: CurrencyListComponent,
+            name: "admin.settings.currency.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+        ],
+      },
+      {
+        path: "item-categories",
+        component: ItemCategoryComponent,
+        name: "admin.settings.itemCategory",
+        redirect: { name: "admin.settings.itemCategory.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "item_categories",
+        },
+        children: [
+          {
+            path: "list",
+            component: ItemCategoryListComponent,
+            name: "admin.settings.itemCategory.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: ItemCategoryShowComponent,
+            name: "admin.settings.itemCategory.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "item-attributes",
+        component: ItemAttributeComponent,
+        name: "admin.settings.itemAttribute",
+        redirect: { name: "admin.settings.itemAttribute.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "item_attributes",
+        },
+        children: [
+          {
+            path: "list",
+            component: ItemAttributeListComponent,
+            name: "admin.settings.itemAttribute.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+        ],
+      },
+      {
+        path: "taxes",
+        component: TaxComponent,
+        name: "admin.settings.tax",
+        redirect: { name: "admin.settings.tax.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "taxes",
+        },
+        children: [
+          {
+            path: "list",
+            component: TaxListComponent,
+            name: "admin.settings.tax.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+        ],
+      },
+      {
+        path: "pages",
+        component: PageComponent,
+        name: "admin.settings.page",
+        redirect: { name: "admin.settings.page.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "pages",
+        },
+        children: [
+          {
+            path: "list",
+            component: PageListComponent,
+            name: "admin.settings.page.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: PageShowComponent,
+            name: "admin.settings.page.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "role",
+        component: RoleComponent,
+        name: "admin.settings.role",
+        redirect: { name: "admin.settings.role.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "role_permissions",
+        },
+        children: [
+          {
+            path: "list",
+            component: RoleListComponent,
+            name: "admin.settings.role.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: RoleShowComponent,
+            name: "admin.settings.role.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "languages",
+        component: LanguageComponent,
+        name: "admin.settings.language",
+        redirect: { name: "admin.settings.language.list" },
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "languages",
+        },
+        children: [
+          {
+            path: "list",
+            component: LanguageListComponent,
+            name: "admin.settings.language.list",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "",
+            },
+          },
+          {
+            path: "show/:id",
+            component: LanguageShowComponent,
+            name: "admin.settings.language.show",
+            meta: {
+              isFrontend: false,
+              auth: true,
+              permissionUrl: "settings",
+              breadcrumb: "view",
+            },
+          },
+        ],
+      },
+      {
+        path: "sms-gateway",
+        component: SmsGatewayComponent,
+        name: "admin.settings.smsGateway",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "sms_gateway",
+        },
+      },
+      {
+        path: "payment-gateway",
+        component: PaymentGatewayComponent,
+        name: "admin.settings.paymentGateway",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "payment_gateway",
+        },
+      },
+      {
+        path: "payments",
+        component: SubscriptionListComponent,
+        name: "admin.settings.payments",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "license",
+        },
+      },
+      {
+        path: "payments/create",
+        component: SubscriptionCreateComponent,
+        // component: LicenseComponent,
+        name: "admin.settings.payments.create",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "license",
+        },
+      },
+      {
+        path: "notification-alert",
+        component: NotificationAlertComponent,
+        name: "admin.settings.notificationAlert",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "notification_alert",
+        },
+      },
+      {
+        path: "notification",
+        component: NotificationComponent,
+        name: "admin.settings.notification",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "notification",
+        },
+      },
+    ],
+  },
+  {
+    path: "/admin/tenants",
+    component: TenantComponent,
+    name: "admin.tenant",
+    redirect: { name: "admin.tenant.list" },
+    meta: {
+      isFrontend: false,
+      auth: true,
+      permissionUrl: "settings",
+      breadcrumb: "tenants",
     },
+    children: [
+      {
+        path: "list",
+        component: TenantListComponent,
+        name: "admin.tenant.list",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "",
+        },
+      },
+      {
+        path: "show/:id",
+        component: TenantShowComponent,
+        name: "admin.tenant.show",
+        meta: {
+          isFrontend: false,
+          auth: true,
+          permissionUrl: "settings",
+          breadcrumb: "view",
+        },
+      },
+    ],
+  },
 ];

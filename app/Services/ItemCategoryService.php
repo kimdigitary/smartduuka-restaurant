@@ -91,6 +91,8 @@ class ItemCategoryService
     public function update(ItemCategoryRequest $request, ItemCategory $itemCategory): ItemCategory
     {
         try {
+            $tenantId = Tenancy::getTenantId();
+            Log::info("Tenant ID in update: " . $tenantId);
             $itemCategory->update($request->validated() + ['slug' => Str::slug($request->name)]);
             if ($request->image) {
                 $itemCategory->clearMediaCollection('item-category');

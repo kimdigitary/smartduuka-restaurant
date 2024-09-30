@@ -69,6 +69,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof ModelNotFoundException) {
+            \Log::info('Exception Handler: Rendering response for ' . get_class($e));
             return new JsonResponse(
                 [
                     'success' => false,

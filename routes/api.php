@@ -78,6 +78,7 @@ use App\Http\Controllers\Table\DiningTableController as TableDiningTableControll
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
 use App\Http\Controllers\Table\OrderController as TableOrderController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\Admin\TenantController;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -97,7 +98,7 @@ Route::apiResource('subscriptions', SubscriptionController::class);
 Route::match(['get', 'post'], '/refresh-token', [RefreshTokenController::class, 'refreshToken'])->middleware(['installed']);
 
 
-Route::prefix('auth')->middleware(['installed', 'apiKey', 'localization'])->name('auth.')->namespace('Auth')->group(function () {
+Route::prefix('auth')->middleware(['installed', 'apiKey', 'localization', ])->name('auth.')->namespace('Auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
 
     Route::prefix('forgot-password')->name('forgot-password.')->group(function () {
@@ -313,6 +314,15 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'tena
         Route::prefix('notification')->name('notification.')->group(function () {
             Route::get('/', [NotificationController::class, 'index']);
             Route::match(['put', 'patch'], '/', [NotificationController::class, 'update']);
+        });
+
+        Route::prefix('tenant')->name('tenant.')->group(function () {
+            Route::get('/', [TenantController::class, 'index']);
+            Route::get('/{tenant}', [TenantController::class, 'edit']);
+            Route::get('/show/{tenant}', [TenantController::class, 'show']);
+            Route::post('/', [TenantController::class, 'store']);
+            Route::delete('/{tenant}', [TenantController::class, 'destroy']);
+            Route::match(['post', 'put', 'patch'], '/update/{tenant}', [TenantController::class, 'update']);
         });
     });
 

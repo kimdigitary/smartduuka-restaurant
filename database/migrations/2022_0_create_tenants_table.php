@@ -17,9 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->string('email')->nullable();
-            $table->string('logo');
+            $table->string('email');
+            $table->string('logo')->nullable();
+            $table->string('favicon')->nullable();
             $table->string('tagline')->nullable();
+            $table->tinyInteger('status')->default(\App\Enums\Status::ACTIVE)->comment(\App\Enums\Status::ACTIVE . '=' . \App\Enums\Status::ACTIVE . ', ' . \App\Enums\Status::INACTIVE . '=' . \App\Enums\Status::INACTIVE);
+            $table->string('website')->nullable();
+            $table->string('address');
+            $table->string('username')->unique();
             $table->timestamps();
         });
     }

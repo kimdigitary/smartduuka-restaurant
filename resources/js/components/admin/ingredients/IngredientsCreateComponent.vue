@@ -1,62 +1,114 @@
 <template>
     <LoadingComponent :props="loading" />
+
     <SmSidebarModalCreateComponent :props="addButton" />
 
+
+
     <div id="sidebar" class="drawer">
+
         <div class="drawer-header">
+
             <h3 class="drawer-title">Ingredients</h3>
+
             <button class="fa-solid fa-xmark close-btn" @click="reset"></button>
+
         </div>
+
         <div class="drawer-body">
+
             <form @submit.prevent="save">
+
                 <div class="form-row">
+
                     <div class="form-col-12 sm:form-col-6">
+
                         <label for="name" class="db-field-title required">{{ $t("label.name") }}</label>
-                        <input v-model="props.form.name" v-bind:class="errors.name ? 'invalid' : ''" type="text"
-                            id="name" class="db-field-control">
+
+                        <input v-model="props.form.name" v-bind:class="errors.name ? 'invalid' : ''" type="text" id="name" class="db-field-control">
+
                         <small class="db-field-alert" v-if="errors.name">{{ errors.name[0] }}</small>
+
                     </div>
 
-<!--                    <div class="form-col-12 sm:form-col-6">-->
-<!--                        <label for="price" class="db-field-title required">Buying Price</label>-->
-<!--                        <input v-model="formattedPrice" v-bind:class="errors.buying_price ? 'invalid' : ''" type="text"-->
-<!--                            id="buying_price" class="db-field-control">-->
-<!--                        <small class="db-field-alert" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>-->
-<!--                    </div>-->
+
+
+                    <!--                    <div class="form-col-12 sm:form-col-6">-->
+
+                    <!--                        <label for="price" class="db-field-title required">Buying Price</label>-->
+
+                    <!--                        <input v-model="formattedPrice" v-bind:class="errors.buying_price ? 'invalid' : ''" type="text"-->
+
+                    <!--                            id="buying_price" class="db-field-control">-->
+
+                    <!--                        <small class="db-field-alert" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>-->
+
+                    <!--                    </div>-->
+
                     <div class="form-col-12 sm:form-col-6">
+
                         <label for="price" class="db-field-title required">Units</label>
-                        <input v-model="props.form.unit" v-bind:class="errors.unit ? 'invalid' : ''" type="text"
-                            id="units" class="db-field-control">
+
+                        <input v-model="props.form.unit" v-bind:class="errors.unit ? 'invalid' : ''" type="text" id="units" class="db-field-control">
+
                         <small class="db-field-alert" v-if="errors.unit">{{ errors.unit[0] }}</small>
+
                     </div>
-<!--                    <div class="form-col-12 sm:form-col-6">-->
-<!--                        <label for="price" class="db-field-title required">Quantity</label>-->
-<!--                        <input v-model="props.form.quantity" v-bind:class="errors.quantity ? 'invalid' : ''" type="number"-->
-<!--                            id="quantity" class="db-field-control">-->
-<!--                        <small class="db-field-alert" v-if="errors.quantity">{{ errors.quantity[0] }}</small>-->
-<!--                    </div>-->
+
+                    <!--                    <div class="form-col-12 sm:form-col-6">-->
+
+                    <!--                        <label for="price" class="db-field-title required">Quantity</label>-->
+
+                    <!--                        <input v-model="props.form.quantity" v-bind:class="errors.quantity ? 'invalid' : ''" type="number"-->
+
+                    <!--                            id="quantity" class="db-field-control">-->
+
+                    <!--                        <small class="db-field-alert" v-if="errors.quantity">{{ errors.quantity[0] }}</small>-->
+
+                    <!--                    </div>-->
+
                     <div class="form-col-12 sm:form-col-6">
+
                         <label for="price" class="db-field-title required">Alert Quantity</label>
-                        <input v-model="props.form.alert_quantity" v-bind:class="errors.alert_quantity ? 'invalid' : ''" type="number"
-                            id="alert_quantity" class="db-field-control">
+
+                        <input v-model="props.form.alert_quantity" v-bind:class="errors.alert_quantity ? 'invalid' : ''" type="number" id="alert_quantity" class="db-field-control">
+
                         <small class="db-field-alert" v-if="errors.alert_quantity">{{ errors.alert_quantity[0] }}</small>
+
                     </div>
+
+
 
                     <div class="col-12">
+
                         <div class="flex flex-wrap gap-3 mt-4">
+
                             <button type="submit" class="db-btn py-2 text-white bg-primary">
-                                <i class="lab lab-save"></i>
-                                <span>{{ $t("label.save") }}</span>
-                            </button>
+
+                                    <i class="lab lab-save"></i>
+
+                                    <span>{{ $t("label.save") }}</span>
+
+                                </button>
+
                             <button type="button" class="modal-btn-outline modal-close" @click="reset">
-                                <i class="lab lab-close"></i>
-                                <span>{{ $t("button.close") }}</span>
-                            </button>
+
+                                    <i class="lab lab-close"></i>
+
+                                    <span>{{ $t("button.close") }}</span>
+
+                                </button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
 </template>
 
@@ -94,18 +146,17 @@ export default {
                 }
             }
         },
-        addButton: function () {
+        addButton: function() {
             return { title: "Add Ingredient" };
         },
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         formatNumber(value) {
             if (!value) return '';
             return Number(value).toLocaleString();
         },
-        reset: function () {
+        reset: function() {
             appService.sideDrawerHide();
             this.$store.dispatch('ingredient/reset').then().catch();
             this.errors = {};
@@ -117,7 +168,7 @@ export default {
                 unit: "",
             };
         },
-        save: function () {
+        save: function() {
             try {
                 const fd = new FormData();
                 fd.append('name', this.props.form.name);

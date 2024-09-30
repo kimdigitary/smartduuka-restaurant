@@ -17,30 +17,16 @@ class TenantSeeder extends Seeder
     {
         Tenant::insert([
             [
-                'name'       => 'Smart Duuka',
-                'phone'       => '773034311',
-                'logo'   => 'logo.png',
+                'name'       => 'Food Scan Default',
+                'phone'      => '773034311',
+                'email'      => 'smartduuka@example.com',
+                'logo'       => 'logo.png',
+                'tagline'    => 'Your smart choice',
+                'status'     => 5,
+                'website'    => 'http://smartduuka.com',
+                'address'    => '123 Smart Street, Duuka',
+                'username'   => 'foodscan',
             ],
-            [
-                'name'       => 'Smart Khan',
-                'phone'       => '773034312',
-                'logo'   => 'logo.png',
-            ],
-            [
-                'name'       => 'Smart Mohammadpur',
-                'phone'       => '773034313',
-                'logo'   => 'logo.png',
-            ],
-            [
-                'name'       => 'Smart Dhaka',
-                'phone'       => '773034314',
-                'logo'   => 'logo.png',
-            ],
-            [
-                'name'       => 'Smart Chittagong',
-                'phone'       => '773034315',
-                'logo'   => 'logo.png',
-            ]
         ]);
     }
 }
