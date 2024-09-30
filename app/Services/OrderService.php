@@ -317,9 +317,9 @@
                         $taxType    = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
                         $taxPrice   = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
                         $_item      = Item::find($item->item_id);
-                        $variations = $_item->variations;
+                        $variations = $_item->variations ?? null;
 
-                        if ( count($variations) > 0 ) {
+                        if ( $variations && count($variations) > 0 ) {
                             foreach ( $variations as $variation ) {
                                 foreach ( $variation->ingredients as $ingredient ) {
                                     $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();

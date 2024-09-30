@@ -31,6 +31,7 @@ export const posCart = {
     },
     actions: {
         lists: function (context, payload) {
+            console.log(payload)
             context.commit("lists", payload);
             context.commit("subtotal");
         },
@@ -68,10 +69,11 @@ export const posCart = {
                         isNew = true;
                     } else {
                         isNew = true;
+                        let count = 0;
                         _.forEach(state.lists, (list, listKey) => {
                             if (list.item_id === pay.item_id) {
                                 if (state.lists[listKey].item_variations.variations !== "undefined") {
-                                    if (Object.keys(state.lists[listKey]?.item_variations?.variations)?.length !== 0) {
+                                    if (Object.keys(state.lists[listKey]?.item_variations?.variations || {})?.length !== 0) {
                                         _.forEach(state.lists[listKey].item_variations.variations, (variationId, variationKey) => {
                                             if (pay.item_variations.variations[variationKey] !== "undefined" && pay.item_variations.variations[variationKey] === variationId) {
                                                 variationAndExtraChecker.push(true);
@@ -82,7 +84,7 @@ export const posCart = {
                                     }
                                 }
 
-                                if (pay.item_extras.extras.length !== 0 && state.lists[listKey].item_extras.extras.length !== 0) {
+                                if (pay.item_extras?.extras?.length !== 0 && state.lists[listKey].item_extras?.extras?.length !== 0) {
                                     _.forEach(pay.item_extras.extras, (payExtra) => {
                                         if (state.lists[listKey].item_extras.extras.includes(payExtra) && state.lists[listKey].item_extras.extras.length === pay.item_extras.extras.length) {
                                             variationAndExtraChecker.push(true);
@@ -108,6 +110,7 @@ export const posCart = {
                             } else {
                                 newChecker.push(false);
                             }
+                            count++;
                         });
 
                         _.forEach(newChecker, (check) => {
@@ -136,6 +139,7 @@ export const posCart = {
                         });
                         isNew = false;
                     }
+                    console.log(state.lists)
                 });
             }
         },
@@ -179,7 +183,6 @@ export const posCart = {
             state.discount = 0;
         },
         updateTotal: function(state, newTotal) {
-
             state.deliveryPrice = newTotal;
         },
     },

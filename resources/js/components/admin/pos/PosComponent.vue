@@ -624,7 +624,7 @@ export default {
             this.checkoutProps.form.items = [];
             _.forEach(this.carts, (item, index) => {
                 let item_variations = [];
-                if (Object.keys(item.item_variations.variations).length > 0) {
+                if (Object.keys(item.item_variations.variations || {}).length > 0) {
                     _.forEach(item.item_variations.variations, (value, index) => {
                         item_variations.push({
                             "id": value,
@@ -634,7 +634,7 @@ export default {
                     });
                 }
 
-                if (Object.keys(item.item_variations.names).length > 0) {
+                if (Object.keys(item.item_variations.names || {}).length > 0) {
                     let i = 0;
                     _.forEach(item.item_variations.names, (value, index) => {
                         item_variations[i].variation_name = index;
@@ -644,7 +644,7 @@ export default {
                 }
 
                 let item_extras = [];
-                if (item.item_extras.extras.length) {
+                if (item?.item_extras.extras?.length) {
                     _.forEach(item.item_extras.extras, (value) => {
                         item_extras.push({
                             id: value,
@@ -653,16 +653,17 @@ export default {
                     });
                 }
 
-                if (item.item_extras.names.length) {
+                if (item?.item_extras?.names?.length) {
                     let i = 0;
                     _.forEach(item.item_extras.names, (value) => {
                         item_extras[i].name = value;
                         i++;
                     });
                 }
-
+                console.log(item)
                 this.checkoutProps.form.items.push({
-                    item_id: item.item_id,
+                    // item_id: item.item_id,
+                    item_id: item.meat_id ? item.meat_id : item.item_id,
                     item_price: item.convert_price,
                     branch_id: this.checkoutProps.form.branch_id,
                     instruction: item.instruction,
