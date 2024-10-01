@@ -1,7 +1,6 @@
 <template>
     <LoadingComponent :props="loading"/>
     <PoscustomerComponent v-on:onCustomverCreate="onCustomverCreate"/>
-    <PosMeatOrderComponent v-on:onCustomverCreate="onCustomverCreate"/>
 
     <div class="md:w-[calc(100%-340px)] lg:w-[calc(100%-320px)] xl:w-[calc(100%-377px)]">
         <form @submit.prevent="search"
@@ -31,11 +30,6 @@
                 </SwiperSlide>
             </Swiper>
 
-            <button @click="addMeatOrder" type="button"
-                    class="flex items-center justify-center gap-1.5 px-3 h-10 rounded-lg text-white bg-primary">
-                <i class="lab lab-add-circle-line"></i>
-                <span class="capitalize text-sm font-bold">Meat Order</span>
-            </button>
         </div>
         <ItemComponent :items="items"/>
     </div>
@@ -251,7 +245,6 @@
             }}
         </span>
     </button>
-
     <ReceiptComponent :order="order"/>
 </template>
 <script>
@@ -660,10 +653,8 @@ export default {
                         i++;
                     });
                 }
-                console.log(item)
                 this.checkoutProps.form.items.push({
-                    // item_id: item.item_id,
-                    item_id: item.meat_id ? item.meat_id : item.item_id,
+                    item_id: item.item_id,
                     item_price: item.convert_price,
                     branch_id: this.checkoutProps.form.branch_id,
                     instruction: item.instruction,

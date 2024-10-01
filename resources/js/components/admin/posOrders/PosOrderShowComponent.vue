@@ -81,7 +81,8 @@
                     <button type="button" v-print="printObj"
                         class="flex items-center justify-center gap-2 px-4 h-[38px] rounded shadow-db-card bg-primary">
                         <i class="lab lab-printer-line lab-font-size-16 text-white"></i>
-                        <span class="text-sm capitalize text-white">{{ $t('button.print_invoice') }}</span>
+                        <span class="text-sm capitalize text-white">{{order.payment_status===PaymentStatusEnum.PAID ?
+                            $t('button.print_receipt'): $t('button.print_invoice') }}</span>
                     </button>
                     <button v-if="permissionChecker('pos_orders_cancel')" type="button" @click="reasonModal" data-modal="#reasonModal"
                             class="flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]">
@@ -228,8 +229,8 @@
             </div>
         </div>
     </div>
-
-    <PosOrderReceiptComponent :order="order" />
+<!--    <PosOrderReceiptComponent :order="order" />-->
+    <ReceiptComponent :order="order" />
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -244,10 +245,13 @@ import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import print from "vue3-print-nb";
 import PosOrderReceiptComponent from "./PosOrderReceiptComponent";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import ReceiptComponent from "../pos/ReceiptComponent.vue";
+import PaymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 
 export default {
     name: "PosOrderShowComponent",
     components: {
+        ReceiptComponent,
         SmIconDeleteComponent,
         TableLimitComponent,
         PaginationSMBox,
@@ -329,6 +333,9 @@ export default {
         });
     },
     computed: {
+        PaymentStatusEnum() {
+            return PaymentStatusEnum
+        },
         order: function () {
             return this.$store.getters['posOrder/show'];
         },
@@ -420,6 +427,7 @@ export default {
                         1,
                         this.$t("label.payment_status")
                     );
+                    appService.modalShow("#receiptModal");
                 }).catch((err) => {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);

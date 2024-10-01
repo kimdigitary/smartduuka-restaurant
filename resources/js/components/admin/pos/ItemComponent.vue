@@ -136,17 +136,6 @@
                                             </h4>
                                         </div>
 
-                                        <div class="flex items-center indec-group" v-if="item.itemAttributes[0].name==='meat'">
-                                            <button @click.prevent="variationQuantityDecrement(variation.id)"
-                                                    class="fa-solid fa-minus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
-                                            <input v-on:keypress="onlyNumber($event)"
-                                                   v-on:keyup="variationQuantityUp(variation.id)"
-                                                   v-model="variationQuantity[variation.id]"
-                                                   type="number"
-                                                   class="text-center w-5 text-xs font-semibold text-heading indec-value">
-                                            <button @click.prevent="variationQuantityIncrement(variation.id)"
-                                                    class="fa-solid fa-plus text-[8px] w-4 h-4 leading-3 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-plus"></button>
-                                        </div>
                                     </label>
                                 </SwiperSlide>
                             </Swiper>
@@ -359,7 +348,7 @@ export default {
             if (this.item.itemAttributes.length > 0) {
                 _.forEach(this.item.itemAttributes, (itemAttribute) => {
                     _.forEach(this.item.variations, (variation) => {
-                        if (itemAttribute.name === "meat") {
+                        if (itemAttribute.name === "meat1234") {
                             variation.forEach((item) => {
                                 const obj = {
                                     id: item.id,
@@ -373,17 +362,9 @@ export default {
                         }
                     });
                     if (typeof this.item.variations[itemAttribute.id][0] !== "undefined") {
-                        if (itemAttribute.name === "meat") {
-                            // this.item.variations[itemAttribute.id].forEach((variation) => {
-                            //     this.temp.item_variations.variations[variation.id] = variation.id;
-                            //     this.temp.item_variations.names[variation.name] = variation.name;
-                            //     this.temp.item_variation_total += variation.convert_price;
-                            // });
-                        } else {
-                            this.temp.item_variations.variations[this.item.variations[itemAttribute.id][0].item_attribute_id] = this.item.variations[itemAttribute.id][0].id;
-                            this.temp.item_variations.names[itemAttribute.name] = this.item.variations[itemAttribute.id][0].name;
-                            this.temp.item_variation_total += this.item.variations[itemAttribute.id][0].convert_price;
-                        }
+                        this.temp.item_variations.variations[this.item.variations[itemAttribute.id][0].item_attribute_id] = this.item.variations[itemAttribute.id][0].id;
+                        this.temp.item_variations.names[itemAttribute.name] = this.item.variations[itemAttribute.id][0].name;
+                        this.temp.item_variation_total += this.item.variations[itemAttribute.id][0].convert_price;
                     }
                 });
             }
@@ -434,13 +415,13 @@ export default {
             document.body.style.overflowY = "auto";
         },
         changeVariation: function (attributeId, variationId, variationName, variationPrice, attributeName) {
-            if (attributeName === "meat") {
+            if (attributeName === "meat1234") {
                 // this.temp.item_variations.variations[variationId] = variationId;
             } else {
                 this.temp.item_variations.variations[attributeId] = variationId;
             }
             _.forEach(this.item.itemAttributes, (itemAttribute) => {
-                if (attributeName === "meat") {
+                if (attributeName === "meat1234") {
                     this.temp.item_variations.names[variationName] = variationName;
                 } else {
                     if (itemAttribute.id === attributeId) {
@@ -649,8 +630,8 @@ export default {
                     const cartItem = {
                         name: variation.name,
                         image: '',
-                        // item_id: variation.id,
-                        item_id: this.temp.item_id,
+                        item_id: variation.id,
+                        // item_id: this.temp.item_id,
                         // meat_id: this.temp.item_id,
                         quantity: variation.quantity,
                         discount: 0,

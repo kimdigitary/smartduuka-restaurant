@@ -139,7 +139,6 @@ export const posCart = {
                         });
                         isNew = false;
                     }
-                    console.log(state.lists)
                 });
             }
         },
