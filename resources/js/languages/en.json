@@ -1120,6 +1120,7 @@
         "export": "Export",
         "print": "Print",
         "print_invoice": "Print Invoice",
+        "print_receipt": "Print Receipt",
         "excel": "XLS",
         "reset": "Reset",
         "accept": "Accept",

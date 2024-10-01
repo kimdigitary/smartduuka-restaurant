@@ -13,36 +13,40 @@
                 </div>
                 <label class="cursor-pointer" for="enableSound">Enable Sound Notifications</label>
             </div>
-            <div class="form-col-12 sm:form-col-6">
-                <label class="db-field-title" for="yes">Filter By</label>
-                <div class="db-field-radio-group">
-                    <div class="db-field-radio">
-                        <div class="custom-radio">
-                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
-                                   id="All" :value="enums.askEnum.ALL">
-                            <span class="custom-radio-span"></span>
-                        </div>
-                        <label for="All" class="db-field-label">All</label>
-                    </div>
-                    <div class="db-field-radio">
-                        <div class="custom-radio">
-                            <input type="radio" v-model="props.form.itemType" id="food"
-                                   :value="enums.askEnum.YES" class="custom-radio-field">
-                            <span class="custom-radio-span"></span>
-                        </div>
-                        <label for="food" class="db-field-label">Food</label>
-                    </div>
-                    <div class="db-field-radio">
-                        <div class="custom-radio">
-                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"
-                                   id="Beverage" :value="enums.askEnum.NO">
-                            <span class="custom-radio-span"></span>
-                        </div>
-                        <label for="Beverage" class="db-field-label">Beverage</label>
-                    </div>
 
-                </div>
-            </div>
+
+            <!--            <div class="form-col-12 sm:form-col-6 bg-amber-600">-->
+            <!--                <label class="db-field-title" for="yes">Filter By</label>-->
+            <!--                <div class="db-field-radio-group">-->
+            <!--                    <div class="db-field-radio">-->
+            <!--                        <div class="custom-radio">-->
+            <!--                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"-->
+            <!--                                   id="All" :value="enums.askEnum.ALL">-->
+            <!--                            <span class="custom-radio-span"></span>-->
+            <!--                        </div>-->
+            <!--                        <label for="All" class="db-field-label">All</label>-->
+            <!--                    </div>-->
+            <!--                    <div class="db-field-radio">-->
+            <!--                        <div class="custom-radio">-->
+            <!--                            <input type="radio" v-model="props.form.itemType" id="food"-->
+            <!--                                   :value="enums.askEnum.YES" class="custom-radio-field">-->
+            <!--                            <span class="custom-radio-span"></span>-->
+            <!--                        </div>-->
+            <!--                        <label for="food" class="db-field-label">Food</label>-->
+            <!--                    </div>-->
+            <!--                    <div class="db-field-radio">-->
+            <!--                        <div class="custom-radio">-->
+            <!--                            <input type="radio" class="custom-radio-field" v-model="props.form.itemType"-->
+            <!--                                   id="Beverage" :value="enums.askEnum.NO">-->
+            <!--                            <span class="custom-radio-span"></span>-->
+            <!--                        </div>-->
+            <!--                        <label for="Beverage" class="db-field-label">Beverage</label>-->
+            <!--                    </div>-->
+
+            <!--                </div>-->
+            <!--            </div>-->
+
+
             <div v-if="filteredOrders.length<1" class="w-full flex items-center justify-center">
                 <img class="w-1/2 mx-auto" :src="setting.no_kitchen_orders" alt="logo">
             </div>
@@ -101,19 +105,21 @@
                                 </li>
                             </ul>
                             <div class="mt-5">
-                                <div class="flex gap-2 p-2 items-center" v-for="orderItem in order.orderItems">
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
-                                               :value="orderItem.id"
-                                               :checked="orderItem.status===2"
-                                               @change="enable(order.id,orderItem.id,$event)">
-                                        <i class="fa-solid fa-check custom-checkbox-icon"></i>
-                                    </div>
+                                <div v-for="orderItem in order.orderItems">
+                                    <div class="flex gap-2 p-2 items-center" v-if="!showOrderItem(orderItem)">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-checkbox-field" :id="orderItem.id"
+                                                   :value="orderItem.id"
+                                                   :checked="orderItem.status===orderItemStatusEnum.COMPLETED"
+                                                   @change="enable(order.id,orderItem.id,$event)">
+                                            <i class="fa-solid fa-check custom-checkbox-icon"></i>
+                                        </div>
 
-                                    <div class="">
-                                        <label class="cursor-pointer" :for="orderItem.id">
-                                            {{ orderItem.quantity }} x {{`${variations(orderItem)} ${orderItem.order_item.name }`}}</label>
-                                        <p v-if="orderItem.instruction">Instructions: {{ orderItem.instruction }}</p>
+                                        <div class="">
+                                            <label class="cursor-pointer" :for="orderItem.id">
+                                                {{ orderItem.quantity }} x {{ `${variations(orderItem)} ${orderItem.order_item.name}` }}</label>
+                                            <p v-if="orderItem.instruction">Instructions: {{ orderItem.instruction }}</p>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -164,6 +170,8 @@ import VueSimpleAlert from "vue3-simple-alert";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
 import askEnum from "../../../enums/modules/askEnum";
 import AskEnum from "../../../enums/modules/askEnum";
+import orderItemStatusEnum from "../../../enums/modules/orderItemStatusEnum";
+import orderItemNameEnum from "../../../enums/modules/orderItemNameEnum";
 
 export default {
     name: "KitchenOrderListComponent",
@@ -280,12 +288,14 @@ export default {
         next();
     },
     beforeDestroy() {
-        console.log('beforeDestroy 1')
         if (this.timer1) {
             clearInterval(this.timer1);
         }
     },
     computed: {
+        orderItemStatusEnum() {
+            return orderItemStatusEnum
+        },
         orderStatusEnum() {
             return orderStatusEnum
         },
@@ -325,45 +335,39 @@ export default {
             this.timer1 = setInterval(() => {
                 this.polling()
             }, this.interval1)
-        },
-        variations: function (orderItem) {
+        }, showOrderItem(orderItem) {
+            return (orderItem.order_item.name === orderItemNameEnum.ADULTS || orderItem.order_item.name === orderItemNameEnum.FIVE_TO_NINE ||
+                orderItem.order_item.name ===
+                orderItemNameEnum.BELOW_5);
+        }, variations: function (orderItem) {
             const variations = JSON.parse(orderItem.item_variations);
             if (variations.length > 0) {
                 return variations[0]?.name;
             }
             return '';
-        },
-        permissionChecker(e) {
+        }, permissionChecker(e) {
             return appService.permissionChecker(e);
-        },
-        enable: function (orderID, orderItemID, event) {
+        }, enable: function (orderID, orderItemID, event) {
             if (event.target.checked === true) {
                 this.changeStatusChefBoard(orderID, orderItemID, 2)
             } else {
                 this.changeStatusChefBoard(orderID, orderItemID, 1)
             }
-        },
-        edit: function (product) {
+        }, edit: function (product) {
             this.loading.isActive = true;
             this.$store.dispatch('posOrder/edit', product.id);
             this.loading.isActive = false;
-        },
-        enableSound: function () {
+        }, enableSound: function () {
             this.isSoundEnabled = true;
-        },
-        statusClass: function (status) {
+        }, statusClass: function (status) {
             return appService.statusClass(status);
-        },
-        orderStatusClass: function (status) {
+        }, orderStatusClass: function (status) {
             return appService.orderStatusClass(status);
-        },
-        textShortener: function (text, number = 30) {
+        }, textShortener: function (text, number = 30) {
             return appService.textShortener(text, number);
-        },
-        search: function () {
+        }, search: function () {
             this.list();
-        },
-        handleDate: function (e) {
+        }, handleDate: function (e) {
             if (e) {
                 this.props.search.from_date = e[0];
                 this.props.search.to_date = e[1];
@@ -372,8 +376,7 @@ export default {
                 this.props.search.from_date = null;
                 this.props.search.to_date = null;
             }
-        },
-        clear: function () {
+        }, clear: function () {
             this.props.search.paginate = 1;
             this.props.search.page = 1;
             this.props.search.order_by = "desc";
@@ -385,8 +388,7 @@ export default {
             this.props.search.user_id = null;
             this.props.form.date = null;
             this.list();
-        },
-        list: function (page = 1) {
+        }, list: function (page = 1) {
             this.loading.isActive = true;
             this.props.search.page = page;
             const payload = {
@@ -400,11 +402,9 @@ export default {
             }).catch((err) => {
                 this.loading.isActive = false;
             });
-        },
-        showComplete: function (orderItems) {
-            return orderItems.every(orderItem => orderItem.status === 2);
-        },
-        polling: function () {
+        }, showComplete: function (orderItems) {
+            return orderItems.every(orderItem => orderItem.status === orderItemStatusEnum.COMPLETED);
+        }, polling: function () {
             const payload = {
                 ...this.props.search, type: this.props.form.itemType
             }
@@ -419,16 +419,14 @@ export default {
             }).catch((err) => {
                 this.loading.isActive = false;
             });
-        },
-        playSound: function (orders) {
+        }, playSound: function (orders) {
             // if (this.isSoundEnabled && orders.some(order => order.status === this.orderStatusEnum.ACCEPT)) {
             const audio = new Audio(orders[0].order_notification_audio);
             audio.play().catch(error => {
                 console.error('Audio playback failed:', error);
             });
             // }
-        },
-        destroy: function (id) {
+        }, destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
@@ -446,8 +444,7 @@ export default {
             }).catch((err) => {
                 this.loading.isActive = false;
             })
-        },
-        changeStatus: function (orderID, orderItemID, orderItemStatus) {
+        }, changeStatus: function (orderID, orderItemID, orderItemStatus) {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatus", {
@@ -470,8 +467,7 @@ export default {
                 this.loading.isActive = false;
                 alertService.error(err.response.data.message);
             }
-        },
-        changeStatusChefBoard: function (orderID, orderItemID, orderItemStatus) {
+        }, changeStatusChefBoard: function (orderID, orderItemID, orderItemStatus) {
             try {
                 // this.loading.isActive = true;
                 this.$store.dispatch("posOrder/changeStatusChefBoard", {
@@ -481,21 +477,21 @@ export default {
                     orderItemStatus: orderItemStatus
                 }).then((res) => {
                     this.loading.isActive = false;
-                    this.orders.find(order => order.id === id).status = res.data.data.status;
+                    this.orders.find(order => order.id === orderID).status = res.data.data.status;
                     alertService.successFlip(
                         1,
                         this.$t("label.status")
                     );
                 }).catch((err) => {
                     this.loading.isActive = false;
+                    console.log(err)
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
                 this.loading.isActive = false;
                 alertService.error(err.response.data.message);
             }
-        },
-        completeOrder: function (id) {
+        }, completeOrder: function (id) {
             VueSimpleAlert.confirm(
                 "Make this order complete",
                 "Are you sure?",
@@ -533,8 +529,7 @@ export default {
             }).catch((err) => {
                 console.log('err', err)
             })
-        },
-        xls: function () {
+        }, xls: function () {
             this.loading.isActive = true;
             this.$store.dispatch("posOrder/export", this.props.search).then((res) => {
                 this.loading.isActive = false;

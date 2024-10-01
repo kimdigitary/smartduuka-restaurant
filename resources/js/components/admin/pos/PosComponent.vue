@@ -29,6 +29,7 @@
                     </router-link>
                 </SwiperSlide>
             </Swiper>
+
         </div>
         <ItemComponent :items="items"/>
     </div>
@@ -158,24 +159,24 @@
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
 
             <div class="mt-2">
-                    <div class="flex h-[38px] mb-4">
-                        <div class="db-field-down-arrow">
-                            <select v-model="paymentMethod" @change="handlePaymentMethodChange"
+                <div class="flex h-[38px] mb-4">
+                    <div class="db-field-down-arrow">
+                        <select v-model="paymentMethod" @change="handlePaymentMethodChange"
                                 class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">
-                                <option value="4">Cash</option>
-                                <option value="2">Mobile Money</option>
-                                <option value="1">Cash on Delivery</option>
-                            </select>
-                        </div>
-                        <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
-                            v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
-                            class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
-                        <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
-                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
-                            {{ $t('button.apply') }}
-                        </button>
+                            <option value="4">Cash</option>
+                            <option value="2">Mobile Money</option>
+                            <option value="1">Cash on Delivery</option>
+                        </select>
                     </div>
+                    <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
+                           v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
+                           class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
+                    <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
+                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
+                        {{ $t('button.apply') }}
+                    </button>
                 </div>
+            </div>
 
             <ul class="flex flex-col gap-1.5 mb-4 mt-4">
                 <li class="flex items-center justify-between">
@@ -213,7 +214,7 @@
                     </span>
                     <span class="text-sm font-medium font-rubik capitalize leading-6 text-[#2E2F38]">
                         {{
-                            currencyFormat(subtotal + deliveryPrice  - posDiscount,
+                            currencyFormat(subtotal + deliveryPrice - posDiscount,
                                 setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
                                 setting.site_currency_position)
                         }}
@@ -244,7 +245,6 @@
             }}
         </span>
     </button>
-
     <ReceiptComponent :order="order"/>
 </template>
 <script>
@@ -263,10 +263,12 @@ import ReceiptComponent from "./ReceiptComponent";
 import PoscustomerComponent from './PosCustomerComponent';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+import PosMeatOrderComponent from "./PosMeatOrderComponent.vue";
 
 export default {
     name: "PosComponent",
     components: {
+        PosMeatOrderComponent,
         ReceiptComponent,
         LoadingComponent,
         ItemComponent,
@@ -615,7 +617,7 @@ export default {
             this.checkoutProps.form.items = [];
             _.forEach(this.carts, (item, index) => {
                 let item_variations = [];
-                if (Object.keys(item.item_variations.variations).length > 0) {
+                if (Object.keys(item.item_variations.variations || {}).length > 0) {
                     _.forEach(item.item_variations.variations, (value, index) => {
                         item_variations.push({
                             "id": value,
@@ -625,7 +627,7 @@ export default {
                     });
                 }
 
-                if (Object.keys(item.item_variations.names).length > 0) {
+                if (Object.keys(item.item_variations.names || {}).length > 0) {
                     let i = 0;
                     _.forEach(item.item_variations.names, (value, index) => {
                         item_variations[i].variation_name = index;
@@ -635,7 +637,7 @@ export default {
                 }
 
                 let item_extras = [];
-                if (item.item_extras.extras.length) {
+                if (item?.item_extras.extras?.length) {
                     _.forEach(item.item_extras.extras, (value) => {
                         item_extras.push({
                             id: value,
@@ -644,14 +646,13 @@ export default {
                     });
                 }
 
-                if (item.item_extras.names.length) {
+                if (item?.item_extras?.names?.length) {
                     let i = 0;
                     _.forEach(item.item_extras.names, (value) => {
                         item_extras[i].name = value;
                         i++;
                     });
                 }
-
                 this.checkoutProps.form.items.push({
                     item_id: item.item_id,
                     item_price: item.convert_price,
@@ -702,7 +703,7 @@ export default {
                         _.forEach(err.response.data.errors, (error) => {
                             alertService.error(error[0]);
                         });
-                    }else {
+                    } else {
                         alertService.error(err.response.data.message);
                     }
                 });
@@ -721,6 +722,9 @@ export default {
         },
         addCustomer: function () {
             appService.modalShow("#customerModal");
+        },
+        addMeatOrder: function () {
+            appService.modalShow("#meatModal");
         },
         onCustomverCreate: function (customerId) {
             appService.modalHide();

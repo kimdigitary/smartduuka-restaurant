@@ -26,6 +26,8 @@ import discountTypeEnum from './modules/discountTypeEnum';
 import switchEnum from './modules/switchEnum';
 import purchaseStatusEnum from "./modules/purchaseStatusEnum";
 import purchaseTypeEnum from "./modules/purchaseTypeEnum";
+import orderItemStatusEnum from "./modules/orderItemStatusEnum";
+import orderItemNameEnum from "./modules/orderItemNameEnum";
 
 export default {
     activityEnum,
@@ -55,5 +57,7 @@ export default {
     roleEnum,
     discountTypeEnum,
     switchEnum,
-    purchaseTypeEnum
+    purchaseTypeEnum,
+    orderItemStatusEnum,
+    orderItemNameEnum
 };

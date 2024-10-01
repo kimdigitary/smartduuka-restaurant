@@ -4,6 +4,7 @@ const orderTypeEnum = Object.freeze({
     POS: 15,
     DINING_TABLE: 20,
     CHEF_BOARD:1,
-    COMPLETED:2
+    COMPLETED:2,
+    MEAT:30
 });
 export default orderTypeEnum;
