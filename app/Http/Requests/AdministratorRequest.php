@@ -2,7 +2,6 @@
 
     namespace App\Http\Requests;
 
-    use App\Rules\Phone;
     use Illuminate\Foundation\Http\FormRequest;
     use Illuminate\Validation\Rule;
 
@@ -44,12 +43,11 @@
                     'nullable' ,
                     'string' ,
                     'max:20' ,
-                    'unique:users,phone' ,
-                    new Phone()
+                    Rule::unique("users" , "phone")->ignore($this->route('administrator.id'))
                 ] ,
                 'branch_id'             => [ 'nullable' , 'numeric' ] ,
                 'status'                => [ 'required' , 'numeric' , 'max:24' ] ,
-//            'country_code'          => ['required', 'string', 'max:20'],
+                'country_code'          => [ 'required' , 'string' , 'max:20' ] ,
             ];
         }
     }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Services\CountryCodeService;
 use App\Http\Resources\CountryCodeResource;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class CountryCodeController extends AdminController
 {
@@ -16,7 +19,7 @@ class CountryCodeController extends AdminController
         $this->countryCodeService = $countryCodeService;
     }
 
-    public function index() : \Illuminate\Http\Response | array | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index() : Response | array | Application | ResponseFactory
     {
         try {
             return $this->countryCodeService->list();
@@ -25,10 +28,10 @@ class CountryCodeController extends AdminController
         }
     }
 
-    public function show($country) : \Illuminate\Http\Response | CountryCodeResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function show($country) : Response | CountryCodeResource | Application | ResponseFactory
     {
         try {
-            return new CountryCodeResource($this->countryCodeService->show($country));
+            return new CountryCodeResource( $this->countryCodeService->show($country) );
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
