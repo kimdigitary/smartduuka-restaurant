@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Models\User;
 use App\Exports\AdministratorExport;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\PaginateRequest;
@@ -33,7 +36,7 @@ class AdministratorController extends AdminController
         $this->middleware(['permission:administrators_show'])->only('show');
     }
 
-    public function index(PaginateRequest $request) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request) : Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return AdministratorResource::collection($this->administratorService->list($request));
@@ -42,7 +45,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function store(AdministratorRequest $request) : AdministratorResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function store(AdministratorRequest $request) : AdministratorResource | Response | Application | ResponseFactory
     {
         try {
             return new AdministratorResource($this->administratorService->store($request));
@@ -51,7 +54,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function update(AdministratorRequest $request, User $administrator) : AdministratorResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function update(AdministratorRequest $request, User $administrator) : AdministratorResource | Response | Application | ResponseFactory
     {
         try {
             return new AdministratorResource($this->administratorService->update($request, $administrator));
@@ -60,7 +63,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function destroy(User $administrator) : \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function destroy(User $administrator) : Response | Application | ResponseFactory
     {
         try {
             $this->administratorService->destroy($administrator);
@@ -70,7 +73,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function show(User $administrator) : AdministratorResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function show(User $administrator) : AdministratorResource | Response | Application | ResponseFactory
     {
         try {
             return new AdministratorResource($this->administratorService->show($administrator));
@@ -78,7 +81,7 @@ class AdministratorController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
-    public function export(PaginateRequest $request) : \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request) : Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | Application | ResponseFactory
     {
         try {
             return Excel::download(new AdministratorExport($this->administratorService, $request), 'Administrator.xlsx');
@@ -87,7 +90,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function changePassword(UserChangePasswordRequest $request, User $administrator) : AdministratorResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function changePassword(UserChangePasswordRequest $request, User $administrator) : AdministratorResource | Response | Application | ResponseFactory
     {
         try {
             return new AdministratorResource($this->administratorService->changePassword($request, $administrator));
@@ -96,7 +99,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function changeImage(ChangeImageRequest $request, User $administrator) : AdministratorResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function changeImage(ChangeImageRequest $request, User $administrator) : AdministratorResource | Response | Application | ResponseFactory
     {
         try {
             return new AdministratorResource($this->administratorService->changeImage($request, $administrator));
@@ -105,7 +108,7 @@ class AdministratorController extends AdminController
         }
     }
 
-    public function myOrder(PaginateRequest $request, User $administrator) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function myOrder(PaginateRequest $request, User $administrator) : Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return OrderResource::collection($this->orderService->userOrder($request, $administrator));
