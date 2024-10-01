@@ -22,40 +22,40 @@ class MenuTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
-            [
-                'name'       => 'Items',
-                'language'   => 'items',
-                'url'        => 'items',
-                'icon'       => 'lab lab-items',
-                'priority'   => 100,
-                'status'     => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-
-            ],
-
-            [
-                'name'       => 'Ingredients',
-                'language'   => 'ingredients',
-                'url'        => 'ingredients',
-                'icon'       => 'lab lab-items',
-                'priority'   => 100,
-                'status'     => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-
-            ],
-            [
-                'name'       => 'Dining Tables',
-                'language'   => 'dining_tables',
-                'url'        => 'dining-tables',
-                'icon'       => 'lab lab-dining-table',
-                'priority'   => 100,
-                'status'     => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-
-            ],
+//            [
+//                'name'       => 'Items',
+//                'language'   => 'items',
+//                'url'        => 'items',
+//                'icon'       => 'lab lab-items',
+//                'priority'   => 100,
+//                'status'     => 1,
+//                'created_at' => now(),
+//                'updated_at' => now()
+//
+//            ],
+//
+//            [
+//                'name'       => 'Ingredients',
+//                'language'   => 'ingredients',
+//                'url'        => 'ingredients',
+//                'icon'       => 'lab lab-items',
+//                'priority'   => 100,
+//                'status'     => 1,
+//                'created_at' => now(),
+//                'updated_at' => now()
+//
+//            ],
+//            [
+//                'name'       => 'Dining Tables',
+//                'language'   => 'dining_tables',
+//                'url'        => 'dining-tables',
+//                'icon'       => 'lab lab-dining-table',
+//                'priority'   => 100,
+//                'status'     => 1,
+//                'created_at' => now(),
+//                'updated_at' => now()
+//
+//            ],
             [
                 'name'       => 'Items & Ingredients',
                 'language'   => 'menus',
