@@ -530,6 +530,7 @@ export default {
                 item_type: itemTypeEnum.FOOD,
                 item_category_id: null,
                 tax_id: null,
+                is_stockable: AskEnum.NO,
                 status: statusEnum.ACTIVE,
             };
             if (this.image) {
@@ -577,6 +578,7 @@ export default {
                         item_type: itemTypeEnum.FOOD,
                         item_category_id: null,
                         tax_id: null,
+                        is_stockable: AskEnum.NO,
                         status: statusEnum.ACTIVE,
                     };
                     this.image = "";
