@@ -27,6 +27,7 @@
     use App\Models\Order;
     use App\Models\OrderAddress;
     use App\Models\OrderItem;
+    use App\Models\PosPayment;
     use App\Models\Stock;
     use App\Models\Tax;
     use App\Models\User;
@@ -304,6 +305,13 @@
                             'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
                         ]
                     );
+//                    PosPayment::create([
+//                        'order_id'       => $this->order->id ,
+//                        'amount'         => $request->amount ,
+//                        'date'           => date('Y-m-d H:i:s' , strtotime($request->date)) ,
+//                        'reference_no'   => $request->reference_no ,
+//                        'payment_method' => $request->payment_method ,
+//                    ]);
 
                     $i            = 0;
                     $totalTax     = 0;
@@ -519,7 +527,6 @@
                         $order->save();
                     }
                 } else {
-
                     if ( $request->status == OrderStatus::REJECTED || $request->status == OrderStatus::CANCELED ) {
                         $request->validate([
                             'reason' => 'required|max:700' ,
@@ -556,7 +563,6 @@
                                         if ( $stock->quantity > $ingredient->pivot->quantity ) {
                                             $stock->decrement('quantity' , $ingredient->pivot->quantity);
                                         }
-//                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
                                     }
                                 }
                             } else {

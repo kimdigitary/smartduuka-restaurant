@@ -37,7 +37,7 @@ import SubscriptionCreateComponent from "../../components/admin/Subscription/Sub
 import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent.vue";
 import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent.vue";
 import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent.vue";
-import MeatPricesComponent from "../../components/admin/settings/Meat/MeatPricesComponent.vue";
+import MeatPricesComponent from "../../components/admin/settings/PaymentMethods/PaymentMethodsComponent.vue";
 
 export const settingRoutes= [
     {
@@ -158,14 +158,14 @@ export const settingRoutes= [
                 },
             },
             {
-                path: "meat_prices",
+                path: "payment_methods",
                 component: MeatPricesComponent,
-                name: "admin.settings.meat_prices",
+                name: "admin.settings.payment_methods",
                 meta: {
                     isFrontend: false,
                     auth: true,
                     permissionUrl: "settings",
-                    breadcrumb: "meat_prices",
+                    breadcrumb: "payment_methods",
                 },
             },
             {
