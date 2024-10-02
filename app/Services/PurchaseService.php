@@ -10,6 +10,7 @@
     use App\Http\Requests\PaginateRequest;
     use App\Http\Requests\PurchasePaymentRequest;
     use App\Http\Requests\PurchaseRequest;
+    use App\Http\Requests\StorePosPaymentRequest;
     use App\Libraries\QueryExceptionLibrary;
     use App\Models\Ingredient;
     use App\Models\Item;
@@ -564,7 +565,7 @@
             }
         }
 
-        public function pos(PurchasePaymentRequest $request , Order $order) : object
+        public function pos(StorePosPaymentRequest $request , Order $order) : object
         {
             try {
                 DB::transaction(function () use ($request , $order) {
