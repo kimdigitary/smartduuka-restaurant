@@ -6,6 +6,7 @@
     use App\Http\Requests\PaginateRequest;
     use App\Http\Requests\PurchasePaymentRequest;
     use App\Http\Requests\PurchaseRequest;
+    use App\Http\Requests\StorePosPaymentRequest;
     use App\Http\Resources\OrderResource;
     use App\Http\Resources\PosPaymentResource;
     use App\Http\Resources\PurchaseDetailsResource;
@@ -163,10 +164,9 @@
             }
         }
 
-        public function pos(PurchasePaymentRequest $request , Order $order)
+        public function pos(StorePosPaymentRequest $request , Order $order)
         {
             try {
-//            return new PurchaseResource($this->purchaseService->pos($request, $order));
                 return new OrderResource($this->purchaseService->pos($request , $order));
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
