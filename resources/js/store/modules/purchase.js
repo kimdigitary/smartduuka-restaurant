@@ -61,6 +61,25 @@ export const purchase = {
                 })
             })
         },
+        posLists: function (context, payload) {
+            payload.type = purchaseTypeEnum.ITEM;
+            return new Promise((resolve, reject) => {
+                let url = 'admin/purchase';
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit('lists', res.data.data);
+                        context.commit('page', res.data.meta);
+                        context.commit('pagination', res.data)
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        },
 
         ingredientsLists: function (context, payload) {
             payload.type = purchaseTypeEnum.INGREDIENT;
@@ -82,6 +101,24 @@ export const purchase = {
             })
         },
         save: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = 'admin/purchase';
+                if (this.state['purchase'].temp.isEditing) {
+                    method = axios.post;
+                    url = `admin/purchase/update/${this.state['purchase'].temp.temp_id}`;
+                }
+
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', {vuex: true}).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            })
+        },
+        savePos: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
                 let url = 'admin/purchase';
@@ -145,6 +182,17 @@ export const purchase = {
                 })
             })
         },
+        showPos: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.get(`admin/purchase/pos-show/${payload}`).then((res) => {
+                    context.commit('show', res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        },
+
         edit: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.get(`admin/purchase/edit/${payload}`).then((res) => {
@@ -206,9 +254,38 @@ export const purchase = {
                 });
             })
         },
+        addPaymentPos: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = `admin/purchase/pos-payment/${this.state['purchase'].temp.temp_id}`;
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', {vuex: true,type:this.state['purchase'].type}).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            })
+        },
         viewPayment: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/purchase/payment/${this.state['purchase'].temp.temp_id}`;
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    context.commit('viewPayment', res.data.data);
+                    context.commit('page', res.data.meta);
+                    context.commit('pagination', res.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
+            })
+        },
+        viewPosPayment: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = `admin/purchase/pos-payment/${this.state['purchase'].temp.temp_id}`;
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }

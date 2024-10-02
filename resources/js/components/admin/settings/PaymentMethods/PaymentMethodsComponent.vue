@@ -9,29 +9,30 @@
             <form @submit.prevent="save">
                 <div class="form-row">
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="adults" class="db-field-title required">Adults</label>
-                        <input v-model="form.adults" v-bind:class="errors.adults ? 'invalid' : ''" type="text"
-                            id="adults" class="db-field-control" />
-                        <small class="db-field-alert" v-if="errors.adults">{{
-                            errors.adults[0]
+                        <label for="network" class="db-field-title required">Telecom Network</label>
+                        <input v-model="form.network" v-bind:class="errors.network ? 'invalid' : ''" type="text"
+                            id="network" class="db-field-control" />
+                        <small class="db-field-alert" v-if="errors.network">{{
+                            errors.network[0]
+                        }}</small>
+                    </div>
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="merchant_code" class="db-field-title required">Merchant Code / Phone Number</label>
+                        <input v-model="form.merchant_code" v-bind:class="errors.merchant_code ? 'invalid' : ''" type="text"
+                            id="merchant_code" class="db-field-control" />
+                        <small class="db-field-alert" v-if="errors.merchant_code">{{
+                            errors.merchant_code[0]
+                        }}</small>
+                    </div>
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="merchant_code" class="db-field-title required">Merchant Code / Phone Number</label>
+                        <input v-model="form.merchant_code" v-bind:class="errors.merchant_code ? 'invalid' : ''" type="text"
+                            id="merchant_code" class="db-field-control" />
+                        <small class="db-field-alert" v-if="errors.merchant_code">{{
+                            errors.merchant_code[0]
                         }}</small>
                     </div>
 
-                    <div class="form-col-12 sm:form-col-6">
-                        <label for="five_to_nine" class="db-field-title required">5-9 Years</label>
-                        <input v-model="form.five_to_nine" v-bind:class="errors.five_to_nine ? 'invalid' : ''" type="text"
-                            id="five_to_nine" class="db-field-control" />
-                        <small class="db-field-alert" v-if="errors.five_to_nine">{{
-                            errors.five_to_nine[0]
-                        }}</small>
-                    </div>
-
-                    <div class="form-col-12 sm:form-col-6">
-                        <label for="less_than_five" class="db-field-title required">Less than 5 Years</label>
-                        <input v-model="form.less_than_five" v-bind:class="errors.less_than_five ? 'invalid' : ''"
-                            type="text" id="less_than_five" class="db-field-control" />
-                        <small class="db-field-alert" v-if="errors.less_than_five">{{ errors.less_than_five[0] }}</small>
-                    </div>
                     <div class="form-col-12">
                         <button type="submit" class="db-btn text-white bg-primary">
                             <i class="lab lab-save"></i>
@@ -50,7 +51,7 @@ import alertService from "../../../../services/alertService";
 import encryptionEnum from "../../../../enums/modules/encryptionEnum";
 
 export default {
-    name: "MeatPricesComponent",
+    name: "PaymentMethodsComponent",
     components: { LoadingComponent },
     data() {
         return {
@@ -103,7 +104,7 @@ export default {
                         this.loading.isActive = false;
                         alertService.successFlip(
                             res.config.method === "put" ?? 0,
-                            this.$t("menu.meat_prices")
+                            this.$t("menu.payment_methods")
                         );
                         this.errors = {};
                     })

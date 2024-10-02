@@ -59,6 +59,10 @@
                                                      v-if="permissionChecker('pos-orders')"/>
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
+                                <SmAddPaymentComponent @click="addPayment(order.id)" data-modal="#purchasePayment"
+                                                       v-if="permissionChecker('pos_orders_delete')"/>
+                                <smViewPaymentComponent @click="paymentList(order.id)" data-modal="#purchasePaymentList"
+                                                        v-if="permissionChecker('pos_orders_delete')"/>
                             </div>
                         </td>
                     </tr>
@@ -75,6 +79,7 @@
             </div>
         </div>
     </div>
+    <PostPurchaseComponent/>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -105,10 +110,18 @@ import PosOrderEditComponent from "./PosOrderEditComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
 import ReceiptComponent from "../pos/ReceiptComponent.vue";
+import SmAddPaymentComponent from "../components/buttons/SmAddPaymentComponent.vue";
+import SmViewPaymentComponent from "../components/buttons/SmViewPaymentComponent.vue";
+import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
+import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
+import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
 
 export default {
     name: "PosOrderListComponent",
     components: {
+        PostPurchaseComponent,
+        IngredientPurchaseComponent,
+        SmViewPaymentComponent, SmAddPaymentComponent,
         ReceiptComponent,
         PosOrderEditComponent,
         ItemCreateComponent,
@@ -241,6 +254,18 @@ export default {
     methods: {
         permissionChecker(e) {
             return appService.permissionChecker(e);
+        },
+        paymentList: function (id) {
+            appService.modalShow('#purchasePaymentList');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.loading.isActive = false;
+        },
+        addPayment: function (id) {
+            appService.modalShow('#purchasePayment');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.loading.isActive = false;
         },
         startPolling() {
             this.timer = setInterval(() => {

@@ -559,7 +559,10 @@
             Route::get('/export' , [ PurchaseController::class , 'export' ]);
             Route::get('/download-attachment/{purchase}' , [ PurchaseController::class , 'downloadAttachment' ]);
             Route::get('/payment/{purchase}' , [ PurchaseController::class , 'paymentHistory' ]);
+            Route::get('/pos-payment/{purchase}' , [ PurchaseController::class , 'posPaymentHistory' ]);
             Route::post('/payment/{purchase}' , [ PurchaseController::class , 'payment' ]);
+            Route::post('/pos-payment/{order}' , [ PurchaseController::class , 'pos' ]);
+            Route::get('/pos-show/{order}' , [ PurchaseController::class , 'showPos' ]);
             Route::get('/payment/download-attachment/{purchasePayment}' , [ PurchaseController::class , 'paymentDownloadAttachment' ]);
             Route::delete('/payment/{purchase}/{purchasePayment}' , [ PurchaseController::class , 'paymentDestroy' ]);
         });
