@@ -37,7 +37,9 @@ import SubscriptionCreateComponent from "../../components/admin/Subscription/Sub
 import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent.vue";
 import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent.vue";
 import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent.vue";
-import MeatPricesComponent from "../../components/admin/settings/Meat/MeatPricesComponent.vue";
+import PaymentMethodListComponent from "../../components/admin/settings/paymentMethods/PaymentMethodListComponent.vue";
+import PaymentMethodComponent from "../../components/admin/settings/paymentMethods/PaymentMethodComponent.vue";
+import PaymentMethodShowComponent from "../../components/admin/settings/paymentMethods/PaymentMethodShowComponent.vue";
 
 export const settingRoutes= [
     {
@@ -158,14 +160,14 @@ export const settingRoutes= [
                 },
             },
             {
-                path: "meat_prices",
-                component: MeatPricesComponent,
-                name: "admin.settings.meat_prices",
+                path: "payment_methods",
+                component: PaymentMethodListComponent,
+                name: "admin.settings.payment_methods",
                 meta: {
                     isFrontend: false,
                     auth: true,
                     permissionUrl: "settings",
-                    breadcrumb: "meat_prices",
+                    breadcrumb: "payment_methods",
                 },
             },
             {
@@ -207,6 +209,43 @@ export const settingRoutes= [
                         path: "show/:id",
                         component: AnalyticShowComponent,
                         name: "admin.settings.analytic.show",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "view",
+                        },
+                    },
+                ]
+            },
+            {
+                path: "payment_methods",
+                component: PaymentMethodComponent,
+                name: "admin.settings.payment_methods",
+                redirect: { name: "admin.settings.payment_methods.list" },
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "payment_methods",
+                },
+                children: [
+                    {
+
+                        path: "list",
+                        component: PaymentMethodListComponent,
+                        name: "admin.settings.payment_methods.list",
+                        meta: {
+                            isFrontend: false,
+                            auth: true,
+                            permissionUrl: "settings",
+                            breadcrumb: "",
+                        },
+                    },
+                    {
+                        path: "show/:id",
+                        component:PaymentMethodShowComponent,
+                        name: "admin.settings.payment_methods.show",
                         meta: {
                             isFrontend: false,
                             auth: true,

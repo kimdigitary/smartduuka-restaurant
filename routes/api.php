@@ -74,6 +74,7 @@
     use App\Http\Controllers\Frontend\SettingController;
     use App\Http\Controllers\Frontend\TokenStoreController;
     use App\Http\Controllers\MeatPriceController;
+    use App\Http\Controllers\PaymentMethodController;
     use App\Http\Controllers\SubscriptionController;
     use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
     use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
@@ -277,6 +278,16 @@
                     [ AnalyticSectionController::class , 'update' ]
                 );
                 Route::delete('/{analytic}/{analyticSection}' , [ AnalyticSectionController::class , 'destroy' ]);
+            });
+            Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
+                Route::get('/' , [ PaymentMethodController::class , 'index' ]);
+                Route::post('/' , [ PaymentMethodController::class , 'store' ]);
+                Route::match(
+                    [ 'put' , 'patch' ] ,
+                    '/{method}' ,
+                    [ PaymentMethodController::class , 'update' ]
+                );
+                Route::delete('/{method}' , [ PaymentMethodController::class , 'destroy' ]);
             });
 
             Route::prefix('otp')->name('otp.')->group(function () {
@@ -559,7 +570,10 @@
             Route::get('/export' , [ PurchaseController::class , 'export' ]);
             Route::get('/download-attachment/{purchase}' , [ PurchaseController::class , 'downloadAttachment' ]);
             Route::get('/payment/{purchase}' , [ PurchaseController::class , 'paymentHistory' ]);
+            Route::get('/pos-payment/{purchase}' , [ PurchaseController::class , 'posPaymentHistory' ]);
             Route::post('/payment/{purchase}' , [ PurchaseController::class , 'payment' ]);
+            Route::post('/pos-payment/{order}' , [ PurchaseController::class , 'pos' ]);
+            Route::get('/pos-show/{order}' , [ PurchaseController::class , 'showPos' ]);
             Route::get('/payment/download-attachment/{purchasePayment}' , [ PurchaseController::class , 'paymentDownloadAttachment' ]);
             Route::delete('/payment/{purchase}/{purchasePayment}' , [ PurchaseController::class , 'paymentDestroy' ]);
         });

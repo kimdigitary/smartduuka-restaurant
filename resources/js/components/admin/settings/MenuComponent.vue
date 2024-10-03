@@ -25,9 +25,9 @@
                 <i class="lab lab-mail text-sm"></i>
                 {{ $t("menu.mail") }}
             </router-link>
-            <router-link :to="{ name: 'admin.settings.meat_prices' }" class="db-tab-btn">
+            <router-link :to="{ name: 'admin.settings.payment_methods' }" class="db-tab-btn">
                 <i class="lab lab-mail text-sm"></i>
-                {{ $t("menu.meat_prices") }}
+                Payment Methods
             </router-link>
             <router-link :to="{ name: 'admin.settings.otp' }" class="db-tab-btn">
                 <i class="lab lab-otp text-sm"></i>

@@ -90,7 +90,6 @@
                                         }}
                                     </option>
                                 </select>
-
                             </div>
                         </div>
                     </div>
@@ -109,28 +108,34 @@
                                         :class="temp.item_variations.variations[variation.item_attribute_id] === variation.id ? 'active' : ''"
                                         :for="variation.item_attribute_id + '-' + variation.name"
                                         class="variation-margin-right w-full h-[52px] cursor-pointer py-2 px-3 gap-2 rounded-lg flex items-center border transition border-[#F7F7FC] bg-[#F7F7FC]">
+                                        <!--                                        <div class="custom-radio sm" v-if="item.itemAttributes[0].name!=='meat'">-->
                                         <div class="custom-radio sm">
                                             <input :value="variation.id"
-                                                   @click="changeVariation(variation.item_attribute_id, variation.id, variation.name, variation.convert_price)"
+                                                   @click="changeVariation(variation.item_attribute_id, variation.id, variation.name, variation.convert_price, item.itemAttributes[0].name)"
                                                    v-model="temp.item_variations.variations[variation.item_attribute_id]"
                                                    type="radio" :id="variation.item_attribute_id + '-' + variation.name"
                                                    class="custom-radio-field">
                                             <span class="custom-radio-span"></span>
                                         </div>
+
+                                        <!--                                        <div class="custom-checkbox " v-if="item.itemAttributes[0].name==='meat'">-->
+                                        <!--                                            <input type="checkbox" class="custom-checkbox-field"-->
+                                        <!--                                                   :name="'feature_' + variation.id" :value="variation.id"-->
+                                        <!--                                                   :id="'feature_' + variation.id" :checked="false"-->
+                                        <!--                                                   @change="">-->
+                                        <!--                                            <i class="fa-solid fa-check custom-checkbox-icon"></i>-->
+                                        <!--                                        </div>-->
                                         <div>
                                             <h3 class="block capitalize text-xs text-heading">
                                                 {{ textShortener(variation.name, 15) }}</h3>
                                             <h4 v-if="variation.price > 0"
                                                 class="block text-xs font-medium text-heading">
-
-                                                <!--                                                {{-->
-                                                <!--                                                    item.offer.length > 0 ? parseInt(cleanAmount(item.offer[0].currency_price)) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)-->
-                                                <!--                                                }}-->
                                                 UGX {{
                                                     item.offer.length > 0 ? cleanAmount(item.offer[0].currency_price) + cleanAmount(variation.currency_price) : cleanAmount(item.currency_price) + cleanAmount(variation.currency_price)
                                                 }}
                                             </h4>
                                         </div>
+
                                     </label>
                                 </SwiperSlide>
                             </Swiper>
@@ -170,8 +175,8 @@
                 <div class="mb-5" v-if="item.addons.length > 0">
                     <h3 class="text-sm leading-6 font-medium capitalize mb-2 text-heading">{{ $t('label.addons') }}</h3>
                     <div class="swiper addon-swiper">
-                        <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="16">
-                            <SwiperSlide v-for="addon in item.addons" :key="addon">
+                        <Swiper :speed="1000" slidesPerView="auto" :spaceBetween="1">
+                            <swiper-slide v-for="addon in item.addons" :key="addon">
                                 <div class="!w-fit !relative">
                                     <div @click.prevent="changeAddon(addon)"
                                          class="addon cursor-pointer w-fit min-w-[200px] h-[70px] rounded-lg flex border border-[#EFF0F6]">
@@ -216,7 +221,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </SwiperSlide>
+                            </swiper-slide>
                         </Swiper>
                     </div>
                 </div>
@@ -228,7 +233,8 @@
                     <textarea v-model="temp.instruction" :placeholder="$t('message.add_note')"
                               class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
                 </div>
-                <button type="button" :disabled="temp.total_price <= 0" @click.prevent="addToCart"
+
+                <button type="button" :disabled="temp.total_price <= 0 && meatVariations.length<=0" @click.prevent="addToCart"
                         class="flex items-center justify-center gap-3 rounded-3xl text-base py-3 px-3 font-medium w-full text-white bg-primary">
                     <i class="icon-bag-2"></i>
                     <span>
@@ -267,7 +273,10 @@ export default {
             item: null,
             itemInfo: null,
             addons: {},
+            variations: {},
             addonQuantity: {},
+            variationQuantity: {},
+            meatVariations: [],
             itemArrays: [],
             settings: {
                 itemsToShow: 4.3,
@@ -337,11 +346,25 @@ export default {
         variationModalShow: function (item) {
             this.item = item;
             if (this.item.itemAttributes.length > 0) {
-                _.forEach(this.item.itemAttributes, (element) => {
-                    if (typeof this.item.variations[element.id][0] !== "undefined") {
-                        this.temp.item_variations.variations[this.item.variations[element.id][0].item_attribute_id] = this.item.variations[element.id][0].id;
-                        this.temp.item_variations.names[element.name] = this.item.variations[element.id][0].name;
-                        this.temp.item_variation_total += this.item.variations[element.id][0].convert_price;
+                _.forEach(this.item.itemAttributes, (itemAttribute) => {
+                    _.forEach(this.item.variations, (variation) => {
+                        if (itemAttribute.name === "meat1234") {
+                            variation.forEach((item) => {
+                                const obj = {
+                                    id: item.id,
+                                    name: item.name,
+                                    convert_price: item.convert_price,
+                                    currency_price: item.currency_price,
+                                    quantity: 1
+                                };
+                                this.meatVariations.push(obj);
+                            })
+                        }
+                    });
+                    if (typeof this.item.variations[itemAttribute.id][0] !== "undefined") {
+                        this.temp.item_variations.variations[this.item.variations[itemAttribute.id][0].item_attribute_id] = this.item.variations[itemAttribute.id][0].id;
+                        this.temp.item_variations.names[itemAttribute.name] = this.item.variations[itemAttribute.id][0].name;
+                        this.temp.item_variation_total += this.item.variations[itemAttribute.id][0].convert_price;
                     }
                 });
             }
@@ -391,11 +414,19 @@ export default {
             modalDiv?.classList?.remove("active");
             document.body.style.overflowY = "auto";
         },
-        changeVariation: function (attributeId, variationId, variationName, variationPrice) {
-            this.temp.item_variations.variations[attributeId] = variationId;
-            _.forEach(this.item.itemAttributes, (element) => {
-                if (element.id === attributeId) {
-                    this.temp.item_variations.names[element.name] = variationName;
+        changeVariation: function (attributeId, variationId, variationName, variationPrice, attributeName) {
+            if (attributeName === "meat1234") {
+                // this.temp.item_variations.variations[variationId] = variationId;
+            } else {
+                this.temp.item_variations.variations[attributeId] = variationId;
+            }
+            _.forEach(this.item.itemAttributes, (itemAttribute) => {
+                if (attributeName === "meat1234") {
+                    this.temp.item_variations.names[variationName] = variationName;
+                } else {
+                    if (itemAttribute.id === attributeId) {
+                        this.temp.item_variations.names[itemAttribute.name] = variationName;
+                    }
                 }
             });
             this.totalPriceSetup();
@@ -403,7 +434,7 @@ export default {
         changeVariationAdjust: function (attributeId, variationId) {
             _.forEach(this.item.variations[attributeId], (variation) => {
                 if (variation.id === variationId) {
-                    this.changeVariation(attributeId, variationId, variation.name, variation.convert_price);
+                    this.changeVariation(attributeId, variationId, variation.name, variation.convert_price, this.item.itemAttributes[0].name);
                 }
             });
         },
@@ -429,13 +460,21 @@ export default {
             let item_variation_total = 0;
             let item_extra_total = 0;
             let item_addon_total = 0;
-            _.forEach(this.temp.item_variations.variations, (variationId, attributeId) => {
-                _.forEach(this.item.variations[attributeId], (itemVariation) => {
-                    if (variationId === itemVariation.id) {
-                        item_variation_total += itemVariation.convert_price;
-                    }
+            if (this.meatVariations.length > 0) {
+                // _.forEach(this.meatVariations, (variation) => {
+                //     if (this.temp.item_variations.variations[variation.id] === variation.id) {
+                //         item_variation_total += variation.convert_price;
+                //     }
+                // });
+            } else {
+                _.forEach(this.temp.item_variations.variations, (variationId, attributeId) => {
+                    _.forEach(this.item.variations[attributeId], (itemVariation) => {
+                        if (variationId === itemVariation.id) {
+                            item_variation_total += itemVariation.convert_price;
+                        }
+                    });
                 });
-            });
+            }
 
             _.forEach(this.temp.item_extras.extras, (extraId) => {
                 _.forEach(this.item.extras, (itemExtra) => {
@@ -485,6 +524,18 @@ export default {
 
             this.totalPriceSetup();
         },
+        variationQuantityUp: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                if (this.variationQuantity[id] === 0) {
+                    this.variationQuantity[id] = 1;
+                }
+            }
+            if (typeof this.variations[id] !== "undefined") {
+                this.variations[id].quantity = this.variationQuantity[id];
+            }
+
+            this.totalPriceSetup();
+        },
         addonQuantityIncrement: function (id) {
             if (typeof this.addonQuantity[id] !== "undefined") {
                 this.addonQuantity[id]++;
@@ -497,6 +548,18 @@ export default {
                 this.totalPriceSetup();
             }
         },
+        variationQuantityIncrement: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                this.variationQuantity[id]++;
+                if (this.variationQuantity[id] <= 0) {
+                    this.variationQuantity[id] = 1;
+                }
+                if (typeof this.variations[id] !== "undefined") {
+                    this.variations[id].quantity = this.variationQuantity[id];
+                }
+                this.totalPriceSetup();
+            }
+        },
         addonQuantityDecrement: function (id) {
             if (typeof this.addonQuantity[id] !== "undefined") {
                 this.addonQuantity[id]--;
@@ -505,6 +568,18 @@ export default {
                 }
                 if (typeof this.addons[id] !== "undefined") {
                     this.addons[id].quantity = this.addonQuantity[id];
+                }
+                this.totalPriceSetup();
+            }
+        },
+        variationQuantityDecrement: function (id) {
+            if (typeof this.variationQuantity[id] !== "undefined") {
+                this.variationQuantity[id]--;
+                if (this.variationQuantity[id] <= 0) {
+                    this.variationQuantity[id] = 1;
+                }
+                if (typeof this.variations[id] !== "undefined") {
+                    this.variations[id].quantity = this.variationQuantity[id];
                 }
                 this.totalPriceSetup();
             }
@@ -549,22 +624,45 @@ export default {
             this.totalPriceSetup();
         },
         addToCart: function () {
-            this.itemArrays = [
-                {
-                    name: this.temp.name,
-                    image: this.temp.image,
-                    item_id: this.temp.item_id,
-                    quantity: this.temp.quantity,
-                    discount: this.temp.discount,
-                    currency_price: this.temp.currency_price,
-                    convert_price: this.temp.convert_price,
-                    item_variations: this.temp.item_variations,
-                    item_extras: this.temp.item_extras,
-                    item_variation_total: this.temp.item_variation_total,
-                    item_extra_total: this.temp.item_extra_total,
-                    instruction: this.temp.instruction
-                }
-            ];
+            if (this.meatVariations.length > 0) {
+                this.itemArrays = [];
+                this.meatVariations.forEach((variation) => {
+                    const cartItem = {
+                        name: variation.name,
+                        image: '',
+                        item_id: variation.id,
+                        // item_id: this.temp.item_id,
+                        // meat_id: this.temp.item_id,
+                        quantity: variation.quantity,
+                        discount: 0,
+                        currency_price: variation.currency_price,
+                        convert_price: variation.convert_price,
+                        item_variations: this.meatVariations,
+                        item_extras: [],
+                        item_variation_total: 0,
+                        item_extra_total: this.temp.item_extra_total,
+                        instruction: this.temp.instruction
+                    }
+                    this.itemArrays.push(cartItem);
+                });
+            } else {
+                this.itemArrays = [
+                    {
+                        name: this.temp.name,
+                        image: this.temp.image,
+                        item_id: this.temp.item_id,
+                        quantity: this.temp.quantity,
+                        discount: this.temp.discount,
+                        currency_price: this.temp.currency_price,
+                        convert_price: this.temp.convert_price,
+                        item_variations: this.temp.item_variations,
+                        item_extras: this.temp.item_extras,
+                        item_variation_total: this.temp.item_variation_total,
+                        item_extra_total: this.temp.item_extra_total,
+                        instruction: this.temp.instruction
+                    }
+                ];
+            }
 
             if (this.addons !== "undefined" && Object.keys(this.addons).length !== 0) {
                 _.forEach(this.addons, (addon) => {

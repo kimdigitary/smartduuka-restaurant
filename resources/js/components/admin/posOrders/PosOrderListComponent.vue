@@ -1,17 +1,17 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
                 <h3 class="db-card-title">{{ $t('menu.pos_orders') }}</h3>
                 <div class="db-card-filter">
-                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
-                    <FilterComponent />
+                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage"/>
+                    <FilterComponent/>
                     <div class="dropdown-group">
-                        <ExportComponent />
+                        <ExportComponent/>
                         <div class="dropdown-list db-card-filter-dropdown-list">
-                            <PrintComponent :props="printObj" />
-                            <ExcelComponent :method="xls" />
+                            <PrintComponent :props="printObj"/>
+                            <ExcelComponent :method="xls"/>
                         </div>
                     </div>
                 </div>
@@ -20,59 +20,66 @@
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print" :dir="direction">
                     <thead class="db-table-head">
-                        <tr class="db-table-head-tr">
-                            <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.customer') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.amount') }}</th>
-                            <th class="db-table-head-th">Payment Status</th>
-                            <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.status') }}</th>
-                            <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
-                                $t('label.action') }}</th>
-                        </tr>
+                    <tr class="db-table-head-tr">
+                        <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.customer') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.amount') }}</th>
+                        <th class="db-table-head-th">Payment Status</th>
+                        <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.status') }}</th>
+                        <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
+                                $t('label.action')
+                            }}
+                        </th>
+                    </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="orders.length > 0">
-                        <tr class="db-table-body-tr" v-for="order in orders" :key="order">
-                            <td class="db-table-body-td">
-                                {{ order.order_serial_no }}
-                            </td>
-                            <td class="db-table-body-td">
-                                {{ order.customer.name }}
-                            </td>
-                            <td class="db-table-body-td">{{ order.total_amount_price }}</td>
-                            <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
-                            <td class="db-table-body-td">{{ order.order_datetime }}</td>
-                            <td class="db-table-body-td">
+                    <tr class="db-table-body-tr" v-for="order in orders" :key="order">
+                        <td class="db-table-body-td">
+                            {{ order.order_serial_no }}
+                        </td>
+                        <td class="db-table-body-td">
+                            {{ order.customer.name }}
+                        </td>
+                        <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                        <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
+                        <td class="db-table-body-td">{{ order.order_datetime }}</td>
+                        <td class="db-table-body-td">
                                 <span :class="orderStatusClass(order.status)">
                                     {{ enums.orderStatusEnumArray[order.status] }}
                                 </span>
-                            </td>
-                            <td class="db-table-body-td hidden-print" v-if="permissionChecker('pos-orders')">
-                                <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
-                                    <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
-                                        v-if="permissionChecker('pos-orders')" />
-<!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
-<!--                                        v-if="permissionChecker('pos-orders')" /> -->
-                                    <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
-                                                         v-if="permissionChecker('pos-orders')" />
-                                    <SmIconDeleteComponent @click="destroy(order.id)"
-                                        v-if="permissionChecker('pos_orders_delete')" />
-                                </div>
-                            </td>
-                        </tr>
+                        </td>
+                        <td class="db-table-body-td hidden-print" v-if="permissionChecker('pos-orders')">
+                            <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
+                                <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
+                                                     v-if="permissionChecker('pos-orders')"/>
+                                <!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
+                                <!--                                        v-if="permissionChecker('pos-orders')" /> -->
+                                <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
+                                                     v-if="permissionChecker('pos-orders')"/>
+                                <SmIconDeleteComponent @click="destroy(order.id)"
+                                                       v-if="permissionChecker('pos_orders_delete')"/>
+                                <SmAddPaymentComponent @click="addPayment(order.id)" data-modal="#purchasePayment"
+                                                       v-if="permissionChecker('pos_orders_delete')"/>
+                                <smViewPaymentComponent @click="paymentList(order.id)" data-modal="#purchasePaymentList"
+                                                        v-if="permissionChecker('pos_orders_delete')"/>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
-                <PaginationSMBox :pagination="pagination" :method="list" />
+                <PaginationSMBox :pagination="pagination" :method="list"/>
                 <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                    <PaginationTextComponent :props="{ page: paginationPage }" />
-                    <PaginationBox :pagination="pagination" :method="list" />
+                    <PaginationTextComponent :props="{ page: paginationPage }"/>
+                    <PaginationBox :pagination="pagination" :method="list"/>
                 </div>
             </div>
         </div>
     </div>
+    <PostPurchaseComponent/>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -102,10 +109,20 @@ import ItemCreateComponent from "../items/ItemCreateComponent.vue";
 import PosOrderEditComponent from "./PosOrderEditComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import {TimerEnums} from "../../../enums/timerEnums.ts";
+import ReceiptComponent from "../pos/ReceiptComponent.vue";
+import SmAddPaymentComponent from "../components/buttons/SmAddPaymentComponent.vue";
+import SmViewPaymentComponent from "../components/buttons/SmViewPaymentComponent.vue";
+import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
+import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
+import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
 
 export default {
     name: "PosOrderListComponent",
     components: {
+        PostPurchaseComponent,
+        IngredientPurchaseComponent,
+        SmViewPaymentComponent, SmAddPaymentComponent,
+        ReceiptComponent,
         PosOrderEditComponent,
         ItemCreateComponent,
         SmIconSidebarModalEditComponent,
@@ -127,13 +144,13 @@ export default {
         const date = ref();
 
         const presetRanges = ref([
-            { label: 'Today', range: [new Date(), new Date()] },
-            { label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())] },
+            {label: 'Today', range: [new Date(), new Date()]},
+            {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
             {
                 label: 'Last month',
                 range: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
             },
-            { label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())] },
+            {label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())]},
             {
                 label: 'This year (slot)',
                 range: [startOfYear(new Date()), endOfYear(new Date())],
@@ -151,6 +168,7 @@ export default {
             loading: {
                 isActive: false
             },
+            timer: null,
             interval: TimerEnums.INTERVAL,
             enums: {
                 orderStatusEnum: orderStatusEnum,
@@ -161,6 +179,7 @@ export default {
                     [orderStatusEnum.ACCEPT]: this.$t("label.accept"),
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
+                    [orderStatusEnum.PREPARED]: this.$t("label.prepared"),
                 },
                 orderTypeEnumArray: {
                     [orderTypeEnum.POS]: this.$t("label.pos"),
@@ -204,6 +223,12 @@ export default {
             status: statusEnum.ACTIVE
         });
     },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        next();
+    },
     beforeDestroy() {
         if (this.timer) {
             clearInterval(this.timer);
@@ -229,6 +254,18 @@ export default {
     methods: {
         permissionChecker(e) {
             return appService.permissionChecker(e);
+        },
+        paymentList: function (id) {
+            appService.modalShow('#purchasePaymentList');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.loading.isActive = false;
+        },
+        addPayment: function (id) {
+            appService.modalShow('#purchasePayment');
+            this.loading.isActive = true;
+            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.loading.isActive = false;
         },
         startPolling() {
             this.timer = setInterval(() => {
@@ -295,7 +332,7 @@ export default {
             appService.destroyConfirmation().then((res) => {
                 try {
                     this.loading.isActive = true;
-                    this.$store.dispatch('posOrder/destroy', { id: id, search: this.props.search }).then((res) => {
+                    this.$store.dispatch('posOrder/destroy', {id: id, search: this.props.search}).then((res) => {
                         this.loading.isActive = false;
                         alertService.successFlip(null, this.$t('menu.pos_orders'));
                     }).catch((err) => {

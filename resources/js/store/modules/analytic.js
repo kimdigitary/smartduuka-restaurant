@@ -50,6 +50,24 @@ export const analytic = {
                 });
             });
         },
+        paymentLists: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = 'admin/setting/payment-methods';
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if(typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit('paymentMethodsList', res.data.data);
+                        context.commit('page', res.data.meta);
+                        context.commit('pagination', res.data);
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         save: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
@@ -67,6 +85,23 @@ export const analytic = {
                 });
             });
         },
+        savePaymentMethod: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = '/admin/setting/payment-methods';
+                if (this.state['analytic'].temp.isEditing) {
+                    method = axios.put;
+                    url = `/admin/setting/payment-methods/${this.state['analytic'].temp.temp_id}`;
+                }
+                method(url, payload.form).then(res => {
+                    context.dispatch('paymentLists', payload.search).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         edit: function (context, payload) {
             context.commit('temp', payload);
         },
@@ -74,6 +109,16 @@ export const analytic = {
             return new Promise((resolve, reject) => {
                 axios.delete(`admin/setting/analytic/${payload.id}`).then((res) => {
                     context.dispatch('lists', payload.search).then().catch();
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        paymentMethodDestroy: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.delete(`admin/setting/payment-methods/${payload.id}`).then((res) => {
+                    context.dispatch('paymentLists', payload.search).then().catch();
                     resolve(res);
                 }).catch((err) => {
                     reject(err);
@@ -96,6 +141,9 @@ export const analytic = {
     },
     mutations: {
         lists: function (state, payload) {
+            state.lists = payload
+        },
+        paymentMethodsList: function (state, payload) {
             state.lists = payload
         },
         pagination: function (state, payload) {

@@ -43,10 +43,9 @@
                                     </span>
                                     <input type="hidden" v-model="props.form.country_code">
                                 </button>
-
                             </div>
                             <input v-model="props.form.phone" v-on:keypress="phoneNumber($event)" v-bind:class="errors.phone
-        ? 'invalid' : ''" type="text" id="phone" class="pl-2 text-sm w-full h-full" />
+        ? 'invalid' : ''" type="text" id="phone"  class="pl-2 text-sm w-full h-full" />
                         </div>
 
                         <small class="db-field-alert" v-if="errors.phone">
