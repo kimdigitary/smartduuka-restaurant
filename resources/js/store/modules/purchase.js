@@ -283,7 +283,7 @@ export const purchase = {
                 })
             })
         },
-        viewPosPayment: function (context, payload) {
+         viewPosPayment: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/purchase/pos-payment/${this.state['purchase'].temp.temp_id}`;
                 if (payload) {
