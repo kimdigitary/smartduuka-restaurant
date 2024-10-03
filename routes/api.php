@@ -74,6 +74,7 @@
     use App\Http\Controllers\Frontend\SettingController;
     use App\Http\Controllers\Frontend\TokenStoreController;
     use App\Http\Controllers\MeatPriceController;
+    use App\Http\Controllers\PaymentMethodController;
     use App\Http\Controllers\SubscriptionController;
     use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
     use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
@@ -277,6 +278,16 @@
                     [ AnalyticSectionController::class , 'update' ]
                 );
                 Route::delete('/{analytic}/{analyticSection}' , [ AnalyticSectionController::class , 'destroy' ]);
+            });
+            Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
+                Route::get('/' , [ PaymentMethodController::class , 'index' ]);
+                Route::post('/' , [ PaymentMethodController::class , 'store' ]);
+                Route::match(
+                    [ 'put' , 'patch' ] ,
+                    '/{method}' ,
+                    [ PaymentMethodController::class , 'update' ]
+                );
+                Route::delete('/{method}' , [ PaymentMethodController::class , 'destroy' ]);
             });
 
             Route::prefix('otp')->name('otp.')->group(function () {

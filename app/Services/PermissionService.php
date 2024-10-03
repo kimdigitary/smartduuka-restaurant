@@ -38,9 +38,7 @@ class PermissionService
     public function update(PermissionRequest $request, Role $role) : Role
     {
         try {
-            $response = $role->syncPermissions(Permission::whereIn('id', $request->get('permissions'))->get());
-            info($response);
-            return $response;
+            return $role->syncPermissions(Permission::whereIn('id', $request->get('permissions'))->get());
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
