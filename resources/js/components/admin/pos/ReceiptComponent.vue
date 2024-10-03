@@ -24,8 +24,8 @@
                     </div>
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
-                    <div class="flex flex-col pt-3.5 items-center justify-center">
-                        <h5 class="text-sm font-normal">Receipt</h5>
+                    <div class="flex flex-col items-center justify-center">
+                        <h5 class="text-xl font-bold">Receipt</h5>
                     </div>
                 </div>
 
@@ -138,7 +138,7 @@
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
                     <div class="flex gap-3">
-                        <p class="">Payment Method: {{capitalizeWords(order.payment_method?.name)}}</p>
+                        <p class="">Payment Method: <span class="font-bold">{{capitalizeWords(order.payment_method?.name)}}</span></p>
                     </div>
                 </div>
                 <h4 v-if="order.token"

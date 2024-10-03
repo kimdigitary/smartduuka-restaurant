@@ -25,7 +25,7 @@
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
                     <div class="flex flex-col pt-3.5 items-center justify-center">
-                        <h5 class="text-sm font-normal">Invoice</h5>
+                        <h5 class="text-xl font-bold">Invoice</h5>
                     </div>
                 </div>
 
@@ -144,7 +144,7 @@
                         <div class="">
                             <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
                                 <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
-                                                                                   class="px-5"> {{ paymentMethod.merchant_code }}</span></p>
+                                                                                   class="px-5 font-bold"> {{ paymentMethod.merchant_code }}</span></p>
                             </div>
                         </div>
                     </div>
@@ -152,6 +152,10 @@
                 <h4 v-if="order.token"
                     class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
                     {{ $t('label.token') }} #{{ order.token }}
+                </h4>
+                <h4 v-if="order.dining_table"
+                    class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
+                    Dining Table #{{ order.dining_table?.name }}
                 </h4>
                 <div class="text-center pt-2 pb-4">
                     <p class="text-[11px] leading-[14px] capitalize text-heading">
