@@ -3,12 +3,12 @@
         <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction">
             <div class="modal-header hidden-print">
                 <button type="button" @click="reset"
-                    class="modal-close flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#FB4E4E]">
+                        class="modal-close flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#FB4E4E]">
                     <i class="lab lab-back-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.close') }}</span>
                 </button>
                 <button type="button" v-print="printObj"
-                    class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
+                        class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
                     <i class="lab lab-print-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>
                 </button>
@@ -17,14 +17,20 @@
                 <div class="text-center pb-3.5 border-b border-dashed border-gray-400">
                     <div class="flex flex-col items-center justify-center">
                         <img :src="setting.theme_logo" alt="logo" style="width: 90px; height: 37px; opacity: 90%;"
-                            class="mb-2">
+                             class="mb-2">
                         <h3 class="text-2xl font-bold mb-1">{{ company.company_name }}</h3>
                         <h4 class="text-sm font-normal">{{ branch.address }}</h4>
                         <h5 class="text-sm font-normal">Tel: {{ branch.phone }}</h5>
                     </div>
                 </div>
+                <div class="text-center py-1 border-b border-dashed border-gray-400">
+                    <div class="flex flex-col pt-3.5 items-center justify-center">
+                        <h5 class="text-sm font-normal">Invoice</h5>
+                    </div>
+                </div>
 
                 <table class="w-full my-1.5">
+                    <tbody>
                     <tr>
                         <td class="text-xs text-left py-0.5 text-heading">{{ $t('button.order') }}
                             #{{ order.order_serial_no }}
@@ -34,73 +40,77 @@
                         <td class="text-xs text-left py-0.5 text-heading">{{ order.order_date }}</td>
                         <td class="text-xs text-right py-0.5 text-heading">{{ order.order_time }}</td>
                     </tr>
+                    </tbody>
                 </table>
 
                 <table class="w-full">
                     <thead class="border-t border-b border-dashed border-gray-400">
-                        <tr>
-                            <th scope="col" class="py-1 font-normal text-xs capitalize text-left text-heading w-8">
-                                {{ $t('label.qty') }}
-                            </th>
-                            <th scope="col"
-                                class="py-1 font-normal text-xs capitalize flex items-center justify-between text-heading">
-                                <span>{{ $t('label.item_description') }}</span>
-                                <span>{{ $t('label.price') }}</span>
-                            </th>
-                        </tr>
+                    <tr>
+                        <th scope="col" class="py-1 font-normal text-xs capitalize text-left text-heading w-8">
+                            {{ $t('label.qty') }}
+                        </th>
+                        <th scope="col"
+                            class="py-1 font-normal text-xs capitalize flex items-center justify-between text-heading">
+                            <span>{{ $t('label.item_description') }}</span>
+                            <span>{{ $t('label.price') }}</span>
+                        </th>
+                    </tr>
                     </thead>
 
                     <tbody class="border-b border-dashed border-gray-400">
-                        <tr v-if="orderItems.length > 0" v-for="item in orderItems" :key="item">
-                            <td class="text-left font-normal align-top py-1">
-                                <p class="text-xs leading-5 text-heading">{{ item.quantity }}</p>
-                            </td>
-                            <td class="text-left font-normal align-top py-1">
-                                <div class="flex items-center justify-between">
-                                    <h4 class="text-sm font-normal capitalize">{{ item.item_name }}</h4>
-                                    <p class="text-xs leading-5 text-heading">{{ item.total_without_tax_currency_price
-                                        }}
-                                    </p>
-                                </div>
-                                <p v-if="Object.keys(item.item_variations).length !== 0"
-                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                    <tr v-if="orderItems.length > 0" v-for="item in orderItems" :key="item">
+                        <td class="text-left font-normal align-top py-1">
+                            <p class="text-xs leading-5 text-heading">{{ item.quantity }}</p>
+                        </td>
+                        <td class="text-left font-normal align-top py-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-normal capitalize">{{ item.item_name }}</h4>
+                                <p class="text-xs leading-5 text-heading">{{
+                                        item.total_without_tax_currency_price
+                                    }}
+                                </p>
+                            </div>
+                            <p v-if="Object.keys(item.item_variations).length !== 0"
+                               class="text-xs leading-5 font-normal text-heading max-w-[200px]">
                                     <span v-for="(variation, index) in item.item_variations">
                                         {{ variation.variation_name }}: {{ variation.name }}
                                         <span v-if="index + 1 < Object.keys(item.item_variations).length">, </span>
                                     </span>
-                                </p>
-                                <p v-if="item.item_extras.length > 0"
-                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
-                                    {{ $t('label.extras') }}:
-                                    <span v-for="(extra, index) in item.item_extras">
+                            </p>
+                            <p v-if="item.item_extras.length > 0"
+                               class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                {{ $t('label.extras') }}:
+                                <span v-for="(extra, index) in item.item_extras">
                                         {{ extra.name }}
                                         <span v-if="index + 1 < item.item_extras.length">, </span>
                                     </span>
-                                </p>
-                                <p v-if="item.instruction"
-                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
-                                    {{ $t('label.instruction') }}: {{ item.instruction }}
-                                </p>
+                            </p>
+                            <p v-if="item.instruction"
+                               class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                {{ $t('label.instruction') }}: {{ item.instruction }}
+                            </p>
 
-                                <div class="flex items-center justify-between" v-if="item.tax_rate > 0">
-                                    <p class="text-xs leading-5 font-normal text-heading">
-                                        {{ item.tax_name }} ({{ item.tax_currency_rate }} {{ item.tax_type }})</p>
-                                    <p class="text-xs leading-5 font-normal text-heading">
-                                        {{ item.tax_currency_amount }}
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
+                            <div class="flex items-center justify-between" v-if="item.tax_rate > 0">
+                                <p class="text-xs leading-5 font-normal text-heading">
+                                    {{ item.tax_name }} ({{ item.tax_currency_rate }} {{ item.tax_type }})</p>
+                                <p class="text-xs leading-5 font-normal text-heading">
+                                    {{ item.tax_currency_amount }}
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 
                 <div class="py-2 pl-7">
                     <table class="w-full">
+                        <tbody>
                         <tr>
                             <td class="text-xs text-left py-0.5 uppercase text-heading">{{ $t('label.subtotal') }}:</td>
                             <td class="text-xs text-right py-0.5 text-heading">{{
-            order.subtotal_without_tax_currency_price
-        }}</td>
+                                    order.subtotal_without_tax_currency_price
+                                }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="text-xs text-left py-0.5 uppercase text-heading">
@@ -123,11 +133,29 @@
                                 {{ order.total_currency_price }}
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
-                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}
-                </p>
+                <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
+                    <!--                    <div class="flex">-->
+                    <!--                        <p class="me-5">Payment Methods:</p>-->
+                    <!--                        <div class="bg-amber-200 ms-5" v-for="paymentMethod in paymentMethods">-->
+                    <!--                            <div class="flex">-->
+                    <!--                                <p>{{ paymentMethod.name }}</p>-->
+                    <!--                                <p v-if="paymentMethod.merchant_code">: {{ paymentMethod.merchant_code }}</p>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="flex gap-3">
+                        <p class="">Payment Methods:</p>
+                        <div class="">
+                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
+                                <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
+                                                                                   class="px-5"> {{ paymentMethod.merchant_code }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <h4 v-if="order.token"
                     class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
                     {{ $t('label.token') }} #{{ order.token }}
@@ -156,6 +184,7 @@
 </template>
 
 <script>
+//ts-ignore
 import print from "vue3-print-nb";
 import appService from "../../../services/appService";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
@@ -177,6 +206,9 @@ export default {
         company: function () {
             return this.$store.getters['company/lists'];
         },
+        paymentMethods: function () {
+            return this.$store.getters['user/paymentMethods'];
+        },
         branch: function () {
             return this.$store.getters['backendGlobalState/branchShow'];
         },
@@ -192,10 +224,14 @@ export default {
     },
     mounted() {
         this.$store.dispatch("company/lists").then().catch();
+        this.$store.dispatch("user/paymentMethodsList", {}).then().catch();
     },
     methods: {
         reset: function () {
             appService.modalHide();
+        },
+        capitalizeWords(str) {
+            return str.replace(/\b\w/g, char => char.toUpperCase());
         },
     },
     directives: {

@@ -11,6 +11,11 @@
                         <h5 class="text-sm font-normal">Tel: {{ branch.phone }}</h5>
                     </div>
                 </div>
+                <div class="text-center py-1 border-b border-dashed border-gray-400">
+                    <div class="flex flex-col pt-3.5 items-center justify-center">
+                        <h5 class="text-sm font-normal">Receipt</h5>
+                    </div>
+                </div>
 
                 <table class="w-full my-1.5">
                     <tbody>

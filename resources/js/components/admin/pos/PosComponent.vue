@@ -1,7 +1,6 @@
 <template>
     <LoadingComponent :props="loading"/>
     <PoscustomerComponent v-on:onCustomverCreate="onCustomverCreate"/>
-
     <div class="md:w-[calc(100%-340px)] lg:w-[calc(100%-320px)] xl:w-[calc(100%-377px)]">
         <form @submit.prevent="search"
               class="flex items-center w-full h-[38px] leading-[38px] mb-4 rounded-lg bg-white">
@@ -58,6 +57,13 @@
             <div class="db-field">
                 <input class="db-field-control text-sm rounded-lg appearance-none text-heading border-[#D9DBE9]"
                        id="token" v-model="checkoutProps.form.token" :placeholder="$t('label.token_no')"/>
+            </div>
+            <div class="flex gap-2 my-3  mb-3">
+                <vue-select
+                    class="db-field-control w-full flex-auto text-sm rounded-lg appearance-none text-heading border-[#D9DBE9]"
+                    id="dining_table_id" v-model="checkoutProps.form.dining_table_id" :options="diningTables" label-by="name"
+                    value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                    placeholder="Dining table" search-placeholder="Search Dining table"/>
             </div>
         </div>
         <table class="w-full">
@@ -289,6 +295,7 @@ export default {
                     subtotal: 0,
                     token: "",
                     customer_id: null,
+                    dining_table_id: null,
                     discount: 0,
                     delivery_charge: 0,
                     delivery_time: null,
@@ -437,6 +444,7 @@ export default {
             discountType: discountTypeEnum.PERCENTAGE,
             discountErrorMessage: "",
         }
+
     },
     computed: {
         setting: function () {
@@ -450,6 +458,12 @@ export default {
         },
         customers: function () {
             return this.$store.getters['user/lists'];
+        },
+        diningTables: function () {
+            return this.$store.getters['user/diningTable'];
+        },
+        paymentMethods: function () {
+            return this.$store.getters['user/paymentMethods'];
         },
         carts: function () {
             return this.$store.getters['posCart/lists'];
@@ -467,6 +481,7 @@ export default {
     mounted() {
         this.itemCategories();
         this.itemList();
+        this.diningTableList();
         try {
             this.loading.isActive = true;
             this.$store.dispatch("defaultAccess/show").then((res) => {
@@ -513,6 +528,7 @@ export default {
                 role_id: roleEnum.CUSTOMER
             }).then((res) => {
                 this.checkoutProps.form.customer_id = id === null ? res.data.data[0].id : id;
+                this.diningTables = res.data.data.dining_tables;
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
@@ -541,6 +557,16 @@ export default {
                 this.loading.isActive = false;
             });
         },
+        diningTableList: function (page = 1) {
+            this.loading.isActive = true;
+            this.props.search.page = page;
+            this.$store.dispatch("user/diningTableList", this.props.search).then((res) => {
+                this.loading.isActive = false;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+
         setCategory: function (id) {
             this.props.search.item_category_id = id;
             this.itemList();
@@ -677,6 +703,7 @@ export default {
                     this.checkoutProps.form.discount = 0;
                     this.checkoutProps.form.delivery_time = null;
                     this.checkoutProps.form.total = 0;
+                    this.checkoutProps.form.dining_table_id = null;
                     this.deliveryPrice = 0;
                     this.checkoutProps.form.order_type = orderTypeEnum.POS;
                     this.checkoutProps.form.is_advance_order = isAdvanceOrderEnum.NO;
