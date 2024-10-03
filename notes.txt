@@ -23,6 +23,7 @@ https://smartduuka-restaurant.test/menu/mirpur-1-main-test
 
 /etc/php/8.2/cli/php.ini
 
+
 cd /home/moodbox@smartduuka/public_html
 cd /home/villagio@smartduuka/public_html
 http://phpmyadmin.smartduuka.com/
