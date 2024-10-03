@@ -10,7 +10,7 @@
                 <button type="button" v-print="printObj"
                         class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
                     <i class="lab lab-print-bold lab-font-size-16 text-white"></i>
-                    <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>
+                    <span class="text-xs leading-5 capitalize text-white">Print Receipt</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
                     <div class="flex flex-col pt-3.5 items-center justify-center">
-                        <h5 class="text-sm font-normal">Invoice</h5>
+                        <h5 class="text-sm font-normal">Receipt</h5>
                     </div>
                 </div>
 
@@ -137,28 +137,17 @@
                     </table>
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    <!--                    <div class="flex">-->
-                    <!--                        <p class="me-5">Payment Methods:</p>-->
-                    <!--                        <div class="bg-amber-200 ms-5" v-for="paymentMethod in paymentMethods">-->
-                    <!--                            <div class="flex">-->
-                    <!--                                <p>{{ paymentMethod.name }}</p>-->
-                    <!--                                <p v-if="paymentMethod.merchant_code">: {{ paymentMethod.merchant_code }}</p>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div class="flex gap-3">
-                        <p class="">Payment Methods:</p>
-                        <div class="">
-                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
-                                <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
-                                                                                   class="px-5"> {{ paymentMethod.merchant_code }}</span></p>
-                            </div>
-                        </div>
+                        <p class="">Payment Method: {{capitalizeWords(order.payment_method?.name)}}</p>
                     </div>
                 </div>
                 <h4 v-if="order.token"
                     class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
                     {{ $t('label.token') }} #{{ order.token }}
+                </h4>
+                <h4 v-if="order.dining_table"
+                    class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
+                    Dining Table #{{ order.dining_table?.name }}
                 </h4>
                 <div class="text-center pt-2 pb-4">
                     <p class="text-[11px] leading-[14px] capitalize text-heading">
@@ -231,6 +220,7 @@ export default {
             appService.modalHide();
         },
         capitalizeWords(str) {
+            if (!str) return '';
             return str.replace(/\b\w/g, char => char.toUpperCase());
         },
     },

@@ -251,7 +251,7 @@
             }}
         </span>
     </button>
-    <ReceiptComponent :order="order"/>
+    <PosOrderInvoiceComponent :order="order"/>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -270,10 +270,12 @@ import PoscustomerComponent from './PosCustomerComponent';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import PosMeatOrderComponent from "./PosMeatOrderComponent.vue";
+import PosOrderInvoiceComponent from "../posOrders/PosOrderInvoiceComponent.vue";
 
 export default {
     name: "PosComponent",
     components: {
+        PosOrderInvoiceComponent,
         PosMeatOrderComponent,
         ReceiptComponent,
         LoadingComponent,
@@ -723,7 +725,7 @@ export default {
                         this.loading.isActive = false;
                         alertService.error(error.response.data.message);
                     });
-                    appService.modalShow('#receiptModal');
+                    appService.modalShow('#invoiceModal');
                 }).catch((err) => {
                     this.loading.isActive = false;
                     if (typeof err.response.data.errors === 'object') {

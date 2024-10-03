@@ -116,12 +116,13 @@ import SmViewPaymentComponent from "../components/buttons/SmViewPaymentComponent
 import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
 import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
 import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
-import PosOrderReceiptComponent from "./PosOrderReceiptComponent.vue";
+import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent.vue";
+
 
 export default {
     name: "PosOrderListComponent",
     components: {
-        PosOrderReceiptComponent,
+        PosOrderInvoiceComponent,
         PostPurchaseComponent,
         IngredientPurchaseComponent,
         SmViewPaymentComponent, SmAddPaymentComponent,

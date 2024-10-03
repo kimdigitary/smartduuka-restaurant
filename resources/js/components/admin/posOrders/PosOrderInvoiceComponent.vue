@@ -1,6 +1,18 @@
 <template>
-    <div id="receiptModal" class="modal">
-        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction">
+    <div id="invoiceModal" class="modal">
+        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction" ref="print">
+            <div class="modal-header hidden-print">
+                <button type="button" @click="reset"
+                        class="modal-close flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#FB4E4E]">
+                    <i class="lab lab-back-bold lab-font-size-16 text-white"></i>
+                    <span class="text-xs leading-5 capitalize text-white">{{ $t('button.close') }}</span>
+                </button>
+                <button type="button" @click="triggerPrint"
+                        class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
+                    <i class="lab lab-print-bold lab-font-size-16 text-white"></i>
+                    <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>
+                </button>
+            </div>
             <div class="modal-body">
                 <div class="text-center pb-3.5 border-b border-dashed border-gray-400">
                     <div class="flex flex-col items-center justify-center">
@@ -13,7 +25,7 @@
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
                     <div class="flex flex-col pt-3.5 items-center justify-center">
-                        <h5 class="text-sm font-normal">Receipt</h5>
+                        <h5 class="text-sm font-normal">Invoice</h5>
                     </div>
                 </div>
 
@@ -123,9 +135,20 @@
                         </tbody>
                     </table>
                 </div>
-                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}
-                </p>
+<!--                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">-->
+<!--                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}-->
+<!--                </p>-->
+                <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
+                    <div class="flex gap-3">
+                        <p class="">Payment Methods:</p>
+                        <div class="">
+                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
+                                <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
+                                                                                   class="px-5"> {{ paymentMethod.merchant_code }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <h4 v-if="order.token"
                     class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
                     {{ $t('label.token') }} #{{ order.token }}
@@ -142,12 +165,6 @@
                             Technologies Limited</span>
                     </h5>
                 </div>
-                <!-- <div class="flex flex-col items-end">
-                    <h5 class="text-[8px] font-normal text-left w-[46px] leading-[10px]">
-                        {{ $t('label.powered_by') }}
-                    </h5>
-                    <h6 class="text-xs font-normal leading-4">{{ company.company_name }}</h6>
-                </div> -->
             </div>
         </div>
     </div>
@@ -155,15 +172,41 @@
 
 <script>
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import appService from "../../../services/appService";
 
 export default {
-    name: "PosOrderReceiptComponent",
+    name: "PosOrderInvoiceComponent",
+    directives: {
+        print
+    },
     props: {
         order: Object
+    },
+    data() {
+        return {
+            printObj: {
+                id: "print",
+                popTitle: 'Print Invoice',
+            },
+        }
+    },
+    methods: {
+        reset: function () {
+            appService.modalHide();
+        },
+        capitalizeWords(str) {
+            return str.replace(/\b\w/g, char => char.toUpperCase());
+        },
+        triggerPrint() {
+            this.$refs.print.print();
+        }
     },
     computed: {
         company: function () {
             return this.$store.getters['company/lists'];
+        },
+        paymentMethods: function () {
+            return this.$store.getters['user/paymentMethods'];
         },
         branch: function () {
             return this.$store.getters['backendGlobalState/branchShow'];
@@ -180,6 +223,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch("company/lists").then().catch();
+        this.$store.dispatch("user/paymentMethodsList", {}).then().catch();
     }
 }
 </script>

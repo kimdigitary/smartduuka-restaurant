@@ -4520,9 +4520,6 @@ input:checked + div svg {
 .pt-8 {
   padding-top: 2rem;
 }
-.pe-5 {
-  padding-inline-end: 1.25rem;
-}
 .text-left {
   text-align: left;
 }
