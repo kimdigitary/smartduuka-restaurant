@@ -578,6 +578,7 @@
                         'amount'         => $request->amount ,
                         'payment_method' => $request->payment_method ,
                     ]);
+                    $order->payment_method = $request->payment_method;
 
                     if ( $request->file ) {
                         $purchasePayment->addMediaFromRequest('file')->toMediaCollection('pos_payment');

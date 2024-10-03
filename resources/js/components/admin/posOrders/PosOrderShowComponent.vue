@@ -1,5 +1,5 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="col-12">
         <div class="db-card p-4">
             <div class="flex flex-wrap gap-y-5 items-end justify-between">
@@ -39,15 +39,15 @@
                             </span>
                         </li>
                         <li class="text-xs">{{
-                            $t('label.delivery_time')
-                        }}:
+                                $t('label.delivery_time')
+                            }}:
                             <span class="text-heading">
                                 {{ order.delivery_date }}
                             </span>
                         </li>
                         <li class="text-xs" v-if="order.token">{{
-                            $t('label.token_no')
-                        }}:
+                                $t('label.token_no')
+                            }}:
                             <span class="text-heading">
                                 #{{ order.token }}
                             </span>
@@ -58,10 +58,10 @@
                 <div class="flex flex-wrap gap-3">
                     <div class="relative">
                         <select v-model="payment_status" @change="changePaymentStatus($event)"
-                            class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
+                                class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
                             <option v-for="paymentStatus in enums.paymentStatusObject" :value="paymentStatus.value">{{
-                                paymentStatus.name
-                            }}
+                                    paymentStatus.name
+                                }}
                             </option>
                         </select>
                         <i
@@ -69,7 +69,7 @@
                     </div>
                     <div class="relative">
                         <select v-model="order_status" @change.prevent="orderStatus($event)"
-                            class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
+                                class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
                             <option v-for="orderStatus in enums.orderStatusObject" :value="orderStatus.value">
                                 {{ orderStatus.name }}
                             </option>
@@ -78,11 +78,13 @@
                             class="lab lab-arrow-down-2 lab-font-size-16 absolute top-1/2 right-3.5 -translate-y-1/2 text-primary"></i>
                     </div>
 
-                    <button type="button" v-print="printObj"
-                        class="flex items-center justify-center gap-2 px-4 h-[38px] rounded shadow-db-card bg-primary">
+                    <button type="button" @click="printInvoiceOrReceipt(order)"
+                            class="flex items-center justify-center gap-2 px-4 h-[38px] rounded shadow-db-card bg-primary">
                         <i class="lab lab-printer-line lab-font-size-16 text-white"></i>
-                        <span class="text-sm capitalize text-white">{{order.payment_status===PaymentStatusEnum.PAID ?
-                            $t('button.print_receipt'): $t('button.print_invoice') }}</span>
+                        <span class="text-sm capitalize text-white">{{
+                                order.payment_status === PaymentStatusEnum.PAID ?
+                                    $t('button.print_receipt') : $t('button.print_invoice')
+                            }}</span>
                     </button>
                     <button v-if="permissionChecker('pos_orders_cancel')" type="button" @click="reasonModal" data-modal="#reasonModal"
                             class="flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]">
@@ -101,7 +103,7 @@
             <div class="db-card-body">
                 <div class="pl-3">
                     <div class="mb-3 pb-3 border-b last:mb-0 last:pb-0 last:border-b-0 border-gray-2"
-                        v-if="orderItems.length > 0" v-for="item in orderItems" :key="item">
+                         v-if="orderItems.length > 0" v-for="item in orderItems" :key="item">
                         <div class="flex items-center gap-3 relative">
                             <h3
                                 class="absolute top-5 -left-3 text-sm w-[26px] h-[26px] leading-[26px] text-center rounded-full text-white bg-heading">
@@ -114,7 +116,7 @@
                                 <p v-if="item.item_variations.length !== 0" class="capitalize text-xs mb-1.5">
                                     <span v-for="(variation, index) in item.item_variations">
                                         {{ variation.variation_name }}: {{ variation.name }}<span
-                                            v-if="index + 1 < item.item_variations.length">,&nbsp;</span>
+                                        v-if="index + 1 < item.item_variations.length">,&nbsp;</span>
                                     </span>
                                 </p>
                                 <h3 class="text-xs font-semibold">{{ item.total_currency_price }}</h3>
@@ -132,8 +134,8 @@
                             </li>
                             <li class="flex gap-1" v-if="item.instruction !== ''">
                                 <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{
-                                    $t('label.instruction')
-                                }}:</h3>
+                                        $t('label.instruction')
+                                    }}:</h3>
                                 <p class="text-xs">{{ item.instruction }}</p>
                             </li>
                         </ul>
@@ -206,7 +208,7 @@
                                 {{ $t("label.reason") }}
                             </label>
                             <input v-model="form.reason" v-bind:class="error ? 'invalid' : ''" type="text" id="name"
-                                   class="db-field-control" />
+                                   class="db-field-control"/>
                             <small class="db-field-alert" v-if="error">
                                 {{ error }}
                             </small>
@@ -229,8 +231,9 @@
             </div>
         </div>
     </div>
-<!--    <PosOrderReceiptComponent :order="order" />-->
-    <ReceiptComponent :order="order" />
+    <!--    <PosOrderInvoiceComponent :order="order" />-->
+    <PosOrderInvoiceComponent :order="order" v-if="order.payment_status === PaymentStatusEnum.UNPAID"/>
+    <ReceiptComponent :order="order" v-else/>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -242,11 +245,11 @@ import appService from "../../../services/appService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import TableLimitComponent from "../components/TableLimitComponent";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
+import PaymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import print from "vue3-print-nb";
-import PosOrderReceiptComponent from "./PosOrderReceiptComponent";
+import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 import ReceiptComponent from "../pos/ReceiptComponent.vue";
-import PaymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 
 export default {
     name: "PosOrderShowComponent",
@@ -258,10 +261,7 @@ export default {
         PaginationBox,
         PaginationTextComponent,
         LoadingComponent,
-        PosOrderReceiptComponent
-    },
-    directives: {
-        print
+        PosOrderInvoiceComponent
     },
     data() {
         return {
@@ -308,7 +308,7 @@ export default {
                     {
                         name: this.$t("label.delivered"),
                         value: orderStatusEnum.DELIVERED,
-                    },{
+                    }, {
                         name: this.$t("label.pending"),
                         value: orderStatusEnum.PENDING,
                     },
@@ -355,6 +355,15 @@ export default {
         },
         reasonModal: function () {
             appService.modalShow("#reasonModal");
+        },
+        printInvoiceOrReceipt: function (order) {
+            if (order.payment_status === PaymentStatusEnum.PAID) {
+                // this.$refs.print.print();
+                appService.modalShow("#receiptModal");
+            } else {
+                appService.modalShow("#invoiceModal");
+            }
+
         },
         orderStatusClass: function (status) {
             return appService.orderStatusClass(status);
@@ -427,7 +436,7 @@ export default {
                         1,
                         this.$t("label.payment_status")
                     );
-                    appService.modalShow("#receiptModal");
+                    // appService.modalShow("#receiptModal");
                 }).catch((err) => {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);
