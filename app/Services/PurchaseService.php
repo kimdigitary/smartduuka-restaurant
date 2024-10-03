@@ -626,13 +626,12 @@
         public function posPaymentHistory(PaginateRequest $request , Order $order) : object
         {
             try {
-                $requests    = $request->all();
                 $method      = $request->get('paginate' , 0) == 1 ? 'paginate' : 'get';
                 $methodValue = $request->get('paginate' , 0) == 1 ? $request->get('per_page' , 10) : '*';
                 $orderColumn = $request->get('order_column') ?? 'id';
                 $orderType   = $request->get('order_type') ?? 'desc';
 //                return PurchasePayment::where('purchase_id' , $purchase->id)->get();
-                return PosPayment::where('order_id' , $order->id)->orderBy($orderColumn , $orderType)->$method($methodValue);;
+                return PosPayment::where('order_id' , $order->id)->orderBy($orderColumn , $orderType)->$method($methodValue);
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 DB::rollBack();

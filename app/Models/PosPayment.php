@@ -4,12 +4,10 @@
 
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
-    use Spatie\MediaLibrary\InteractsWithMedia;
 
     class PosPayment extends Model
     {
         use HasFactory;
-        use InteractsWithMedia;
 
         protected $fillable = [ 'date' , 'reference_no' , 'amount' , 'order_id' , 'payment_method' ];
         protected $casts    = [

@@ -20,7 +20,7 @@ class StorePosPaymentRequest extends FormRequest
     {
         return [
             'purchase_id'    => ['required', 'not_in:0', 'not_in:null'],
-            'date'           => ['required', 'string'],
+//            'date'           => ['required', 'string'],
             'reference_no'   => ['nullable', 'string'],
             'amount'         => ['required', 'numeric'],
             'payment_method' => ['required', 'not_in:0', 'not_in:null'],

@@ -65,6 +65,7 @@
                                                         v-if="permissionChecker('pos_orders_delete')"/>
                             </div>
                         </td>
+<!--                        <PosOrderReceiptComponent :order="order" />-->
                     </tr>
                     </tbody>
                 </table>
@@ -115,10 +116,12 @@ import SmViewPaymentComponent from "../components/buttons/SmViewPaymentComponent
 import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
 import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
 import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
+import PosOrderReceiptComponent from "./PosOrderReceiptComponent.vue";
 
 export default {
     name: "PosOrderListComponent",
     components: {
+        PosOrderReceiptComponent,
         PostPurchaseComponent,
         IngredientPurchaseComponent,
         SmViewPaymentComponent, SmAddPaymentComponent,

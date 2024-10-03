@@ -5,7 +5,7 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                 <tr class="db-table-head-tr">
-                    <th class="db-table-head-th">{{ $t("label.date") }}</th>
+                    <!--                    <th class="db-table-head-th">{{ $t("label.date") }}</th>-->
                     <th class="db-table-head-th">{{ $t("label.reference_no") }}</th>
                     <th class="db-table-head-th">{{ $t("label.amount") }}</th>
                     <th class="db-table-head-th">{{ $t("label.payment_method") }}</th>
@@ -16,9 +16,9 @@
                 </thead>
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
                 <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
-                    <td class="db-table-body-td">
-                        {{ purchasePayment.converted_date }}
-                    </td>
+                    <!--                    <td class="db-table-body-td">-->
+                    <!--                        {{ purchasePayment.converted_date }}-->
+                    <!--                    </td>-->
                     <td class="db-table-body-td">
                         {{ purchasePayment.reference_no }}
                     </td>
@@ -32,7 +32,7 @@
 
                     </td>
                     <td class="db-table-body-td">
-                        {{ enums.purchasePaymentMethodEnumArray[purchasePayment.payment_method] }}
+                        {{ purchasePayment.payment_method }}
                     </td>
                     <td class="db-table-body-td">
                         <SmIconDeleteComponent @click="destroy(purchasePayment.id)"
@@ -43,7 +43,6 @@
             </table>
         </div>
         <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
-
             <PaginationSMBox :pagination="pagination" :method="list"/>
             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <PaginationTextComponent :props="{ page: paginationPage }"/>
@@ -61,8 +60,6 @@
     </div>
 </template>
 <script>
-
-
 import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
 import PaginationBox from "../components/pagination/PaginationBox.vue";
 import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
@@ -132,7 +129,7 @@ export default {
             this.loading.isActive = true;
             this.search.page = page;
             this.$store
-                .dispatch("purchase/viewPosPayment",this.search)
+                .dispatch("purchase/viewPosPayment", this.search)
                 .then((res) => {
                     this.loading.isActive = false;
                 })

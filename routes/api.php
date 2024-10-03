@@ -570,7 +570,7 @@
             Route::get('/export' , [ PurchaseController::class , 'export' ]);
             Route::get('/download-attachment/{purchase}' , [ PurchaseController::class , 'downloadAttachment' ]);
             Route::get('/payment/{purchase}' , [ PurchaseController::class , 'paymentHistory' ]);
-            Route::get('/pos-payment/{purchase}' , [ PurchaseController::class , 'posPaymentHistory' ]);
+            Route::get('/pos-payment/{order}' , [ PurchaseController::class , 'posPaymentHistory' ]);
             Route::post('/payment/{purchase}' , [ PurchaseController::class , 'payment' ]);
             Route::post('/pos-payment/{order}' , [ PurchaseController::class , 'pos' ]);
             Route::get('/pos-show/{order}' , [ PurchaseController::class , 'showPos' ]);
