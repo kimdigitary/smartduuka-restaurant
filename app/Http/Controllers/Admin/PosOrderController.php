@@ -71,7 +71,7 @@ class PosOrderController extends AdminController
         Request $request,
         Order $order
     ) {
-        info($request);
+
     }
 
     public function destroy(

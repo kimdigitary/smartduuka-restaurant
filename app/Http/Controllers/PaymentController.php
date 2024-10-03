@@ -26,7 +26,7 @@ class PaymentController extends Controller
 
     public function success(Request $request)
     {
-        info($request->all());
+
     }
 
     public function createApiUser()
