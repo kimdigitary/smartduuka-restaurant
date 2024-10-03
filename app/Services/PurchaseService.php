@@ -3,6 +3,7 @@
     namespace App\Services;
 
     use App\Enums\Ask;
+    use App\Enums\PaymentStatus;
     use App\Enums\PurchasePaymentStatus;
     use App\Enums\PurchaseStatus;
     use App\Enums\PurchaseType;
@@ -389,6 +390,7 @@
                 throw new Exception($exception->getMessage() , 422);
             }
         }
+
         public function showPos(Order $order) : Order
         {
             try {
@@ -576,6 +578,7 @@
                         'amount'         => $request->amount ,
                         'payment_method' => $request->payment_method ,
                     ]);
+                    $order->payment_method = $request->payment_method;
 
                     if ( $request->file ) {
                         $purchasePayment->addMediaFromRequest('file')->toMediaCollection('pos_payment');
@@ -587,12 +590,12 @@
                     $checkPosPayment = PosPayment::where('order_id' , $order->id)->sum('amount');
 
                     if ( $checkPosPayment == $order->total ) {
-                        $order->payment_status = PurchasePaymentStatus::FULLY_PAID;
+                        $order->payment_status = PaymentStatus::PAID;
                         $order->save();
                     }
 
                     if ( $checkPosPayment < $order->total ) {
-                        $order->payment_status = PurchasePaymentStatus::PARTIAL_PAID;
+                        $order->payment_status = PaymentStatus::UNPAID;
                         $order->save();
                     }
                 });
@@ -620,16 +623,16 @@
                 throw new Exception($exception->getMessage() , 422);
             }
         }
+
         public function posPaymentHistory(PaginateRequest $request , Order $order) : object
         {
             try {
-                $requests    = $request->all();
                 $method      = $request->get('paginate' , 0) == 1 ? 'paginate' : 'get';
                 $methodValue = $request->get('paginate' , 0) == 1 ? $request->get('per_page' , 10) : '*';
                 $orderColumn = $request->get('order_column') ?? 'id';
                 $orderType   = $request->get('order_type') ?? 'desc';
 //                return PurchasePayment::where('purchase_id' , $purchase->id)->get();
-                return PosPayment::where('order_id' , $order->id)->orderBy($orderColumn , $orderType)->$method($methodValue);;
+                return PosPayment::where('order_id' , $order->id)->orderBy($orderColumn , $orderType)->$method($methodValue);
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 DB::rollBack();

@@ -570,7 +570,8 @@
             Route::get('/export' , [ PurchaseController::class , 'export' ]);
             Route::get('/download-attachment/{purchase}' , [ PurchaseController::class , 'downloadAttachment' ]);
             Route::get('/payment/{purchase}' , [ PurchaseController::class , 'paymentHistory' ]);
-            Route::get('/pos-payment/{purchase}' , [ PurchaseController::class , 'posPaymentHistory' ]);
+            Route::get('/payment-methods' , [ PurchaseController::class , 'paymentMethods' ]);
+            Route::get('/pos-payment/{order}' , [ PurchaseController::class , 'posPaymentHistory' ]);
             Route::post('/payment/{purchase}' , [ PurchaseController::class , 'payment' ]);
             Route::post('/pos-payment/{order}' , [ PurchaseController::class , 'pos' ]);
             Route::get('/pos-show/{order}' , [ PurchaseController::class , 'showPos' ]);
@@ -606,6 +607,7 @@
 
         Route::prefix('dining-table')->name('dining-table.')->group(function () {
             Route::get('/' , [ DiningTableController::class , 'index' ]);
+            Route::get('/all' , [ DiningTableController::class , 'all' ]);
             Route::get('/show/{diningTable}' , [ DiningTableController::class , 'show' ]);
             Route::post('/' , [ DiningTableController::class , 'store' ]);
             Route::match([ 'post' , 'put' , 'patch' ] , '/{diningTable}' , [ DiningTableController::class , 'update' ]);

@@ -1,7 +1,7 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div v-if="errors.global" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-4 mx-4 rounded relative"
-        role="alert">
+         role="alert">
         <span class="block sm:inline">{{ errors.global[0] }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" @click="close">
             <i class="lab lab-fill-close-circle margin-top-5-px"></i>
@@ -10,71 +10,75 @@
     <div class="modal-body">
         <form @submit.prevent="save">
             <div class="form-row">
-                <div class="form-col-12 sm:form-col-6">
-                    <label for="date" class="db-field-title required">{{
-                        $t("label.date")
-                    }}</label>
-                    <Datepicker hideInputIcon autoApply v-model="form.date" :enableTimePicker="true" :is24="false"
-                        :monthChangeOnScroll="false" utc="false">
-                        <template #am-pm-button="{ toggle, value }">
-                            <button @click="toggle">{{ value }}</button>
-                        </template>
-                    </Datepicker>
-                    <small class="db-field-alert" v-if="errors.date">{{
-                        errors.date[0]
-                    }}</small>
-                </div>
-
-                <div class="form-col-12 sm:form-col-6">
-                    <label for="reference_no" class="db-field-title">{{
-                        $t("label.reference_no")
-                    }}</label>
-                    <input v-model="form.reference_no" v-bind:class="errors.reference_no ? 'invalid' : ''" type="text"
-                        id="name" class="db-field-control" />
-                    <small class="db-field-alert" v-if="errors.reference_no">{{
-                        errors.reference_no[0]
-                    }}</small>
-                </div>
-
+<!--                <div class="form-col-12 sm:form-col-6">-->
+<!--                    <label for="date" class="db-field-title required">{{-->
+<!--                            $t("label.date")-->
+<!--                        }}</label>-->
+<!--                    <Datepicker hideInputIcon autoApply v-model="form.date" :enableTimePicker="true" :is24="false"-->
+<!--                                :monthChangeOnScroll="false" utc="false">-->
+<!--                        <template #am-pm-button="{ toggle, value }">-->
+<!--                            <button @click="toggle">{{ value }}</button>-->
+<!--                        </template>-->
+<!--                    </Datepicker>-->
+<!--                    <small class="db-field-alert" v-if="errors.date">{{-->
+<!--                            errors.date[0]-->
+<!--                        }}</small>-->
+<!--                </div>-->
                 <div class="form-col-12 sm:form-col-6">
                     <label for="amount" class="db-field-title required">{{
-                        $t("label.amount")
-                    }}</label>
+                            $t("label.amount")
+                        }}</label>
                     <input v-on:keypress="onlyNumber($event)" v-on:keyup="paymentAmount($event)" v-model="form.amount"
-                        v-bind:class="errors.amount ? 'invalid' : ''" type="text" id="amount" class="db-field-control" />
+                           v-bind:class="errors.amount ? 'invalid' : ''" type="text" id="amount" class="db-field-control"/>
                     <small class="db-field-alert" v-if="errors.amount">{{
-                        errors.amount[0]
-                    }}</small>
+                            errors.amount[0]
+                        }}</small>
                 </div>
+                <div class="form-col-12 sm:form-col-6">
+                    <label for="reference_no" class="db-field-title">{{
+                            $t("label.reference_no")
+                        }}</label>
+                    <input v-model="form.reference_no" v-bind:class="errors.reference_no ? 'invalid' : ''" type="text"
+                           id="name" class="db-field-control"/>
+                    <small class="db-field-alert" v-if="errors.reference_no">{{
+                            errors.reference_no[0]
+                        }}</small>
+                </div>
+
+
 
                 <div class="form-col-12 sm:form-col-6">
                     <label for="payment_method" class="db-field-title required">{{
-                        $t('label.payment_method')
-                    }}</label>
+                            $t('label.payment_method')
+                        }}</label>
                     <vue-select class="db-field-control f-b-custom-select" id="payment_method" v-model="form.payment_method"
-                        :options="[
-                            { id: enums.purchasePaymentMethodEnum.CASH, name: $t('label.cash') },
-                            { id: enums.purchasePaymentMethodEnum.CHEQUE, name: $t('label.cheque') },
-                            { id: enums.purchasePaymentMethodEnum.MOBILE_MONEY, name: 'Mobile money' },
-                            { id: enums.purchasePaymentMethodEnum.BANK_TRANSFER, name: 'Bank transfer' },
-
-                        ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                        placeholder="--" search-placeholder="--" />
+                                :options="paymentMethods" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                                placeholder="--" search-placeholder="--"/>
                     <small class="db-field-alert" v-if="errors.payment_method">{{
-                        errors.payment_method[0]
-                    }}</small>
+                            errors.payment_method[0]
+                        }}</small>
+                </div>
+                <div class="form-col-12 sm:form-col-6">
+                    <label for="paid" class="db-field-title required">Paid</label>
+                    <input v-on:keypress="onlyNumber($event)" v-model="form.paid"
+                           v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>
+                </div>
+                <div class="form-col-12 sm:form-col-6">
+                    <label for="change" class="db-field-title required">Change</label>
+                    <input v-model="computedChange"
+                           v-bind:class="errors.change ? 'invalid' : ''" type="text" id="change" class="db-field-control"/>
                 </div>
 
-                <div class="form-col-12">
-                    <label for="file" class="db-field-title">
-                        {{ $t("label.file") }}
-                    </label>
-                    <input @change="changefile" v-bind:class="errors.file ? 'invalid' : ''" id="file" type="file"
-                        class="db-field-control" ref="fileProperty" accept="file/png, file/jpeg, file/jpg" />
-                    <small class="db-field-alert" v-if="errors.file">{{
-                        errors.file[0]
-                    }}</small>
-                </div>
+<!--                <div class="form-col-12">-->
+<!--                    <label for="file" class="db-field-title">-->
+<!--                        {{ $t("label.file") }}-->
+<!--                    </label>-->
+<!--                    <input @change="changefile" v-bind:class="errors.file ? 'invalid' : ''" id="file" type="file"-->
+<!--                           class="db-field-control" ref="fileProperty" accept="file/png, file/jpeg, file/jpg"/>-->
+<!--                    <small class="db-field-alert" v-if="errors.file">{{-->
+<!--                            errors.file[0]-->
+<!--                        }}</small>-->
+<!--                </div>-->
 
                 <div class="form-col-12">
                     <div class="modal-btns">
@@ -102,12 +106,12 @@ import Datepicker from "@vuepic/vue-datepicker";
 import purchasePaymentMethodEnum from "../../../enums/modules/purchasePaymentMethodEnum";
 import appService from "../../../services/appService";
 import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
-import alertService from "../../../services/alertService";
 import PurchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
+import alertService from "../../../services/alertService";
 
 export default {
     name: "PosPaymentCreateComponent",
-    components: { SmModalCreateComponent, LoadingComponent, Datepicker },
+    components: {SmModalCreateComponent, LoadingComponent, Datepicker},
     data() {
         return {
             loading: {
@@ -118,6 +122,7 @@ export default {
                 date: "",
                 reference_no: "",
                 amount: "",
+                paid: '',
                 payment_method: null,
             },
             enums: {
@@ -126,12 +131,18 @@ export default {
             file: "",
             errors: {},
             dueAmount: "",
+            paymentMethods: [],
         };
     },
 
     mounted() {
         this.loading.isActive = true;
         this.show();
+    },
+    computed: {
+        computedChange() {
+            return this.form.paid - this.form.amount;
+        },
     },
     methods: {
         changefile: function (e) {
@@ -149,6 +160,7 @@ export default {
                 this.$store.dispatch("purchase/showPos", this.$store.getters["purchase/temp"].temp_id).then((res) => {
                     this.form.amount = res.data.data.due_payment;
                     this.dueAmount = res.data.data.due_payment;
+                    this.paymentMethods = res.data.data.payment_methods;
                     this.loading.isActive = false;
                 }).catch((err) => {
                     this.loading.isActive = false;
@@ -205,6 +217,7 @@ export default {
                             0,
                             this.$t("menu.add_payment")
                         );
+                        appService.modalShow("#receiptModal");
                         this.$store.dispatch("purchase/reset");
                         this.form = {
                             purchase_id: "",

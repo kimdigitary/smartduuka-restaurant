@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Models\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -76,7 +77,7 @@ class Order extends Model
         return $this->belongsToMany(Item::class, 'order_items')->withTrashed();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
@@ -86,7 +87,7 @@ class Order extends Model
         return $this->hasOne(OrderAddress::class);
     }
 
-    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
@@ -131,8 +132,12 @@ class Order extends Model
         return $this->hasOne(Transaction::class);
     }
 
-    public function diningTable(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function diningTable(): BelongsTo
     {
         return $this->belongsTo(DiningTable::class);
+    }
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class,'payment_method','id');
     }
 }

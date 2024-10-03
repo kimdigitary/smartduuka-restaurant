@@ -1,6 +1,4 @@
 import _ from "lodash";
-import activityEnum from "../../enums/modules/activityEnum";
-import orderTypeEnum from "../../enums/modules/orderTypeEnum";
 
 
 export const posCart = {
@@ -31,7 +29,6 @@ export const posCart = {
     },
     actions: {
         lists: function (context, payload) {
-            console.log(payload)
             context.commit("lists", payload);
             context.commit("subtotal");
         },

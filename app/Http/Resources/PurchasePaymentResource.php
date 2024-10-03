@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Resources;
+    namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use App\Libraries\AppLibrary;
+    use App\Libraries\AppLibrary;
+    use App\Models\PaymentMethod;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
-class PurchasePaymentResource extends JsonResource
-{
-    public function toArray($request): array
+    class PurchasePaymentResource extends JsonResource
     {
-        return [
-            'id'             => $this->id,
-            'purchase_id'    => $this->purchase_id,
-            'date'           => $this->date,
-            'converted_date' => AppLibrary::datetime($this->date),
-            'reference_no'   => $this->reference_no,
-            'payment_method' => $this->payment_method,
-            'amount'         => AppLibrary::flatAmountFormat($this->amount),
-            'file'           => $this->file,
-        ];
+        public function toArray($request) : array
+        {
+            return [
+                'id'             => $this->id ,
+                'purchase_id'    => $this->purchase_id ,
+                'date'           => $this->date ,
+                'converted_date' => AppLibrary::datetime($this->date) ,
+                'reference_no'   => $this->reference_no ,
+                'payment_method' => PaymentMethod::find($this->payment_method)->name ,
+                'amount'         => AppLibrary::flatAmountFormat($this->amount) ,
+//            'file'           => $this->file,
+            ];
+        }
     }
-}

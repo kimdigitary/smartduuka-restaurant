@@ -8,11 +8,13 @@
     use App\Http\Requests\PurchaseRequest;
     use App\Http\Requests\StorePosPaymentRequest;
     use App\Http\Resources\OrderResource;
+    use App\Http\Resources\PaymentMethodResource;
     use App\Http\Resources\PosPaymentResource;
     use App\Http\Resources\PurchaseDetailsResource;
     use App\Http\Resources\PurchasePaymentResource;
     use App\Http\Resources\PurchaseResource;
     use App\Models\Order;
+    use App\Models\PaymentMethod;
     use App\Models\ProductVariation;
     use App\Models\Purchase;
     use App\Models\PurchasePayment;
@@ -101,9 +103,7 @@
         public function showPos(Order $order)
         {
             try {
-//                return new PurchaseDetailsResource($this->purchaseService->show($order));
                 return new PosPaymentResource($this->purchaseService->showPos($order));
-//                return $this->purchaseService->show($order);
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
             }
@@ -180,6 +180,11 @@
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
             }
+        }
+
+        public function paymentMethods()
+        {
+            return PaymentMethodResource::collection(PaymentMethod::all());
         }
 
         public function posPaymentHistory(PaginateRequest $request , Order $order) : Application | Response | AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | ResponseFactory

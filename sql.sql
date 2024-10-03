@@ -1,2 +1,4 @@
 select *
-from users;
+from orders;
+select *
+from payment_methods;
