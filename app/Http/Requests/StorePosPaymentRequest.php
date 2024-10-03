@@ -34,9 +34,9 @@ class StorePosPaymentRequest extends FormRequest
             $message  = '';
 
             $purchasePaymentAmount = PosPayment::where('order_id', request('purchase_id'))->sum('amount');
-            $purchase = Order::findOrFail(request('purchase_id'));
+            $order = Order::findOrFail(request('purchase_id'));
 
-            $paymentDue = (float) $purchase->total - (float)$purchasePaymentAmount;
+            $paymentDue = (float) $order->total - (float)$purchasePaymentAmount;
 
             if ($paymentDue < request('amount')) {
                 $status = true;

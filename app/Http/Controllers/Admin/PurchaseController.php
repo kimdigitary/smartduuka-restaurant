@@ -101,9 +101,7 @@
         public function showPos(Order $order)
         {
             try {
-//                return new PurchaseDetailsResource($this->purchaseService->show($order));
                 return new PosPaymentResource($this->purchaseService->showPos($order));
-//                return $this->purchaseService->show($order);
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
             }

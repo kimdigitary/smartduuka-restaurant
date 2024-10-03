@@ -3,6 +3,7 @@
     namespace App\Services;
 
     use App\Enums\Ask;
+    use App\Enums\PaymentStatus;
     use App\Enums\PurchasePaymentStatus;
     use App\Enums\PurchaseStatus;
     use App\Enums\PurchaseType;
@@ -389,6 +390,7 @@
                 throw new Exception($exception->getMessage() , 422);
             }
         }
+
         public function showPos(Order $order) : Order
         {
             try {
@@ -587,12 +589,12 @@
                     $checkPosPayment = PosPayment::where('order_id' , $order->id)->sum('amount');
 
                     if ( $checkPosPayment == $order->total ) {
-                        $order->payment_status = PurchasePaymentStatus::FULLY_PAID;
+                        $order->payment_status = PaymentStatus::PAID;
                         $order->save();
                     }
 
                     if ( $checkPosPayment < $order->total ) {
-                        $order->payment_status = PurchasePaymentStatus::PARTIAL_PAID;
+                        $order->payment_status = PaymentStatus::UNPAID;
                         $order->save();
                     }
                 });
@@ -620,6 +622,7 @@
                 throw new Exception($exception->getMessage() , 422);
             }
         }
+
         public function posPaymentHistory(PaginateRequest $request , Order $order) : object
         {
             try {
