@@ -1,6 +1,6 @@
 <template>
     <div id="invoiceModal" class="modal">
-        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction" ref="print">
+        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction">
             <div class="modal-header hidden-print">
                 <button type="button" @click="reset"
                         class="modal-close flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#FB4E4E]">
@@ -249,3 +249,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+@media print {
+    .hidden-print {
+        display: none !important;
+    }
+}
+</style>
