@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import ENV from '../config/env';
 import appService from "../services/appService";
 import DashboardComponent from "../components/admin/dashboard/DashboardComponent";
+import SuperAdminDashboardComponent from "../components/admin/dashboard/SuperAdminDashboardComponent";
 import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponent";
 import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent";
 import store from "../store";
@@ -56,6 +57,17 @@ const baseRoutes = [
         path: "/admin/dashboard",
         component: DashboardComponent,
         name: "admin.dashboard",
+        meta: {
+            isFrontend: false,
+            auth: true,
+            permissionUrl: "dashboard",
+            breadcrumb: "dashboard",
+        },
+    },
+    {
+        path: "/admin/super/dashboard",
+        component: SuperAdminDashboardComponent,
+        name: "super.admin.dashboard",
         meta: {
             isFrontend: false,
             auth: true,

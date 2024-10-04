@@ -110,9 +110,12 @@ export default {
                 this.$store.dispatch('login', this.form).then((res) => {
                     this.loading.isActive = false;
                     alertService.success(res.data.message);
+
                     // console.log(res.data.user)
                     if (res.data.user.role_id === 7) {
                         router.push({name: "admin.kitchen.orders.list"});
+                    } else if (res.data.user.role_id === 8) {
+                        router.push({name: "super.admin.dashboard"});
                     } else {
                         router.push({name: "admin.dashboard"});
                     }

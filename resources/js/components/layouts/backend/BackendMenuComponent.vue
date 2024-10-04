@@ -8,7 +8,7 @@
       <ul v-if="userRole === roleEnum.SUPER_ADMIN">
         <li class="db-sidebar-nav-item">
           <router-link
-            :to="{ name: 'admin.dashboard' }"
+            :to="{ name: 'super.admin.dashboard' }"
             class="db-sidebar-nav-menu"
           >
             <i class="lab lab-dashboard text-sm"></i>
