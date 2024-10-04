@@ -16,6 +16,7 @@ import VueNextSelect from 'vue-next-select';
 // import "../../public/themes/default/fonts/iconly2/iconly.min.css";
 import 'vue-next-select/dist/index.css';
 import ENV from './config/env';
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 const options = {
     timeout: 2000,
@@ -62,4 +63,5 @@ app.use(store)
 app.use(VueSimpleAlert)
 app.use(Toast, options)
 app.use(i18n)
+app.use(VueHtmlToPaper);
 app.mount('#app');

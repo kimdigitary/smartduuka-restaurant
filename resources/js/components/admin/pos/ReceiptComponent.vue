@@ -133,6 +133,22 @@
                                 {{ order.total_currency_price }}
                             </td>
                         </tr>
+                        <tr v-if="order.paid">
+                            <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
+                                Paid:
+                            </td>
+                            <td class="text-xs text-right py-0.5 font-bold text-heading">
+                                {{ order.paid_currency }}
+                            </td>
+                        </tr>
+                        <tr v-if="order.change">
+                            <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
+                                Change:
+                            </td>
+                            <td class="text-xs text-right py-0.5 font-bold text-heading">
+                                {{ order.change_currency }}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

@@ -7,7 +7,13 @@
                     <i class="lab lab-back-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.close') }}</span>
                 </button>
-                <button type="button" @click="triggerPrint"
+                <!--                <button type="button" @click="print"-->
+                <!--                        class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">-->
+                <!--                    <i class="lab lab-print-bold lab-font-size-16 text-white"></i>-->
+                <!--                    <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>-->
+                <!--                </button>-->
+
+                <button type="button" v-print="printObj"
                         class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
                     <i class="lab lab-print-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>
@@ -24,7 +30,7 @@
                     </div>
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
-                    <div class="flex flex-col pt-3.5 items-center justify-center">
+                    <div class="flex flex-col items-center justify-center">
                         <h5 class="text-xl font-bold">Invoice</h5>
                     </div>
                 </div>
@@ -135,9 +141,9 @@
                         </tbody>
                     </table>
                 </div>
-<!--                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">-->
-<!--                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}-->
-<!--                </p>-->
+                <!--                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">-->
+                <!--                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}-->
+                <!--                </p>-->
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
                     <div class="flex gap-3">
                         <p class="">Payment Methods:</p>
@@ -177,6 +183,7 @@
 <script>
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
 import appService from "../../../services/appService";
+import print from "vue3-print-nb";
 
 export default {
     name: "PosOrderInvoiceComponent",
@@ -201,8 +208,19 @@ export default {
         capitalizeWords(str) {
             return str.replace(/\b\w/g, char => char.toUpperCase());
         },
-        triggerPrint() {
-            this.$refs.print.print();
+
+        print() {
+            const options = {
+                name: '_blank',
+                specs: [
+                    'fullscreen=yes',
+                    'titlebar=yes',
+                    'scrollbars=yes'
+                ],
+                styles: [],
+                autoClose: false
+            };
+            this.$htmlToPaper('print', options);
         }
     },
     computed: {
