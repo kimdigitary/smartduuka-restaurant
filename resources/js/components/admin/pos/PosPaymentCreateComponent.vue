@@ -59,12 +59,12 @@
                         }}</small>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="paid" class="db-field-title required">Paid</label>
+                    <label for="paid" class="db-field-title">Paid</label>
                     <input v-on:keypress="onlyNumber($event)" v-model="form.paid"
                            v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="change" class="db-field-title required">Change</label>
+                    <label for="change" class="db-field-title ">Change</label>
                     <input v-model="computedChange"
                            v-bind:class="errors.change ? 'invalid' : ''" type="text" id="change" class="db-field-control"/>
                 </div>
@@ -198,6 +198,8 @@ export default {
                 fd.append("purchase_id", tempId);
                 fd.append("date", this.form.date);
                 fd.append("reference_no", this.form.reference_no);
+                fd.append("paid", this.form.paid);
+                fd.append("change", this.computedChange);
                 fd.append("amount", this.form.amount);
                 fd.append("payment_method", this.form.payment_method);
                 fd.append("type", purchaseTypeEnum.INGREDIENT);
