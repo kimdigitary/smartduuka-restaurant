@@ -18,6 +18,8 @@ password: Y9SDlLzmLr4dIsk
 DB: moodbox_smartduuka
 cd /home/mophyz@smartduuka/public_html
 
+
+
 https://smartduuka-restaurant.test/menu/mirpur-1-main-mike
 https://smartduuka-restaurant.test/menu/mirpur-1-main-test
 
