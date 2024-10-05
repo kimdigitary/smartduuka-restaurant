@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\TenantUser;
+use App\Tenancy\Tenancy;
 use Exception;
 use App\Enums\Ask;
 use App\Models\User;
@@ -36,13 +38,17 @@ class EmployeeService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return User::with('media', 'addresses', 'roles')->where(
+            $tenantId = Tenancy::getTenantId();
+
+            return User::with('media', 'addresses', 'roles')
+                ->join('tenant_users', 'users.id', '=', 'tenant_users.user_id')
+                ->where('tenant_users.tenant_id', $tenantId)
+                ->where(
                 function ($query) use ($requests) {
                     $query->whereHas('roles', function ($query) {
                         $query->where('id', '!=', EnumRole::ADMIN);
                         $query->where('id', '!=', EnumRole::CUSTOMER);
                         $query->where('id', '!=', EnumRole::WAITER);
-//                        $query->where('id', '!=', EnumRole::CHEF);
                     });
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->roleFilter)) {
@@ -79,12 +85,18 @@ class EmployeeService
                         'branch_id'         => $request->branch_id,
                         'status'            => $request->status,
                         'email_verified_at' => now(),
-                        'country_code'      => $request->country_code,
+                        'country_code'      => "+256",
                         'is_guest'          => Ask::NO,
                     ]);
 
                     $this->user->assignRole($request->role_id);
                 });
+
+                // assign user to a tenant
+                TenantUser::create([
+                    'tenant_id' => Tenancy::getTenantId(),
+                    'user_id' => $this->user->id
+                ]);
                 return $this->user;
             } else {
                 throw new Exception(trans('all.message.permission_denied'), 422);

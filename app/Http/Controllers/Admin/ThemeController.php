@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ThemeSetting;
+use App\Tenancy\Tenancy;
 use Exception;
 use App\Services\ThemeService;
 use App\Http\Requests\ThemeRequest;
@@ -23,6 +25,7 @@ class ThemeController extends AdminController
     {
         try {
             return new ThemeResource($this->themeService->list());
+
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
@@ -31,7 +34,7 @@ class ThemeController extends AdminController
     public function update(ThemeRequest $request)
     {
         try {
-            return new ThemeResource($this->themeService->update($request));
+            return new ThemeResource($this->themeService->updateOrInsert($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

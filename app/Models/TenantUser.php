@@ -9,5 +9,6 @@ class TenantUser extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['tenant_id', 'user_id'];
     public $timestamps = false;
 }

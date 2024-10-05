@@ -18,7 +18,7 @@ class CompanyController extends AdminController
         $this->middleware(['permission:settings'])->only('update');
     }
 
-    public function index() : \Illuminate\Http\Response | CompanyResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(): \Illuminate\Http\Response|CompanyResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
             return new CompanyResource($this->companyService->list());
@@ -27,10 +27,10 @@ class CompanyController extends AdminController
         }
     }
 
-    public function update(CompanyRequest $request) : \Illuminate\Http\Response | CompanyResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function update(CompanyRequest $request): \Illuminate\Http\Response|CompanyResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return new CompanyResource($this->companyService->update($request));
+            return new CompanyResource($this->companyService->updateOrInsert($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

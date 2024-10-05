@@ -31,7 +31,7 @@ class CompanyRequest extends FormRequest
             'company_website'      => ['nullable', 'url', 'max:500'],
             'company_city'         => ['required', 'string', 'max:190'],
             'company_state'        => ['required', 'string', 'max:190'],
-            'company_country_code' => ['required', 'string', 'max:190'],
+            'company_country_code' => ['nullable', 'string', 'max:190'],
             'company_zip_code'     => ['required', 'string', 'max:190'],
             'company_address'      => ['required', 'string', 'max:500'],
         ];

@@ -16,12 +16,6 @@
             <p class="text-gray-900">{{ tenant.name }}</p>
           </div>
 
-          <!-- Phone -->
-          <div class="flex items-center">
-            <span class="font-semibold text-gray-700 w-32">Phone:</span>
-            <p class="text-gray-900">{{ tenant.phone }}</p>
-          </div>
-
           <!-- Email -->
           <div class="flex items-center">
             <span class="font-semibold text-gray-700 w-32">Email:</span>
@@ -34,40 +28,6 @@
             <p class="text-gray-900">{{ tenant.username }}</p>
           </div>
 
-          <!-- Tagline -->
-          <div class="flex items-center">
-            <span class="font-semibold text-gray-700 w-32">Tagline:</span>
-            <p class="text-gray-900">{{ tenant.tagline }}</p>
-          </div>
-
-          <!-- Website -->
-          <div class="flex items-center">
-            <span class="font-semibold text-gray-700 w-32">Website:</span>
-            <p class="text-blue-500">{{ tenant.website }}</p>
-          </div>
-
-          <!-- Address -->
-          <div class="flex items-center">
-            <span class="font-semibold text-gray-700 w-32">Address:</span>
-            <p class="text-gray-900">{{ tenant.address }}</p>
-          </div>
-
-          <!-- Status Badge -->
-          <div class="flex items-center">
-            <span class="font-semibold text-gray-700 w-32">Status:</span>
-            <label class="db-badge" :class="statusClass(tenant.status)">
-              {{ enums.statusEnumArray[tenant.status] }}
-            </label>
-          </div>
-
-          <!-- Logo -->
-          <div class="mt-6">
-            <img
-              class="w-32 h-32 object-cover rounded-full border"
-              alt="tenant logo"
-              :src="tenant.logo"
-            />
-          </div>
         </div>
       </div>
     </div>

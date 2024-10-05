@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <form @submit.prevent="save">
                     <div class="form-row">
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label for="name" class="db-field-title required">{{
                                 $t("label.name")
                             }}</label>
@@ -23,18 +23,7 @@
                             }}</small>
                         </div>
 
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="phone" class="db-field-title required">{{
-                                $t("label.phone")
-                            }}</label>
-                            <input v-model="props.form.phone" v-bind:class="errors.phone ? 'invalid' : ''" type="text"
-                                id="phone" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.phone">{{
-                                errors.phone[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label for="email" class="db-field-title required">{{
                                 $t("label.email")
                             }}</label>
@@ -45,7 +34,7 @@
                             }}</small>
                         </div>
 
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label for="username" class="db-field-title required">{{
                                 $t("label.username")
                             }}</label>
@@ -56,49 +45,7 @@
                             }}</small>
                         </div>
 
-                        <div class="form-col-12">
-                            <label for="logo" class="db-field-title required">{{
-                                $t("label.logo")
-                            }}</label>
-                            <input @change="changeImage" v-bind:class="errors.logo ? 'invalid' : ''" id="logo" type="file"
-                                class="db-field-control" ref="logoProperty" accept="image/png, image/jpeg, image/jpg" />
-                            <small class="db-field-alert" v-if="errors.logo">{{
-                                errors.logo[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="tagline" class="db-field-title">Tagline</label>
-                            <input v-model="props.form.tagline" v-bind:class="errors.tagline ? 'invalid' : ''" type="text"
-                                id="tagline" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.tagline">{{
-                                errors.tagline[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
-                            <label for="website" class="db-field-title">{{
-                                $t("label.website")
-                            }}</label>
-                            <input v-model="props.form.website" v-bind:class="errors.website ? 'invalid' : ''" type="text"
-                                id="website" class="db-field-control" />
-                            <small class="db-field-alert" v-if="errors.website">{{
-                                errors.website[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12">
-                            <label for="address" class="db-field-title required">{{
-                                $t("label.address")
-                            }}</label>
-                            <textarea v-model="props.form.address" v-bind:class="errors.address ? 'invalid' : ''"
-                                id="address" class="db-field-control" rows="4"></textarea>
-                            <small class="db-field-alert" v-if="errors.address">{{
-                                errors.address[0]
-                            }}</small>
-                        </div>
-
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-12">
                             <label class="db-field-title required" for="active">{{ $t("label.status") }}</label>
                             <div class="db-field-radio-group">
                                 <div class="db-field-radio">
@@ -139,6 +86,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
 import LoadingComponent from "../../components/LoadingComponent";
@@ -165,15 +113,6 @@ export default {
                     [statusEnum.INACTIVE]: this.$t("label.inactive"),
                 },
             },
-            address: "",
-            name: "",
-            email: "",
-            username: "",
-            phone: "",
-            logo: "",
-            tagline: "",
-            website: "",
-            address: "",
             errors: {}
         };
     },
@@ -184,45 +123,26 @@ export default {
     },
 
     methods: {
-        changeImage: function (e) {
-            this.logo = e.target.files[0];
-        },
         reset: function () {
             appService.modalHide();
             this.$store.dispatch("tenant/reset").then().catch();
             this.errors = {};
             this.$props.props.form = {
                 name: "",
-                phone: "",
                 email: "",
                 username: "",
-                tagline: "",
-                website: "",
-                address: "",
                 status: statusEnum.ACTIVE,
             };
-            if (this.logo) {
-                this.logo = "";
-                this.$refs.imageProperty.value = null;
-            }
         },
 
         save: function () {
             try {
                 const fd = new FormData();
                 fd.append("name", this.props.form.name ? this.props.form.name : "");
-                fd.append("phone", this.props.form.phone ? this.props.form.phone : "");
                 fd.append("email", this.props.form.email ? this.props.form.email : "");
                 fd.append("username", this.props.form.username ? this.props.form.username : "");
-                fd.append("tagline", this.props.form.tagline ? this.props.form.tagline : "");
-                fd.append("website", this.props.form.website ? this.props.form.website : "");
-                fd.append("address", this.props.form.address ? this.props.form.address : "");
                 fd.append("status", this.props.form.status ? this.props.form.status : "");
-                if (this.logo) {
-                    fd.append("logo", this.logo);
-                }
 
-                const tempId = this.$store.getters["tenant/temp"].temp_id;
                 this.loading.isActive = true;
                 this.$store
                     .dispatch("tenant/save", {
@@ -232,23 +152,14 @@ export default {
                     .then((res) => {
                         appService.modalHide();
                         this.loading.isActive = false;
-                        alertService.successFlip(
-                            tempId === null ? 0 : 1,
-                            this.$t("menu.tenants")
-                        );
+                        alertService.successFlip(1, this.$t("menu.tenants"));
                         this.props.form = {
                             name: "",
-                            phone: "",
                             email: "",
                             username: "",
-                            tagline: "",
-                            website: "",
-                            address: "",
                             status: statusEnum.ACTIVE,
                         };
-                        this.logo = "";
                         this.errors = {};
-                        this.$refs.imageProperty.value = null;
                     })
                     .catch((err) => {
                         this.loading.isActive = false;

@@ -3,8 +3,13 @@
 namespace App\Services;
 
 
+use App\Enums\Ask;
+use App\Enums\Role;
+use App\Enums\Status;
 use App\Http\Requests\TenantFileTextGetRequest;
 use App\Libraries\AppLibrary;
+use App\Models\TenantUser;
+use App\Models\User;
 use Exception;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
@@ -18,13 +23,8 @@ class TenantService
 {
     protected $tenantFilter = [
         'name',
-        'phone',
         'email',
-        'logo',
-        'tagline',
         'status',
-        'website',
-        'address',
         'username'
     ];
     /**
@@ -60,12 +60,31 @@ class TenantService
     public function store(TenantRequest $request)
     {
         try {
-            $tenant = Tenant::create($request->validated());
-            if ($request->logo) {
-                $tenant->addMediaFromRequest('logo')->toMediaCollection('tenant');
-            }
+            $createTenant = Tenant::create($request->validated());
 
-            return $tenant;
+            // after creating tenant proceed to create an admi and assign a role to that admin
+            $admin      = User::create([
+                'name'              => 'Admin',
+                'email'             => $createTenant->email,
+                'username'          => $createTenant->username,
+                'email_verified_at' => now(),
+                'password'          => bcrypt('123456'), //\Str::random(8)
+                'branch_id'         => 0,
+                'status'            => Status::ACTIVE,
+                'country_code'      => '+256',
+                'is_guest'          => Ask::NO
+            ]);
+
+            $admin->assignRole(Role::ADMIN);
+
+            // add to tenant
+            TenantUser::create([
+                'tenant_id' => $createTenant->id,
+                'user_id' => $admin->id
+            ]);
+
+            return $createTenant;
+
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -78,12 +97,8 @@ class TenantService
     public function update(Request $request, $tenant): Tenant
     {
         try {
-            $tenant->update($request->validated());
-            if ($request->image) {
-                $tenant->clearMediaCollection('tenant');
-                $tenant->addMediaFromRequest('image')->toMediaCollection('tenant');
-            }
-            return $tenant;
+            return $tenant->update($request->validated());
+
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -109,9 +124,7 @@ class TenantService
     public function show($tenant): Tenant
     {
         try {
-            $tenant = Tenant::findOrFail($tenant);
-            \Log::info('Tenant from service: ' . $tenant);
-            return $tenant;
+            return Tenant::findOrFail($tenant);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

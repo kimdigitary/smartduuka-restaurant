@@ -2,19 +2,34 @@
 
 namespace App\Services;
 
-use Smartisan\Settings\Facades\Settings;
+use App\Models\ThemeSetting;
 
 class SettingService
 {
-    public function list() : array
+    public function list(): array
     {
-        $array = [];
-        $array = array_merge($array, Settings::group('company')->all());
-        $array = array_merge($array, Settings::group('site')->all());
-        $array = array_merge($array, Settings::group('theme')->all());
-        $array = array_merge($array, Settings::group('otp')->all());
-        $array = array_merge($array, Settings::group('social_media')->all());
-        $array = array_merge($array, Settings::group('notification')->all());
-        return $array = array_merge($array, Settings::group('order_setup')->all());
+        $groups = [
+            'company',
+            'site',
+            'theme',
+            'otp',
+            'social_media',
+            'notification',
+            'order_setup'
+        ];
+
+        $settings = [];
+
+        foreach ($groups as $group) {
+            $groupSettings = ThemeSetting::where('group', $group)
+                ->where('tenant_id', \App\Tenancy\Tenancy::getTenantId())
+                ->get();
+
+            foreach ($groupSettings as $setting) {
+                $settings[$setting->key] = $setting->value;
+            }
+        }
+
+        return $settings;
     }
 }

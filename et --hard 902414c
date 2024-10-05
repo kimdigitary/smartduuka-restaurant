@@ -1,0 +1,295 @@
+[33mcommit 5b38f668effc1b62a9d57cc777ca448859dc462c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmultitenancy[m[33m)[m
+Author: barakhubs <markbrightbaraka22@gmail.com>
+Date:   Fri Oct 4 22:00:24 2024 +0300
+
+    removed language select from navbar
+
+[33mcommit 475cdfa540577f95706f13fd97301eb45bf85355[m
+Merge: 902414c dd39fca
+Author: barakhubs <markbrightbaraka22@gmail.com>
+Date:   Fri Oct 4 21:02:42 2024 +0300
+
+    Merge branch 'dev' of https://github.com/kimdigitary/smartduuka-restaurant into multitenancy
+
+[33mcommit 902414c2e5c9c43e9babab3dd59ba644b0db511f[m
+Author: barakhubs <markbrightbaraka22@gmail.com>
+Date:   Fri Oct 4 20:52:00 2024 +0300
+
+    managing super admin access
+
+[33mcommit dd39fca8383054a51c171aacc67418b0e94b993e[m[33m ([m[1;31morigin/dev[m[33m)[m
+Merge: e87673d b1feacf
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Fri Oct 4 20:19:05 2024 +0300
+
+    Merge pull request #167 from kimdigitary/omoding
+    
+    removed buttons on print invoice
+
+[33mcommit b1feacf981e9eae47b559efdaa8edc91c00978bf[m[33m ([m[1;31morigin/omoding[m[33m)[m
+Author: mike <omodingmike@gmail.com>
+Date:   Fri Oct 4 20:18:43 2024 +0300
+
+    removed buttons on print invoice
+
+[33mcommit e87673de1db9dd8d7a783212291634cfa698383a[m
+Merge: fa04c12 7a78ec7
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Fri Oct 4 07:39:43 2024 +0300
+
+    Merge pull request #166 from kimdigitary/omoding
+    
+    fixed printing
+
+[33mcommit 7a78ec71ab8693466df0ece69c35d255e9420b22[m
+Author: mike <omodingmike@gmail.com>
+Date:   Fri Oct 4 07:39:18 2024 +0300
+
+    fixed printing
+
+[33mcommit fa04c121f22ede9dc0cd07a09f49d150c8deab0b[m
+Merge: 059f835 30b78b8
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Fri Oct 4 07:36:57 2024 +0300
+
+    Merge pull request #165 from kimdigitary/omoding
+    
+    fixed printing
+
+[33mcommit 30b78b8550d6eeb9c8d834f22568fed2d91eb986[m
+Author: mike <omodingmike@gmail.com>
+Date:   Fri Oct 4 07:36:29 2024 +0300
+
+    fixed printing
+
+[33mcommit 059f835ef47137b98e4b619b5158841c8e35a358[m
+Merge: b0a8848 c04a089
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 21:30:53 2024 +0300
+
+    Merge pull request #164 from kimdigitary/omoding
+    
+    fixed receipts
+
+[33mcommit c04a089c615a460543c04af67bd81046ee3c63d6[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 21:30:22 2024 +0300
+
+    fixed receipts
+
+[33mcommit b0a88484f9f853a4b0176b574471c27da4ba48ed[m
+Merge: fecbad4 2d46658
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 21:23:32 2024 +0300
+
+    Merge pull request #162 from kimdigitary/omoding
+    
+    fixed receipts
+
+[33mcommit 2d466586562ddf40fe41a2fe8ec678eaf7d3a4ec[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 21:23:01 2024 +0300
+
+    fixed receipts
+
+[33mcommit fecbad44af06de279019539c7723334fce27eece[m
+Merge: bdc8e14 e2270b4
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 20:57:49 2024 +0300
+
+    Merge pull request #161 from kimdigitary/omoding
+    
+    Omoding
+
+[33mcommit e2270b40f0d2eefd3675ec0fb0aa98212efe3f7f[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 20:57:08 2024 +0300
+
+    finished partly
+
+[33mcommit 11d2a0f60d17b355079e39038b1a3b455fb99c3d[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 18:42:06 2024 +0300
+
+    worked on pos receipt
+
+[33mcommit bdc8e14c4d3109555f5b547ddc83a6f1d123f11a[m
+Merge: e8d2740 cbe8b3d
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 15:14:49 2024 +0300
+
+    Merge pull request #160 from kimdigitary/omoding
+    
+    worked on received bugs
+
+[33mcommit cbe8b3de22ae494e0edef027beb811a56235815d[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 15:14:27 2024 +0300
+
+    worked on received bugs
+
+[33mcommit e8d274021072c3fa8d49dc6f8eec5a6ccc9860e5[m
+Merge: 9084fc0 8e097bd
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 14:11:26 2024 +0300
+
+    Merge pull request #159 from kimdigitary/omoding
+    
+    fixed pos order payment
+
+[33mcommit 8e097bdb5bf5afe3ea043af370807cbe09544118[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 14:09:56 2024 +0300
+
+    fixed pos order payment
+
+[33mcommit 9084fc05b86b637ed27e3bb2b9bb2655c04ee138[m
+Merge: deaf2d3 f60c206
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Thu Oct 3 13:20:10 2024 +0300
+
+    Merge pull request #157 from kimdigitary/omoding
+    
+    added payment methods
+
+[33mcommit f60c20692577698f180ee12374f3338569d6e8db[m
+Author: mike <omodingmike@gmail.com>
+Date:   Thu Oct 3 13:19:36 2024 +0300
+
+    added payment methods
+
+[33mcommit deaf2d3be14c9f6867748f4a18c46a9ed3ee5d62[m
+Merge: 5cee07e ad70e84
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Wed Oct 2 22:31:28 2024 +0300
+
+    Merge pull request #156 from kimdigitary/omoding
+    
+    added pos payment
+
+[33mcommit ad70e84d2c45dc7baef569f6068fe59288d4a206[m
+Author: mike <omodingmike@gmail.com>
+Date:   Wed Oct 2 22:30:51 2024 +0300
+
+    added pos payment
+
+[33mcommit 5cee07e69da56cccbbe18b71188557a61a885bd6[m
+Merge: 454dca7 6d040b7
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Wed Oct 2 22:14:56 2024 +0300
+
+    Merge pull request #155 from kimdigitary/omoding
+    
+    added pos payment
+
+[33mcommit 6d040b77110964f41fdb6bdd90d097186a1f3646[m
+Author: mike <omodingmike@gmail.com>
+Date:   Wed Oct 2 22:10:54 2024 +0300
+
+    added pos payment
+
+[33mcommit 454dca7e790dff747839179630829c46884b2811[m
+Merge: 6951bb2 7d001c7
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Wed Oct 2 12:39:00 2024 +0300
+
+    Merge pull request #154 from kimdigitary/omoding
+    
+    fixed adding new item
+
+[33mcommit 7d001c7b3b97e10fee8fe88d3eb7adc8ea21e9b4[m
+Author: mike <omodingmike@gmail.com>
+Date:   Wed Oct 2 12:38:28 2024 +0300
+
+    fixed adding new item
+
+[33mcommit 6951bb2825db2b56630e9f95e43fb7d7444d4326[m
+Merge: 2989193 3c49435
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Tue Oct 1 21:47:19 2024 +0300
+
+    Merge pull request #153 from kimdigitary/omoding
+    
+    fixed user accounts
+
+[33mcommit 3c49435492918eb08ae53eef7b130b3642f8a7d3[m
+Author: mike <omodingmike@gmail.com>
+Date:   Tue Oct 1 21:40:34 2024 +0300
+
+    fixed user accounts
+
+[33mcommit 2989193b8823bd5a9e203c1dda0935fe891ccb3f[m
+Merge: 42f5d8f 7997cf6
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Tue Oct 1 11:08:32 2024 +0300
+
+    Merge pull request #152 from kimdigitary/omoding
+    
+    fixed adding users
+
+[33mcommit 7997cf661fcf11933492ba5bb629a75c4c2dabf1[m
+Author: mike <omodingmike@gmail.com>
+Date:   Tue Oct 1 11:08:02 2024 +0300
+
+    fixed adding users
+
+[33mcommit 42f5d8f190ea27358f1c5c50cc95124625a4ec60[m
+Merge: 2f8d8c6 0684f7a
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Tue Oct 1 10:32:50 2024 +0300
+
+    Merge pull request #151 from kimdigitary/omoding
+    
+    edited table menu seeder
+
+[33mcommit 0684f7a69b42d800c6485b2f156a82404a1f35e8[m
+Author: mike <omodingmike@gmail.com>
+Date:   Tue Oct 1 10:32:12 2024 +0300
+
+    edited table menu seeder
+
+[33mcommit 2f8d8c6d8ba0096b61bc600b5d971e2f0db07da4[m
+Merge: 4cc87f5 4e5e350
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Tue Oct 1 10:04:19 2024 +0300
+
+    Merge pull request #150 from kimdigitary/omoding
+    
+    edited table menu seeder
+
+[33mcommit 4e5e35061278c0e5bf145cc8bbd2ca53d3ce286e[m
+Author: mike <omodingmike@gmail.com>
+Date:   Tue Oct 1 10:03:44 2024 +0300
+
+    edited table menu seeder
+
+[33mcommit 4cc87f54f40887f2914b46f67587e3704ef87360[m
+Merge: 7dafa24 7d169b6
+Author: omodingmike <omodingmike@gmail.com>
+Date:   Tue Oct 1 09:24:30 2024 +0300
+
+    Merge pull request #149 from kimdigitary/omoding
+    
+    Omoding
+
+[33mcommit 7d169b6be1994256775027795161b38abcd79105[m
+Author: mike <omodingmike@gmail.com>
+Date:   Tue Oct 1 09:18:31 2024 +0300
+
+    added code for meat system
+
+[33mcommit cc29c9bad4f039c62fde62255349d7b2e9436467[m
+Author: mike <omodingmike@gmail.com>
+Date:   Mon Sep 30 15:48:17 2024 +0300
+
+    worked on something
+
+[33mcommit 2830bb4eeb69443939420b766760d68b17d41b97[m
+Author: barakhubs <markbrightbaraka22@gmail.com>
+Date:   Mon Sep 30 12:50:20 2024 +0300
+
+    CRUD on tenants
+
+[33mcommit ed9606a130c30be2a24a57f70b6fb358dfbf752e[m
+Author: mike <omodingmike@gmail.com>
+Date:  

@@ -32,7 +32,7 @@ export const countryCode = {
         },
         show: function (context,payload) {
             return new Promise((resolve, reject) => {
-                let url = `admin/country-code/show/${payload}`;
+                let url = `admin/country-code/show/UGA`;
                 axios
                     .get(url)
                     .then((res) => {

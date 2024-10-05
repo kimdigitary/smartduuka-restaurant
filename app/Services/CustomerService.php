@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\TenantUser;
+use App\Tenancy\Tenancy;
 use Exception;
 use App\Enums\Ask;
 use App\Models\User;
@@ -36,7 +38,12 @@ class CustomerService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return User::with('media', 'addresses')->role(EnumRole::CUSTOMER)->where(function ($query) use ($requests) {
+            $tenantId = Tenancy::getTenantId();
+
+            return User::with('media', 'addresses')->role(EnumRole::CUSTOMER)
+                ->join('tenant_users', 'users.id', '=', 'tenant_users.user_id')
+                ->where('tenant_users.tenant_id', $tenantId)
+                ->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->userFilter)) {
                         $query->where($key, 'like', '%' . $request . '%');
@@ -67,11 +74,18 @@ class CustomerService
                     'branch_id'         => 0,
                     'email_verified_at' => now(),
                     'status'            => $request->status,
-                    'country_code'      => $request->country_code,
+                    'country_code'      => "+256",
                     'is_guest'          => Ask::NO,
                 ]);
                 $this->user->assignRole(EnumRole::CUSTOMER);
             });
+
+            // assign user to a tenant
+            TenantUser::create([
+                'tenant_id' => Tenancy::getTenantId(),
+                'user_id' => $this->user->id
+            ]);
+
             return $this->user;
         } catch (Exception $exception) {
             DB::rollBack();

@@ -45,7 +45,8 @@ return new class extends Migration
             'stocks',
             'dining_tables',
             'expenses',
-            'ingredients'
+            'ingredients',
+            'settings',
         ];
     }
 };

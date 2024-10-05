@@ -9,7 +9,9 @@ use App\Http\Requests\ChangeImageRequest;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Libraries\AppLibrary;
+use App\Models\TenantUser;
 use App\Models\User;
+use App\Tenancy\Tenancy;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,21 +29,28 @@ class AdministratorService
     public function list(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_type') ?? 'desc';
+            $orderType = $request->get('order_type') ?? 'desc';
 
-            return User::with('media')->where(function ($query) use ($requests) {
-                foreach ($requests as $key => $request) {
-                    if (in_array($key, $this->userFilter)) {
-                        $query->where($key, 'like', '%' . $request . '%');
-                    }
-                }
-            })->role(EnumRole::ADMIN)->orderBy($orderColumn, $orderType)->$method(
-                $methodValue
-            );
+            $tenantId = Tenancy::getTenantId();
+
+            return User::with('media')
+                        ->join('tenant_users', 'users.id', '=', 'tenant_users.user_id')
+                        ->where('tenant_users.tenant_id', $tenantId) // Filter by tenant_id
+                        ->where(function ($query) use ($requests) {
+                            foreach ($requests as $key => $request) {
+                                if (in_array($key, $this->userFilter)) {
+                                    $query->where($key, 'like', '%' . $request . '%');
+                                }
+                            }
+                        })
+                        ->role(EnumRole::ADMIN)
+                        ->orderBy($orderColumn, $orderType)
+                        ->select('users.*') // Select only the user fields
+                ->$method($methodValue);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -56,19 +65,26 @@ class AdministratorService
         try {
             DB::transaction(function () use ($request) {
                 $this->user = User::create([
-                    'name'              => $request->name,
-                    'email'             => $request->email,
-                    'phone'             => $request->phone,
-                    'username'          => AppLibrary::username($request->name),
-                    'password'          => Hash::make($request->password),
-                    'status'            => $request->status,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'username' => AppLibrary::username($request->name),
+                    'password' => Hash::make($request->password),
+                    'status' => $request->status,
                     'email_verified_at' => now(),
-                    'branch_id'         => $request->branch_id,
-                    'country_code'      => $request->country_code,
-                    'is_guest'          => Ask::NO,
+                    'branch_id' => $request->branch_id,
+                    'country_code' => "+256",
+                    'is_guest' => Ask::NO,
                 ]);
                 $this->user->assignRole(EnumRole::ADMIN);
             });
+
+            // assign user to a tenant
+            TenantUser::create([
+                'tenant_id' => Tenancy::getTenantId(),
+                'user_id' => $this->user->id
+            ]);
+
             return $this->user;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -84,12 +100,12 @@ class AdministratorService
     {
         try {
             DB::transaction(function () use ($administrator, $request) {
-                $this->user               = $administrator;
-                $this->user->name         = $request->name;
-                $this->user->email        = $request->email;
-                $this->user->phone        = $request->phone;
-                $this->user->status       = $request->status;
-                $this->user->branch_id    = $request->branch_id;
+                $this->user = $administrator;
+                $this->user->name = $request->name;
+                $this->user->email = $request->email;
+                $this->user->phone = $request->phone;
+                $this->user->status = $request->status;
+                $this->user->branch_id = $request->branch_id;
                 $this->user->country_code = $request->country_code;
 
                 if ($request->password) {

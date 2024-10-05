@@ -24,16 +24,17 @@ class ThemeResource extends JsonResource
      * @return array
      */
     public function toArray($request) : array
-    {
-        return [
-            "theme_logo"         => $this->themeImage('theme_logo')->logo,
-            "theme_favicon_logo" => $this->themeImage('theme_favicon_logo')->faviconLogo,
-            "theme_footer_logo"  => $this->themeImage('theme_footer_logo')->footerLogo,
-        ];
-    }
+{
+    return [
+        "theme_logo" => optional($this->themeImage('theme_logo'))->logo,
+        "theme_favicon_logo" => optional($this->themeImage('theme_favicon_logo'))->faviconLogo ?? 'default_favicon_logo', // Provide a default value if null
+        "theme_footer_logo" => optional($this->themeImage('theme_footer_logo'))->footerLogo,
+    ];
+}
 
-    public function themeImage($key)
-    {
-        return ThemeSetting::where(['key' => $key])->first();
-    }
+public function themeImage($key)
+{
+    return ThemeSetting::where('key', $key)->first();
+}
+
 }

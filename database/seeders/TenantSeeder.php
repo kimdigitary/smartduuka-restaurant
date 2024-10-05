@@ -18,13 +18,8 @@ class TenantSeeder extends Seeder
         Tenant::insert([
             [
                 'name'       => 'Food Scan Default',
-                'phone'      => '773034311',
                 'email'      => 'smartduuka@example.com',
-                'logo'       => 'logo.png',
-                'tagline'    => 'Your smart choice',
                 'status'     => 5,
-                'website'    => 'http://smartduuka.com',
-                'address'    => '123 Smart Street, Duuka',
                 'username'   => 'foodscan',
             ],
         ]);
