@@ -16,6 +16,7 @@ AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        require_once app_path('Helpers/functions.php');
 //        info(env('DB_DATABASE'));
 //        Menu::truncate();
 
