@@ -78,5 +78,6 @@ class Kernel extends HttpKernel
         'localization'       => \App\Http\Middleware\localization::class,
         'installed'          => \App\Http\Middleware\Installed::class,
         'tenantID'           => TenantMiddleware::class,
+        'subDomainCheck'     => \App\Http\Middleware\SubDomainCheck::class,
     ];
 }
