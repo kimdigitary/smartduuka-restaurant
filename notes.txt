@@ -38,54 +38,7 @@ https://kimdigitary.enerpize.com/
 email: kimdigitary@gmail.com
 Password: Atmbvrg@aG3qr8@
 
-# Work on omoding branch
-git checkout omoding
-git rm --cached resources/js/config/env.js                  # Remove .env from the repository but keep it locally
-git rm --cached .env                   # Remove .env from the repository but keep it locally
-echo '.env' >> .gitignore              # Add .env to .gitignore
-git add .gitignore                     # Stage the .gitignore file
-git commit -m "Remove .env from repository and add to .gitignore"  # Commit the changes
-git push origin omoding                # Push changes to omoding branch
+SHH IP: ssh root@173.249.44.32
+Password: @fdj23DHF
 
-# Merge changes into main branch
-git checkout main                      # Switch to main branch
-git merge omoding                      # Merge omoding branch into main
-git push origin main                   # Push the updated main branch to the rem
 
-name: Deployment
-
-on:
-  pull_request:
-    branches: [ dev ]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Display Private Key
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}"
-
-      - name: Deployment
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
-          script: |
-            cd /home/restaurant@smartduuka/public_html
-            git pull origin dev
-#            git fetch origin
-#            git reset --hard origin/dev
-            composer update
-            php artisan migrate --force
-            npm update
-            npm run production
-
-Notes on props watching in vuejs
-ItemCreateComponent.vue
-
-invoiceModal
