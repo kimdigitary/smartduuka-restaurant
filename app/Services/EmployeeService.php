@@ -154,18 +154,18 @@
         public function destroy(User $employee)
         {
             try {
-                if ( ! in_array(optional($employee->roles[0])->id , $this->blockRoles) ) {
-                    if ( $employee->hasRole(optional($employee->roles[0])->id) ) {
-                        DB::transaction(function () use ($employee) {
-                            $employee->addresses()->delete();
-                            $employee->delete();
-                        });
-                    } else {
-                        throw new Exception(trans('all.message.permission_denied') , 422);
-                    }
+//                if ( ! in_array(optional($employee->roles[0])->id , $this->blockRoles) ) {
+                if ( $employee->hasRole(optional($employee->roles[0])->id) ) {
+                    DB::transaction(function () use ($employee) {
+                        $employee->addresses()->delete();
+                        $employee->delete();
+                    });
                 } else {
                     throw new Exception(trans('all.message.permission_denied') , 422);
                 }
+//                } else {
+//                    throw new Exception(trans('all.message.permission_denied') , 422);
+//                }
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 DB::rollBack();
