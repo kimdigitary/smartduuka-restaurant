@@ -13,6 +13,7 @@
                 </div>
                 <label class="cursor-pointer" for="enableSound">Enable Sound Notifications</label>
             </div>
+
             <div class="form-col-12 sm:form-col-6" v-if="site?.project?.name==='mophyz'">
                 <label class="db-field-title" for="yes">Filter By</label>
                 <div class="db-field-radio-group">
@@ -293,9 +294,6 @@ export default {
         }
     },
     computed: {
-        projectEnum() {
-            return projectEnum
-        },
         orderItemStatusEnum() {
             return orderItemStatusEnum
         },

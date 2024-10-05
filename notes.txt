@@ -41,4 +41,13 @@ Password: Atmbvrg@aG3qr8@
 SHH IP: ssh root@173.249.44.32
 Password: @fdj23DHF
 
+computed
+  site: function () {
+            return this.$store.getters['site/lists'];
+        },
+mounted
+ this.$store.dispatch("site/lists", this.props.search).then().catch();
+
+ v-if="site?.project?.name==='mophyz'"
+
 

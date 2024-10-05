@@ -20,6 +20,8 @@
                 'id'                             => $this->id ,
                 'order_serial_no'                => $this->order_serial_no ,
                 'user_id'                        => $this->user_id ,
+                'dining_table'                   => $this->diningTable ,
+                'created_by'                     => $this->creator ,
                 'branch_id'                      => $this->branch_id ,
                 'change'                         => $this->change ,
                 'paid'                           => $this->paid ,

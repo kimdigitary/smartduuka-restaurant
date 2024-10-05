@@ -1,4 +1,4 @@
 const projectEnum = Object.freeze({
-    PROJECT: 'mophyz1',
+    PROJECT: 'mophyz',
 });
 export default projectEnum;
