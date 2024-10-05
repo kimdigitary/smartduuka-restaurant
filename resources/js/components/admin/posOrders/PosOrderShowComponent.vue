@@ -231,7 +231,6 @@
             </div>
         </div>
     </div>
-    <!--    <PosOrderInvoiceComponent :order="order" />-->
     <PosOrderInvoiceComponent :order="order" v-if="order.payment_status === PaymentStatusEnum.UNPAID"/>
     <ReceiptComponent :order="order" v-else/>
 </template>

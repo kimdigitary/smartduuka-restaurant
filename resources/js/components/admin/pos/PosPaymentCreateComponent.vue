@@ -166,7 +166,6 @@ export default {
                     this.loading.isActive = false;
                 })
             }
-
         },
         paymentAmount: function (e) {
             if (e.target.value > this.dueAmount) {
