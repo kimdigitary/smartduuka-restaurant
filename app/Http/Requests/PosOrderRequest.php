@@ -24,7 +24,6 @@
         {
             return [
                 'customer_id'      => [ 'required' , 'numeric' ] ,
-//                'dining_table_id'  => [ 'required' , 'numeric' ] ,
                 'dining_table_id'  => project() === 'mophyz' ? [ 'required' , 'numeric' ] : [ 'nullable' ] ,
                 'branch_id'        => [ 'required' , 'numeric' ] ,
                 'subtotal'         => [ 'required' , 'numeric' ] ,

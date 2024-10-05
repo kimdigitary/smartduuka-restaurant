@@ -27,7 +27,6 @@
     use App\Models\Order;
     use App\Models\OrderAddress;
     use App\Models\OrderItem;
-    use App\Models\PosPayment;
     use App\Models\Stock;
     use App\Models\Tax;
     use App\Models\User;
@@ -299,6 +298,7 @@
                             'user_id'          => $request->customer_id ,
                             'status'           => OrderStatus::ACCEPT ,
                             'token'            => $request->token ,
+                            'creator_id'       => $request->user()->id ,
 //                        'payment_status'   => PaymentStatus::PAID ,
                             'payment_status'   => PaymentStatus::UNPAID ,
                             'order_datetime'   => date('Y-m-d H:i:s') ,

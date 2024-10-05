@@ -137,6 +137,10 @@ class Order extends Model
     {
         return $this->belongsTo(DiningTable::class);
     }
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'creator_id','id');
+    }
     public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class,'payment_method','id');
