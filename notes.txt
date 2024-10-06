@@ -1,10 +1,3 @@
-WEB & APP LOGIN CREDENTIALS
-Admin
-email: admin@example.com
-password: 123456
-Branch Manager
-email: branchmanager@example.com
-password: 123456
 
 NEW MOODBOX
 username: moodbox.smartduuka
@@ -17,16 +10,12 @@ username: mophyz@smartduuka
 password: Y9SDlLzmLr4dIsk
 DB: moodbox_smartduuka
 cd /home/mophyz@smartduuka/public_html
-
-https://smartduuka-restaurant.test/menu/mirpur-1-main-mike
-https://smartduuka-restaurant.test/menu/mirpur-1-main-test
-
-/etc/php/8.2/cli/php.ini
-
+SHH IP: ssh root@173.249.44.32
+Password: @fdj23DHF
 
 cd /home/moodbox@smartduuka/public_html
 cd /home/villagio@smartduuka/public_html
-http://phpmyadmin.smartduuka.com/
+
 
 https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
 https://resto.codehas.net/
@@ -35,9 +24,6 @@ UPDATE `orders` SET `status`=1 WHERE 1;
 https://kimdigitary.enerpize.com/
 email: kimdigitary@gmail.com
 Password: Atmbvrg@aG3qr8@
-
-SHH IP: ssh root@173.249.44.32
-Password: @fdj23DHF
 
 computed
   site: function () {
@@ -48,4 +34,9 @@ mounted
 
  v-if="site?.project?.name==='mophyz'"
 
-
+Project Defaults.
+Moodbox:
+all orders accepted
+Mophz:
+Hide filters
+table required on pos

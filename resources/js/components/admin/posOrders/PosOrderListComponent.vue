@@ -16,6 +16,37 @@
                     </div>
                 </div>
             </div>
+            <div class="table-filter-div">
+                <form class="p-4 sm:p-5 mb-5" @submit.prevent="search">
+                    <div class="row">
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="order_serial_no" class="db-field-title after:hidden">Order ID</label>
+                            <input id="order_serial_no" v-model="props.search.order_serial_no" type="text" class="db-field-control"/>
+                        </div>
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="dining_table_id" class="db-field-title after:hidden">Table</label>
+
+                            <vue-select class="db-field-control f-b-custom-select" id="item_category_id"
+                                        v-model="props.search.dining_table_id" :options="diningTables" label-by="name"
+                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                        search-placeholder="--" />
+                        </div>
+
+                        <div class="col-12">
+                            <div class="flex flex-wrap gap-3 mt-4">
+                                <button class="db-btn py-2 text-white bg-primary">
+                                    <i class="lab lab-search-line lab-font-size-16"></i>
+                                    <span>{{ $t("button.search") }}</span>
+                                </button>
+                                <button class="db-btn py-2 text-white bg-gray-600" @click="clear">
+                                    <i class="lab lab-cross-line-2 lab-font-size-22"></i>
+                                    <span>{{ $t("button.clear") }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print" :dir="direction">
                     <thead class="db-table-head">
@@ -38,8 +69,8 @@
                     <tr class="db-table-body-tr" v-for="order in orders" :key="order">
                         <td class="db-table-body-td">{{ order.order_serial_no }}</td>
                         <td class="db-table-body-td">{{ order.customer.name }}</td>
-                        <td class="db-table-body-td">{{ order.dining_table?order.dining_table.name:'NA' }}</td>
-                        <td class="db-table-body-td">{{ order.created_by?order.created_by.name:'NA' }}</td>
+                        <td class="db-table-body-td">{{ order.dining_table ? order.dining_table.name : 'NA' }}</td>
+                        <td class="db-table-body-td">{{ order.created_by ? order.created_by.name : 'NA' }}</td>
                         <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                         <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                         <td class="db-table-body-td">{{ order.order_datetime }}</td>
@@ -206,22 +237,37 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
+                    dining_table_id: "",
                     order_type: orderTypeEnum.POS,
                     user_id: null,
                     status: null,
                     from_date: "",
                     to_date: "",
                 }
-            }
+            },
+            diningTableProps: {
+                search: {
+                    paginate: 0,
+                    order_column: 'id',
+                    order_type: 'asc'
+                }
+            },
         }
     },
     mounted() {
         this.list();
+        this.loading.isActive = true;
         this.startPolling();
+        this.props.search.page = 1;
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
+        });
+        this.$store.dispatch("user/diningTableList", this.diningTableProps.search).then(res => {
+            this.loading.isActive = false;
+        }).catch((err) => {
+            this.loading.isActive = false;
         });
     },
     beforeRouteLeave(to, from, next) {
@@ -254,6 +300,9 @@ export default {
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
         },
+        diningTables: function () {
+            return this.$store.getters['user/diningTable'];
+        },
     },
     methods: {
         permissionChecker(e) {
@@ -270,6 +319,9 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
             this.loading.isActive = false;
+        },
+        diningTableList: function () {
+            this.$store.dispatch("user/diningTableList", this.props.search).then().catch();
         },
         startPolling() {
             this.timer = setInterval(() => {
@@ -331,6 +383,9 @@ export default {
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        numberOnly: function (e) {
+            return appService.floatNumber(e);
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {
