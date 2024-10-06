@@ -153,29 +153,31 @@
                     </table>
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    <div class="flex gap-3">
-                        <p class="">Payment Method: <span class="font-bold">{{capitalizeWords(selectedOrder?.payment_method?.name)}}</span></p>
+                    <div class="flex justify-between bg-amber-950">
+                        <p>Payment Method:</p>
+                        <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>
                     </div>
-                </div>
-                <h4 v-if="order.token"
-                    class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
-                    {{ $t('label.token') }} #{{ order.token }}
-                </h4>
-                <h4 v-if="order.dining_table"
-                    class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
-                    Dining Table #{{ order.dining_table?.name }}
-                </h4>
-                <div class="text-center pt-2 pb-4">
-                    <p class="text-[11px] leading-[14px] capitalize text-heading">
-                        {{ $t('message.thank_you') }}
-                    </p>
-                    <p class="text-[11px] leading-[14px] capitalize text-heading">
-                        {{ $t('message.please_come_again') }}
-                    </p>
-                    <h5 class="text-[8px] font-normal leading-[10px]">
-                        {{ $t('label.powered_by') }} <span class="border-t border-b border-dashed">Digi-volve
+
+                    <h4 v-if="order.token"
+                        class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
+                        {{ $t('label.token') }} #{{ order.token }}
+                    </h4>
+                    <h4 v-if="order.dining_table"
+                        class="py-2 capitalize text-xl font-bold text-center border-b border-dashed border-gray-400">
+                        Dining Table #{{ order.dining_table?.name }}
+                    </h4>
+                    <div class="text-center pt-2 pb-4">
+                        <p class="text-[11px] leading-[14px] capitalize text-heading">
+                            {{ $t('message.thank_you') }}
+                        </p>
+                        <p class="text-[11px] leading-[14px] capitalize text-heading">
+                            {{ $t('message.please_come_again') }}
+                        </p>
+                        <h5 class="text-[8px] font-normal leading-[10px]">
+                            {{ $t('label.powered_by') }} <span class="border-t border-b border-dashed">Digi-volve
                             Technologies Limited</span>
-                    </h5>
+                        </h5>
+                    </div>
                 </div>
             </div>
         </div>
