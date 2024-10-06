@@ -19,7 +19,7 @@
         public function toArray($request) : array
         {
             return [
-                "project"                        => $this->info['project'] ,
+                "project"                        => $this->info['project']??'' ,
                 "site_date_format"               => $this->info['site_date_format'] ,
                 "site_time_format"               => $this->info['site_time_format'] ,
                 "site_default_timezone"          => $this->info['site_default_timezone'] ,
