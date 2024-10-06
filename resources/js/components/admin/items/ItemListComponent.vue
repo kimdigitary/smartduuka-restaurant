@@ -383,6 +383,7 @@ export default {
             //     this.loading.isActive = false;
             // })
         },
+
         xls: function () {
             this.loading.isActive = true;
             this.$store.dispatch("item/export", this.props.search).then((res) => {
