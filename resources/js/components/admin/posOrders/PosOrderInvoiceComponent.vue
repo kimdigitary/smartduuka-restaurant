@@ -142,7 +142,7 @@
                     </table>
                 </div>
 
-                <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
+                <div class="text-xs py-2 border-t border-b border-dashed text-heading">
                     <div class="flex justify-between">
                         <p class="">Payment Methods:</p>
                         <div class="">
