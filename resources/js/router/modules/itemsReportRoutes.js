@@ -1,5 +1,7 @@
-import ItemsReportComponent from "../../components/admin/itemsReport/ItemsReportComponent";
-import ItemsReportListComponent from "../../components/admin/itemsReport/ItemsReportListComponent";
+
+import ItemsReportComponent from "../../components/admin/itemsReport/ItemsReportComponent.vue";
+import ItemsReportListComponent from "../../components/admin/itemsReport/ItemsReportListComponent.vue";
+
 export default [
     {
         path: "/admin/items-report",

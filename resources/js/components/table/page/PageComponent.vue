@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import TemplateManagerComponent from "../components/TemplateManagerComponent";
+import TemplateManagerComponent from "../components/TemplateManagerComponent.vue";
 
 export default {
     name: "PageComponent",

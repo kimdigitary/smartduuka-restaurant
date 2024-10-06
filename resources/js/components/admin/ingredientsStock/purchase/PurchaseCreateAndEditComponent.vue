@@ -172,7 +172,7 @@
                                 <label class="db-field-title">
                                     {{ $t("label.note") }}
                                 </label>
-                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius"/>
+                                <textarea v-model="props.form.note" class="!h-40 textarea-border-radius"/>
                                 <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
                             </div>
                         </div>
@@ -278,7 +278,6 @@
 <script lang="js">
 
 import Datepicker from "@vuepic/vue-datepicker";
-import {quillEditor} from 'vue3-quill'
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import ProductModalComponent from "../../components/product/ProductModalComponent.vue";
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
@@ -294,7 +293,6 @@ export default {
     name: 'PurchaseCreateAndEditComponent',
     components: {
         Datepicker,
-        quillEditor,
         LoadingComponent,
         ProductModalComponent,
         SmIconDeleteComponent,

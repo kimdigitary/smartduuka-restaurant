@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import statusEnum from "../../../enums/modules/statusEnum";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";

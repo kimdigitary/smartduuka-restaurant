@@ -143,24 +143,23 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import EmployeeCreateComponent from "./EmployeeCreateComponent";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
 import statusEnum from "../../../enums/modules/statusEnum";
-import TableLimitComponent from "../components/TableLimitComponent";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
 import print from "vue3-print-nb";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-
+import EmployeeCreateComponent from "./EmployeeCreateComponent.vue";
+import ExportComponent from "../components/buttons/export/ExportComponent.vue";
+import FilterComponent from "../components/buttons/collapse/FilterComponent.vue";
+import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import SmIconViewComponent from "../components/buttons/SmIconViewComponent.vue";
+import PrintComponent from "../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../components/buttons/export/ExcelComponent.vue";
 export default {
     name: "EmployeeListComponent",
     components: {

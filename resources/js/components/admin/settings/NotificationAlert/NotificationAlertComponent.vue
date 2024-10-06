@@ -113,9 +113,10 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
 import switchEnum from "../../../../enums/modules/switchEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "NotificationAlertComponent",

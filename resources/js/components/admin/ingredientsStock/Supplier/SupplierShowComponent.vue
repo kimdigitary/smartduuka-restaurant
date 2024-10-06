@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import appService from "../../../../services/appService";
 

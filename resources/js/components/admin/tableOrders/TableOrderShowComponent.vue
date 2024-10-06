@@ -244,8 +244,7 @@
 </template>
 
 <script>
-import statusEnum from "../../../enums/modules/statusEnum";
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import appService from "../../../services/appService";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
@@ -253,9 +252,9 @@ import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
 import paymentTypeEnum from "../../../enums/modules/paymentTypeEnum";
 import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import alertService from "../../../services/alertService";
-import TableOrderReasonComponent from "./TableOrderReasonComponent";
-import TableOrderTokenComponent from "./TableOrderTokenComponent";
-import TableOrderReceiptComponent from "./TableOrderReceiptComponent";
+import TableOrderReceiptComponent from "./TableOrderReceiptComponent.vue";
+import TableOrderReasonComponent from "./TableOrderReasonComponent.vue";
+import TableOrderTokenComponent from "./TableOrderTokenComponent.vue";
 
 export default {
     name: "tableOrderShowComponent",

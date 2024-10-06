@@ -55,17 +55,17 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
-import SupplierCreateComponent from "./SupplierCreateComponent";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import SupplierCreateComponent from "./SupplierCreateComponent.vue";
 import alertService from "../../../../services/alertService";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import appService from "../../../../services/appService";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import SmDeleteComponent from "../../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../../components/buttons/SmModalEditComponent";
-import SmViewComponent from "../../components/buttons/SmViewComponent";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmDeleteComponent from "../../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../../components/buttons/SmModalEditComponent.vue";
+import SmViewComponent from "../../components/buttons/SmViewComponent.vue";
 
 export default {
     name: "SupplierListComponent",

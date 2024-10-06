@@ -189,14 +189,15 @@
     </div>
 </template>
 <script>
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import AskEnum from "../../../../enums/modules/askEnum";
 import {isProxy, toRaw} from "vue";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "ItemVariationCreateComponent",

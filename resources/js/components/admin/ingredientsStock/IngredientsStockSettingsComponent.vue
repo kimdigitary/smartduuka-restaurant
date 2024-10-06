@@ -16,8 +16,9 @@
 
 <script>
 
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
+
 import IngredientsStockComponent from "./IngredientsStockComponent.vue";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 
 export default {
     name: "IngredientsStockSettingsComponent",

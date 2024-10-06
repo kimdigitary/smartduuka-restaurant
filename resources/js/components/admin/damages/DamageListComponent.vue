@@ -108,21 +108,21 @@
 
 
 <script lang="js">
-import LoadingComponent from "../components/LoadingComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import TableLimitComponent from "../components/TableLimitComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconEditComponent from '../components/buttons/SmIconEditComponent';
+import LoadingComponent from "../components/LoadingComponent.vue";
+import PrintComponent from "../components/PrintComponent.vue";
+import FilterComponent from "../components/FilterComponent.vue";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import ExportComponent from "../components/ExportComponent.vue";
+import ExcelComponent from "../components/ExcelComponent.vue";
+import PaginationTextComponent from "../components/PaginationTextComponent.vue";
+import SmIconSidebarModalEditComponent from "../components/SmIconSidebarModalEditComponent.vue";
+import SmIconEditComponent from "../components/SmIconEditComponent.vue";
 import PaginationBox from "../components/pagination/PaginationBox";
 import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import Datepicker from "@vuepic/vue-datepicker";
 import appService from "../../../services/appService";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
+import SmIconViewComponent from "../components/SmIconViewComponent.vue";
+import SmIconDeleteComponent from "../components/SmIconDeleteComponent.vue";
 import alertService from "../../../services/alertService";
 export default {
     name: 'DamageListComponent',

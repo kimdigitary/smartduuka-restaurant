@@ -152,13 +152,12 @@
 
 <script>
 
-import LoadingComponent from "./LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import paymentTypeEnum from "../../../enums/modules/paymentTypeEnum";
-import OrderStatusComponent from "./OrderStatusComponent";
-
+import OrderStatusComponent from "../components/OrderStatusComponent.vue";
 export default {
     name: "OrderDetailsComponent",
     components: { LoadingComponent, OrderStatusComponent },

@@ -115,7 +115,7 @@
                                 <label class="db-field-title">
                                     {{ $t("label.note") }}
                                 </label>
-                                <quill-editor v-model:value="props.form.note" class="!h-40 textarea-border-radius"/>
+                                <textarea v-model="props.form.note" class="!h-40 textarea-border-radius"/>
                                 <small class="db-field-alert" v-if="errors.note">{{ errors.note[0] }}</small>
                             </div>
                         </div>
@@ -140,7 +140,6 @@
 <script lang="js">
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import Datepicker from "@vuepic/vue-datepicker";
-import {quillEditor} from 'vue3-quill'
 import alertService from "../../../../services/alertService";
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import ProductModalComponent from "../../components/product/ProductModalComponent.vue"
@@ -152,7 +151,6 @@ export default {
     name: 'StockCreateOrEditComponent',
     components: {
         Datepicker,
-        quillEditor,
         LoadingComponent,
         ProductModalComponent,
         SmIconDeleteComponent,

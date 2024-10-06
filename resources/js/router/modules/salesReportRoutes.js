@@ -1,5 +1,6 @@
-import SalesReportComponent from "../../components/admin/salesReport/SalesReportComponent";
-import SalesReportListComponent from "../../components/admin/salesReport/SalesReportListComponent";
+
+import SalesReportComponent from "../../components/admin/salesReport/SalesReportComponent.vue";
+import SalesReportListComponent from "../../components/admin/salesReport/SalesReportListComponent.vue";
 export default [
     {
         path: "/admin/sales-report",

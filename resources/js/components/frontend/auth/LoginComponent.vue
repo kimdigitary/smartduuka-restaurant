@@ -81,7 +81,7 @@
 
 <script>
 import router from "../../../router";
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import ENV from "../../../config/env";
 

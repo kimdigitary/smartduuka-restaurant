@@ -210,15 +210,15 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import statusEnum from "../../../enums/modules/statusEnum";
 import labelEnum from "../../../enums/modules/labelEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
-import CustomerAddressList from "./address/CustomerAddressList";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import CustomerAddressList from "./address/CustomerAddressList.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
 
 export default {
     name: "CustomerShowComponent",

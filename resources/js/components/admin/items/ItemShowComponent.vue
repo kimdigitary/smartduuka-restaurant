@@ -169,19 +169,19 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";
 import AskEnum from "../../../enums/modules/askEnum";
 import appService from "../../../services/appService";
 import alertService from "../../../services/alertService";
-import ItemVariationListComponent from "./variation/ItemVariationListComponent";
-import ItemExtraListComponent from "./extra/ItemExtraListComponent";
-import ItemAddonListComponent from "./addon/ItemAddonListComponent";
 import IngredientAddonListComponent from "./ingredients/ItemIngredientListComponent.vue";
 import ItemIngredientListComponent from "./ingredients/ItemIngredientListComponent.vue";
 import {isProxy, toRaw} from "vue";
+import ItemVariationListComponent from "./variation/ItemVariationListComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import ItemExtraListComponent from "./extra/ItemExtraListComponent.vue";
+import ItemAddonListComponent from "./addon/ItemAddonListComponent.vue";
 
 export default {
     name: "ItemCategoryShowComponent",

@@ -235,20 +235,21 @@
     <ReceiptComponent :order="order" v-else/>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+
 import appService from "../../../services/appService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
-import TableLimitComponent from "../components/TableLimitComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import PaymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import print from "vue3-print-nb";
-import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 import ReceiptComponent from "../pos/ReceiptComponent.vue";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent.vue";
 
 export default {
     name: "PosOrderShowComponent",

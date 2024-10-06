@@ -26,8 +26,7 @@
 <script>
 
 import alertService from "../../../services/alertService";
-import LoadingComponent from "../components/LoadingComponent";
-
+import LoadingComponent from "../components/LoadingComponent.vue";
 export default {
     name: "ForgetPasswordComponent",
     components: {LoadingComponent},

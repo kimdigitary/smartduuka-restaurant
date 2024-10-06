@@ -1,5 +1,6 @@
-import ProfileEditProfileComponent from "../../components/admin/profile/ProfileEditProfileComponent";
-import ProfileChangePasswordComponent from "../../components/admin/profile/ProfileChangePasswordComponent";
+
+import ProfileChangePasswordComponent from "../../components/admin/profile/ProfileChangePasswordComponent.vue";
+import ProfileEditProfileComponent from "../../components/admin/profile/ProfileEditProfileComponent.vue";
 
 
 export default [

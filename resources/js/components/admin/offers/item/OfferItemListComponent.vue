@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import SmSidebarModalCreateComponent from "../../components/buttons/SmSidebarModalCreateComponent";
+
 import alertService from "../../../../services/alertService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import appService from "../../../../services/appService";
-import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent";
-import SmIconModalEditComponent from "../../components/buttons/SmIconModalEditComponent";
-import OfferItemCreateComponent from "./OfferItemCreateComponent";
-
+import SmSidebarModalCreateComponent from "../../components/buttons/SmSidebarModalCreateComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import SmIconModalEditComponent from "../../components/buttons/SmIconModalEditComponent.vue";
+import OfferItemCreateComponent from "./OfferItemCreateComponent.vue";
 export default {
     name: "OfferItemListComponent",
     components: {

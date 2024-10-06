@@ -1,7 +1,7 @@
-import EmployeeComponent from "../../components/admin/employees/EmployeeComponent";
-import EmployeeListComponent from "../../components/admin/employees/EmployeeListComponent";
-import EmployeeShowComponent from "../../components/admin/employees/EmployeeShowComponent";
-import EmployeeOrderDetailsComponent from "../../components/admin/employees/EmployeeOrderDetailsComponent";
+import EmployeeComponent from "../../components/admin/employees/EmployeeComponent.vue";
+import EmployeeListComponent from "../../components/admin/employees/EmployeeListComponent.vue";
+import EmployeeShowComponent from "../../components/admin/employees/EmployeeShowComponent.vue";
+import EmployeeOrderDetailsComponent from "../../components/admin/employees/EmployeeOrderDetailsComponent.vue";
 
 export default [
     {

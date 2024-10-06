@@ -15,9 +15,8 @@
 </template>
 
 <script>
-import MenuComponent from "./MenuComponent";
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
-
+import MenuComponent from "./MenuComponent.vue";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 export default {
     name: "SettingsComponent",
     components: {MenuComponent, BreadcrumbComponent},

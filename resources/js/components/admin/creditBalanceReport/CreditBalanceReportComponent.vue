@@ -103,21 +103,22 @@
 </template>
 
 <script>
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
-import LoadingComponent from "../components/LoadingComponent";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
 import appService from "../../../services/appService";
-import TableLimitComponent from "../components/TableLimitComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+
 import print from 'vue3-print-nb';
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import "@vuepic/vue-datepicker/dist/main.css";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import ExportComponent from "../components/buttons/export/ExportComponent.vue";
+import FilterComponent from "../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../components/buttons/export/ExcelComponent.vue";
 
 export default {
     name: "CreditBalanceReportComponent",

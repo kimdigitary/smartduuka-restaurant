@@ -1,4 +1,4 @@
-import TableMenuComponent from "../../components/table/tableMenu/TableMenuComponent";
+import TableMenuComponent from "../../components/table/tableMenu/TableMenuComponent.vue";
 import SearchItemComponent from "../../components/table/search/SearchItemComponent.vue";
 import PageComponent from "../../components/table/page/PageComponent.vue";
 import CheckoutComponent from "../../components/table/checkout/CheckoutComponent.vue";

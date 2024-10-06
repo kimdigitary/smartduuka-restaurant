@@ -86,7 +86,7 @@
 <script>
 import statusEnum from "../../../enums/modules/statusEnum";
 import appService from "../../../services/appService";
-import LoadingComponent from "../../frontend/components/LoadingComponent";
+import LoadingComponent from "../../frontend/components/LoadingComponent.vue";
 import activityEnum from "../../../enums/modules/activityEnum";
 
 export default {

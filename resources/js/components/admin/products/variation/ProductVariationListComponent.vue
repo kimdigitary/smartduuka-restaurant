@@ -30,7 +30,7 @@ import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
 import SmIconModalEditComponent from "../../components/buttons/SmIconModalEditComponent.vue";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
-import ProductVariationCreateComponent from "./ProductVariationCreateComponent";
+import ProductVariationCreateComponent from "../components/ProductVariationCreateComponent.vue";
 import _ from "lodash";
 
 export default {

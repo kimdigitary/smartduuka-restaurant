@@ -6,7 +6,7 @@
 
 <script>
 
-import ContactUsComponent from "../page/ContactUsComponent";
+import ContactUsComponent from "../page/ContactUsComponent.vue";
 export default {
     name: "TemplateManagerComponent",
     props: ["templateId"],

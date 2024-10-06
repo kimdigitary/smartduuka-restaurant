@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../../services/alertService";
 
 export default {

@@ -62,18 +62,19 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
-import TaxCreateComponent from "./TaxCreateComponent";
+
 import alertService from "../../../../services/alertService";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import appService from "../../../../services/appService";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import SmDeleteComponent from "../../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../../components/buttons/SmModalEditComponent";
 import taxTypeEnum from "../../../../enums/modules/taxTypeEnum";
 import statusEnum from "../../../../enums/modules/statusEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import TaxCreateComponent from "./TaxCreateComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmDeleteComponent from "../../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../../components/buttons/SmModalEditComponent.vue";
 
 export default {
     name: "TaxListComponent",

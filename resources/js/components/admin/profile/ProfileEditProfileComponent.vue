@@ -76,8 +76,8 @@
 </template>
 
 <script>
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
-import LoadingComponent from "../components/LoadingComponent";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 

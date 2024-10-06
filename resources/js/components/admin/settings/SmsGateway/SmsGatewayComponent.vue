@@ -74,10 +74,9 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
-import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
 import inputTypeEnum from "../../../../enums/modules/inputTypeEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "SmsGatewayComponent",

@@ -284,8 +284,8 @@
 </template>
 
 <script>
-import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
+
+import LoadingComponent from "../components/LoadingComponent.vue";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";
 import AskEnum from "../../../enums/modules/askEnum";
@@ -295,6 +295,7 @@ import appService from "../../../services/appService";
 import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
 import {isProxy, toRaw} from "vue";
+import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent.vue";
 
 export default {
     name: "ItemCreateComponent",

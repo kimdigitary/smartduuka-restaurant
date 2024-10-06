@@ -61,10 +61,11 @@
 </template>
 
 <script>
-import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
+
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
+import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent.vue";
 
 export default {
     name: "IngredientsCreateComponent",

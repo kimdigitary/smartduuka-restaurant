@@ -1,4 +1,4 @@
-import CreditBalanceReportComponent from "../../components/admin/creditBalanceReport/CreditBalanceReportComponent";
+import CreditBalanceReportComponent from "../../components/admin/creditBalanceReport/CreditBalanceReportComponent.vue";
 
 export default [
     {

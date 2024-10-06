@@ -51,19 +51,21 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
-import ItemCategoryCreateComponent from "./ItemCategoryCreateComponent";
+
+
 import alertService from "../../../../services/alertService";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import SmDeleteComponent from "../../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../../components/buttons/SmModalEditComponent";
-import SmViewComponent from "../../components/buttons/SmViewComponent";
 import { VueDraggableNext } from 'vue-draggable-next'
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import ItemCategoryCreateComponent from "./ItemCategoryCreateComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import SmDeleteComponent from "../../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../../components/buttons/SmModalEditComponent.vue";
+import SmViewComponent from "../../components/buttons/SmViewComponent.vue";
 
 export default {
     name: "ItemCategoryListComponent",

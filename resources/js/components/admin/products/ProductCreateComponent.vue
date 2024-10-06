@@ -260,15 +260,15 @@
     </div>
 </template>
 <script>
-import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
+import SmSidebarModalCreateComponent from "../components/SmSidebarModalCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import askEnum from "../../../enums/modules/askEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import activityEnum from "../../../enums/modules/activityEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import VueTagsInput from "@sipec/vue3-tags-input";
-import { quillEditor } from 'vue3-quill'
+import quillEditor  from 'vue3-quill'
 
 export default {
     name: "ProductCreateComponent",

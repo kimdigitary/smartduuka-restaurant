@@ -55,10 +55,10 @@
 </template>
 <script>
 import SmModalCreateComponent from "../././../../components/buttons/SmModalCreateComponent.vue";
-import LoadingComponent from "../../../components/LoadingComponent";
 import analyticSectionEnum from "../../../../../enums/modules/analyticSectionEnum";
 import alertService from "../../../../../services/alertService";
 import appService from "../../../../../services/appService";
+import LoadingComponent from "../../../components/LoadingComponent.vue";
 
 export default {
     name: "AnalyticSectionCreateComponent",

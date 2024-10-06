@@ -96,14 +96,14 @@
 </template>
 
 <script>
-import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
 import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
 import askEnum from "../../../enums/modules/askEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import {cleanAmount} from "../../../utils/functions";
+import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 
 export default {
     name: "PosOrderEditComponent",

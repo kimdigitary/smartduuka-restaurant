@@ -60,16 +60,16 @@
 
 <script>
 import alertService from "../../../../services/alertService";
-import LoadingComponent from "../../components/LoadingComponent";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import EmployeeAddressCreateComponent from "./EmployeeAddressCreateComponent";
 import appService from "../../../../services/appService";
-import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent";
-import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent";
 import labelEnum from "../../../../enums/modules/labelEnum";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import EmployeeAddressCreateComponent from "./EmployeeAddressCreateComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
 
 export default {
     name: "EmployeeAddressList",

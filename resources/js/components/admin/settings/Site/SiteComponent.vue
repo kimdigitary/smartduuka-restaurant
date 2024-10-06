@@ -386,9 +386,9 @@ import timeFormatEnum from "../../../../enums/modules/timeFormatEnum";
 import activityEnum from "../../../../enums/modules/activityEnum";
 import currencyPositionEnum from "../../../../enums/modules/currencyPositionEnum";
 import statusEnum from "../../../../enums/modules/statusEnum";
-import LoadingComponent from "../../components/LoadingComponent";
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "SiteComponent",

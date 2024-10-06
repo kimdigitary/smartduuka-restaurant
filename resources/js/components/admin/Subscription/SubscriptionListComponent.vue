@@ -106,27 +106,27 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import alertService from "../../../services/alertService";
 import statusEnum from "../../../enums/modules/statusEnum";
 import askEnum from "../../../enums/modules/askEnum";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
 import appService from "../../../services/appService";
-import TableLimitComponent from "../components/TableLimitComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent.vue";
+import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
+import SmIconViewComponent from "../components/buttons/SmIconViewComponent.vue";
+import FilterComponent from "../components/buttons/collapse/FilterComponent.vue";
+import ExportComponent from "../components/buttons/export/ExportComponent.vue";
+import PrintComponent from "../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../components/buttons/export/ExcelComponent.vue";
 import activityEnum from "../../../enums/modules/activityEnum";
 import DatePickerComponent from "../components/DatePickerComponent.vue";
 import purchasePaymentStatusEnum from "../../../enums/modules/purchasePaymentStatusEnum";
 import SmIconEditComponent from "../components/buttons/SmIconEditComponent.vue";
 import SubscriptionCreateComponent from "./SubscriptionCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
 
 export default {
     name: "SubscriptionListComponent",

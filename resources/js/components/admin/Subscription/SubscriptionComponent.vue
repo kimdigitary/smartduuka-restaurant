@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 import appService from "../../../services/appService";
 import SubscriptionCreateComponent from "./SubscriptionCreateComponent.vue";
 import SubscriptionListComponent from "./SubscriptionListComponent.vue";

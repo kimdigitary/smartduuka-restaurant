@@ -62,7 +62,7 @@
                 <div class="form-col-12">
                     <label for="description" class="db-field-title">Expense Note</label>
                     <div :class="errors.note ? 'invalid textarea-error-box-style' : ''">
-                        <quill-editor id="description" v-model:value="props.form.note"
+                        <textarea id="description" v-model="props.form.note"
                                       class="!h-40 textarea-border-radius"/>
                     </div>
                     <small class="db-field-alert" v-if="errors.note">
@@ -137,12 +137,11 @@
     </div>
 </template>
 <script>
-import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
+import SmSidebarModalCreateComponent from "../components/buttons/SmSidebarModalCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import DatePickerComponent from "../components/DatePickerComponent.vue";
-import {quillEditor} from "vue3-quill";
 import activityEnum from "../../../enums/modules/activityEnum";
 import askEnum from "../../../enums/modules/askEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
@@ -152,7 +151,7 @@ import Datepicker from "@vuepic/vue-datepicker";
 
 export default {
     name: "ExpenseCreateComponent",
-    components: {Datepicker, DatePickerComponent, SmSidebarModalCreateComponent, LoadingComponent, quillEditor},
+    components: {Datepicker, DatePickerComponent, SmSidebarModalCreateComponent, LoadingComponent},
     // props: ['props'],
     data() {
         return {

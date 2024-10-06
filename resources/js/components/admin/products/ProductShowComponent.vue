@@ -295,14 +295,14 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import statusEnum from "../../../enums/modules/statusEnum";
 import askEnum from "../../../enums/modules/askEnum";
 import appService from "../../../services/appService";
 import targetService from "../../../services/targetService";
 import alertService from "../../../services/alertService";
-import ProductVariationListComponent from "./variation/ProductVariationListComponent";
-import { quillEditor } from 'vue3-quill'
+import ProductVariationListComponent from "../components/ProductVariationListComponent.vue";
+import quillEditor  from 'vue3-quill'
 import Datepicker from "@vuepic/vue-datepicker";
 import activityEnum from "../../../enums/modules/activityEnum";
 

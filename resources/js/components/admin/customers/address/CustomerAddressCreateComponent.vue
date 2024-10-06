@@ -106,11 +106,11 @@
 </template>
 <script>
 import labelEnum from "../../../../enums/modules/labelEnum";
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
-import MapComponent from "../../components/MapComponent";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import MapComponent from "../../components/MapComponent.vue";
 
 export default {
   name: "CustomerAddressCreateComponent",

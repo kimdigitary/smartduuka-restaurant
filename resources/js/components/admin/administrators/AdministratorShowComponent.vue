@@ -210,18 +210,18 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import addressTypeEnum from "../../../enums/modules/addressTypeEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
-import SmDeleteComponent from "../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../components/buttons/SmModalEditComponent";
-import TableLimitComponent from "../components/TableLimitComponent";
-import AdministratorAddressList from "./address/AdministratorAddressList";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import SmDeleteComponent from "../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../components/buttons/SmModalEditComponent.vue";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import AdministratorAddressList from "./address/AdministratorAddressList.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
 
 export default {
     name: "AdministratorShowComponent",

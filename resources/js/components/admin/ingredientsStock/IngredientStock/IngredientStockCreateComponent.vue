@@ -128,7 +128,6 @@
 <script lang="js">
 
 import Datepicker from "@vuepic/vue-datepicker";
-import {quillEditor} from 'vue3-quill'
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import ProductModalComponent from "../../components/product/ProductModalComponent.vue";
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
@@ -144,7 +143,6 @@ export default {
     name: 'IngredientStockCreateComponent',
     components: {
         Datepicker,
-        quillEditor,
         LoadingComponent,
         ProductModalComponent,
         SmIconDeleteComponent,

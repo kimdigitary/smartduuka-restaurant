@@ -17,7 +17,7 @@
 
 <script>
 import { Loader } from "google-maps";
-import LoadingContentComponent from "./LoadingContentComponent";
+import LoadingContentComponent from "../components/LoadingContentComponent.vue";
 import _ from "lodash";
 import ENV from '../../../config/env';
 

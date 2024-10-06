@@ -197,14 +197,14 @@
 
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
 import appService from "../../../services/appService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
-import TableLimitComponent from "../components/TableLimitComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import print from "vue3-print-nb";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";

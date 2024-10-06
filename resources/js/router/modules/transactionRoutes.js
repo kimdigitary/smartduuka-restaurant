@@ -1,4 +1,4 @@
-import TransactionListComponent from "../../components/admin/transactions/TransactionListComponent";
+import TransactionListComponent from "../../components/admin/transactions/TransactionListComponent.vue";
 
 export default [
     {

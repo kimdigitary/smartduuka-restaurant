@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import statusEnum from "../../../../enums/modules/statusEnum";
-import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "ItemCategoryShowComponent",

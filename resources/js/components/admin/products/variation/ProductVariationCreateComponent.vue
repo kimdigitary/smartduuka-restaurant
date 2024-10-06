@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                             <div v-else>
-                                <div 
+                                <div
                                     class="mt-2 form-col-12 db-field-alert bg-red-100 border text-red-700 px-4 py-3 mb-5 rounded"
                                     role="alert">
                                     <span class="block sm:inline">{{ $t('message.empty_variation_message') }}</span>
@@ -79,8 +79,8 @@
     </div>
 </template>
 <script>
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
+import SmModalCreateComponent from "../components/SmModalCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
 import _ from "lodash";

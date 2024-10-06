@@ -56,18 +56,19 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
-import ItemAttributeCreateComponent from "./ItemAttributeCreateComponent";
+
+
 import alertService from "../../../../services/alertService";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import SmDeleteComponent from "../../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../../components/buttons/SmModalEditComponent";
-
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import ItemAttributeCreateComponent from "./ItemAttributeCreateComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmDeleteComponent from "../../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../../components/buttons/SmModalEditComponent.vue";
 export default {
     name: "ItemAttributeListComponent",
     components: {

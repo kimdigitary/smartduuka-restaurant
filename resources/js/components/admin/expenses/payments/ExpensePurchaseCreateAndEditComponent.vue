@@ -208,7 +208,7 @@
 <script lang="js">
 
 import Datepicker from "@vuepic/vue-datepicker";
-import {quillEditor} from "vue3-quill";
+import quillEditor from "vue3-quill";
 
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 

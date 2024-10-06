@@ -248,9 +248,7 @@
     <ReceiptComponent :order="order"/>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import 'vue3-carousel/dist/carousel.css';
-import ItemComponent from "./ItemComponent";
 import sourceEnum from "../../../enums/modules/sourceEnum";
 import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
@@ -259,15 +257,17 @@ import roleEnum from "../../../enums/modules/roleEnum";
 import appService from "../../../services/appService";
 import discountTypeEnum from "../../../enums/modules/discountTypeEnum";
 import alertService from "../../../services/alertService";
-import ReceiptComponent from "./ReceiptComponent";
-import PoscustomerComponent from './PosCustomerComponent';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import EditOrderItemComponent from "./EditOrderItemComponent.vue";
 import {cleanAmount} from "../../../utils/functions";
 import router from "../../../router";
 import _ from "lodash";
+import ItemComponent from "./ItemComponent.vue";
+import ReceiptComponent from "./ReceiptComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 
+let PoscustomerComponent;
 export default {
     name: "EditPosComponent",
     components: {

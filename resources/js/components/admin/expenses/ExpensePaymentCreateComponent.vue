@@ -78,8 +78,8 @@
   </div>
 </template>
 <script>
-import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../components/LoadingComponent";
+import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import purchasePaymentMethodEnum from "../../../enums/modules/purchasePaymentMethodEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";

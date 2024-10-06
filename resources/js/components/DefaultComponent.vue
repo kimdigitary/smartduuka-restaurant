@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import BackendNavbarComponent from "./layouts/backend/BackendNavbarComponent";
-import BackendMenuComponent from "./layouts/backend/BackendMenuComponent";
+import BackendNavbarComponent from "./layouts/backend/BackendNavbarComponent.vue";
+import BackendMenuComponent from "./layouts/backend/BackendMenuComponent.vue";
 import TableNavbarComponent from "./layouts/table/TableNavBarComponent.vue";
 import TableFooterComponent from "./layouts/table/TableFooterComponent.vue";
 import TableCartComponent from "./layouts/table/TableCartComponent.vue";

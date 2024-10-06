@@ -99,9 +99,9 @@
 </template>
 <script>
 import labelEnum from "../../../../enums/modules/labelEnum";
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
-import MapComponent from "../../components/MapComponent";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import MapComponent from "../../components/MapComponent.vue";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
 

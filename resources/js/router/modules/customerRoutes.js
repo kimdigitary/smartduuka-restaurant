@@ -1,9 +1,8 @@
-import CustomerComponent from "../../components/admin/customers/CustomerComponent";
-import CustomerListComponent from "../../components/admin/customers/CustomerListComponent";
-import CustomerShowComponent from "../../components/admin/customers/CustomerShowComponent";
-import CustomerOrderDetailsComponent from "../../components/admin/customers/CustomerOrderDetailsComponent";
+import CustomerComponent from "../../components/admin/customers/CustomerComponent.vue";
 
-
+import CustomerListComponent from "../../components/admin/customers/CustomerListComponent.vue";
+import CustomerShowComponent from "../../components/admin/customers/CustomerShowComponent.vue";
+import CustomerOrderDetailsComponent from "../../components/admin/customers/CustomerOrderDetailsComponent.vue";
 export default [
     {
         path: "/admin/customers",

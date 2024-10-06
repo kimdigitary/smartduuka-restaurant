@@ -96,11 +96,11 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 import statusEnum from "../../../enums/modules/statusEnum";
-import OfferItemListComponent from "./item/OfferItemListComponent";
+import OfferItemListComponent from "./item/OfferItemListComponent.vue";
 
 export default {
     name: "OfferShowComponent",

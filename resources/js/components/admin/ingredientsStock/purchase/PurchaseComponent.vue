@@ -28,8 +28,8 @@
 </template>
 
 <script lang="js">
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
+import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent.vue";
+import PurchasePaymentListComponent from "./PurchasePaymentListComponent.vue";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent.vue";
 import appService from "../../../../services/appService";
 

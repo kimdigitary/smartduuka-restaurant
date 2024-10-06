@@ -59,9 +59,10 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
 import {permission} from "../../../../store/modules/permission";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "RoleShowComponent",

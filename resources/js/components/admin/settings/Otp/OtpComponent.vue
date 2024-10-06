@@ -57,11 +57,12 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
 import otpTypeEnum from "../../../../enums/modules/otpTypeEnum";
 import otpDigitLimitEnum from "../../../../enums/modules/otpDigitLimitEnum";
 import otpExpireTimeEnum from "../../../../enums/modules/otpExpireTimeEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "OtpComponent",

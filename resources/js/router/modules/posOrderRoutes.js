@@ -1,8 +1,9 @@
-import PosOrderComponent from "../../components/admin/posOrders/PosOrderComponent";
-import PosOrderListComponent from "../../components/admin/posOrders/PosOrderListComponent";
-import PosOrderShowComponent from "../../components/admin/posOrders/PosOrderShowComponent";
-import PosOrderEditComponent from "../../components/admin/posOrders/PosOrderEditComponent.vue";
+
+
 import EditPosComponent from "../../components/admin/pos/EditPosComponent.vue";
+import PosOrderComponent from "../../components/admin/posOrders/PosOrderComponent.vue";
+import PosOrderListComponent from "../../components/admin/posOrders/PosOrderListComponent.vue";
+import PosOrderShowComponent from "../../components/admin/posOrders/PosOrderShowComponent.vue";
 
 export default [
     {

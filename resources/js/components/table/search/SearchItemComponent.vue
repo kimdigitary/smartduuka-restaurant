@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import ItemComponent from "../components/ItemComponent";
+import ItemComponent from "../components/ItemComponent.vue";
 import itemDesignEnum from "../../../enums/modules/itemDesignEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import alertService from "../../../services/alertService";
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 
 export default {
     name: "SearchItemComponent",

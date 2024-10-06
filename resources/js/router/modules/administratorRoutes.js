@@ -1,9 +1,8 @@
-import AdministratorComponent from "../../components/admin/administrators/AdministratorComponent";
-import AdministratorListComponent from "../../components/admin/administrators/AdministratorListComponent";
-import AdministratorShowComponent from "../../components/admin/administrators/AdministratorShowComponent";
-import AdministratorOrderDetailsComponent
-    from "../../components/admin/administrators/AdministratorOrderDetailsComponent";
+import AdministratorComponent from "../../components/admin/administrators/AdministratorComponent.vue";
 
+import AdministratorListComponent from "../../components/admin/administrators/AdministratorListComponent.vue";
+import AdministratorShowComponent from "../../components/admin/administrators/AdministratorShowComponent.vue";
+import AdministratorOrderDetailsComponent from "../../components/admin/administrators/AdministratorOrderDetailsComponent.vue";
 export default [
     {
         path: "/admin/administrators",

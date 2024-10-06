@@ -100,21 +100,20 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
+import PaginationTextComponent from "../components/PaginationTextComponent.vue";
 import PaginationBox from "../components/pagination/PaginationBox";
 import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
-import TableLimitComponent from "../components/TableLimitComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import FilterComponent from "../components/FilterComponent.vue";
+import ExportComponent from "../components/ExportComponent.vue";
 import print from 'vue3-print-nb';
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import DatePickerComponent from "../components/DatePickerComponent";
-
+import PrintComponent from "../components/PrintComponent.vue";
+import ExcelComponent from "../components/ExcelComponent.vue";
+import SmIconViewComponent from "../components/SmIconViewComponent.vue";
+import DatePickerComponent from "../components/DatePickerComponent.vue";
 export default {
     name: "ProductsReportListComponent",
     components: {

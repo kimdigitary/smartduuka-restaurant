@@ -1,6 +1,6 @@
-import TableOrderComponent from "../../components/admin/tableOrders/TableOrderComponent";
-import TableOrderListComponent from "../../components/admin/tableOrders/TableOrderListComponent";
-import TableOrderShowComponent from "../../components/admin/tableOrders/TableOrderShowComponent";
+import TableOrderComponent from "../../components/admin/tableOrders/TableOrderComponent.vue";
+import TableOrderListComponent from "../../components/admin/tableOrders/TableOrderListComponent.vue";
+import TableOrderShowComponent from "../../components/admin/tableOrders/TableOrderShowComponent.vue";
 
 export default [
     {

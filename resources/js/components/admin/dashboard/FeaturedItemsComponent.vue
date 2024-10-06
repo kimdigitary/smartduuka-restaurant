@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 export default {
     name: "FeaturedItemsComponent",
     components: { LoadingComponent },

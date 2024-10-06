@@ -1,7 +1,6 @@
-import ItemComponent from "../../components/admin/items/ItemComponent";
-import ItemListComponent from "../../components/admin/items/ItemListComponent";
-import ItemShowComponent from "../../components/admin/items/ItemShowComponent";
-
+import ItemComponent from "../../components/admin/items/ItemComponent.vue";
+import ItemListComponent from "../../components/admin/items/ItemListComponent.vue";
+import ItemShowComponent from "../../components/admin/items/ItemShowComponent.vue";
 export default [
     {
         path: '/admin/items',

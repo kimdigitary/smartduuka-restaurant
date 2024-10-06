@@ -122,8 +122,9 @@
 </template>
 
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "NotificationComponent",

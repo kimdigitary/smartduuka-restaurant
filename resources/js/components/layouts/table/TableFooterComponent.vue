@@ -1,6 +1,6 @@
 <template>
     <LoadingComponent :props="loading" />
-    
+
     <footer class="bg-primary">
         <div class="container">
             <div class="flex flex-col md:flex-row items-center justify-between gap-5 py-8">
@@ -20,7 +20,7 @@
 <script>
 import statusEnum from "../../../enums/modules/statusEnum";
 import menuSectionEnum from "../../../enums/modules/menuSectionEnum";
-import LoadingComponent from "../../frontend/components/LoadingComponent";
+import LoadingComponent from "../../frontend/components/LoadingComponent.vue";
 
 export default {
     name: "TableFooterComponent",

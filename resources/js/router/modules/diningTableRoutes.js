@@ -1,7 +1,6 @@
-import DiningTableListComponent from "../../components/admin/settings/diningTable/DiningTableListComponent";
-import DiningTableComponent from "../../components/admin/settings/diningTable/DiningTableComponent";
-import DiningTableShowComponent from "../../components/admin/settings/diningTable/DiningTableShowComponent";
-
+import DiningTableListComponent from "../components/DiningTableListComponent.vue";
+import DiningTableComponent from "../components/DiningTableComponent.vue";
+import DiningTableShowComponent from "../components/DiningTableShowComponent.vue";
 export default [
     {
         path: "/admin/dining-tables",

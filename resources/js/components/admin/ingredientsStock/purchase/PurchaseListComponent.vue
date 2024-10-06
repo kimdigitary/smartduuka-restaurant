@@ -150,8 +150,6 @@
 
 <script lang="js">
 import Datepicker from "@vuepic/vue-datepicker";
-import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
-import PurchasePaymentListComponent from "./PurchasePaymentListComponent";
 import PaginationBox from "../../components/pagination/PaginationBox.vue";
 import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
@@ -172,6 +170,8 @@ import appService from "../../../../services/appService";
 import SmAddPaymentComponent from "../../components/buttons/SmAddPaymentComponent.vue";
 import SmViewPaymentComponent from "../../components/buttons/SmViewPaymentComponent.vue";
 import purchaseTypeEnum from "../../../../enums/modules/purchaseTypeEnum";
+import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent.vue";
+import PurchasePaymentListComponent from "./PurchasePaymentListComponent.vue";
 
 export default {
     name: 'PurchaseListComponent',

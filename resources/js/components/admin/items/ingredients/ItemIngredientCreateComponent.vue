@@ -134,13 +134,13 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import AskEnum from "../../../../enums/modules/askEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "ItemIngredientCreateComponent",

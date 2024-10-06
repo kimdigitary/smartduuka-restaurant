@@ -5,10 +5,10 @@
 </template>
 <script>
 
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
-import OrderDetailsComponent from "../components/OrderDetailsComponent";
+import OrderDetailsComponent from "../components/OrderDetailsComponent.vue";
 export default {
     name: "CustomerOrderDetailsComponent",
     components: { LoadingComponent, OrderDetailsComponent },

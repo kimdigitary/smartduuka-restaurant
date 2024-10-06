@@ -1,9 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 import ENV from '../config/env';
-import appService from "../services/appService";
-import DashboardComponent from "../components/admin/dashboard/DashboardComponent";
-import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponent";
-import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent";
 import store from "../store";
 import authRoutes from "./modules/authRoutes";
 import offerRoutes from "./modules/offerRoutes";
@@ -20,17 +16,19 @@ import transactionRoutes from "./modules/transactionRoutes";
 import creditBalanceReportRoutes from "./modules/creditBalanceReportRoutes";
 import tableOrderRoutes from "./modules/tableOrderRoutes";
 import adminTableOrderRoutes from "./modules/adminTableOrderRoutes";
-import diningTableRoutes from "./modules/diningTableRoutes";
-import SubscriptionListComponent from "../components/admin/Subscription/SubscriptionListComponent.vue";
-import SubscriptionCreateComponent from "../components/admin/Subscription/SubscriptionCreateComponent.vue";
 import expensesRoutes from "./modules/expensesRoutes";
 import categoriesRoutes from "./modules/categoriesRoutes";
 import kitchenOrderRoutes from "./modules/kitchenOrderRoutes";
 import ingredientsRoutes from "./modules/ingredientsRoutes";
 import ingredientsStockRoutes from "./modules/ingredientsStockRoutes";
-import purchaseRoutes from "./modules/purchaseRoutes";
 import {purchaseIngredientsRoutes} from "./modules/purchaseIngredientsRoutes";
 import {settingRoutes} from "./modules/settingRoutes";
+import NotFoundComponent from "../components/frontend/otherPage/NotFoundComponent.vue";
+import ExceptionComponent from "../components/frontend/otherPage/ExceptionComponent.vue";
+import DashboardComponent from "../components/admin/dashboard/DashboardComponent.vue";
+import SubscriptionListComponent from "../components/admin/Subscription/SubscriptionListComponent.vue";
+import SubscriptionCreateComponent from "../components/admin/Subscription/SubscriptionCreateComponent.vue";
+import appService from "../services/appService.js";
 
 
 const baseRoutes = [

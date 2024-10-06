@@ -1,19 +1,18 @@
-import {createI18n} from "vue-i18n";
+import { createI18n } from "vue-i18n";
 
-function loadMessages() {
-    const context  = require.context("./languages", true, /[a-z0-9-_]+\.json$/i);
-    const messages = context
-        .keys()
-        .map((key) => ({key, locale: key.match(/[a-z0-9-_]+/i)[0]}))
-        .reduce((messages, {key, locale}) => ({
-                ...messages, [locale]: context(key),
-            }),
-            {}
-        );
-    return {messages};
+async function loadMessages() {
+    const context = import.meta.glob("./languages/*.json");
+    const messages = {};
+
+    for (const path in context) {
+        const locale = path.match(/([a-z0-9-_]+)\.json$/i)[1];
+        messages[locale] = await context[path]();
+    }
+
+    return { messages };
 }
 
-const {messages} = loadMessages();
+const { messages } = await loadMessages();
 
 const i18n = createI18n({
     legacy: false,
@@ -23,5 +22,3 @@ const i18n = createI18n({
 });
 
 export default i18n;
-
-

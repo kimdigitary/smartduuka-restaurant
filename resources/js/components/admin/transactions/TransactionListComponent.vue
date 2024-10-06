@@ -130,24 +130,25 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
 import appService from "../../../services/appService";
-import TableLimitComponent from "../components/TableLimitComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { ref } from 'vue';
 import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 import statusEnum from "../../../enums/modules/statusEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import FilterComponent from "../components/buttons/collapse/FilterComponent.vue";
+import ExportComponent from "../components/buttons/export/ExportComponent.vue";
+import PrintComponent from "../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../components/buttons/export/ExcelComponent.vue";
 
 export default {
     name: "TransactionListComponent",

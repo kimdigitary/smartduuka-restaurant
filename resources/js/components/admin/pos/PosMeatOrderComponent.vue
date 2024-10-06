@@ -56,7 +56,7 @@
 <script>
 import appService from "../../../services/appService";
 import statusEnum from "../../../enums/modules/statusEnum";
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import alertService from "../../../services/alertService";
 
 export default {

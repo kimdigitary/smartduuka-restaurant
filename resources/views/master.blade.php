@@ -72,7 +72,8 @@
     const APP_DEMO = "{{ env('MIX_DEMO') }}";
 </script>
 
-<script src="{{ mix('js/app.js') }}"></script>
+{{--<script src="{{ mix('js/app.js') }}"></script>--}}
+@vite('resources/js/app.js')
 <script src="{{ asset('themes/default/js/jquery-v3.7.1.min.js') }}"></script>
 <script src="{{ asset('themes/default/js/drawer.js') }}"></script>
 <script src="{{ asset('themes/default/js/modal.js') }}"></script>

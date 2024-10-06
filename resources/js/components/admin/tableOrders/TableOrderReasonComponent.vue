@@ -50,8 +50,7 @@
 import appService from "../../../services/appService";
 import alertService from "../../../services/alertService";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
-import LoadingComponent from "../components/LoadingComponent";
-
+import LoadingComponent from "../components/LoadingComponent.vue";
 export default {
     name: "TableOrderReasonComponent",
     components: {

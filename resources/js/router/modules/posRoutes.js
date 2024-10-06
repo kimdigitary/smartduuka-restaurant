@@ -1,4 +1,4 @@
-import PosComponent from "../../components/admin/pos/PosComponent";
+import PosComponent from "../../components/admin/pos/PosComponent.vue";
 
 export default [
     {

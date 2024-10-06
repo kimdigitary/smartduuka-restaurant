@@ -1,7 +1,7 @@
-import OfferComponent from "../../components/admin/offers/OfferComponent";
-import OfferListComponent from "../../components/admin/offers/OfferListComponent";
-import OfferShowComponent from "../../components/admin/offers/OfferShowComponent";
 
+import OfferComponent from "../../components/admin/offers/OfferComponent.vue";
+import OfferListComponent from "../../components/admin/offers/OfferListComponent.vue";
+import OfferShowComponent from "../../components/admin/offers/OfferShowComponent.vue";
 export default [
     {
         path: '/admin/offers',

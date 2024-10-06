@@ -190,15 +190,15 @@
 </template>
 
 <script lang="js">
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import Datepicker from "@vuepic/vue-datepicker";
-import { quillEditor } from 'vue3-quill'
+
 import alertService from "../../../services/alertService";
-import ProductModalComponent from "../components/product/ProductModalComponent";
+import ProductModalComponent from "../components/ProductModalComponent.vue";
 import appService from '../../../services/appService';
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent.vue";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-
+import SmIconSidebarModalEditComponent from "../components/SmIconSidebarModalEditComponent.vue";
+import quillEditor from "vue3-quill";
 export default {
     name: 'DamageCreateAndEditComponent',
     components: {

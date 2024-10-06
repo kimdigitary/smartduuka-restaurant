@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears} from 'date-fns';

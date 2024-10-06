@@ -44,14 +44,13 @@
 </template>
 
 <script>
-import SmSidebarModalCreateComponent from "../../components/buttons/SmSidebarModalCreateComponent";
 import alertService from "../../../../services/alertService";
 import statusEnum from "../../../../enums/modules/statusEnum";
 import appService from "../../../../services/appService";
-import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent";
-import SmIconModalEditComponent from "../../components/buttons/SmIconModalEditComponent";
-import ItemVariationCreateComponent from "./ItemVariationCreateComponent";
-
+import SmSidebarModalCreateComponent from "../../components/buttons/SmSidebarModalCreateComponent.vue";
+import ItemVariationCreateComponent from "./ItemVariationCreateComponent.vue";
+import SmIconModalEditComponent from "../../components/buttons/SmIconModalEditComponent.vue";
+import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 export default {
     name: "ItemVariationListComponent",
     components: {

@@ -104,8 +104,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import {quillEditor} from 'vue3-quill'
+import LoadingComponent from "../components/LoadingComponent.vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import statusEnum from "../../../enums/modules/statusEnum";
 import askEnum from "../../../enums/modules/askEnum";

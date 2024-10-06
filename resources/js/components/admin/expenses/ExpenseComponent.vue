@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 import ExpenseCreateComponent from "./ExpenseCreateComponent.vue";
 import ExpenseListComponent from "./ExpensetListComponent.vue";
 import appService from "../../../services/appService";

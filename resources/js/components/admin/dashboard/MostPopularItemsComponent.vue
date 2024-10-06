@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
 export default {
     name: "MostPopularItemsComponent",
     components: { LoadingComponent },

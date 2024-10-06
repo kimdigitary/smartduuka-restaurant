@@ -139,9 +139,8 @@
 <script>
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
-import PrintButtonComponent from "../components/buttons/PrintButtonComponent";
-import LoadingComponent from "../components/LoadingComponent";
-
+import PrintButtonComponent from "../components/PrintButtonComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 export default {
     name: "DamageShowComponent",
     components: {

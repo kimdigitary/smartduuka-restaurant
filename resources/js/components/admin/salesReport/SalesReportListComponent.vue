@@ -157,30 +157,30 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
 import alertService from "../../../services/alertService";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
-import PaginationBox from "../components/pagination/PaginationBox";
-import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
 import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 import orderStatusEnum from "../../../enums/modules/orderStatusEnum";
 import paymentTypeEnum from "../../../enums/modules/paymentTypeEnum";
-import TableLimitComponent from "../components/TableLimitComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
 import print from 'vue3-print-nb';
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { ref } from 'vue';
 import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import sourceEnum from "../../../enums/modules/sourceEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
 import {addThousandsSeparators} from "../../../utils/functions";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import PaginationSMBox from "../components/pagination/PaginationSMBox.vue";
+import PaginationBox from "../components/pagination/PaginationBox.vue";
+import PaginationTextComponent from "../components/pagination/PaginationTextComponent.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import ExportComponent from "../components/buttons/export/ExportComponent.vue";
+import FilterComponent from "../components/buttons/collapse/FilterComponent.vue";
+import PrintComponent from "../components/buttons/export/PrintComponent.vue";
+import ExcelComponent from "../components/buttons/export/ExcelComponent.vue";
+import SmIconViewComponent from "../components/buttons/SmIconViewComponent.vue";
 export default {
     name: "SalesReportListComponent",
     components: {

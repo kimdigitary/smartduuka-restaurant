@@ -4,7 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import {createApp} from 'vue';
-import DefaultComponent from "./components/DefaultComponent";
 import router from './router';
 import store from './store';
 import axios from 'axios';
@@ -13,10 +12,12 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import VueSimpleAlert from "vue3-simple-alert";
 import VueNextSelect from 'vue-next-select';
-// import "../../public/themes/default/fonts/iconly2/iconly.min.css";
 import 'vue-next-select/dist/index.css';
 import ENV from './config/env';
 import VueHtmlToPaper from 'vue-html-to-paper';
+import DefaultComponent from "./components/DefaultComponent.vue";
+import _ from 'lodash';
+import VueSweetalert2 from 'vue-sweetalert2';
 
 const options = {
     timeout: 2000,
@@ -32,7 +33,6 @@ const options = {
     rtl: false
 };
 /* End tooltip alert code */
-
 
 /* Start axios code*/
 const API_URL = ENV.API_URL;
@@ -54,11 +54,16 @@ axios.interceptors.request.use(
     error => Promise.reject(error),
 );
 /* End axios code */
-
+const optionsSwal = {
+    confirmButtonColor: '#696cff',
+    cancelButtonColor: '#8592a3',
+};
 const app = createApp({});
+app.config.globalProperties._ = _;
 app.component('default-component', DefaultComponent);
 app.component('vue-select', VueNextSelect)
 app.use(router)
+app.use(VueSweetalert2,optionsSwal);
 app.use(store)
 app.use(VueSimpleAlert)
 app.use(Toast, options)

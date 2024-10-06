@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import OverviewComponent from "./OverviewComponent";
-import FeaturedItemsComponent from "./FeaturedItemsComponent";
-import MostPopularItemsComponent from "./MostPopularItemsComponent";
-import SalesSummaryComponent from "./SalesSummaryComponent";
-import CustomerStatsComponent from "./CustomerStatsComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import OverviewComponent from "./OverviewComponent.vue";
+import FeaturedItemsComponent from "./FeaturedItemsComponent.vue";
+import MostPopularItemsComponent from "./MostPopularItemsComponent.vue";
+import SalesSummaryComponent from "./SalesSummaryComponent.vue";
+import CustomerStatsComponent from "./CustomerStatsComponent.vue";
 import ENV from "../../../config/env";
 
 export default {

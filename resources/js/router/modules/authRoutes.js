@@ -1,8 +1,8 @@
-import LoginComponent from "../../components/frontend/auth/LoginComponent";
-import ForgetPasswordComponent from "../../components/frontend/auth/ForgetPasswordComponent";
-import VerifyEmailComponent from "../../components/frontend/auth/VerifyEmailComponent";
-import ResetPasswordComponent from "../../components/frontend/auth/ResetPasswordComponent";
 
+import LoginComponent from "../../components/frontend/auth/LoginComponent.vue";
+import ForgetPasswordComponent from "../../components/frontend/auth/ForgetPasswordComponent.vue";
+import VerifyEmailComponent from "../../components/frontend/auth/VerifyEmailComponent.vue";
+import ResetPasswordComponent from "../../components/frontend/auth/ResetPasswordComponent.vue";
 export default [
     {
         path: '/login',
@@ -40,5 +40,4 @@ export default [
             auth: false
         }
     }
-
 ];

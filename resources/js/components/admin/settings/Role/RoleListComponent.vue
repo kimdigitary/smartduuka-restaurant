@@ -38,17 +38,18 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
-import RoleCreateComponent from "./RoleCreateComponent";
-import PaginationTextComponent from "../../components/pagination/PaginationTextComponent";
-import PaginationBox from "../../components/pagination/PaginationBox";
-import PaginationSMBox from "../../components/pagination/PaginationSMBox";
+import PaginationSMBox from "../../components/pagination/PaginationSMBox.vue";
 import appService from "../../../../services/appService";
-import TableLimitComponent from "../../components/TableLimitComponent";
-import SmDeleteComponent from "../../components/buttons/SmDeleteComponent";
-import SmModalEditComponent from "../../components/buttons/SmModalEditComponent";
 import roleEnum from "../../../../enums/modules/roleEnum";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import RoleCreateComponent from "./RoleCreateComponent.vue";
+import PaginationTextComponent from "../../components/pagination/PaginationTextComponent.vue";
+import PaginationBox from "../../components/pagination/PaginationBox.vue";
+import TableLimitComponent from "../../components/TableLimitComponent.vue";
+import SmDeleteComponent from "../../components/buttons/SmDeleteComponent.vue";
+import SmModalEditComponent from "../../components/buttons/SmModalEditComponent.vue";
 
 export default {
     name: "RoleListComponent",

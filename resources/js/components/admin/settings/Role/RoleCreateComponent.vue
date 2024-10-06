@@ -38,10 +38,11 @@
     </div>
 </template>
 <script>
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
+
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "RoleCreateComponent",

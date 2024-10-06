@@ -240,23 +240,23 @@
     </div>
 </template>
 <script>
-import LoadingComponent from "../components/LoadingComponent";
-import ProductCreateComponent from "./ProductCreateComponent";
+import LoadingComponent from "../components/LoadingComponent.vue";
+import ProductCreateComponent from "../components/ProductCreateComponent.vue";
 import alertService from "../../../services/alertService";
 import statusEnum from "../../../enums/modules/statusEnum";
 import askEnum from "../../../enums/modules/askEnum";
-import PaginationTextComponent from "../components/pagination/PaginationTextComponent";
+import PaginationTextComponent from "../components/PaginationTextComponent.vue";
 import PaginationBox from "../components/pagination/PaginationBox";
 import PaginationSMBox from "../components/pagination/PaginationSMBox";
 import appService from "../../../services/appService";
-import TableLimitComponent from "../components/TableLimitComponent";
-import SmIconSidebarModalEditComponent from "../components/buttons/SmIconSidebarModalEditComponent";
-import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
-import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
-import FilterComponent from "../components/buttons/collapse/FilterComponent";
-import ExportComponent from "../components/buttons/export/ExportComponent";
-import PrintComponent from "../components/buttons/export/PrintComponent";
-import ExcelComponent from "../components/buttons/export/ExcelComponent";
+import TableLimitComponent from "../components/TableLimitComponent.vue";
+import SmIconSidebarModalEditComponent from "../components/SmIconSidebarModalEditComponent.vue";
+import SmIconDeleteComponent from "../components/SmIconDeleteComponent.vue";
+import SmIconViewComponent from "../components/SmIconViewComponent.vue";
+import FilterComponent from "../components/FilterComponent.vue";
+import ExportComponent from "../components/ExportComponent.vue";
+import PrintComponent from "../components/PrintComponent.vue";
+import ExcelComponent from "../components/ExcelComponent.vue";
 import activityEnum from "../../../enums/modules/activityEnum";
 import _ from "lodash";
 

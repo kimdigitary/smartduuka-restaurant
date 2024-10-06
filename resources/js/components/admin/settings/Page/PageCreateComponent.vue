@@ -71,7 +71,7 @@
                             <label for="description" class="db-field-title required">{{
                                 $t("label.description")
                                 }}</label>
-                            <quill-editor v-model:value="props.form.description" id="description"
+                            <textarea v-model="props.form.description" id="description"
                                 class="!h-40 textarea-border-radius ql-container ql-snow" />
                             <small class="db-field-alert" v-if="errors.description">{{ errors.description[0] }}</small>
                         </div>
@@ -97,16 +97,16 @@
 </template>
 
 <script>
-import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent";
-import LoadingComponent from "../../components/LoadingComponent";
+
 import statusEnum from "../../../../enums/modules/statusEnum";
 import alertService from "../../../../services/alertService";
 import appService from "../../../../services/appService";
-import { quillEditor } from 'vue3-quill'
+import SmModalCreateComponent from "../../components/buttons/SmModalCreateComponent.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "PageCreateComponent",
-    components: { SmModalCreateComponent, LoadingComponent, quillEditor },
+    components: { SmModalCreateComponent, LoadingComponent },
     props: ["props"],
     data() {
         return {

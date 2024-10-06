@@ -9,8 +9,7 @@
 </template>
 
 <script>
-import BreadcrumbComponent from "../components/BreadcrumbComponent";
-
+import BreadcrumbComponent from "../components/BreadcrumbComponent.vue";
 export default {
     name: "OfferComponent",
     components: {
