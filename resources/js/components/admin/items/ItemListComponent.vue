@@ -384,6 +384,7 @@ export default {
             // })
         },
 
+
         xls: function () {
             this.loading.isActive = true;
             this.$store.dispatch("item/export", this.props.search).then((res) => {
