@@ -133,20 +133,20 @@
                                 {{ order.total_currency_price }}
                             </td>
                         </tr>
-                        <tr v-if="order.paid">
+                        <tr v-if="selectedOrder?.paid">
                             <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
                                 Paid:
                             </td>
                             <td class="text-xs text-right py-0.5 font-bold text-heading">
-                                {{ order.paid_currency }}
+                                {{ selectedOrder?.paid_currency }}
                             </td>
                         </tr>
-                        <tr v-if="order.change">
+                        <tr v-if="selectedOrder?.change">
                             <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
                                 Change:
                             </td>
                             <td class="text-xs text-right py-0.5 font-bold text-heading">
-                                {{ order.change_currency }}
+                                {{ selectedOrder?.change_currency }}
                             </td>
                         </tr>
                         </tbody>
@@ -154,7 +154,7 @@
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
                     <div class="flex gap-3">
-                        <p class="">Payment Method: <span class="font-bold">{{capitalizeWords(order.payment_method?.name)}}</span></p>
+                        <p class="">Payment Method: <span class="font-bold">{{capitalizeWords(selectedOrder?.payment_method?.name)}}</span></p>
                     </div>
                 </div>
                 <h4 v-if="order.token"
@@ -177,12 +177,6 @@
                             Technologies Limited</span>
                     </h5>
                 </div>
-                <!-- <div class="flex flex-col items-end">
-                    <h5 class="text-[8px] font-normal text-left w-[46px] leading-[10px]">
-                        {{ $t('label.powered_by') }}
-                    </h5>
-                    <h6 class="text-xs font-normal leading-4">{{ company.company_name }}</h6>
-                </div> -->
             </div>
         </div>
     </div>
@@ -225,6 +219,9 @@ export default {
         },
         setting: function () {
             return this.$store.getters['frontendSetting/lists'];
+        },
+        selectedOrder: function () {
+            return this.$store.getters['posOrder/show'];
         },
     },
     mounted() {

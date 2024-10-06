@@ -115,18 +115,6 @@ export const posOrder = {
                 });
             });
         },
-        // edit: function (context, payload) {
-        //     return new Promise((resolve, reject) => {
-        //         axios.get(`admin/pos-order/edit/${payload}`).then((res) => {
-        //             resolve(res);
-        //         }).catch((err) => {
-        //             reject(err);
-        //         })
-        //     })
-        // },
-        // edit: function (context, payload) {
-        //     context.commit('temp', payload);
-        // },
         edit: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.get(`admin/pos-order/show/${payload}`).then((res) => {

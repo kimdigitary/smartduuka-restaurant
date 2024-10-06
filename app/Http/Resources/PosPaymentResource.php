@@ -12,11 +12,12 @@
     {
         public function toArray(Request $request) : array
         {
-            $purchasePaymentAmount = floatval(PosPayment::where('order_id', $this->id)->sum('amount'));
-            $due_payment = (float) $this->total - $purchasePaymentAmount;
+            $purchasePaymentAmount = floatval(PosPayment::where('order_id' , $this->id)->sum('amount'));
+            $due_payment           = (float) $this->total - $purchasePaymentAmount;
             return [
                 'due_payment'     => $due_payment ,
                 'payment_methods' => PaymentMethod::all() ,
+                'order'           => new OrderResource(Order::find($this->id)) ,
             ];
         }
     }

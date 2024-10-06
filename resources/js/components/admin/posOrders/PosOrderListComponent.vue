@@ -23,13 +23,12 @@
                             <label for="order_serial_no" class="db-field-title after:hidden">Order ID</label>
                             <input id="order_serial_no" v-model="props.search.order_serial_no" type="text" class="db-field-control"/>
                         </div>
-                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3 z-50">
                             <label for="dining_table_id" class="db-field-title after:hidden">Table</label>
-
-                            <vue-select class="db-field-control f-b-custom-select" id="item_category_id"
+                            <vue-select class="db-field-control f-b-custom-select" id="dining_table_id"
                                         v-model="props.search.dining_table_id" :options="diningTables" label-by="name"
                                         value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                        search-placeholder="--" />
+                                        search-placeholder="--"/>
                         </div>
 
                         <div class="col-12">
@@ -87,13 +86,12 @@
                                                      v-if="permissionChecker('pos-orders')"/>
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
-                                <SmAddPaymentComponent @click="addPayment(order.id)" data-modal="#purchasePayment"
+                                <SmAddPaymentComponent @click="addPayment(order)" data-modal="#purchasePayment"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
                                 <smViewPaymentComponent @click="paymentList(order.id)" data-modal="#purchasePaymentList"
                                                         v-if="permissionChecker('pos_orders_delete')"/>
                             </div>
                         </td>
-                        <ReceiptComponent :order="order"/>
                     </tr>
                     </tbody>
                 </table>
@@ -109,6 +107,9 @@
         </div>
     </div>
     <PostPurchaseComponent/>
+    <div v-if="order && Object.keys(order).length > 0">
+        <ReceiptComponent :order="order"/>
+    </div>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -146,6 +147,7 @@ import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients
 import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
 import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent.vue";
 import projectEnum from "../../../enums/modules/projectEnum";
+import {mapState} from "vuex";
 
 export default {
     name: "PosOrderListComponent",
@@ -174,7 +176,6 @@ export default {
     },
     setup() {
         const date = ref();
-
         const presetRanges = ref([
             {label: 'Today', range: [new Date(), new Date()]},
             {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
@@ -200,6 +201,7 @@ export default {
             loading: {
                 isActive: false
             },
+            order: {},
             timer: null,
             interval: TimerEnums.INTERVAL,
             enums: {
@@ -303,6 +305,21 @@ export default {
         diningTables: function () {
             return this.$store.getters['user/diningTable'];
         },
+        ...mapState({
+            showReceiptModal: state => state.purchase.showReceiptModal,
+        })
+    },
+    watch: {
+        showReceiptModal(newVal, oldVal) {
+            if (newVal === true) {
+                appService.modalShow('#receiptModal');
+            }
+        },
+        order(newOrder) {
+            if (Object.keys(newOrder).length > 0 && this.showReceiptModal) {
+                appService.modalShow('#receiptModal');
+            }
+        },
     },
     methods: {
         permissionChecker(e) {
@@ -314,10 +331,12 @@ export default {
             this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
             this.loading.isActive = false;
         },
-        addPayment: function (id) {
+        addPayment: function (order) {
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
-            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.order = order;
+            this.$store.dispatch("purchase/payment", {id: order.id, type: purchaseTypeEnum.POS});
+            this.$store.dispatch("purchase/setSelectedOrder", order);
             this.loading.isActive = false;
         },
         diningTableList: function () {

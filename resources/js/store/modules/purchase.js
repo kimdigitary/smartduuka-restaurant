@@ -9,7 +9,10 @@ export const purchase = {
         lists: [],
         page: {},
         show: {},
+        showReceiptModal: false,
+        selectedOrder: {},
         viewPayment: {},
+        paymentMethod: '',
         edit: {},
         pagination: [],
         temp: {
@@ -30,6 +33,15 @@ export const purchase = {
         },
         show: function (state) {
             return state.show;
+        },
+        showReceiptModal: function (state) {
+            return state.showReceiptModal;
+        },
+        paymentMethod: function (state) {
+            return state.paymentMethod;
+        },
+        selectedOrder: function (state) {
+            return state.selectedOrder;
         },
         viewPayment: function (state) {
             return state.viewPayment;
@@ -254,6 +266,16 @@ export const purchase = {
                 });
             })
         },
+        showReceiptModal({ commit }) {
+            commit('showReceipt', true);
+        },
+        setSelectedOrder(context, payload) {
+            context.commit('setSelectedOrder', payload);
+        },
+        setPaymentMethod(context, payload) {
+            context.commit('setPaymentMethod', payload);
+        },
+
         addPaymentPos: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
@@ -343,7 +365,16 @@ export const purchase = {
             state.show = payload;
         },
         viewPayment: function (state, payload) {
-            state.viewPayment = payload;
+            state.showReceiptModal = payload;
+        },
+        showReceipt: function (state, payload) {
+            state.showReceiptModal = payload;
+        },
+        setPaymentMethod: function (state, payload) {
+            state.paymentMethod = payload;
+        },
+        setSelectedOrder: function (state, payload) {
+            state.selectedOrder = payload;
         },
         edit: function (state, payload) {
             state.edit = payload;
