@@ -50,7 +50,8 @@
             'payment_status' ,
             'status' ,
             'delivery_boy_id' ,
-            'source'
+            'source' ,
+            'dining_table_id'
         ];
 
         protected array $exceptFilter = [

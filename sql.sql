@@ -1,4 +1,4 @@
-select payment_method
-from orders where order_serial_no = '04102461';
+select order_serial_no
+from orders where order_serial_no = '30092411';
 select *
 from payment_methods;
