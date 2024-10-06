@@ -141,18 +141,28 @@
                         </tbody>
                     </table>
                 </div>
-                <!--                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">-->
-                <!--                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}-->
-                <!--                </p>-->
+
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    <div class="flex gap-3">
+                    <div class="flex justify-between">
                         <p class="">Payment Methods:</p>
                         <div class="">
-                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
-                                <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
-                                                                                   class="px-5 font-bold"> {{ paymentMethod.merchant_code }}</span></p>
+                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="grid grid-cols-2">
+                                <p class="">
+                                    {{ capitalizeWords(paymentMethod.name) }}:
+                                </p>
+                                <p v-if="paymentMethod.merchant_code" class="px-5 font-bold"> {{ paymentMethod.merchant_code }}</p>
                             </div>
                         </div>
+
+
+                        <!--                        <div class="flex justify-between">-->
+                        <!--                            <p class="">Payment Methods:</p>-->
+                        <!--                            <div class="grid grid-cols-2 w-full bg-amber-900">-->
+                        <!--                                <p v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="font-bold w-full">{{-->
+                        <!--                                        capitalizeWords(paymentMethod?.name)-->
+                        <!--                                    }}</p>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
                 <h4 v-if="order.token"
