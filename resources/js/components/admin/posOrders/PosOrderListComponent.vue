@@ -356,6 +356,8 @@ export default {
 
         edit: function (product) {
             this.loading.isActive = true;
+            this.$store.dispatch('posCart/resetCart').then(res => {
+            }).catch();
             this.$store.dispatch('posOrder/edit', product.id);
             this.loading.isActive = false;
         },
