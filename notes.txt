@@ -13,6 +13,14 @@ cd /home/mophyz@smartduuka/public_html
 SHH IP: ssh root@173.249.44.32
 Password: @fdj23DHF
 
+NEW neyalaya
+username: nepalaya.smartduu
+password: Y9SDlLzmLr4dIsk
+DB: neyalaya@smartduuka
+cd /home/neyalaya@smartduuka/public_html
+SHH IP: ssh root@173.249.44.32
+Password: KSaIJqGooLiVPy8
+
 cd /home/moodbox@smartduuka/public_html
 cd /home/villagio@smartduuka/public_html
 

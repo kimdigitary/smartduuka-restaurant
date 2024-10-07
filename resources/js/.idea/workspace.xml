@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8e8774a2-3188-4c61-a1d6-36ed60bfb134" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../pnpm-lock.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/js.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../views/master1.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../postcss.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../postcss.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/DefaultComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/DefaultComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/Subscription/SubscriptionShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/AdministratorComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/AdministratorComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/AdministratorCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/AdministratorCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/AdministratorListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/AdministratorListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/AdministratorOrderDetailsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/AdministratorOrderDetailsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/AdministratorShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/AdministratorShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/address/AdministratorAddressCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/address/AdministratorAddressCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/administrators/address/AdministratorAddressList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/administrators/address/AdministratorAddressList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/components/MapComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/components/MapComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/components/OrderDetailsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/components/OrderDetailsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/creditBalanceReport/CreditBalanceReportComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/creditBalanceReport/CreditBalanceReportComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/CustomerComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/CustomerComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/CustomerCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/CustomerCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/CustomerListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/CustomerListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/CustomerOrderDetailsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/CustomerOrderDetailsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/CustomerShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/CustomerShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/address/CustomerAddressCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/address/CustomerAddressCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/customers/address/CustomerAddressList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/customers/address/CustomerAddressList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/damages/DamageCreateAndEditComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/damages/DamageCreateAndEditComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/damages/DamageListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/damages/DamageListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/damages/DamageShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/damages/DamageShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/CustomerStatsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/CustomerStatsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/DashboardComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/DashboardComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/FeaturedItemsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/FeaturedItemsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/MostPopularItemsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/MostPopularItemsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/OverviewComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/OverviewComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/dashboard/SalesSummaryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/dashboard/SalesSummaryComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/EmployeeComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/EmployeeComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/EmployeeCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/EmployeeCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/EmployeeListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/EmployeeListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/EmployeeOrderDetailsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/EmployeeOrderDetailsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/EmployeeShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/EmployeeShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/address/EmployeeAddressCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/address/EmployeeAddressCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/employees/address/EmployeeAddressList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/employees/address/EmployeeAddressList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/expenses/ExpenseComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/expenses/ExpenseComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/expenses/ExpenseCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/expenses/ExpenseCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/expenses/ExpensePaymentCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/expenses/ExpensePaymentCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/expenses/ExpenseShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/expenses/ExpenseShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/expenses/ExpensetListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/expenses/ExpensetListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredients/IngredientsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredients/IngredientsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredients/IngredientsCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredients/IngredientsCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredients/IngredientsListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredients/IngredientsListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredients/IngredientsShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredients/IngredientsShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/Ingredients/IngredientsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/Ingredients/IngredientsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/IngredientsStockSettingsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/IngredientsStockSettingsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/Supplier/SupplierShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/purchase/PurchaseComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/purchase/PurchaseComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/ingredientsStock/purchase/PurchaseListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/ingredientsStock/purchase/PurchaseListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ItemComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ItemComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ItemCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ItemCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ItemListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ItemListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ItemShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ItemShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/addon/ItemAddonCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/addon/ItemAddonCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/addon/ItemAddonListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/addon/ItemAddonListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/extra/ItemExtraCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/extra/ItemExtraCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/extra/ItemExtraListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/extra/ItemExtraListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ingredients/ItemIngredientCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ingredients/ItemIngredientCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/ingredients/ItemIngredientListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/ingredients/ItemIngredientListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/variation/ItemVariationCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/variation/ItemVariationCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/items/variation/ItemVariationListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/items/variation/ItemVariationListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/itemsReport/ItemsReportComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/itemsReport/ItemsReportComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/itemsReport/ItemsReportListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/itemsReport/ItemsReportListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenCompletedOrderListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenCompletedOrderListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/kitchenOrders/KitchenOrderShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/OfferComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/OfferComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/OfferCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/OfferCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/OfferListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/OfferListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/OfferShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/OfferShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/item/OfferItemCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/item/OfferItemCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/offers/item/OfferItemListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/offers/item/OfferItemListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/pos/EditPosComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/pos/EditPosComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/pos/PosComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/pos/PosComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/pos/PosCustomerComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/pos/PosCustomerComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/pos/PosMeatOrderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/pos/PosMeatOrderComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/posOrders/PosOrderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/posOrders/PosOrderComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/posOrders/PosOrderEditComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/posOrders/PosOrderEditComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/posOrders/PosOrderListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/posOrders/PosOrderListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/posOrders/PosOrderShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/posOrders/PosOrderShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/ProductComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/ProductComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/ProductCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/ProductCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/ProductListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/ProductListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/ProductShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/ProductShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/variation/ProductVariationCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/variation/ProductVariationCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/products/variation/ProductVariationListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/products/variation/ProductVariationListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/productsReport/ProductsReportComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/productsReport/ProductsReportComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/productsReport/ProductsReportListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/productsReport/ProductsReportListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/profile/ProfileChangePasswordComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/profile/ProfileChangePasswordComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/profile/ProfileEditProfileComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/profile/ProfileEditProfileComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/salesReport/SalesReportComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/salesReport/SalesReportComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/salesReport/SalesReportListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/salesReport/SalesReportListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Branch/BranchCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Branch/BranchCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Branch/BranchListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Branch/BranchListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Branch/BranchShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Branch/BranchShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Company/CompanyComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Company/CompanyComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Currency/CurrencyCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Currency/CurrencyCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Currency/CurrencyListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Currency/CurrencyListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/ItemAttribute/ItemAttributeCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/ItemAttribute/ItemAttributeCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/ItemAttribute/ItemAttributeListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/ItemAttribute/ItemAttributeListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCategoryCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCategoryCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCategoryShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCategoryShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCateogryListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/ItemCategory/ItemCateogryListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Language/LanguageCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Language/LanguageCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Language/LanguageListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Language/LanguageListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Language/LanguageShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Language/LanguageShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/License/LicenseComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/License/LicenseComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Mail/MailComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Mail/MailComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Notification/NotificationComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Notification/NotificationComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/NotificationAlert/NotificationAlertComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/NotificationAlert/NotificationAlertComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Otp/OtpComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Otp/OtpComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Page/PageCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Page/PageCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Page/PageListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Page/PageListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Page/PageShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Page/PageShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/PaymentGateway/PaymentGatewayComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/PaymentGateway/PaymentGatewayComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Role/RoleCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Role/RoleCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Role/RoleListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Role/RoleListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Role/RoleShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Role/RoleShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/SettingsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/SettingsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Site/SiteComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Site/SiteComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/SmsGateway/SmsGatewayComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/SmsGateway/SmsGatewayComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Tax/TaxCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Tax/TaxCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Tax/TaxListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Tax/TaxListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/Theme/ThemeComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/Theme/ThemeComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/analytics/AnalyticShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/settings/analytics/analyticSection/AnalyticSectionCreateComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/settings/analytics/analyticSection/AnalyticSectionCreateComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderReasonComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderReasonComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderShowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderShowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderTokenComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/tableOrders/TableOrderTokenComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/admin/transactions/TransactionListComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/admin/transactions/TransactionListComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/frontend/auth/ForgetPasswordComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/frontend/auth/ForgetPasswordComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/frontend/auth/LoginComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/frontend/auth/LoginComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/frontend/auth/ResetPasswordComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/frontend/auth/ResetPasswordComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/frontend/auth/VerifyEmailComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/frontend/auth/VerifyEmailComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layouts/table/TableFooterComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/table/TableFooterComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layouts/table/TableNavBarComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/table/TableNavBarComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/table/components/TemplateManagerComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/table/components/TemplateManagerComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/table/page/PageComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/table/page/PageComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/table/search/SearchItemComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/table/search/SearchItemComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/adminTableOrderRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/adminTableOrderRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/administratorRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/administratorRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/authRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/creditBalanceReportRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/creditBalanceReportRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/customerRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/customerRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/diningTableRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/diningTableRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/employeeRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/employeeRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/itemRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/itemRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/itemsReportRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/itemsReportRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/offerRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/offerRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/posOrderRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/posOrderRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/posRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/posRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/profileRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/profileRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/salesReportRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/salesReportRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/settingRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/settingRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/tableOrderRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/tableOrderRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/modules/transactionRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/router/modules/transactionRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../views/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../views/master.blade.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;omodingmike&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kimdigitary/smartduuka-restaurant.git&quot;,
+    &quot;accountId&quot;: &quot;92e368fa-9854-4e6b-99ff-475724449243&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2n42WVWnlmpeg4GJ8ZqiAasvIgZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;vite&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/mike/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17890.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8e8774a2-3188-4c61-a1d6-36ed60bfb134" name="Changes" comment="" />
+      <created>1728218059572</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728218059572</updated>
+      <workItem from="1728218060788" duration="102000" />
+      <workItem from="1728220532404" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
