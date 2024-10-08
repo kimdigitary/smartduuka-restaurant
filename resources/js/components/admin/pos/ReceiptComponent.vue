@@ -153,7 +153,7 @@
                     </table>
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    <div class="flex justify-between bg-amber-950">
+                    <div class="flex justify-between">
                         <p>Payment Method:</p>
                         <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>
                     </div>
