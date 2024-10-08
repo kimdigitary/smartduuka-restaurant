@@ -10,20 +10,6 @@
     <div class="modal-body">
         <form @submit.prevent="save">
             <div class="form-row">
-<!--                <div class="form-col-12 sm:form-col-6">-->
-<!--                    <label for="date" class="db-field-title required">{{-->
-<!--                            $t("label.date")-->
-<!--                        }}</label>-->
-<!--                    <Datepicker hideInputIcon autoApply v-model="form.date" :enableTimePicker="true" :is24="false"-->
-<!--                                :monthChangeOnScroll="false" utc="false">-->
-<!--                        <template #am-pm-button="{ toggle, value }">-->
-<!--                            <button @click="toggle">{{ value }}</button>-->
-<!--                        </template>-->
-<!--                    </Datepicker>-->
-<!--                    <small class="db-field-alert" v-if="errors.date">{{-->
-<!--                            errors.date[0]-->
-<!--                        }}</small>-->
-<!--                </div>-->
                 <div class="form-col-12 sm:form-col-6">
                     <label for="amount" class="db-field-title required">{{
                             $t("label.amount")
@@ -46,7 +32,6 @@
                 </div>
 
 
-
                 <div class="form-col-12 sm:form-col-6">
                     <label for="payment_method" class="db-field-title required">{{
                             $t('label.payment_method')
@@ -59,26 +44,15 @@
                         }}</small>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="paid" class="db-field-title required">Paid</label>
+                    <label for="paid" class="db-field-title">Paid</label>
                     <input v-on:keypress="onlyNumber($event)" v-model="form.paid"
                            v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="change" class="db-field-title required">Change</label>
+                    <label for="change" class="db-field-title ">Change</label>
                     <input v-model="computedChange"
                            v-bind:class="errors.change ? 'invalid' : ''" type="text" id="change" class="db-field-control"/>
                 </div>
-
-<!--                <div class="form-col-12">-->
-<!--                    <label for="file" class="db-field-title">-->
-<!--                        {{ $t("label.file") }}-->
-<!--                    </label>-->
-<!--                    <input @change="changefile" v-bind:class="errors.file ? 'invalid' : ''" id="file" type="file"-->
-<!--                           class="db-field-control" ref="fileProperty" accept="file/png, file/jpeg, file/jpg"/>-->
-<!--                    <small class="db-field-alert" v-if="errors.file">{{-->
-<!--                            errors.file[0]-->
-<!--                        }}</small>-->
-<!--                </div>-->
 
                 <div class="form-col-12">
                     <div class="modal-btns">
@@ -99,7 +73,6 @@
 </template>
 <script>
 
-
 import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent.vue";
 import LoadingComponent from "../components/LoadingComponent.vue";
 import Datepicker from "@vuepic/vue-datepicker";
@@ -108,15 +81,17 @@ import appService from "../../../services/appService";
 import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
 import PurchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
 import alertService from "../../../services/alertService";
+import ReceiptComponent from "./ReceiptComponent.vue";
 
 export default {
     name: "PosPaymentCreateComponent",
-    components: {SmModalCreateComponent, LoadingComponent, Datepicker},
+    components: {ReceiptComponent, SmModalCreateComponent, LoadingComponent, Datepicker},
     data() {
         return {
             loading: {
                 isActive: false,
             },
+            order: {},
             form: {
                 purchase_id: "",
                 date: "",
@@ -161,12 +136,12 @@ export default {
                     this.form.amount = res.data.data.due_payment;
                     this.dueAmount = res.data.data.due_payment;
                     this.paymentMethods = res.data.data.payment_methods;
+                    this.order = res.data.data.order;
                     this.loading.isActive = false;
                 }).catch((err) => {
                     this.loading.isActive = false;
                 })
             }
-
         },
         paymentAmount: function (e) {
             if (e.target.value > this.dueAmount) {
@@ -198,6 +173,8 @@ export default {
                 fd.append("purchase_id", tempId);
                 fd.append("date", this.form.date);
                 fd.append("reference_no", this.form.reference_no);
+                fd.append("paid", this.form.paid);
+                fd.append("change", this.computedChange);
                 fd.append("amount", this.form.amount);
                 fd.append("payment_method", this.form.payment_method);
                 fd.append("type", purchaseTypeEnum.INGREDIENT);
@@ -217,7 +194,6 @@ export default {
                             0,
                             this.$t("menu.add_payment")
                         );
-                        appService.modalShow("#receiptModal");
                         this.$store.dispatch("purchase/reset");
                         this.form = {
                             purchase_id: "",
@@ -232,6 +208,8 @@ export default {
                             this.file = "";
                             this.$refs.fileProperty.value = null;
                         }
+                        this.$store.dispatch("purchase/showReceiptModal");
+                        this.$store.dispatch('posOrder/show', this.$store.getters["purchase/selectedOrder"].id).then().catch();
                     })
                     .catch((err) => {
                         this.loading.isActive = false;

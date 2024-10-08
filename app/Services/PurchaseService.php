@@ -571,7 +571,7 @@
         {
             try {
                 DB::transaction(function () use ($request , $order) {
-                    $purchasePayment = PosPayment::create([
+                    $purchasePayment       = PosPayment::create([
                         'order_id'       => $order->id ,
                         'date'           => date('Y-m-d H:i:s' , strtotime($request->date)) ,
                         'reference_no'   => $request->reference_no ,
@@ -579,6 +579,8 @@
                         'payment_method' => $request->payment_method ,
                     ]);
                     $order->payment_method = $request->payment_method;
+                    $order->change         = $request->change;
+                    $order->paid           = $request->paid;
 
                     if ( $request->file ) {
                         $purchasePayment->addMediaFromRequest('file')->toMediaCollection('pos_payment');

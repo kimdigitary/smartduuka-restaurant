@@ -7,6 +7,9 @@ use App\Http\Resources\SiteResource;
 use App\Services\SiteService;
 use Exception;
 use App\Traits\ApiRequestTrait;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class SiteController extends AdminController
 {
@@ -22,7 +25,7 @@ class SiteController extends AdminController
         $this->middleware(['permission:settings'])->only('update');
     }
 
-    public function index(): SiteResource|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function index(): SiteResource| Response| Application| ResponseFactory
     {
         try {
             return new SiteResource($this->siteService->list());
@@ -31,7 +34,7 @@ class SiteController extends AdminController
         }
     }
 
-    public function update(SiteRequest $request): SiteResource|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function update(SiteRequest $request): SiteResource| Response| Application| ResponseFactory
     {
         try {
             return new SiteResource($this->siteService->update($request));

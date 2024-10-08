@@ -3447,17 +3447,11 @@ input:checked + div svg {
 .mb-\[70px\] {
   margin-bottom: 70px;
 }
-.me-5 {
-  margin-inline-end: 1.25rem;
-}
 .ml-1\.5 {
   margin-left: 0.375rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
-}
-.ms-5 {
-  margin-inline-start: 1.25rem;
 }
 .mt-0\.5 {
   margin-top: 0.125rem;
@@ -4194,13 +4188,13 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(254 243 199 / var(--tw-bg-opacity));
 }
-.bg-amber-200 {
+.bg-amber-900 {
   --tw-bg-opacity: 1;
-  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+  background-color: rgb(120 53 15 / var(--tw-bg-opacity));
 }
-.bg-amber-600 {
+.bg-amber-950 {
   --tw-bg-opacity: 1;
-  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
+  background-color: rgb(69 26 3 / var(--tw-bg-opacity));
 }
 .bg-black\/50 {
   background-color: rgb(0 0 0 / 0.5);
@@ -4507,9 +4501,6 @@ input:checked + div svg {
 }
 .pt-2 {
   padding-top: 0.5rem;
-}
-.pt-3\.5 {
-  padding-top: 0.875rem;
 }
 .pt-4 {
   padding-top: 1rem;

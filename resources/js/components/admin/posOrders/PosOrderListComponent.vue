@@ -16,13 +16,44 @@
                     </div>
                 </div>
             </div>
+            <div class="table-filter-div">
+                <form class="p-4 sm:p-5 mb-5" @submit.prevent="search">
+                    <div class="row">
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3">
+                            <label for="order_serial_no" class="db-field-title after:hidden">Order ID</label>
+                            <input id="order_serial_no" v-model="props.search.order_serial_no" type="text" class="db-field-control"/>
+                        </div>
+<!--                        <div class="col-12 sm:col-6 md:col-4 xl:col-3 z-50">-->
+<!--                            <label for="dining_table_id" class="db-field-title after:hidden">Table</label>-->
+<!--                            <vue-select class="db-field-control f-b-custom-select" id="dining_table_id"-->
+<!--                                        v-model="props.search.dining_table_id" :options="diningTables" label-by="name"-->
+<!--                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="&#45;&#45;"-->
+<!--                                        search-placeholder="&#45;&#45;"/>-->
+<!--                        </div>-->
 
+                        <div class="col-12">
+                            <div class="flex flex-wrap gap-3 mt-4">
+                                <button class="db-btn py-2 text-white bg-primary">
+                                    <i class="lab lab-search-line lab-font-size-16"></i>
+                                    <span>{{ $t("button.search") }}</span>
+                                </button>
+                                <button class="db-btn py-2 text-white bg-gray-600" @click="clear">
+                                    <i class="lab lab-cross-line-2 lab-font-size-22"></i>
+                                    <span>{{ $t("button.clear") }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print" :dir="direction">
                     <thead class="db-table-head">
                     <tr class="db-table-head-tr">
                         <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
                         <th class="db-table-head-th">{{ $t('label.customer') }}</th>
+                        <th class="db-table-head-th">Table</th>
+                        <th class="db-table-head-th">Created By</th>
                         <th class="db-table-head-th">{{ $t('label.amount') }}</th>
                         <th class="db-table-head-th">Payment Status</th>
                         <th class="db-table-head-th">{{ $t('label.date') }}</th>
@@ -35,12 +66,10 @@
                     </thead>
                     <tbody class="db-table-body" v-if="orders.length > 0">
                     <tr class="db-table-body-tr" v-for="order in orders" :key="order">
-                        <td class="db-table-body-td">
-                            {{ order.order_serial_no }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ order.customer.name }}
-                        </td>
+                        <td class="db-table-body-td">{{ order.order_serial_no }}</td>
+                        <td class="db-table-body-td">{{ order.customer.name }}</td>
+                        <td class="db-table-body-td">{{ order.dining_table ? order.dining_table.name : 'NA' }}</td>
+                        <td class="db-table-body-td">{{ order.created_by ? order.created_by.name : 'NA' }}</td>
                         <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                         <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                         <td class="db-table-body-td">{{ order.order_datetime }}</td>
@@ -53,19 +82,16 @@
                             <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                 <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                                      v-if="permissionChecker('pos-orders')"/>
-                                <!--                                    <SmIconDeleteComponent @click="destroy(order.id)"-->
-                                <!--                                        v-if="permissionChecker('pos-orders')" /> -->
                                 <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
                                                      v-if="permissionChecker('pos-orders')"/>
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
-                                <SmAddPaymentComponent @click="addPayment(order.id)" data-modal="#purchasePayment"
+                                <SmAddPaymentComponent @click="addPayment(order)" data-modal="#purchasePayment"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
                                 <smViewPaymentComponent @click="paymentList(order.id)" data-modal="#purchasePaymentList"
                                                         v-if="permissionChecker('pos_orders_delete')"/>
                             </div>
                         </td>
-<!--                        <PosOrderReceiptComponent :order="order" />-->
                     </tr>
                     </tbody>
                 </table>
@@ -81,6 +107,9 @@
         </div>
     </div>
     <PostPurchaseComponent/>
+    <div v-if="order && Object.keys(order).length > 0">
+        <ReceiptComponent :order="order"/>
+    </div>
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
@@ -117,7 +146,8 @@ import purchaseTypeEnum from "../../../enums/modules/purchaseTypeEnum";
 import IngredientPurchaseComponent from "../ingredientsStock/purchaseIngredients/IngredientPurchaseComponent.vue";
 import PostPurchaseComponent from "../pos/PostPurchaseComponent.vue";
 import PosOrderInvoiceComponent from "./PosOrderInvoiceComponent.vue";
-
+import projectEnum from "../../../enums/modules/projectEnum";
+import {mapState} from "vuex";
 
 export default {
     name: "PosOrderListComponent",
@@ -146,7 +176,6 @@ export default {
     },
     setup() {
         const date = ref();
-
         const presetRanges = ref([
             {label: 'Today', range: [new Date(), new Date()]},
             {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
@@ -172,6 +201,7 @@ export default {
             loading: {
                 isActive: false
             },
+            order: {},
             timer: null,
             interval: TimerEnums.INTERVAL,
             enums: {
@@ -209,22 +239,37 @@ export default {
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
+                    dining_table_id: "",
                     order_type: orderTypeEnum.POS,
                     user_id: null,
                     status: null,
                     from_date: "",
                     to_date: "",
                 }
-            }
+            },
+            diningTableProps: {
+                search: {
+                    paginate: 0,
+                    order_column: 'id',
+                    order_type: 'asc'
+                }
+            },
         }
     },
     mounted() {
         this.list();
+        this.loading.isActive = true;
         this.startPolling();
+        this.props.search.page = 1;
         this.$store.dispatch('user/lists', {
             order_column: 'id',
             order_type: 'asc',
             status: statusEnum.ACTIVE
+        });
+        this.$store.dispatch("user/diningTableList", this.diningTableProps.search).then(res => {
+            this.loading.isActive = false;
+        }).catch((err) => {
+            this.loading.isActive = false;
         });
     },
     beforeRouteLeave(to, from, next) {
@@ -239,6 +284,9 @@ export default {
         }
     },
     computed: {
+        projectEnum() {
+            return projectEnum
+        },
         orders: function () {
             return this.$store.getters['posOrder/lists'];
         },
@@ -254,6 +302,24 @@ export default {
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
         },
+        diningTables: function () {
+            return this.$store.getters['user/diningTable'];
+        },
+        ...mapState({
+            showReceiptModal: state => state.purchase.showReceiptModal,
+        })
+    },
+    watch: {
+        showReceiptModal(newVal, oldVal) {
+            if (newVal === true) {
+                appService.modalShow('#receiptModal');
+            }
+        },
+        order(newOrder) {
+            if (Object.keys(newOrder).length > 0 && this.showReceiptModal) {
+                appService.modalShow('#receiptModal');
+            }
+        },
     },
     methods: {
         permissionChecker(e) {
@@ -265,11 +331,16 @@ export default {
             this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
             this.loading.isActive = false;
         },
-        addPayment: function (id) {
+        addPayment: function (order) {
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
-            this.$store.dispatch("purchase/payment", {id, type: purchaseTypeEnum.POS});
+            this.order = order;
+            this.$store.dispatch("purchase/payment", {id: order.id, type: purchaseTypeEnum.POS});
+            this.$store.dispatch("purchase/setSelectedOrder", order);
             this.loading.isActive = false;
+        },
+        diningTableList: function () {
+            this.$store.dispatch("user/diningTableList", this.props.search).then().catch();
         },
         startPolling() {
             this.timer = setInterval(() => {
@@ -283,9 +354,14 @@ export default {
             });
         },
 
-        edit: function (product) {
+        edit: function (order) {
             this.loading.isActive = true;
-            this.$store.dispatch('posOrder/edit', product.id);
+            this.$store.dispatch('posCart/resetCart').then(()=>{
+                // this.$store.dispatch('posOrder/edit', order.id);
+                this.$store.dispatch('posCart/lists', order.order_items);
+                this.loading.isActive = false;
+            }).catch();
+            // this.$store.dispatch('posOrder/edit', order.id);
             this.loading.isActive = false;
         },
         statusClass: function (status) {
@@ -331,6 +407,9 @@ export default {
             }).catch((err) => {
                 this.loading.isActive = false;
             });
+        },
+        numberOnly: function (e) {
+            return appService.floatNumber(e);
         },
         destroy: function (id) {
             appService.destroyConfirmation().then((res) => {

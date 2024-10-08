@@ -36,6 +36,7 @@ class Order extends Model
         'status',
         'dining_table_id',
         'source',
+        'delivery_boy_id', 'reason', 'creator_type', 'creator_id', 'editor_type', 'editor_id', 'paid', 'change'
     ];
 
     protected $casts = [
@@ -135,6 +136,10 @@ class Order extends Model
     public function diningTable(): BelongsTo
     {
         return $this->belongsTo(DiningTable::class);
+    }
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'creator_id','id');
     }
     public function paymentMethod(): BelongsTo
     {

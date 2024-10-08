@@ -530,7 +530,7 @@ export default {
                 role_id: roleEnum.CUSTOMER
             }).then((res) => {
                 this.checkoutProps.form.customer_id = id === null ? res.data.data[0].id : id;
-                this.diningTables = res.data.data.dining_tables;
+                // this.diningTables = res.data.data.dining_tables;
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
@@ -589,7 +589,7 @@ export default {
         },
         applyDiscount: function () {
             this.discountErrorMessage = "";
-            if (this.discountType == discountTypeEnum.FIXED) {
+            if (this.discountType === discountTypeEnum.FIXED) {
                 if (this.subtotal < this.discount) {
                     this.discountErrorMessage = this.$t('message.discount_fixed_error_message');
                 } else {
@@ -706,7 +706,7 @@ export default {
                     this.checkoutProps.form.delivery_time = null;
                     this.checkoutProps.form.total = 0;
                     this.checkoutProps.form.dining_table_id = null;
-                    this.deliveryPrice = 0;
+                    // this.deliveryPrice = 0;
                     this.checkoutProps.form.order_type = orderTypeEnum.POS;
                     this.checkoutProps.form.is_advance_order = isAdvanceOrderEnum.NO;
                     this.checkoutProps.form.source = sourceEnum.POS;

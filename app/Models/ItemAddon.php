@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,6 +20,10 @@ class ItemAddon extends Model
         'addon_item_variation' => 'string',
     ];
 
+    public function ingredients(): BelongsToMany
+    {
+        return $this->belongsToMany(Ingredient::class, 'item_ingredients', 'item_id', 'ingredient_id')->withPivot(['quantity', 'buying_price', 'total']);
+    }
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id', 'id');

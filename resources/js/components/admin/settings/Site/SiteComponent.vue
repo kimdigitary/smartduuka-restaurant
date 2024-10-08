@@ -155,6 +155,17 @@
                             errors.site_food_preparation_time[0]
                         }}</small>
                     </div>
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="project" class="db-field-title required">
+                            Project
+                        </label>
+                        <input  v-model="form.project"
+                            v-bind:class="errors.project ? 'invalid' : ''" type="text"
+                            id="project" class="db-field-control" />
+                        <small class="db-field-alert" v-if="errors.project">{{
+                            errors.project[0]
+                        }}</small>
+                    </div>
 
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title required" for="enable">
@@ -404,6 +415,7 @@ export default {
                 site_digit_after_decimal_point: null,
                 site_google_map_key: null,
                 site_copyright: null,
+                project: null,
                 site_online_payment_gateway: null,
                 site_default_sms_gateway: null,
                 site_food_preparation_time: null,
@@ -493,6 +505,7 @@ export default {
                     site_online_payment_gateway: res.data.data.site_online_payment_gateway,
                     site_default_sms_gateway: res.data.data.site_default_sms_gateway === 0 ? null : res.data.data.site_default_sms_gateway,
                     site_food_preparation_time: res.data.data.site_food_preparation_time,
+                    project: res.data.data.project,
                 }
                 this.loading.isActive = false;
             }).catch((err) => {

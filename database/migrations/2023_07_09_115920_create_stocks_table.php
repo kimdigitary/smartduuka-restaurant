@@ -10,7 +10,8 @@
         {
             Schema::create('stocks' , function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('item_id')->constrained();
+//                $table->foreignId('item_id')->constrained();
+                $table->unsignedBigInteger('item_id')->constrained();
                 $table->string('model_type');
                 $table->unsignedBigInteger('model_id');
                 $table->string('item_type');

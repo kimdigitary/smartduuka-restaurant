@@ -1,13 +1,19 @@
 <template>
     <div id="invoiceModal" class="modal">
-        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction" ref="print">
+        <div class="modal-dialog max-w-[340px] rounded-none" id="print" :dir="direction">
             <div class="modal-header hidden-print">
                 <button type="button" @click="reset"
                         class="modal-close flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#FB4E4E]">
                     <i class="lab lab-back-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.close') }}</span>
                 </button>
-                <button type="button" @click="triggerPrint"
+                <!--                <button type="button" @click="print"-->
+                <!--                        class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">-->
+                <!--                    <i class="lab lab-print-bold lab-font-size-16 text-white"></i>-->
+                <!--                    <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>-->
+                <!--                </button>-->
+
+                <button type="button" v-print="printObj"
                         class="flex items-center justify-center gap-1.5 py-2 px-4 rounded bg-[#1AB759]">
                     <i class="lab lab-print-bold lab-font-size-16 text-white"></i>
                     <span class="text-xs leading-5 capitalize text-white">{{ $t('button.print_invoice') }}</span>
@@ -24,7 +30,7 @@
                     </div>
                 </div>
                 <div class="text-center py-1 border-b border-dashed border-gray-400">
-                    <div class="flex flex-col pt-3.5 items-center justify-center">
+                    <div class="flex flex-col items-center justify-center">
                         <h5 class="text-xl font-bold">Invoice</h5>
                     </div>
                 </div>
@@ -135,18 +141,28 @@
                         </tbody>
                     </table>
                 </div>
-<!--                <p class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">-->
-<!--                    {{ $t('label.payment_type') }}: {{ $t('label.cash') }}-->
-<!--                </p>-->
+
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
-                    <div class="flex gap-3">
+                    <div class="flex justify-between">
                         <p class="">Payment Methods:</p>
                         <div class="">
-                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="">
-                                <p>{{ capitalizeWords(paymentMethod.name) }}:<span v-if="paymentMethod.merchant_code"
-                                                                                   class="px-5 font-bold"> {{ paymentMethod.merchant_code }}</span></p>
+                            <div v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="grid grid-cols-2">
+                                <p class="">
+                                    {{ capitalizeWords(paymentMethod.name) }}:
+                                </p>
+                                <p v-if="paymentMethod.merchant_code" class="px-5 font-bold"> {{ paymentMethod.merchant_code }}</p>
                             </div>
                         </div>
+
+
+                        <!--                        <div class="flex justify-between">-->
+                        <!--                            <p class="">Payment Methods:</p>-->
+                        <!--                            <div class="grid grid-cols-2 w-full bg-amber-900">-->
+                        <!--                                <p v-for="paymentMethod in paymentMethods" :key="paymentMethod.id" class="font-bold w-full">{{-->
+                        <!--                                        capitalizeWords(paymentMethod?.name)-->
+                        <!--                                    }}</p>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
                 <h4 v-if="order.token"
@@ -177,6 +193,7 @@
 <script>
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
 import appService from "../../../services/appService";
+import print from "vue3-print-nb";
 
 export default {
     name: "PosOrderInvoiceComponent",
@@ -201,8 +218,19 @@ export default {
         capitalizeWords(str) {
             return str.replace(/\b\w/g, char => char.toUpperCase());
         },
-        triggerPrint() {
-            this.$refs.print.print();
+
+        print() {
+            const options = {
+                name: '_blank',
+                specs: [
+                    'fullscreen=yes',
+                    'titlebar=yes',
+                    'scrollbars=yes'
+                ],
+                styles: [],
+                autoClose: false
+            };
+            this.$htmlToPaper('print', options);
         }
     },
     computed: {
@@ -231,3 +259,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+@media print {
+    .hidden-print {
+        display: none !important;
+    }
+}
+</style>

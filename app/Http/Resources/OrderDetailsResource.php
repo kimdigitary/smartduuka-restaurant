@@ -4,6 +4,7 @@
 
     use App\Enums\Ask;
     use App\Libraries\AppLibrary;
+    use App\Models\Order;
     use Illuminate\Http\Resources\Json\JsonResource;
 
     class OrderDetailsResource extends JsonResource
@@ -22,6 +23,10 @@
                 'dining_table_id'                     => $this->dining_table_id ,
                 'dining_table'                        => $this->diningTable ,
                 'token'                               => $this->token ,
+                'change'                              => $this->change ,
+                'paid'                                => $this->paid ,
+                'change_currency'                     => AppLibrary::currencyAmountFormat($this->change) ,
+                'paid_currency'                       => AppLibrary::currencyAmountFormat($this->paid) ,
                 "subtotal_currency_price"             => AppLibrary::currencyAmountFormat($this->subtotal) ,
                 "subtotal_without_tax_currency_price" => AppLibrary::currencyAmountFormat($this->subtotal - $this->total_tax) ,
                 "discount_currency_price"             => AppLibrary::currencyAmountFormat($this->discount) ,
@@ -34,7 +39,7 @@
                 'order_time'                          => AppLibrary::time($this->order_datetime) ,
                 'delivery_date'                       => $this->is_advance_order == Ask::YES ? AppLibrary::increaseDate($this->order_datetime , 1) : AppLibrary::date($this->order_datetime) ,
                 'delivery_time'                       => AppLibrary::deliveryTime($this->delivery_time) ,
-                'payment_method'                      => $this->paymentMethod ,
+                'payment_method'                      => Order::find($this->id)->paymentMethod ,
                 'payment_status'                      => $this->payment_status ,
                 'is_advance_order'                    => $this->is_advance_order ,
                 'preparation_time'                    => $this->preparation_time ,

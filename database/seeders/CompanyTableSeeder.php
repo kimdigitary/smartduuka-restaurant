@@ -18,20 +18,20 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         Settings::group('company')->set([
-            'company_name'         => 'FoodScan - QrCode Restaurant Menu Maker and Contactless Menu Ordering system',
-            'company_email'        => 'info@inilabs.net',
-            'company_phone'        => '+13333846282',
-            'company_website'      => 'https://foodscan.xyz',
-            'company_city'         => 'Mirpur 1',
-            'company_state'        => 'Dhaka',
-            'company_country_code' => 'ETH',
-            'company_zip_code'     => '1216',
-            'company_address'      => 'House : 25, Road No: 2, Block A, Mirpur-1, Dhaka 1216'
+            'company_name'         => 'Smart Restaurant',
+            'company_email'        => 'info@smartduuka.com',
+            'company_phone'        => '704316255',
+            'company_website'      => 'smartduuka.com',
+            'company_city'         => 'Kampala',
+            'company_state'        => 'Kampala',
+            'company_country_code' => 'UGA',
+            'company_zip_code'     => '00256',
+            'company_address'      => 'Uganda, Kampala',
         ]);
 
         $envService = new EnvEditor();
         $envService->addData([
-            'APP_NAME' => "FoodScan - QrCode Restaurant Menu Maker and Contactless Menu Ordering system"
+            'APP_NAME' => "Smart Restaurant"
         ]);
         Artisan::call('optimize:clear');
     }

@@ -17,6 +17,7 @@ use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\OrderStatusRequest;
 use App\Http\Requests\PaymentStatusRequest;
 use App\Http\Resources\OrderDetailsResource;
+use Smartisan\Settings\Facades\Settings;
 
 
 class PosOrderController extends AdminController
@@ -41,7 +42,6 @@ class PosOrderController extends AdminController
         PaginateRequest $request
     ): Response | AnonymousResourceCollection | Application | ResponseFactory {
         try {
-
             return OrderResource::collection($this->orderService->list($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
