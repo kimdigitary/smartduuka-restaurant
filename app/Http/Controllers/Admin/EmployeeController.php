@@ -38,7 +38,6 @@ class EmployeeController extends AdminController
     public function index(PaginateRequest $request): Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
-            info($this->employeeService->list($request));
             return EmployeeResource::collection($this->employeeService->list($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);

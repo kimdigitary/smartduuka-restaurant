@@ -2,6 +2,7 @@
 
     namespace App\Services;
 
+    use App\Enums\Ask;
     use App\Enums\OrderItemName;
     use App\Enums\OrderItemStatus;
     use App\Enums\OrderStatus;
@@ -323,17 +324,19 @@
 
                     if ( ! blank($requestItems) ) {
                         foreach ( $requestItems as $item ) {
-                            $taxId      = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
-                            $taxName    = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
-                            $taxRate    = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
-                            $taxType    = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
-                            $taxPrice   = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
-                            $_item      = Item::find($item->item_id);
-                            $variations = $_item->variations ?? null;
+                            $taxId    = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
+                            $taxName  = isset($taxes[$taxId]) ? $taxes[$taxId]->name : null;
+                            $taxRate  = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
+                            $taxType  = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
+                            $taxPrice = $taxType === TaxType::FIXED ? $taxRate : ( $item->total_price * $taxRate ) / 100;
+                            $_item    = Item::find($item->item_id);
+//                            $variations = $_item->variations ?? null;
+                            $variations = $item->item_variations;
 
                             if ( $variations && count($variations) > 0 ) {
                                 foreach ( $variations as $variation ) {
-                                    foreach ( $variation->ingredients as $ingredient ) {
+                                    $item_variation = ItemVariation::find($variation->id);
+                                    foreach ( $item_variation->ingredients as $ingredient ) {
                                         $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
                                         if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
                                             throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
@@ -341,8 +344,8 @@
                                     }
                                 }
                             } else {
-                                if ( property_exists($item , 'ingredients') ) {
-                                    foreach ( $item->ingredients as $ingredient ) {
+                                if ( property_exists($_item , 'ingredients') ) {
+                                    foreach ( $_item->ingredients as $ingredient ) {
                                         $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
                                         if ( $stock->quantity < ( $ingredient->pivot->quantity * $item->quantity ) ) {
                                             throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
@@ -556,7 +559,8 @@
                     }
                     if ( $request->status == OrderStatus::PREPARED ) {
                         foreach ( $order->items as $order_item ) {
-                            $item_variations = json_decode($order_item->item_variations);
+//                            $item_variations = json_decode($order_item->item_variations);
+                            $item_variations = $order_item->variations;
                             if ( $item_variations ) {
                                 foreach ( $item_variations as $item_variation ) {
                                     foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
@@ -566,9 +570,22 @@
                                         }
                                     }
                                 }
-                            } else {
-                                foreach ( $order_item->ingredients as $ingredient ) {
-                                    Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+                            }
+//                            if ( $item_addons ) {
+//                                foreach ( $item_addons as $item_addon ) {
+//                                    foreach ( ItemAddon::find($item_addon->id)->ingredients as $ingredient ) {
+//                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
+//                                        if ( $stock->quantity > $ingredient->pivot->quantity ) {
+//                                            $stock->decrement('quantity' , $ingredient->pivot->quantity);
+//                                        }
+//                                    }
+//                                }
+//                            }
+                            if ( ! $item_variations ) {
+                                if ( $order_item->is_stockable == Ask::NO && $order_item->ingredients ) {
+                                    foreach ( $order_item->ingredients as $ingredient ) {
+                                        Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
+                                    }
                                 }
                             }
                         }

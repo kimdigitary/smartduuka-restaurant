@@ -130,7 +130,7 @@
                     </div>
                 </td>
                 <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6] text-xs font-rubik text-heading">
-                    {{
+                  {{
                         currencyFormat(cart.total, setting.site_digit_after_decimal_point,
                             setting.site_default_currency_symbol, setting.site_currency_position)
                     }}
@@ -221,10 +221,10 @@
                 </li>
             </ul>
             <div class="flex items-center justify-center gap-6" v-if="carts.length > 0">
-<!--                <button @click.prevent="resetCart"-->
-<!--                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">-->
-<!--                    {{ $t('button.cancel') }}-->
-<!--                </button>-->
+                <!--                <button @click.prevent="resetCart"-->
+                <!--                        class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#FB4E4E]">-->
+                <!--                    {{ $t('button.cancel') }}-->
+                <!--                </button>-->
                 <button @click.prevent="orderSubmit"
                         class="capitalize text-sm font-medium leading-6 font-rubik w-full text-center rounded-3xl py-2 text-white bg-[#1AB759]">
                     Update Order
@@ -482,7 +482,6 @@ export default {
             this.payment_status = res.data.data.payment_status;
             this.order_status = res.data.data.status;
             this.loading.isActive = false;
-            // Should log the number of items
 
             const itemArrays = []
             res.data.data.order_items.forEach((item, index) => {
@@ -504,52 +503,10 @@ export default {
                     instruction: item?.instruction
                 });
                 if (item.addons !== "undefined") {
-                    // if (Object.keys(item.addons).length !== 0) {
-                    //     _.forEach(item.addons, (addon) => {
-                    //         itemArrays.push({
-                    //             name: addon.name,
-                    //             image: addon.image,
-                    //             item_id: addon.item_id,
-                    //             quantity: addon.quantity,
-                    //             discount: addon.discount,
-                    //             price: addon.price,
-                    //             currency_price: addon.currency_price,
-                    //             convert_price: addon.convert_price,
-                    //             item_variations: addon.item_variations,
-                    //             item_extras: addon.item_extras,
-                    //             item_variation_total: cleanAmount(addon.item_variation_total),
-                    //             item_extra_total: cleanAmount(addon.item_extra_total),
-                    //             instruction: addon.instruction
-                    //         });
-                    //     });
-                    // }
                 }
             });
             this.$store.dispatch("posCart/lists", itemArrays).then((res) => {
-                // this.item = null;
-                // this.temp.name = "";
-                // this.temp.image = "";
-                // this.temp.item_id = 0;
-                // this.temp.quantity = 0;
-                // this.temp.discount = 0;
-                // this.temp.currency_price = 0;
-                // this.temp.convert_price = 0;
-                // this.temp.item_variations = {
-                //     variations: {},
-                //     names: {}
-                // };
-                // this.temp.item_extras = {
-                //     extras: [],
-                //     names: []
-                // };
-                // this.temp.item_variation_total = 0;
-                // this.temp.item_extra_total = 0;
-                // this.temp.total_price = 0;
-                // this.temp.instruction = "";
-                // this.addons = {};
                 this.itemArrays = [];
-                // this.resetCart();
-
                 alertService.success(this.$t('message.add_to_cart'));
                 appService.modalHide('#item-variation-modal');
             }).catch(error => {
@@ -592,6 +549,7 @@ export default {
             return appService.floatNumber(e);
         },
         currencyFormat: function (amount, decimal, currency, position) {
+            console.log(amount)
             return appService.currencyFormat(amount, decimal, currency, position);
         },
         search: function () {

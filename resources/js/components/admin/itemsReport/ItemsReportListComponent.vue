@@ -296,8 +296,10 @@ export default {
             return addThousandsSeparators(total,'');
         },
         totalEarning(items) {
+            // itemsReport.convert_price * itemsReport.order
             const total =  items.reduce((acc, ele) => {
-                return acc + parseInt(ele.price);
+                // return acc + parseInt(ele.price);
+                return acc + parseInt(ele.convert_price) * parseInt(ele.order);
             }, 0);
             return addThousandsSeparators(total,this.setting.site_default_currency_symbol);
         },
