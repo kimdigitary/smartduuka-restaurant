@@ -589,7 +589,7 @@ export default {
         },
         applyDiscount: function () {
             this.discountErrorMessage = "";
-            if (this.discountType == discountTypeEnum.FIXED) {
+            if (this.discountType === discountTypeEnum.FIXED) {
                 if (this.subtotal < this.discount) {
                     this.discountErrorMessage = this.$t('message.discount_fixed_error_message');
                 } else {

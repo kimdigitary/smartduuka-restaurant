@@ -354,11 +354,14 @@ export default {
             });
         },
 
-        edit: function (product) {
+        edit: function (order) {
             this.loading.isActive = true;
-            this.$store.dispatch('posCart/resetCart').then(res => {
+            this.$store.dispatch('posCart/resetCart').then(()=>{
+                // this.$store.dispatch('posOrder/edit', order.id);
+                this.$store.dispatch('posCart/lists', order.order_items);
+                this.loading.isActive = false;
             }).catch();
-            this.$store.dispatch('posOrder/edit', product.id);
+            // this.$store.dispatch('posOrder/edit', order.id);
             this.loading.isActive = false;
         },
         statusClass: function (status) {

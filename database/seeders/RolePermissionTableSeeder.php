@@ -10,12 +10,7 @@ use Spatie\Permission\Models\Role;
 
 class RolePermissionTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run() : void
     {
         $adminRole = Role::find(EnumRole::ADMIN);
         $adminRole?->givePermissionTo(Permission::all());

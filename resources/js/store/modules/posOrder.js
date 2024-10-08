@@ -118,7 +118,7 @@ export const posOrder = {
         edit: function (context, payload) {
             return new Promise((resolve, reject) => {
                 axios.get(`admin/pos-order/show/${payload}`).then((res) => {
-                    context.commit('edit', res.data.data);
+                    context.commit('lists', res.data.data);
                     context.commit('temp', payload);
                     resolve(res);
                 }).catch((err) => {
