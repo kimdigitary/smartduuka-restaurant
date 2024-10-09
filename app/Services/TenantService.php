@@ -88,10 +88,7 @@ class TenantService
 
             // send email to tenant admin
             $mailerSend = new MailerSend(['api_key' => config('mail.mail_send.api_key')]);
-
-            $recipient = [
-                new Recipient($admin->email, 'Recipient'),
-            ];
+            $recipient = [new Recipient($admin->email, 'Recipient')];
 
             $emailParams = (new EmailParams())
                 ->setFrom('MS_H0p2BB@trial-351ndgw25pxgzqx8.mlsender.net')
@@ -137,7 +134,14 @@ class TenantService
     public function destroy($tenant): void
     {
         try {
-            Tenant::find($tenant)->delete();
+            // delete tenant user
+            TenantUser::where('tenant_id', $tenant)->delete();
+
+            $tenant = Tenant::find($tenant);
+
+            User::where('username', $tenant->username)->delete();
+
+            $tenant->delete();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
