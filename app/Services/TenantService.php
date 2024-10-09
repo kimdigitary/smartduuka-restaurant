@@ -98,10 +98,14 @@ class TenantService
                 ->setFromName('Smart Duuka')
                 ->setRecipients($recipient)
                 ->setSubject('New Account Creation')
-                ->setHtml('This is the HTML content')
-                ->setText('This is the text content');
-
-
+                ->setHtml('<h4>Welcome to Smart Duuka</h4>
+                        <p>This is to inform you that an account has been created for you to start using Smart Duuka.</p>
+                        <p>Here are the logins for your account: </p>
+                        <ul>
+                            <li><strong>Link</strong> https://'.$createTenant->username.'.smartduuka.com/</li>
+                            <li><strong>Email</strong> '. $createTenant->email. '</li>
+                            <li><strong>Password</strong> 123456</li>
+                        </ul>');
 
             $mailerSend->email->send($emailParams);
 
