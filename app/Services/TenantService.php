@@ -94,7 +94,7 @@ class TenantService
             ];
 
             $emailParams = (new EmailParams())
-                ->setFrom('info@smartduuka.com')
+                ->setFrom('markbrightbaraka@gmail.com')
                 ->setFromName('Smart Duuka')
                 ->setRecipients($recipient)
                 ->setSubject('New Account Creation')
