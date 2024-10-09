@@ -307,13 +307,6 @@
                             'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
                         ]
                     );
-//                    PosPayment::create([
-//                        'order_id'       => $this->order->id ,
-//                        'amount'         => $request->amount ,
-//                        'date'           => date('Y-m-d H:i:s' , strtotime($request->date)) ,
-//                        'reference_no'   => $request->reference_no ,
-//                        'payment_method' => $request->payment_method ,
-//                    ]);
 
                     $i            = 0;
                     $totalTax     = 0;
@@ -351,6 +344,12 @@
                                             throw new Exception("$_item->name $ingredient->name ingredient out of stock" , 422);
                                         }
                                     }
+                                }
+                            }
+                            if ( $_item->is_stockable == Ask::YES ) {
+                                $stock = Stock::where([ 'model_type' => Item::class , 'item_id' => $item->item_id ])->first();
+                                if ( $stock->quantity < $item->quantity ) {
+                                    throw new Exception("$_item->name out of stock" , 422);
                                 }
                             }
 
@@ -551,16 +550,18 @@
 
                     if ( $request->status == OrderStatus::PROCESSING || $request->status == OrderStatus::DELIVERED ) {
                         if ( $request->orderItemID ) {
-                            $order_item = OrderItem::find($request->orderItemID);
-                            $order_item->update([ 'status' => $request->orderItemStatus ]);
+//                            $order_item = OrderItem::find($request->orderItemID);
+//                            $order_item->update([ 'status' => $request->orderItemStatus ]);
+
+                            OrderItem::find($request->orderItemID)->update([ 'status' => $request->orderItemStatus ]);
                         }
                         $order->status = $request->status;
                         $order->save();
                     }
                     if ( $request->status == OrderStatus::PREPARED ) {
-                        foreach ( $order->items as $order_item ) {
+                        foreach ( $order->items as $item ) {
 //                            $item_variations = json_decode($order_item->item_variations);
-                            $item_variations = $order_item->variations;
+                            $item_variations = $item->variations;
                             if ( $item_variations ) {
                                 foreach ( $item_variations as $item_variation ) {
                                     foreach ( ItemVariation::find($item_variation->id)->ingredients as $ingredient ) {
@@ -571,22 +572,19 @@
                                     }
                                 }
                             }
-//                            if ( $item_addons ) {
-//                                foreach ( $item_addons as $item_addon ) {
-//                                    foreach ( ItemAddon::find($item_addon->id)->ingredients as $ingredient ) {
-//                                        $stock = Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->first();
-//                                        if ( $stock->quantity > $ingredient->pivot->quantity ) {
-//                                            $stock->decrement('quantity' , $ingredient->pivot->quantity);
-//                                        }
-//                                    }
-//                                }
-//                            }
+
                             if ( ! $item_variations ) {
-                                if ( $order_item->is_stockable == Ask::NO && $order_item->ingredients ) {
-                                    foreach ( $order_item->ingredients as $ingredient ) {
+                                if ( $item->is_stockable == Ask::NO && $item->ingredients ) {
+                                    foreach ( $item->ingredients as $ingredient ) {
                                         Stock::where([ 'model_type' => Ingredient::class , 'item_id' => $ingredient->id ])->decrement('quantity' , $ingredient->pivot->quantity);
                                     }
                                 }
+                            }
+                        }
+                        foreach ( $order->orderItems as $orderItem ) {
+                            $item = $orderItem->orderItem;
+                            if ( $item->is_stockable == Ask::YES ) {
+                                Stock::where([ 'model_type' => Item::class , 'item_id' => $item->id ])->decrement('quantity' , $orderItem->quantity);
                             }
                         }
 
