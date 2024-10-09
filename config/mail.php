@@ -116,7 +116,7 @@ return [
     ],
 
     'mail_send' => [
-        'api_key' => 'mlsn.8cd8bdd16f467e4d0621f345ea72821aa70ff0af41c94ed4e558f875dc9dd185',
+        'api_key' => 'mlsn.29b59f83e7bb3e8a1cd63443c63c14a328053e85f3ded955516a2944b3650f16'//'mlsn.8cd8bdd16f467e4d0621f345ea72821aa70ff0af41c94ed4e558f875dc9dd185',
     ],
 
 ];
