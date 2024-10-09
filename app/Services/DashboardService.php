@@ -105,6 +105,7 @@
                     $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
                 }
                 return Order::where('payment_status' , PaymentStatus::PAID)->whereDate('order_datetime' , '>=' , $first_date)->whereDate('order_datetime' , '<=' , $last_date)->sum('total');
+
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 throw new Exception($exception->getMessage() , 422);
