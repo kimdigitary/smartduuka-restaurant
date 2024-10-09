@@ -12,6 +12,7 @@
         "anandsiddharth/laravel-paytm-wallet": "^2.0",
         "dipesh79/laravel-phonepe": "*",
         "dipokhalder/laravel-env-editor": "^1.0",
+        "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "iyzico/iyzipay-php": "^2.0",
         "kingflamez/laravelrave": "dev-master",
@@ -21,14 +22,18 @@
         "laravel/ui": "^4.1",
         "loveycom/cashfree": "^2.1",
         "maatwebsite/excel": "^3.1",
+        "mailersend/mailersend": "^0.27.0",
         "mollie/laravel-mollie": "^2.23",
         "nyawach/laravel-pesapal": "^1.1",
+        "nyholm/psr7": "^1.8",
         "obydul/laraskrill": "*",
+        "php-http/guzzle7-adapter": "^1.0",
         "pragmarx/countries": "^0.8.2",
         "razorpay/razorpay": "^2.8",
         "santigraviano/laravel-mercadopago": "^1.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "smartisan/laravel-settings": "^2.1.0",
+        "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-medialibrary": "^10.5",
         "spatie/laravel-permission": "^5.6",
         "srmklive/paypal": "~3.0",
@@ -36,10 +41,7 @@
         "stripe/stripe-php": "^10.11",
         "twilio/sdk": "^7.0",
         "unicodeveloper/laravel-paystack": "^1.1",
-        "vonage/client": "^4.0",
-        "spatie/laravel-ignition": "^2.0",
-        "doctrine/dbal": "^3.0"
-
+        "vonage/client": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

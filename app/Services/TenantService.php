@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TenantRequest;
 use App\Http\Requests\PaginateRequest;
+use MailerSend\Helpers\Builder\EmailParams;
+use MailerSend\Helpers\Builder\Recipient;
+use MailerSend\MailerSend;
 use Smartisan\Settings\Facades\Settings;
 
 
@@ -82,6 +85,25 @@ class TenantService
                 'tenant_id' => $createTenant->id,
                 'user_id' => $admin->id
             ]);
+
+            // send email to tenant admin
+            $mailerSend = new MailerSend(['api_key' => config('mail.mail_send.api_key')]);
+
+            $recipient = [
+                new Recipient($admin->email, 'Recipient'),
+            ];
+
+            $emailParams = (new EmailParams())
+                ->setFrom('info@smartduuka.com')
+                ->setFromName('Smart Duuka')
+                ->setRecipients($recipient)
+                ->setSubject('New Account Creation')
+                ->setHtml('This is the HTML content')
+                ->setText('This is the text content');
+
+
+
+            $mailerSend->email->send($emailParams);
 
             return $createTenant;
 
