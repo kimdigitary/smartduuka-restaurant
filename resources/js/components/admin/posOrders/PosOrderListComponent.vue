@@ -322,6 +322,7 @@ export default {
         },
     },
     methods: {
+
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
