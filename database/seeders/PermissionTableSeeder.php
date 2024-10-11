@@ -62,6 +62,48 @@
                     ]
                 ] ,
                 [
+                    'title'      => 'Payments' ,
+                    'name'       => 'payments' ,
+                    'guard_name' => 'sanctum' ,
+                    'url'        => 'payments' ,
+                    'created_at' => now() ,
+                    'updated_at' => now() ,
+                    'children'   => [
+                        [
+                            'title'      => 'Payments Create' ,
+                            'name'       => 'payments_create' ,
+                            'guard_name' => 'sanctum' ,
+                            'url'        => 'payments/create' ,
+                            'created_at' => now() ,
+                            'updated_at' => now() ,
+                        ] ,
+                        [
+                            'title'      => 'Payments Edit' ,
+                            'name'       => 'payments_edit' ,
+                            'guard_name' => 'sanctum' ,
+                            'url'        => 'payments/edit' ,
+                            'created_at' => now() ,
+                            'updated_at' => now() ,
+                        ] ,
+                        [
+                            'title'      => 'Payments Delete' ,
+                            'name'       => 'payments_delete' ,
+                            'guard_name' => 'sanctum' ,
+                            'url'        => 'payments/delete' ,
+                            'created_at' => now() ,
+                            'updated_at' => now() ,
+                        ] ,
+                        [
+                            'title'      => 'Payments Show' ,
+                            'name'       => 'payments_show' ,
+                            'guard_name' => 'sanctum' ,
+                            'url'        => 'payments/show' ,
+                            'created_at' => now() ,
+                            'updated_at' => now() ,
+                        ]
+                    ]
+                ] ,
+                [
                     'title'      => 'Ingredients' ,
                     'name'       => 'ingredients' ,
                     'guard_name' => 'sanctum' ,

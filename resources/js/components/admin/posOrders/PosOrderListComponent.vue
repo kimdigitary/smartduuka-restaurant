@@ -87,9 +87,9 @@
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
                                 <SmAddPaymentComponent @click="addPayment(order)" data-modal="#purchasePayment"
-                                                       v-if="permissionChecker('pos_orders_delete')"/>
+                                                       v-if="permissionChecker('payments_create')"/>
                                 <smViewPaymentComponent @click="paymentList(order.id)" data-modal="#purchasePaymentList"
-                                                        v-if="permissionChecker('pos_orders_delete')"/>
+                                                        v-if="permissionChecker('payments_show')"/>
                             </div>
                         </td>
                     </tr>
