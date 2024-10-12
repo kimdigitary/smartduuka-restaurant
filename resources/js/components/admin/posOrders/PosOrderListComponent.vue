@@ -23,13 +23,13 @@
                             <label for="order_serial_no" class="db-field-title after:hidden">Order ID</label>
                             <input id="order_serial_no" v-model="props.search.order_serial_no" type="text" class="db-field-control"/>
                         </div>
-<!--                        <div class="col-12 sm:col-6 md:col-4 xl:col-3 z-50">-->
-<!--                            <label for="dining_table_id" class="db-field-title after:hidden">Table</label>-->
-<!--                            <vue-select class="db-field-control f-b-custom-select" id="dining_table_id"-->
-<!--                                        v-model="props.search.dining_table_id" :options="diningTables" label-by="name"-->
-<!--                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="&#45;&#45;"-->
-<!--                                        search-placeholder="&#45;&#45;"/>-->
-<!--                        </div>-->
+                        <!--                        <div class="col-12 sm:col-6 md:col-4 xl:col-3 z-50">-->
+                        <!--                            <label for="dining_table_id" class="db-field-title after:hidden">Table</label>-->
+                        <!--                            <vue-select class="db-field-control f-b-custom-select" id="dining_table_id"-->
+                        <!--                                        v-model="props.search.dining_table_id" :options="diningTables" label-by="name"-->
+                        <!--                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="&#45;&#45;"-->
+                        <!--                                        search-placeholder="&#45;&#45;"/>-->
+                        <!--                        </div>-->
 
                         <div class="col-12">
                             <div class="flex flex-wrap gap-3 mt-4">
@@ -322,6 +322,7 @@ export default {
         },
     },
     methods: {
+
         permissionChecker(e) {
             return appService.permissionChecker(e);
         },
@@ -356,9 +357,17 @@ export default {
 
         edit: function (order) {
             this.loading.isActive = true;
-            this.$store.dispatch('posCart/resetCart').then(()=>{
-                // this.$store.dispatch('posOrder/edit', order.id);
-                this.$store.dispatch('posCart/lists', order.order_items);
+            this.$store.dispatch('posCart/resetCart').then(() => {
+                this.$store.dispatch('posCart/lists', order.order_items).then(() => {
+                    this.$store.dispatch('posOrder/edit', order.id).then(() => {
+                        this.loading.isActive = false;
+                    }).catch((err) => {
+                        this.loading.isActive = false;
+                    });
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                });
+
                 this.loading.isActive = false;
             }).catch();
             // this.$store.dispatch('posOrder/edit', order.id);
