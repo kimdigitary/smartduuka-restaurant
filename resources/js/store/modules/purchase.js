@@ -12,6 +12,7 @@ export const purchase = {
         showReceiptModal: false,
         selectedOrder: {},
         viewPayment: {},
+        payments:[],
         paymentMethod: '',
         edit: {},
         pagination: [],
@@ -45,6 +46,9 @@ export const purchase = {
         },
         viewPayment: function (state) {
             return state.viewPayment;
+        },
+        payments: function (state) {
+            return state.payments;
         },
         edit: function (state) {
             return state.edit;
@@ -365,7 +369,7 @@ export const purchase = {
             state.show = payload;
         },
         viewPayment: function (state, payload) {
-            state.showReceiptModal = payload;
+            state.viewPayment = payload;
         },
         showReceipt: function (state, payload) {
             state.showReceiptModal = payload;

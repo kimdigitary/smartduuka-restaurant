@@ -20,7 +20,7 @@
                     <!--                        {{ purchasePayment.converted_date }}-->
                     <!--                    </td>-->
                     <td class="db-table-body-td">
-                        {{ purchasePayment.reference_no }}
+                        {{ purchasePayment.reference_no??'NA' }}
                     </td>
                     <td class="db-table-body-td">
                         {{ purchasePayment.amount }} <span v-if="purchasePayment.file">
