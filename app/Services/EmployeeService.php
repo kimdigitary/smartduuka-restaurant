@@ -21,7 +21,7 @@
         public $phoneFilter = [ 'phone' ];
         public $roleFilter  = [ 'role_id' ];
         public $userFilter  = [ 'name' , 'email' , 'username' , 'branch_id' , 'status' , 'phone' ];
-        public $blockRoles  = [ EnumRole::ADMIN , EnumRole::CUSTOMER , EnumRole::WAITER , EnumRole::CHEF ];
+        public $blockRoles  = [  EnumRole::CUSTOMER , EnumRole::WAITER , EnumRole::CHEF ];
 
 
         /**
@@ -136,11 +136,11 @@
         public function show(User $employee) : User
         {
             try {
-                if ( ! in_array(optional($employee->roles[0])->id , $this->blockRoles) ) {
                     return $employee;
-                } else {
-                    throw new Exception(trans('all.message.permission_denied') , 422);
-                }
+//                if ( ! in_array(optional($employee->roles[0])->id , $this->blockRoles) ) {
+//                } else {
+//                    throw new Exception(trans('all.message.permission_denied') , 422);
+//                }
             } catch ( Exception $exception ) {
                 Log::info($exception->getMessage());
                 throw new Exception($exception->getMessage() , 422);
