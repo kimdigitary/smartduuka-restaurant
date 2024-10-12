@@ -24,7 +24,6 @@ Password: KSaIJqGooLiVPy8
 cd /home/moodbox@smartduuka/public_html
 cd /home/villagio@smartduuka/public_html
 
-
 https://docs.google.com/spreadsheets/d/1gcFhztZNnkdsBFHMure5dyQsFnlkaLcy/edit#gid=1882953536
 https://resto.codehas.net/
 UPDATE `orders` SET `status`=1 WHERE 1;
