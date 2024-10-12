@@ -305,7 +305,7 @@ export default {
                     items: []
                 }
             },
-            paymentMethod: "4", // default payment method
+            paymentMethod: "4",
             deliveryCharge: 0,
             showDeliveryCharge: false,
 
@@ -493,7 +493,7 @@ export default {
                     quantity: item.quantity,
                     discount: item.discount,
                     currency_price: (item.total_currency_price),
-                    convert_price: item?.total_convert_price,
+                    convert_price: item?.total_convert_price / item?.quantity,
                     // item_variations: JSON.stringify(item?.item_variations),
                     item_variations: item?.item_variations,
                     // item_extras: JSON.stringify(item?.item_extras),
@@ -507,7 +507,6 @@ export default {
             });
             this.$store.dispatch("posCart/lists", itemArrays).then((res) => {
                 this.itemArrays = [];
-                alertService.success(this.$t('message.add_to_cart'));
                 appService.modalHide('#item-variation-modal');
             }).catch(error => {
                 console.log(error)
@@ -549,7 +548,6 @@ export default {
             return appService.floatNumber(e);
         },
         currencyFormat: function (amount, decimal, currency, position) {
-            console.log(amount)
             return appService.currencyFormat(amount, decimal, currency, position);
         },
         search: function () {

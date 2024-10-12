@@ -261,7 +261,6 @@ export default {
 
     permissionChecker: function (permissionName) {
         let i, permissions = store.getters.authPermission;
-        console.log(permissions);
         for (i = 0; i < permissions.length; i++) {
             if (typeof permissions[i].name !== "undefined" && permissions[i].name) {
                 if (permissions[i].name === permissionName) {
