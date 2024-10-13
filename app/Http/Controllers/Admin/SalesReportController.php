@@ -6,6 +6,10 @@ use App\Http\Resources\SimpleOrderResource;
 use Exception;
 use App\Services\OrderService;
 use App\Exports\SalesReportExport;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\PaginateRequest;
 
@@ -14,7 +18,7 @@ class SalesReportController extends AdminController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
 
     private OrderService $orderService;
@@ -26,7 +30,7 @@ class SalesReportController extends AdminController
         $this->middleware(['permission:sales-report'])->only('index', 'export');
     }
 
-    public function index(PaginateRequest $request): \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function index(PaginateRequest $request): Response | AnonymousResourceCollection | Application | ResponseFactory
     {
         try {
             return SimpleOrderResource::collection($this->orderService->list($request));
@@ -35,7 +39,7 @@ class SalesReportController extends AdminController
         }
     }
 
-    public function export(PaginateRequest $request): \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    public function export(PaginateRequest $request): Response | \Symfony\Component\HttpFoundation\BinaryFileResponse | Application | ResponseFactory
     {
         try {
             return Excel::download(new SalesReportExport($this->orderService, $request), 'Sales-Report.xlsx');

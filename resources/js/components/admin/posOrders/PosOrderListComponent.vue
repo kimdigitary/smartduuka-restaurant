@@ -333,6 +333,7 @@ export default {
             this.loading.isActive = false;
         },
         addPayment: function (order) {
+            this.$store.dispatch("purchase/showReceiptModal", false);
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
             this.order = order;
