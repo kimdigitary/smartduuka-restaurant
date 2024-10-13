@@ -36,6 +36,13 @@
                 "delivery_charge_currency_price" => AppLibrary::currencyAmountFormat($this->delivery_charge) ,
 //                'payment_method'                 => $this->payment_method ,
                 'payment_method'                 => $this->paymentMethod ,
+                'payment_methods'                     => $this->paymentMethods
+                    ->map(function ($paymentMethod) {
+                        return $paymentMethod->paymenMethod ? ucfirst($paymentMethod->paymenMethod->name) : null;
+                    })
+                    ->filter()
+                    ->unique()
+                    ->implode(', ') ,
                 'payment_status'                 => $this->payment_status ,
                 'preparation_time'               => $this->preparation_time ,
                 'order_type'                     => $this->order_type ,
