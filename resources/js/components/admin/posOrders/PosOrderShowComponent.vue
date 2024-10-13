@@ -27,9 +27,9 @@
                             <span class="text-xs">{{ order.order_datetime }}</span>
                         </li>
                         <li class="text-xs">
-                            {{ $t('label.payment_type') }}:
+                            {{ $t('label.payment_method') }}:
                             <span class="text-heading">
-                                {{ $t('label.cash') }}
+                                {{ order.payment_method?order.payment_method.name:'NA'}}
                             </span>
                         </li>
                         <li class="text-xs">
@@ -280,6 +280,7 @@ export default {
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
                     [orderStatusEnum.CANCELED]: this.$t("label.canceled"),
+                    [orderStatusEnum.PREPARED]: this.$t("label.prepared"),
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
@@ -307,9 +308,14 @@ export default {
                     {
                         name: this.$t("label.delivered"),
                         value: orderStatusEnum.DELIVERED,
-                    }, {
+                    },
+                    {
                         name: this.$t("label.pending"),
                         value: orderStatusEnum.PENDING,
+                    },
+                    {
+                        name: this.$t("label.prepared"),
+                        value: orderStatusEnum.PREPARED,
                     },
                 ],
             },

@@ -107,7 +107,7 @@
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
                             <th class="db-table-head-th">{{ $t('label.discount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.payment_type') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.payment_method') }}</th>
                             <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
                             <th class="db-table-head-th">{{ $t('label.total') }}</th>
                         </tr>
