@@ -94,6 +94,7 @@
                         <i class="lab lab-close"></i>
                         <span class="text-sm capitalize text-white">Cancel</span>
                     </button>
+
                 </div>
             </div>
         </div>
