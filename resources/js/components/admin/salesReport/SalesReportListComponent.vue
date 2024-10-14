@@ -107,7 +107,7 @@
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
                             <th class="db-table-head-th">{{ $t('label.discount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.payment_type') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.payment_method') }}</th>
                             <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
                             <th class="db-table-head-th">{{ $t('label.total') }}</th>
                         </tr>
@@ -118,14 +118,15 @@
                             <td class="db-table-body-td">{{ salesReport.order_datetime }}</td>
                             <td class="db-table-body-td">{{ salesReport.discount_amount_price }}</td>
                             <td class="db-table-body-td">{{ salesReport.delivery_charge_amount_price }}</td>
-                            <td class="db-table-body-td">
-                                <span v-if="salesReport.transaction">
-                                    {{ salesReport.transaction.payment_method }}
-                                </span>
-                                <span v-else>
-                                    {{ enums.paymentTypeEnumArray[salesReport.payment_method] }}
-                                </span>
-                            </td>
+                            <td class="db-table-body-td"> {{ salesReport.payment_method?salesReport.payment_method.name:'NA'}}</td>
+<!--                            <td class="db-table-body-td">-->
+<!--                                <span v-if="salesReport.transaction">-->
+<!--                                    {{ salesReport.transaction.payment_method }}-->
+<!--                                </span>-->
+<!--                                <span v-else>-->
+<!--                                    {{ enums.paymentTypeEnumArray[salesReport.payment_method] }}-->
+<!--                                </span>-->
+<!--                            </td>-->
                             <td class="db-table-body-td">
                                 <span :class="statusClass(salesReport.payment_status)">
                                     {{ enums.paymentStatusEnumArray[salesReport.payment_status] }}

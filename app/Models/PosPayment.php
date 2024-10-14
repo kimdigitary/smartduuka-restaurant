@@ -26,4 +26,9 @@
                 return $product->getUrl();
             }
         }
+
+        public function paymenMethod()
+        {
+            return $this->belongsTo(PaymentMethod::class , 'payment_method');
+        }
     }

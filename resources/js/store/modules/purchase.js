@@ -12,7 +12,7 @@ export const purchase = {
         showReceiptModal: false,
         selectedOrder: {},
         viewPayment: {},
-        payments:[],
+        payments: [],
         paymentMethod: '',
         edit: {},
         pagination: [],
@@ -262,7 +262,7 @@ export const purchase = {
                 let method = axios.post;
                 let url = `admin/purchase/payment/${this.state['purchase'].temp.temp_id}`;
                 method(url, payload.form).then(res => {
-                    context.dispatch('lists', {vuex: true,type:this.state['purchase'].type}).then().catch();
+                    context.dispatch('lists', {vuex: true, type: this.state['purchase'].type}).then().catch();
                     context.commit('reset');
                     resolve(res);
                 }).catch((err) => {
@@ -270,8 +270,8 @@ export const purchase = {
                 });
             })
         },
-        showReceiptModal({ commit }) {
-            commit('showReceipt', true);
+        showReceiptModal(context, payload = true) {
+            context.commit('showReceipt', payload);
         },
         setSelectedOrder(context, payload) {
             context.commit('setSelectedOrder', payload);
@@ -285,7 +285,7 @@ export const purchase = {
                 let method = axios.post;
                 let url = `admin/purchase/pos-payment/${this.state['purchase'].temp.temp_id}`;
                 method(url, payload.form).then(res => {
-                    context.dispatch('lists', {vuex: true,type:this.state['purchase'].type}).then().catch();
+                    context.dispatch('lists', {vuex: true, type: this.state['purchase'].type}).then().catch();
                     context.commit('reset');
                     resolve(res);
                 }).catch((err) => {
@@ -309,7 +309,7 @@ export const purchase = {
                 })
             })
         },
-         viewPosPayment: function (context, payload) {
+        viewPosPayment: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/purchase/pos-payment/${this.state['purchase'].temp.temp_id}`;
                 if (payload) {
