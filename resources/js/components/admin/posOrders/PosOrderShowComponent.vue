@@ -402,6 +402,7 @@ export default {
                 alertService.error(err.response.data.message);
             }
         },
+
         rejectOrder: function () {
             try {
                 this.loading.isActive = true;
