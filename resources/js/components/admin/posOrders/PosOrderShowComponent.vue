@@ -29,7 +29,7 @@
                         <li class="text-xs">
                             {{ $t('label.payment_method') }}:
                             <span class="text-heading">
-                                {{ order.payment_method?order.payment_method.name:'NA'}}
+                                {{ order.payment_method ? order.payment_method.name : 'NA' }}
                             </span>
                         </li>
                         <li class="text-xs">
@@ -86,9 +86,11 @@
                                     $t('button.print_receipt') : $t('button.print_invoice')
                             }}</span>
                     </button>
-                    <button :disabled="!permissionChecker('pos_orders_cancel')" v-if="permissionChecker('pos_orders_cancel')" type="button"
+                    <!--                    <button :disabled="!permissionChecker('pos_orders_cancel')" v-if="permissionChecker('pos_orders_cancel')" type="button"-->
+                    <button :disabled="!permissionChecker('pos_orders_cancel')" type="button"
                             @click="reasonModal" data-modal="#reasonModal"
-                            class="flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]">
+                            :class="['flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]',
+                  !permissionChecker('pos_orders_cancel') ? 'cursor-not-allowed' : '']">
                         <i class="lab lab-close"></i>
                         <span class="text-sm capitalize text-white">Cancel</span>
                     </button>
