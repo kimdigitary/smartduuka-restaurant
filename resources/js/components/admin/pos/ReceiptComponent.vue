@@ -155,7 +155,7 @@
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
                     <div class="flex justify-between">
                         <p>Payment Methods:</p>
-<!--                        <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>-->
+                        <!--                        <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>-->
                         <p class="font-bold">{{ selectedOrder?.payment_methods }}</p>
                     </div>
 
