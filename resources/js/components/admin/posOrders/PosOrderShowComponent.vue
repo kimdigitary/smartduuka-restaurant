@@ -362,6 +362,7 @@ export default {
             appService.modalShow("#reasonModal");
         },
         printInvoiceOrReceipt: function (order) {
+            console.log(order.payment_status);
             if (order.payment_status === PaymentStatusEnum.PAID) {
                 // this.$refs.print.print();
                 appService.modalShow("#receiptModal");
