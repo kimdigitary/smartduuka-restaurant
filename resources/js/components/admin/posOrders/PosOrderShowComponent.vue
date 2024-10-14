@@ -368,7 +368,6 @@ export default {
             } else {
                 appService.modalShow("#invoiceModal");
             }
-
         },
         orderStatusClass: function (status) {
             return appService.orderStatusClass(status);
