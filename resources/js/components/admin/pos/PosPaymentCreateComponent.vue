@@ -10,15 +10,31 @@
     <div class="modal-body">
         <form @submit.prevent="save">
             <div class="form-row">
+<!--                <div class="form-col-12 sm:form-col-6">-->
+<!--                    <label for="amount" class="db-field-title required text-primary">Amount to be Paid</label>-->
+<!--                    <input readonly v-on:keypress="onlyNumber($event)" v-on:keyup="paymentAmount($event)" v-model="form.amount"-->
+<!--                           v-bind:class="errors.amount ? 'invalid' : ''" type="text" id="amount" class="db-field-control text-primary"/>-->
+<!--                    <small class="db-field-alert" v-if="errors.amount">{{-->
+<!--                            errors.amount[0]-->
+<!--                        }}</small>-->
+<!--                </div> -->
                 <div class="form-col-12 sm:form-col-6">
-                    <label for="amount" class="db-field-title required">{{
-                            $t("label.amount")
-                        }}</label>
-                    <input v-on:keypress="onlyNumber($event)" v-on:keyup="paymentAmount($event)" v-model="form.amount"
-                           v-bind:class="errors.amount ? 'invalid' : ''" type="text" id="amount" class="db-field-control"/>
+                    <label for="amount" class="db-field-title required text-primary">Amount to Pay</label>
+                    <input  v-on:keypress="onlyNumber($event)" v-on:keyup="paymentAmount($event)" v-model="form.amount"
+                           v-bind:class="errors.amount ? 'invalid' : ''" type="text" id="amount" class="db-field-control text-primary"/>
                     <small class="db-field-alert" v-if="errors.amount">{{
                             errors.amount[0]
                         }}</small>
+                </div>
+<!--                <div class="form-col-12 sm:form-col-6">-->
+<!--                    <label for="paid" class="db-field-title required">Amount Paid</label>-->
+<!--                    <input v-on:keypress="onlyNumber($event)" v-model="form.paid"-->
+<!--                           v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>-->
+<!--                </div>  -->
+                <div class="form-col-12 sm:form-col-6">
+                    <label for="paid" class="db-field-title required">Amount Received</label>
+                    <input v-on:keypress="onlyNumber($event)" v-model="form.paid"
+                           v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>
                 </div>
                 <div class="form-col-12 sm:form-col-6">
                     <label for="reference_no" class="db-field-title">{{
@@ -43,11 +59,7 @@
                             errors.payment_method[0]
                         }}</small>
                 </div>
-                <div class="form-col-12 sm:form-col-6">
-                    <label for="paid" class="db-field-title">Paid</label>
-                    <input v-on:keypress="onlyNumber($event)" v-model="form.paid"
-                           v-bind:class="errors.paid ? 'invalid' : ''" type="text" id="paid" class="db-field-control"/>
-                </div>
+
                 <div class="form-col-12 sm:form-col-6">
                     <label for="change" class="db-field-title ">Change</label>
                     <input v-model="computedChange"
