@@ -118,7 +118,8 @@
                             <td class="db-table-body-td">{{ salesReport.order_datetime }}</td>
                             <td class="db-table-body-td">{{ salesReport.discount_amount_price }}</td>
                             <td class="db-table-body-td">{{ salesReport.delivery_charge_amount_price }}</td>
-                            <td class="db-table-body-td"> {{ salesReport.payment_method?salesReport.payment_method.name:'NA'}}</td>
+<!--                            <td class="db-table-body-td"> {{ salesReport.payment_method?salesReport.payment_method.name:'NA'}}</td>-->
+                            <td class="db-table-body-td"> {{ salesReport.payment_methods?salesReport.payment_methods:'NA'}}</td>
 <!--                            <td class="db-table-body-td">-->
 <!--                                <span v-if="salesReport.transaction">-->
 <!--                                    {{ salesReport.transaction.payment_method }}-->

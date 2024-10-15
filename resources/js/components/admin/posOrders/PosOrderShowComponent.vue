@@ -29,7 +29,7 @@
                         <li class="text-xs">
                             {{ $t('label.payment_method') }}:
                             <span class="text-heading">
-                                {{ order.payment_method ? order.payment_method.name : 'NA' }}
+                                {{ order.payment_methods ? order.payment_methods : 'NA' }}
                             </span>
                         </li>
                         <li class="text-xs">

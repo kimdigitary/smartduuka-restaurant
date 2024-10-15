@@ -42,7 +42,7 @@
                     })
                     ->filter()
                     ->unique()
-                    ->implode(', ') ,
+                    ->implode(' and ') ,
                 'payment_status'                 => $this->payment_status ,
                 'preparation_time'               => $this->preparation_time ,
                 'order_type'                     => $this->order_type ,

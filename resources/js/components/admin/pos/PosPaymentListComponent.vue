@@ -9,9 +9,9 @@
                     <th class="db-table-head-th">{{ $t("label.reference_no") }}</th>
                     <th class="db-table-head-th">{{ $t("label.amount") }}</th>
                     <th class="db-table-head-th">{{ $t("label.payment_method") }}</th>
-                    <th class="db-table-head-th">
-                        {{ $t("label.action") }}
-                    </th>
+<!--                    <th class="db-table-head-th">-->
+<!--                        {{ $t("label.action") }}-->
+<!--                    </th>-->
                 </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
@@ -34,10 +34,10 @@
                     <td class="db-table-body-td">
                         {{ purchasePayment.payment_method }}
                     </td>
-                    <td class="db-table-body-td">
-                        <SmIconDeleteComponent @click="destroy(purchasePayment.id)"
-                                               v-if="permissionChecker('purchase_delete')"/>
-                    </td>
+<!--                    <td class="db-table-body-td">-->
+<!--                        <SmIconDeleteComponent @click="destroy(purchasePayment.id)"-->
+<!--                                               v-if="permissionChecker('purchase_delete')"/>-->
+<!--                    </td>-->
                 </tr>
                 </tbody>
             </table>
