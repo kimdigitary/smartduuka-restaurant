@@ -130,13 +130,13 @@
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.price" @click=" $event.target.select()" type="number"
-                                                   min="1" class="db-field-control">
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
+                                                   type="text"
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             {{ floatFormat(item.total) }}
@@ -225,7 +225,7 @@
                                             v-model="props.form.payment_method" :options="paymentMethods"
                                             label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                             :clearOnClose="true"
-                                            placeholder="--" search-placeholder="--" />
+                                            placeholder="--" search-placeholder="--"/>
                                 <small class="db-field-alert" v-if="errors.payment_method">
                                     {{ errors.payment_method }}
                                 </small>
@@ -248,7 +248,7 @@
                                     {{ $t("label.file") }}
                                 </label>
                                 <input @change="changePaymentFile" v-bind:class="errors.paymentFile ? 'invalid' : ''" id="payment-file" type="file"
-                                       class="db-field-control" ref="paymentFileProperty" accept="file/png, file/jpeg, file/jpg" />
+                                       class="db-field-control" ref="paymentFileProperty" accept="file/png, file/jpeg, file/jpg"/>
                                 <small class="db-field-alert" v-if="errors.paymentFile">{{
                                         errors.paymentFile[0]
                                     }}</small>
@@ -284,10 +284,10 @@ import ProductModalComponent from "../../components/product/ProductModalComponen
 import SmIconSidebarModalEditComponent from "../../components/buttons/SmIconSidebarModalEditComponent.vue";
 import purchaseStatusEnum from "../../../../enums/modules/purchaseStatusEnum";
 import askEnum from "../../../../enums/modules/askEnum";
+import AskEnum from "../../../../enums/modules/askEnum";
 import {paymentMethods} from "../../../../utils/data";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import appService from "../../../../services/appService";
-import AskEnum from "../../../../enums/modules/askEnum";
 import alertService from "../../../../services/alertService";
 
 export default {
@@ -331,7 +331,7 @@ export default {
                     total: null,
                     status: null,
                     note: "",
-                    addPayment:askEnum.NO,
+                    addPayment: askEnum.NO,
                     amount: "",
                     payment_date: "",
                     payment_method: "",
@@ -488,7 +488,7 @@ export default {
             let total_tax_rate = 0;
             let totalDiscount = this.selectedProduct.discount * this.selectedProduct.quantity;
 
-            total_tax = this.selectedProduct.tax.tax_rate
+            total_tax = this.selectedProduct.tax.tax_rate ?? 0
 
             let finalItem = {
                 mode: this.selectedProduct.mode,
@@ -676,6 +676,12 @@ export default {
             this.props.form.purchase_id = 0;
             this.props.form.supplier_id = null;
             this.props.form.date = "";
+            this.props.form.payment_method = null;
+            this.props.form.date = "";
+            this.props.form.payment_date = "";
+            this.props.form.reference_no = "";
+            this.props.form.amount = "";
+            this.props.form.reference_no = "";
             this.props.form.reference_no = "";
             this.props.form.total = null;
             this.props.form.status = null;
