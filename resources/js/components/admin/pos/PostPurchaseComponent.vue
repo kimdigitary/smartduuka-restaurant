@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-        <div class="col-12">
-            <BreadcrumbComponent />
-        </div>
+<!--        <div class="col-12">-->
+<!--            <BreadcrumbComponent />-->
+<!--        </div>-->
         <router-view></router-view>
         <div id="purchasePayment" class="modal">
             <div class="modal-dialog">

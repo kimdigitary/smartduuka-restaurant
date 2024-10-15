@@ -27,6 +27,13 @@
                 'payment_status'               => $this->payment_status ,
                 'payment_method'               => Order::find($this->id)->paymentMethod ,
                 'transaction'                  => new TransactionResource($this->transaction) ,
+                'payment_methods'              => $this->paymentMethods
+                    ->map(function ($paymentMethod) {
+                        return $paymentMethod->paymenMethod ? ucfirst($paymentMethod->paymenMethod->name) : null;
+                    })
+                    ->filter()
+                    ->unique()
+                    ->implode(' and ') ,
             ];
         }
     }

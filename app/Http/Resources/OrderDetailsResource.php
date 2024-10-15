@@ -47,7 +47,7 @@
                     })
                     ->filter()
                     ->unique()
-                    ->implode(', ') ,
+                    ->implode(' and ') ,
                 'payment_status'                      => $this->payment_status ,
                 'is_advance_order'                    => $this->is_advance_order ,
                 'preparation_time'                    => $this->preparation_time ,
