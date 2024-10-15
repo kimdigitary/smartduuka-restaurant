@@ -5,7 +5,7 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                 <tr class="db-table-head-tr">
-                    <th class="db-table-head-th">{{ $t("label.date") }}</th>
+<!--                    <th class="db-table-head-th">{{ $t("label.date") }}</th>-->
                     <th class="db-table-head-th">{{ $t("label.reference_no") }}</th>
                     <th class="db-table-head-th">{{ $t("label.amount") }}</th>
                     <th class="db-table-head-th">{{ $t("label.payment_method") }}</th>
@@ -16,9 +16,9 @@
                 </thead>
                 <tbody class="db-table-body" v-if="purchasePaymentList.length > 0">
                 <tr class="db-table-body-tr" v-for="purchasePayment in purchasePaymentList" :key="purchasePayment">
-                    <td class="db-table-body-td">
-                        {{ purchasePayment.converted_date }}
-                    </td>
+<!--                    <td class="db-table-body-td">-->
+<!--                        {{ purchasePayment.converted_date }}-->
+<!--                    </td>-->
                     <td class="db-table-body-td">
                         {{ purchasePayment.reference_no }}
                     </td>
