@@ -62,7 +62,7 @@
         <table class="w-full">
             <thead class="bg-primary-light">
             <tr class="h-9">
-                <th class="capitalize text-xs font-normal font-rubik text-left pl-3 text-heading"></th>
+                <th class="capitalize text-xs font-normal font-rubik text-left pl-3 text-heading"  v-if="permissionChecker('pos_orders_delete')"></th>
                 <th class="capitalize text-xs font-normal font-rubik text-left px-3 text-heading">
                     {{ $t('label.item') }}
                 </th>
@@ -76,7 +76,7 @@
             </thead>
             <tbody>
             <tr v-for="(cart, index) in carts">
-                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
+                <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]"  v-if="permissionChecker('pos_orders_delete')">
                     <button @click.prevent="deleteCartItem(index)">
                         <i class="lab lab-trash-line-2 font-fill-danger"></i>
                     </button>
@@ -120,6 +120,7 @@
                 <td class="pl-3 py-3 last:pr-3 align-top border-b border-[#EFF0F6]">
                     <div class="flex items-center indec-group">
                         <button @click.prevent="cartQuantityDecrement(index)"
+                                v-if="permissionChecker('pos_orders_delete')"
                                 :class="cart.quantity === 1 ? 'fa-trash-can' : 'fa-minus'"
                                 class="fa-solid text-[10px] w-[18px] h-[18px] leading-4 text-center rounded-full border transition text-primary border-primary hover:bg-primary hover:text-white indec-minus"></button>
                         <input v-on:keypress="onlyNumber($event)" v-on:keyup="cartQuantityUp(index, $event)"
@@ -543,6 +544,9 @@ export default {
     methods: {
         onlyNumber: function (e) {
             return appService.onlyNumber(e);
+        },
+        permissionChecker(e) {
+            return appService.permissionChecker(e);
         },
         floatNumber: function (e) {
             return appService.floatNumber(e);

@@ -319,7 +319,8 @@ class ItemService
             $requests = $request->all();
             $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
-            return Item::withCount('orders')->where(function ($query) use ($requests) {
+//            return Item::withCount('orders')->where(function ($query) use ($requests) {
+            return Item::with('orders')->where(function ($query) use ($requests) {
                 if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = date('Y-m-d', strtotime($requests['from_date']));
                     $last_date = date('Y-m-d', strtotime($requests['to_date']));
@@ -343,9 +344,11 @@ class ItemService
                         }
                     }
                 }
-            })->orderBy('orders_count', 'desc')->$method(
-                $methodValue
-            );
+            })->get();
+
+//                                       ->orderBy('orders_count', 'desc')->$method(
+//                $methodValue
+//            );
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

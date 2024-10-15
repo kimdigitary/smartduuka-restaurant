@@ -83,7 +83,7 @@
                                 <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                                      v-if="permissionChecker('pos-orders')"/>
                                 <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
-                                                     v-if="permissionChecker('pos-orders')"/>
+                                                     v-if="permissionChecker('pos_orders_edit')"/>
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
                                 <SmAddPaymentComponent @click="addPayment(order)" data-modal="#purchasePayment"

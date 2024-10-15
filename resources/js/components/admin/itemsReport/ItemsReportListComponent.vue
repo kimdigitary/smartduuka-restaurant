@@ -88,7 +88,7 @@
                             <th class="db-table-head-th">{{ $t('label.name') }}</th>
                             <th class="db-table-head-th">{{ $t('label.category') }}</th>
                             <th class="db-table-head-th">{{ $t('label.type') }}</th>
-                            <th class="db-table-head-th">Orders</th>
+                            <th class="db-table-head-th">Quantity</th>
                             <th class="db-table-head-th">Earnings</th>
                         </tr>
                     </thead>
@@ -99,17 +99,19 @@
                             <td class="db-table-body-td">
                                 {{ enums.itemTypeEnumArray[itemsReport.item_type] }}
                             </td>
-                            <td class="db-table-body-td">{{ itemsReport.order }}</td>
-                            <td class="db-table-body-td">{{ itemsReport.convert_price * itemsReport.order }}</td>
+                            <td class="db-table-body-td">{{ itemsReport.quantity }}</td>
+                            <td class="db-table-body-td">{{ itemsReport.convert_price * itemsReport.quantity }}</td>
                         </tr>
                     </tbody>
 
                     <tfoot class="db-table-foot border-t" v-if="itemsReports.length > 0">
+                    <tr>
                         <td class="db-table-body-td text-primary text-xl bg-[#FFFAF4]">{{ $t('label.total') }}</td>
                         <td></td>
                         <td></td>
                         <td class="db-table-body-td text-primary text-xl "> {{ subTotal(itemsReports) }}</td>
-                        <td class="db-table-body-td text-primary text-xl "> {{totalEarning(itemsReports)}}</td>
+                        <td class="db-table-body-td text-primary text-xl "> {{ totalEarning(itemsReports) }}</td>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
@@ -291,7 +293,7 @@ export default {
         },
         subTotal(items) {
             const total = items.reduce((acc, ele) => {
-                return acc + parseInt(ele.order);
+                return acc + parseInt(ele.quantity);
             }, 0);
             return addThousandsSeparators(total,'');
         },
@@ -299,7 +301,7 @@ export default {
             // itemsReport.convert_price * itemsReport.order
             const total =  items.reduce((acc, ele) => {
                 // return acc + parseInt(ele.price);
-                return acc + parseInt(ele.convert_price) * parseInt(ele.order);
+                return acc + parseInt(ele.convert_price) * parseInt(ele.quantity);
             }, 0);
             return addThousandsSeparators(total,this.setting.site_default_currency_symbol);
         },
