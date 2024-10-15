@@ -60,7 +60,6 @@
         public function totalExpenses(Request $request) : Response | array | Application | ResponseFactory
         {
             try {
-//            return ['data' => ['total_expenses' => $this->dashboardService->totalExpenses($request)]];
                 return [ 'data' => [ 'total_expenses' => AppLibrary::currencyAmountFormat($this->dashboardService->totalExpenses($request)) ] ];
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
@@ -82,8 +81,7 @@
             try {
 //            return ['data' => ['total_profits' => $this->dashboardService->totalProfits($request)]];
                 return [ 'data' => [ 'total_profits' => AppLibrary::currencyAmountFormat(
-                    $this->dashboardService->totalSales($request) -
-                    ( $this->dashboardService->totalExpenses($request) + $this->dashboardService->totalPurchases($request) ))
+                    $this->dashboardService->totalSales($request) - ( $this->dashboardService->totalExpenses($request)  ))
                 ]
                 ];
             } catch ( Exception $exception ) {
