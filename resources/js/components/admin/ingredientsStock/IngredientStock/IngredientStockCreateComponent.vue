@@ -70,13 +70,13 @@
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.buying_price" @click=" $event.target.select()" type="number"
-                                                   min="1" class="db-field-control">
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
+                                                   type="text"
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             {{ floatFormat(item.total) }}

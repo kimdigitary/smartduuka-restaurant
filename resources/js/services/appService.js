@@ -78,13 +78,32 @@ export default {
         else e.preventDefault();
     },
 
+    // onlyNumber: function (e) {
+    //     let res = (e.charCode !== 8 && e.charCode === 0 || (e.charCode >= 48 && e.charCode <= 57));
+    //     if (res)
+    //         return true;
+    //     else
+    //         e.preventDefault();
+    // },
     onlyNumber: function (e) {
-        let res = (e.charCode !== 8 && e.charCode === 0 || (e.charCode >= 48 && e.charCode <= 57));
-        if (res)
-            return true;
-        else
+        // Allow backspace (8), delete (46), and numeric characters (48-57)
+        let charCode = e.charCode;
+        let isNumber = charCode >= 48 && charCode <= 57;
+        let isDecimalPoint = charCode === 46;
+
+        // Prevent multiple decimal points in the same input
+        if (isDecimalPoint && e.target.value.includes('.')) {
             e.preventDefault();
+            return;
+        }
+
+        if (isNumber || isDecimalPoint || charCode === 8 || charCode === 0) {
+            return true;
+        } else {
+            e.preventDefault();
+        }
     },
+
 
     floatNumber: function (e) {
         let char = String.fromCharCode(e.keyCode);
