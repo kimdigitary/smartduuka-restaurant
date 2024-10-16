@@ -15,15 +15,17 @@
                 </div>
 
                 <table class="w-full my-1.5">
-                    <tr>
-                        <td class="text-xs text-left py-0.5 text-heading">{{ $t('button.order') }}
-                            #{{ order.order_serial_no }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-xs text-left py-0.5 text-heading">{{ order.order_date }}</td>
-                        <td class="text-xs text-right py-0.5 text-heading">{{ order.order_time }}</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td class="text-xs text-left py-0.5 text-heading">{{ $t('button.order') }}
+                                #{{ order.order_serial_no }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs text-left py-0.5 text-heading">{{ order.order_date }}</td>
+                            <td class="text-xs text-right py-0.5 text-heading">{{ order.order_time }}</td>
+                        </tr>
+                    </tbody>
                 </table>
 
                 <table class="w-full">
@@ -84,6 +86,7 @@
 
                 <div class="py-2 pl-7">
                     <table class="w-full">
+                        <tbody>
                         <tr>
                             <td class="text-xs text-left py-0.5 uppercase text-heading">{{ $t('label.subtotal') }}:</td>
                             <td class="text-xs text-right py-0.5 text-heading">
@@ -106,6 +109,7 @@
                                 {{ order.total_currency_price }}
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
 
