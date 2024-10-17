@@ -23,9 +23,12 @@ export function cleanAmountV2(value: string) {
 //     return `${currency} ${(parseInt(String(value))).toLocaleString()}`
 // }
 export function addThousandsSeparators(value: any) {
-    const parts = value.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
+    if (value) {
+        const parts = value.toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return parts.join('.');
+    }
+    return '';
 }
 
 export function currency(value: string | number | undefined) {
