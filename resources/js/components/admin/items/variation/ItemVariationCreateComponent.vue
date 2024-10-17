@@ -23,7 +23,7 @@
                             <label for="price" class="db-field-title required">{{
                                     $t("label.additional_price")
                                 }}</label>
-                            <input v-on:keypress="numberOnly($event)" v-model="props.form.price"
+                            <input v-on:keypress="numberOnly($event)" v-model="props.form.price" @input="formatPrice($event)"
                                    v-bind:class="errors.price ? 'invalid' : ''" type="text" id="price"
                                    class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>
@@ -197,6 +197,7 @@ import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import AskEnum from "../../../../enums/modules/askEnum";
 import {isProxy, toRaw} from "vue";
+import {addThousandsSeparators} from "../../../../utils/functions";
 
 export default {
     name: "ItemVariationCreateComponent",
@@ -314,6 +315,11 @@ export default {
     methods: {
         numberOnly: function (e) {
             return appService.floatNumber(e);
+        },
+        formatPrice(event) {
+            const value = event.target.value.replace(/[^0-9.]/g, '');
+            this.$emit('update:form', { ...this.form, price: value });
+            event.target.value = addThousandsSeparators(value);
         },
         removeProduct: function (productIndex) {
             this.datatable.splice(productIndex, 1);
