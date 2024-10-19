@@ -98,6 +98,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-12 sm:col-6">
         <div class="db-card">
             <div class="db-card-header">
