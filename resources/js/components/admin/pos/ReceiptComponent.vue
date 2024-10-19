@@ -141,7 +141,7 @@
                                 {{ selectedOrder?.paid_currency }}
                             </td>
                         </tr>
-                        <tr v-if="selectedOrder?.change">
+                        <tr v-if="selectedOrder?.change && !selectedOrder.is_multi">
                             <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
                                 Change:
                             </td>

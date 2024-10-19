@@ -26,8 +26,10 @@ class ItemsReportController extends AdminController
     }
 
     public function index(PaginateRequest $request) : Response | AnonymousResourceCollection | Application | ResponseFactory
+//    public function index(PaginateRequest $request)
     {
         try {
+//            return $this->itemService->itemReport($request);
             return ItemResource::collection($this->itemService->itemReport($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);

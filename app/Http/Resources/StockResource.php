@@ -13,7 +13,7 @@ class StockResource extends JsonResource
             'item_id'      => $this['item_id'],
             'product_name' => $this['product_name'],
             'status'       => $this['status'],
-            'stock'        => $this['itemStock']
+            'stock'        => number_format($this['itemStock'],2)
         ];
     }
 }

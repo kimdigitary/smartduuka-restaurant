@@ -1,17 +1,17 @@
 <template>
-    <LoadingComponent :props="loading" />
+    <LoadingComponent :props="loading"/>
     <div class="col-12">
         <div class="db-card db-tab-div active">
             <div class="db-card-header border-none">
                 <h3 class="db-card-title">{{ $t('menu.sales_report') }}</h3>
                 <div class="db-card-filter">
-                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
-                    <FilterComponent />
+                    <TableLimitComponent :method="list" :search="props.search" :page="paginationPage"/>
+                    <FilterComponent/>
                     <div class="dropdown-group">
-                        <ExportComponent />
+                        <ExportComponent/>
                         <div class="dropdown-list db-card-filter-dropdown-list">
-                            <PrintComponent :props="printObj" />
-                            <ExcelComponent :method="xls" />
+                            <PrintComponent :props="printObj"/>
+                            <ExcelComponent :method="xls"/>
                         </div>
                     </div>
                 </div>
@@ -22,14 +22,14 @@
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="order_id" class="db-field-title after:hidden">{{ $t('label.order_id') }}</label>
                             <input id="order_id" v-model="props.search.order_serial_no" type="text"
-                                class="db-field-control">
+                                   class="db-field-control">
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="searchStatus" class="db-field-title after:hidden">{{
-                                $t('label.status')
-                            }}</label>
+                                    $t('label.status')
+                                }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="searchStatus"
-                                v-model="props.search.status" :options="[
+                                        v-model="props.search.status" :options="[
                                     { id: enums.orderStatusEnum.PENDING, name: $t('label.pending') },
                                     { id: enums.orderStatusEnum.ACCEPT, name: $t('label.accept') },
                                     { id: enums.orderStatusEnum.PROCESSING, name: $t('label.processing') },
@@ -39,16 +39,16 @@
                                     { id: enums.orderStatusEnum.REJECTED, name: $t('label.rejected') },
                                     { id: enums.orderStatusEnum.RETURNED, name: $t('label.returned') }
                                 ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                :clearOnClose="true" placeholder="--" search-placeholder="--" />
+                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
                         </div>
 
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="searchStartDate" class="db-field-title after:hidden">{{
-                                $t('label.date')
-                            }}</label>
+                                    $t('label.date')
+                                }}</label>
                             <Datepicker hideInputIcon autoApply :enableTimePicker="false" utc="false"
-                                @update:modelValue="handleDate" v-model="props.form.date" range
-                                :preset-ranges="presetRanges">
+                                        @update:modelValue="handleDate" v-model="props.form.date" range
+                                        :preset-ranges="presetRanges">
                                 <template #yearly="{ label, range, presetDateRange }">
                                     <span @click="presetDateRange(range)">{{ label }}</span>
                                 </template>
@@ -57,32 +57,32 @@
 
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="searchStatus" class="db-field-title after:hidden">{{
-                                $t('label.paid_status')
-                            }}</label>
+                                    $t('label.paid_status')
+                                }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="searchStatus"
-                                v-model="props.search.payment_status" :options="[
+                                        v-model="props.search.payment_status" :options="[
                                     { id: enums.paymentStatusEnum.PAID, name: $t('label.paid') },
                                     { id: enums.paymentStatusEnum.UNPAID, name: $t('label.unpaid') }
                                 ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                                :clearOnClose="true" placeholder="--" search-placeholder="--" />
+                                        :clearOnClose="true" placeholder="--" search-placeholder="--"/>
                         </div>
 
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="searchStatus" class="db-field-title after:hidden">{{
-                                $t('label.payment_type')
-                            }}</label>
+                                    $t('label.payment_type')
+                                }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="searchStatus"
-                                v-model="props.search.payment_method" :options="paymentGateways" label-by="name"
-                                value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
-                                search-placeholder="--" />
+                                        v-model="props.search.payment_method" :options="paymentGateways" label-by="name"
+                                        value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                        search-placeholder="--"/>
                         </div>
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
                             <label for="source" class="db-field-title after:hidden">{{
-                                $t('label.source')
-                            }}</label>
+                                    $t('label.source')
+                                }}</label>
                             <vue-select class="db-field-control f-b-custom-select" id="source" v-model="props.search.source"
-                                :options="enums.sourceObject" label-by="name" value-by="value" :closeOnSelect="true"
-                                :searchable="true" :clearOnClose="true" placeholder="--" search-placeholder="--" />
+                                        :options="enums.sourceObject" label-by="name" value-by="value" :closeOnSelect="true"
+                                        :searchable="true" :clearOnClose="true" placeholder="--" search-placeholder="--"/>
                         </div>
                         <div class="col-12">
                             <div class="flex flex-wrap gap-3 mt-4">
@@ -102,56 +102,59 @@
             <div class="db-table-responsive">
                 <table class="db-table stripe" id="print" :dir="direction">
                     <thead class="db-table-head">
-                        <tr class="db-table-head-tr">
-                            <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.discount') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.payment_method') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
-                        </tr>
+                    <tr class="db-table-head-tr">
+                        <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.discount') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.payment_method') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.payment_status') }}</th>
+                        <th class="db-table-head-th">{{ $t('label.total') }}</th>
+                    </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="salesReports.length > 0">
-                        <tr class="db-table-body-tr" v-for="salesReport in salesReports" :key="salesReport">
-                            <td class="db-table-body-td">{{ salesReport.order_serial_no }}</td>
-                            <td class="db-table-body-td">{{ salesReport.order_datetime }}</td>
-                            <td class="db-table-body-td">{{ salesReport.discount_amount_price }}</td>
-                            <td class="db-table-body-td">{{ salesReport.delivery_charge_amount_price }}</td>
-                            <td class="db-table-body-td"> {{ salesReport.payment_method?salesReport.payment_method.name:'NA'}}</td>
-<!--                            <td class="db-table-body-td">-->
-<!--                                <span v-if="salesReport.transaction">-->
-<!--                                    {{ salesReport.transaction.payment_method }}-->
-<!--                                </span>-->
-<!--                                <span v-else>-->
-<!--                                    {{ enums.paymentTypeEnumArray[salesReport.payment_method] }}-->
-<!--                                </span>-->
-<!--                            </td>-->
-                            <td class="db-table-body-td">
+                    <tr class="db-table-body-tr" v-for="salesReport in salesReports" :key="salesReport">
+                        <td class="db-table-body-td">{{ salesReport.order_serial_no }}</td>
+                        <td class="db-table-body-td">{{ salesReport.order_datetime }}</td>
+                        <td class="db-table-body-td">{{ salesReport.discount_amount_price }}</td>
+                        <td class="db-table-body-td">{{ salesReport.delivery_charge_amount_price }}</td>
+                        <!--                            <td class="db-table-body-td"> {{ salesReport.payment_method?salesReport.payment_method.name:'NA'}}</td>-->
+                        <td class="db-table-body-td"> {{ salesReport.payment_methods ? salesReport.payment_methods : 'NA' }}</td>
+                        <!--                            <td class="db-table-body-td">-->
+                        <!--                                <span v-if="salesReport.transaction">-->
+                        <!--                                    {{ salesReport.transaction.payment_method }}-->
+                        <!--                                </span>-->
+                        <!--                                <span v-else>-->
+                        <!--                                    {{ enums.paymentTypeEnumArray[salesReport.payment_method] }}-->
+                        <!--                                </span>-->
+                        <!--                            </td>-->
+                        <td class="db-table-body-td">
                                 <span :class="statusClass(salesReport.payment_status)">
                                     {{ enums.paymentStatusEnumArray[salesReport.payment_status] }}
                                 </span>
-                            </td>
-                            <td class="db-table-body-td">{{ salesReport.total_amount_price }}</td>
-                        </tr>
+                        </td>
+                        <td class="db-table-body-td">{{ salesReport.total_amount_price }}</td>
+                    </tr>
                     </tbody>
                     <tfoot class="db-table-foot border-t" v-if="salesReports.length > 0">
-                    <td class="db-table-body-td text-primary text-xl ">{{ $t('label.total') }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="db-table-body-td text-primary text-xl "> {{ total(salesReports) }}</td>
+                    <tr>
+                        <td class="db-table-body-td text-primary text-xl ">{{ $t('label.total') }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="db-table-body-td text-primary text-xl "> {{ total(salesReports) }}</td>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
 
             <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
-                <PaginationSMBox :pagination="pagination" :method="list" />
+                <PaginationSMBox :pagination="pagination" :method="list"/>
                 <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                    <PaginationTextComponent :props="{ page: paginationPage }" />
-                    <PaginationBox :pagination="pagination" :method="list" />
+                    <PaginationTextComponent :props="{ page: paginationPage }"/>
+                    <PaginationBox :pagination="pagination" :method="list"/>
                 </div>
             </div>
         </div>
@@ -175,13 +178,14 @@ import PrintComponent from "../components/buttons/export/PrintComponent";
 import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref } from 'vue';
-import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
+import {ref} from 'vue';
+import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
 import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import sourceEnum from "../../../enums/modules/sourceEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
 import {addThousandsSeparators} from "../../../utils/functions";
+
 export default {
     name: "SalesReportListComponent",
     components: {
@@ -201,13 +205,13 @@ export default {
         const date = ref();
 
         const presetRanges = ref([
-            { label: 'Today', range: [new Date(), new Date()] },
-            { label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())] },
+            {label: 'Today', range: [new Date(), new Date()]},
+            {label: 'This month', range: [startOfMonth(new Date()), endOfMonth(new Date())]},
             {
                 label: 'Last month',
                 range: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
             },
-            { label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())] },
+            {label: 'This year', range: [startOfYear(new Date()), endOfYear(new Date())]},
             {
                 label: 'This year (slot)',
                 range: [startOfYear(new Date()), endOfYear(new Date())],
@@ -319,10 +323,10 @@ export default {
             return appService.floatNumber(e);
         },
         total(items) {
-           const total =  items.reduce((acc, ele) => {
+            const total = items.reduce((acc, ele) => {
                 return acc + parseInt(ele.total_amount_price);
             }, 0);
-            return addThousandsSeparators(total,'UGX');
+            return addThousandsSeparators(total, 'UGX');
         },
         statusClass: function (status) {
             return appService.statusClass(status);
@@ -372,7 +376,7 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch('salesReport/export', this.props.search).then(res => {
                 this.loading.isActive = false;
-                const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = this.$t("menu.sales_report");

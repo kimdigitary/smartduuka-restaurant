@@ -23,7 +23,7 @@
                             <label for="price" class="db-field-title required">{{
                                     $t("label.additional_price")
                                 }}</label>
-                            <input v-on:keypress="numberOnly($event)" v-model="props.form.price"
+                            <input v-on:keypress="numberOnly($event)" v-model="priceFormatted"  @input="formatPrice($event)"
                                    v-bind:class="errors.price ? 'invalid' : ''" type="text" id="price"
                                    class="db-field-control"/>
                             <small class="db-field-alert" v-if="errors.price">{{ errors.price[0] }}</small>
@@ -121,13 +121,13 @@
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.buying_price" @click=" $event.target.select()"
                                                        type="number"
-                                                       min="0" class="db-field-control">
+                                                        class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.quantity" @click=" $event.target.select()"
-                                                       type="number"
-                                                       min="0" class="db-field-control">
+                                                       type="text"
+                                                        class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
                                                 {{ floatFormat(item.total) }}
@@ -153,7 +153,7 @@
                                                 <input v-on:keypress="onlyNumber($event) "
                                                        v-model="this.overallCost"
                                                        type="number"
-                                                       min="0" class="db-field-control">
+                                                        class="db-field-control">
                                             </th>
                                             <th class="db-table-body-td"></th>
                                         </tr>
@@ -197,6 +197,7 @@ import statusEnum from "../../../../enums/modules/statusEnum";
 import SmIconDeleteComponent from "../../components/buttons/SmIconDeleteComponent.vue";
 import AskEnum from "../../../../enums/modules/askEnum";
 import {isProxy, toRaw} from "vue";
+import {addThousandsSeparators} from "../../../../utils/functions";
 
 export default {
     name: "ItemVariationCreateComponent",
@@ -210,6 +211,8 @@ export default {
             ingredientId: null,
             finalItem: null,
             datatable: [],
+            price:'',
+            priceFormatted: '',
             enums: {
                 statusEnum: statusEnum,
                 statusEnumArray: {
@@ -275,6 +278,12 @@ export default {
             },
             immediate: true,
         },
+        'props.form':{
+            handler(){
+                this.price = this.props.form.price;
+                this.priceFormatted = addThousandsSeparators(this.props.form.price);
+            },
+        },
         'props.form.ingredients': {
             handler(ingredients) {
                 if (Array.isArray(ingredients)) {
@@ -314,6 +323,17 @@ export default {
     methods: {
         numberOnly: function (e) {
             return appService.floatNumber(e);
+        },
+        updateForm(newForm) {
+            console.log('Form updated:', newForm);
+            this.form = newForm;
+        },
+        formatPrice(event) {
+            const value = event.target.value.replace(/[^0-9.]/g, '');
+           this.price = value
+            this.priceFormatted = addThousandsSeparators(value);
+            // this.$emit('update:form', { ...this.form, price: value });
+            // event.target.value = addThousandsSeparators(value);
         },
         removeProduct: function (productIndex) {
             this.datatable.splice(productIndex, 1);
@@ -423,6 +443,7 @@ export default {
                 this.props.form.ingredients = JSON.stringify(this.datatable);
                 this.props.form.overall_cost = this.overallCost;
                 this.props.form.ingredient_item_id = this.props.id;
+                this.props.form.price = this.price;
                 this.$store.dispatch("itemVariation/save", this.props).then((res) => {
                     appService.modalHide();
                     this.loading.isActive = false;

@@ -145,7 +145,7 @@
                     $last_date  = Date('Y-m-t' , strtotime(Carbon::today()->toDateString()));
                 }
                 $expenses = Expense::whereDate('date' , '>=' , $first_date)
-                                   ->whereDate('date' , '<=' , $last_date)->sum('amount');
+                                   ->whereDate('date' , '<=' , $last_date)->sum('paid');
 
                 $purchases = PurchasePayment::whereDate('date' , '>=' , $first_date)
                                             ->whereDate('date' , '<=' , $last_date)

@@ -2,7 +2,7 @@
     <LoadingComponent :props="loading"/>
     <SmSidebarModalCreateComponent :props="addButton"/>
 
-    <div id="sidebar" class="drawer" style="width: fit-content">
+    <div id="sidebar" class="drawer" style="overflow: scroll">
         <div class="drawer-header">
             <h3 class="drawer-title">{{ $t("menu.items") }}</h3>
             <button class="fa-solid fa-xmark close-btn" @click="reset"></button>
@@ -178,7 +178,7 @@
                         </div>
                         <div class="form-col-12">
                             <label class="db-field-title">Ingredients</label>
-                            <div class="db-table-responsive border rounded-md">
+                            <div class="db-table-responsive border rounded-md overflow-x-auto">
                                 <table class="db-table">
                                     <thead class="db-table-head border-t-0">
                                     <tr class="db-table-head-tr">
@@ -207,13 +207,13 @@
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.buying_price" @click=" $event.target.select()"
                                                    type="number"
-                                                   min="1" class="db-field-control">
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
+                                                   type="text"
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             {{ floatFormat(item.total) }}

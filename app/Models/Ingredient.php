@@ -20,9 +20,9 @@
         protected $casts    = [
             'id'             => 'integer' ,
             'name'           => 'string' ,
-            'buying_price'   => 'integer' ,
+            'buying_price'   => 'decimal:2' ,
             'unit'           => 'string' ,
             'quantity'       => 'integer' ,
-            'quantity_alert' => 'integer' ,
+            'quantity_alert' => 'decimal:2' ,
         ];
     }

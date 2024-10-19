@@ -35,7 +35,7 @@
                 <div class="col-12 sm:col-6 !py-1.5">
                     <div class="db-list-item p-0">
                         <span class="db-list-item-title w-full sm:w-1/2">{{ $t('label.price') }}</span>
-                        <span class="db-list-item-text w-full sm:w-1/2">{{ item.flat_price }}</span>
+                        <span class="db-list-item-text w-full sm:w-1/2">{{ item.currency_price }}</span>
                     </div>
                 </div>
                 <div class="col-12 sm:col-6 !py-1.5" v-if="item.is_stockable===AskEnum.YES">
@@ -248,12 +248,12 @@ export default {
         },
         costPrice: function (item) {
             if (item.variations.length === 0) {
-                return item.overall_cost;
+                return item.overall_cost_currency;
             } else {
                 if (isProxy(this.item)){
                     const rawItem = toRaw(this.item);
                     const variationsArray = Object.values(rawItem.variations).find(value => Array.isArray(value));
-                    return variationsArray[0].overall_cost
+                    return variationsArray[0].over_all_cost_currency
                 }
             }
         },

@@ -75,7 +75,7 @@
                             <td class="db-table-body-td">{{ ingredient.name }}</td>
 <!--                            <td class="db-table-body-td">{{ ingredient.quantity }}</td>-->
                             <td class="db-table-body-td">{{ ingredient.unit }}</td>
-                            <td class="db-table-body-td">{{ ingredient.buying_price }}</td>
+                            <td class="db-table-body-td">{{ ingredient.buying_price_currency }}</td>
                             <td class="db-table-body-td">{{ ingredient.quantity_alert }}</td>
                             <td class="db-table-body-td hidden-print"
                                 v-if="permissionChecker('ingredients_show') || permissionChecker('ingredients_edit') || permissionChecker('ingredients_delete')">

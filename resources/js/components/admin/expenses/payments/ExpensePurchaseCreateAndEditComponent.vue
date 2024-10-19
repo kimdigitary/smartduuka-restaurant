@@ -133,7 +133,7 @@
                                             <td class="db-table-body-td">
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                     v-model="item.quantity" @click=" $event.target.select()" type="number"
-                                                    min="1" class="db-field-control">
+                                                     class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">
                                                 {{ Number(item.total_discount) === 0 ? "" : "-" }}

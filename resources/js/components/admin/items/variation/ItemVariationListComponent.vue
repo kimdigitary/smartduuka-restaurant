@@ -22,10 +22,10 @@
                         {{ child.name }}
                     </td>
                     <td class="db-table-body-td">
-                        {{ child.flat_price }}
+                        {{ child.currency_price }}
                     </td>
                     <td class="db-table-body-td">
-                        {{ child.overall_cost }}
+                        {{ child.overall_cost_currency }}
                     </td>
                     <td class="db-table-body-td">
                             <span :class="statusClass(child.status)">
