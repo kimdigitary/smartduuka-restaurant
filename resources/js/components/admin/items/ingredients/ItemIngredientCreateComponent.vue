@@ -78,7 +78,7 @@
                                             <td class="db-table-body-td">
                                                 <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                        v-model="item.quantity" @click=" $event.target.select()"
-                                                       type="number"
+                                                       type="text"
                                                         class="db-field-control">
                                             </td>
                                             <td class="db-table-body-td">

@@ -1,5 +1,5 @@
 <template>
-    <ItemIngredientCreateComponent :props="addonProps" />
+<!--    <ItemIngredientCreateComponent :props="addonProps" />-->
     <br><br>
     <div class="db-card" v-if="ingredients.length > 0">
         <div class="db-table-responsive">

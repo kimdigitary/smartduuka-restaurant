@@ -87,8 +87,8 @@
                                 {{ textShortener(stock?.item?.name, 40) }}
                             </td>
 <!--                            <td class="db-table-body-td">{{ currency(stock.price)}}</td>-->
-                            <td class="db-table-body-td">{{ currency(stock.quantity)}}</td>
-                            <td class="db-table-body-td">{{ currency(stock?.item?.quantity_alert)}}</td>
+                            <td class="db-table-body-td">{{ `${stock.quantity} ${stock?.item?.unit}`}}</td>
+                            <td class="db-table-body-td">{{ `${stock?.item?.quantity_alert} ${stock?.item?.unit}`}}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(stock.status)">
                                     {{ enums.statusEnumArray[stock.status] }}
@@ -219,7 +219,7 @@ export default {
             this.props.search.page = page;
             // this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
             this.$store.dispatch('stock/listsIngredients', this.props.search).then(res => {
-                this.ingredientStocks = res.data
+                this.ingredientStocks = res.data.data
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;

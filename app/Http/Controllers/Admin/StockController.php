@@ -6,6 +6,7 @@
     use App\Exports\StockExport;
     use App\Http\Requests\PaginateRequest;
     use App\Http\Requests\StoreIngredientStockRequest;
+    use App\Http\Resources\IngredientStockResource;
     use App\Http\Resources\StockResource;
     use App\Models\Ingredient;
     use App\Models\Item;
@@ -41,7 +42,7 @@
         public function indexIngredients(PaginateRequest $request)
         {
             try {
-                return $this->stockService->listIngredients($request);
+                return  IngredientStockResource::collection($this->stockService->listIngredients($request));
             } catch ( Exception $exception ) {
                 return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
             }
@@ -80,28 +81,28 @@
         public function storeItemStock(StoreIngredientStockRequest $request)
         {
 //            try {
-                foreach ( $request->products as $product ) {
-                    $stock = Stock::where('model_type' , Item::class)
-                                  ->where('model_id' , $product['product_id'])
-                                  ->first();
-                    if ( $stock ) {
-                        return $stock->increment('quantity' , $product['quantity']);
-                    } else {
-                        return Stock::create([
-                            'model_type' => Item::class ,
-                            'model_id'   => $product['product_id'] ,
-                            'item_type'  => Item::class ,
-                            'item_id'    => $product['product_id'] ,
-                            'price'      => $product['price'] ,
-                            'quantity'   => $product['quantity'] ,
-                            'discount'   => $product['total_discount'] ,
-                            'tax'        => $product['total_tax'] ,
-                            'subtotal'   => $product['subtotal'] ,
-                            'total'      => $product['total'] ,
-                            'status'     => Status::ACTIVE
-                        ]);
-                    }
+            foreach ( $request->products as $product ) {
+                $stock = Stock::where('model_type' , Item::class)
+                              ->where('model_id' , $product['product_id'])
+                              ->first();
+                if ( $stock ) {
+                    return $stock->increment('quantity' , $product['quantity']);
+                } else {
+                    return Stock::create([
+                        'model_type' => Item::class ,
+                        'model_id'   => $product['product_id'] ,
+                        'item_type'  => Item::class ,
+                        'item_id'    => $product['product_id'] ,
+                        'price'      => $product['price'] ,
+                        'quantity'   => $product['quantity'] ,
+                        'discount'   => $product['total_discount'] ,
+                        'tax'        => $product['total_tax'] ,
+                        'subtotal'   => $product['subtotal'] ,
+                        'total'      => $product['total'] ,
+                        'status'     => Status::ACTIVE
+                    ]);
                 }
+            }
 //            } catch ( Exception $exception ) {
 //                return response([ 'status' => false , 'message' => $exception->getMessage() ] , 422);
 //            }

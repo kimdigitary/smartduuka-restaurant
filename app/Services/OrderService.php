@@ -387,6 +387,7 @@
 
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
                     $this->order->total_tax       = $totalTax;
+                    $this->order->paid            = 0;
                     $this->order->save();
                 });
                 return $this->order;

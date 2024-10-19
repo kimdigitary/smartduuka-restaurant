@@ -103,8 +103,8 @@
                                                            :class="purchaseStatusClass(purchase.status)">{{
                                 enums.statusEnumObj[purchase.status]
                             }}</span></td>
-                        <td class="db-table-body-td">{{ purchase.total_flat_price }}</td>
-                        <td class="db-table-body-td">{{ purchase.balance }}</td>
+                        <td class="db-table-body-td">{{ purchase.total_currency_price }}</td>
+                        <td class="db-table-body-td">{{ purchase.balance_currency }}</td>
                         <td class="db-table-body-td">
                                 <span class="db-table-badge" :class="purchasePaymentStatusClass(purchase.payment_status)">
                                     {{ enums.purchasePaymentStatusEnumArray[purchase.payment_status] }}
