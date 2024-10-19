@@ -70,7 +70,7 @@
                         <td class="db-table-body-td">{{ order.customer.name }}</td>
                         <td class="db-table-body-td">{{ order.dining_table ? order.dining_table.name : 'NA' }}</td>
                         <td class="db-table-body-td">{{ order.created_by ? order.created_by.name : 'NA' }}</td>
-                        <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                        <td class="db-table-body-td">{{ order.total_amount_price_currency }}</td>
                         <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                         <td class="db-table-body-td">{{ order.order_datetime }}</td>
                         <td class="db-table-body-td">
@@ -220,7 +220,8 @@ export default {
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
-                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid")
+                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid"),
+                    [paymentStatusEnum.PARTIALLY_PAID]: this.$t("label.partially_paid")
                 },
             },
             printLoading: true,

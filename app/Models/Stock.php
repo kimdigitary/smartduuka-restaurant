@@ -40,7 +40,7 @@
             'model_id'   => 'integer' ,
             'item_type'  => 'string' ,
             'price'      => 'integer' ,
-            'quantity'   => 'integer' ,
+            'quantity'   => 'decimal:2' ,
             'discount'   => 'decimal:6' ,
             'tax'        => 'decimal:6' ,
             'status'     => 'integer' ,

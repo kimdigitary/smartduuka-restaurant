@@ -248,12 +248,12 @@ export default {
         },
         costPrice: function (item) {
             if (item.variations.length === 0) {
-                return item.overall_cost;
+                return item.overall_cost_currency;
             } else {
                 if (isProxy(this.item)){
                     const rawItem = toRaw(this.item);
                     const variationsArray = Object.values(rawItem.variations).find(value => Array.isArray(value));
-                    return variationsArray[0].overall_cost
+                    return variationsArray[0].over_all_cost_currency
                 }
             }
         },
