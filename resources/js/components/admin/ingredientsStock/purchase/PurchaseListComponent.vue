@@ -147,7 +147,6 @@
     </div>
 </template>
 
-
 <script lang="js">
 import Datepicker from "@vuepic/vue-datepicker";
 import PurchasePaymentCreateComponent from "./PurchasePaymentCreateComponent";
