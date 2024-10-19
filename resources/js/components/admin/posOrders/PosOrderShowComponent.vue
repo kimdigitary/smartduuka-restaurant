@@ -94,11 +94,11 @@
                         <i class="lab lab-close"></i>
                         <span class="text-sm capitalize text-white">Cancel</span>
                     </button>
-
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-12 sm:col-6">
         <div class="db-card">
             <div class="db-card-header">
