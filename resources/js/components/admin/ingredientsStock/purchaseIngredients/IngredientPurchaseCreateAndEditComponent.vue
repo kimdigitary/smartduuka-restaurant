@@ -130,13 +130,13 @@
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.price" @click=" $event.target.select()" type="number"
-                                                   min="1" class="db-field-control">
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             <input v-on:keypress="onlyNumber($event)" @keyup="updateQuantity(index)"
                                                    v-model="item.quantity" @click=" $event.target.select()"
-                                                   type="number"
-                                                   min="1" class="db-field-control">
+                                                   type="text"
+                                                    class="db-field-control">
                                         </td>
                                         <td class="db-table-body-td">
                                             {{ floatFormat(item.total) }}
@@ -443,7 +443,7 @@ export default {
                     quantity: 1,
                     sku: product.sku,
                     tax_id: product.taxes,
-                    tax: product.tax,
+                    tax: product?.tax,
                     price: product.buying_price,
                     discount: 0,
                     variation_id: 0,
@@ -647,7 +647,7 @@ export default {
                     for (let j = 0; j < product.taxes.length; j++) {
                         const tax = product.taxes[j];
                         tax_id.push(tax.tax_id);
-                        total_tax_rate = total_tax_rate + +tax.tax_rate;
+                        total_tax_rate = total_tax_rate + +tax?.tax_rate;
                     }
                 }
                 products.push({
@@ -673,9 +673,21 @@ export default {
             this.datatable = products;
         },
         reset: function () {
+            /**
+             *      fd.append('amount', this.props.form.amount);
+             *                 fd.append('payment_date', this.props.form.payment_date);
+             *                 fd.append('payment_method', this.props.form.payment_method);
+             *                 fd.append('reference_no', this.props.form.reference_no);
+             *                 fd.append('add_payment', this.props.form.addPayment);
+             * @type {number}
+             */
             this.props.form.purchase_id = 0;
             this.props.form.supplier_id = null;
+            this.props.form.payment_method = null;
             this.props.form.date = "";
+            this.props.form.payment_date = "";
+            this.props.form.reference_no = "";
+            this.props.form.amount = "";
             this.props.form.reference_no = "";
             this.props.form.total = null;
             this.props.form.status = null;

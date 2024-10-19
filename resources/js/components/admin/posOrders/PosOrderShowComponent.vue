@@ -27,9 +27,9 @@
                             <span class="text-xs">{{ order.order_datetime }}</span>
                         </li>
                         <li class="text-xs">
-                            {{ $t('label.payment_type') }}:
+                            {{ $t('label.payment_method') }}:
                             <span class="text-heading">
-                                {{ $t('label.cash') }}
+                                {{ order.payment_methods ? order.payment_methods : 'NA' }}
                             </span>
                         </li>
                         <li class="text-xs">
@@ -86,11 +86,15 @@
                                     $t('button.print_receipt') : $t('button.print_invoice')
                             }}</span>
                     </button>
-                    <button v-if="permissionChecker('pos_orders_cancel')" type="button" @click="reasonModal" data-modal="#reasonModal"
-                            class="flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]">
+                    <!--                    <button :disabled="!permissionChecker('pos_orders_cancel')" v-if="permissionChecker('pos_orders_cancel')" type="button"-->
+                    <button :disabled="!permissionChecker('pos_orders_cancel')" type="button"
+                            @click="reasonModal" data-modal="#reasonModal"
+                            :class="['flex items-center justify-center text-white gap-2 px-4 h-[38px] rounded shadow-db-card bg-[#FB4E4E]',
+                  !permissionChecker('pos_orders_cancel') ? 'cursor-not-allowed' : '']">
                         <i class="lab lab-close"></i>
                         <span class="text-sm capitalize text-white">Cancel</span>
                     </button>
+
                 </div>
             </div>
         </div>
@@ -280,6 +284,7 @@ export default {
                     [orderStatusEnum.PROCESSING]: this.$t("label.processing"),
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
                     [orderStatusEnum.CANCELED]: this.$t("label.canceled"),
+                    [orderStatusEnum.PREPARED]: this.$t("label.prepared"),
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
@@ -307,9 +312,14 @@ export default {
                     {
                         name: this.$t("label.delivered"),
                         value: orderStatusEnum.DELIVERED,
-                    }, {
+                    },
+                    {
                         name: this.$t("label.pending"),
                         value: orderStatusEnum.PENDING,
+                    },
+                    {
+                        name: this.$t("label.prepared"),
+                        value: orderStatusEnum.PREPARED,
                     },
                 ],
             },
@@ -362,7 +372,6 @@ export default {
             } else {
                 appService.modalShow("#invoiceModal");
             }
-
         },
         orderStatusClass: function (status) {
             return appService.orderStatusClass(status);
@@ -396,6 +405,7 @@ export default {
                 alertService.error(err.response.data.message);
             }
         },
+
         rejectOrder: function () {
             try {
                 this.loading.isActive = true;

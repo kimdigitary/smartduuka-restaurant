@@ -141,7 +141,7 @@
                                 {{ selectedOrder?.paid_currency }}
                             </td>
                         </tr>
-                        <tr v-if="selectedOrder?.change">
+                        <tr v-if="selectedOrder?.change && !selectedOrder.is_multi">
                             <td class="text-xs text-left py-0.5 font-bold uppercase text-heading">
                                 Change:
                             </td>
@@ -154,8 +154,9 @@
                 </div>
                 <div class="text-xs py-2 border-t border-b border-dashed border-gray-400 text-heading">
                     <div class="flex justify-between">
-                        <p>Payment Method:</p>
-                        <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>
+                        <p>Payment Methods:</p>
+                        <!--                        <p class="font-bold">{{ capitalizeWords(selectedOrder?.payment_method?.name) }}</p>-->
+                        <p class="font-bold">{{ selectedOrder?.payment_methods }}</p>
                     </div>
 
                     <h4 v-if="order.token"

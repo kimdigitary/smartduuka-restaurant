@@ -580,7 +580,11 @@
                     ]);
                     $order->payment_method = $request->payment_method;
                     $order->change         = $request->change;
-                    $order->paid           = $request->paid;
+                    if ( $order->paid == null ) {
+                        $order->paid = $request->amount;
+                    } else {
+                        $order->increment('paid' , $request->amount);
+                    }
 
                     if ( $request->file ) {
                         $purchasePayment->addMediaFromRequest('file')->toMediaCollection('pos_payment');
@@ -593,13 +597,12 @@
 
                     if ( $checkPosPayment == $order->total ) {
                         $order->payment_status = PaymentStatus::PAID;
-                        $order->save();
                     }
 
                     if ( $checkPosPayment < $order->total ) {
                         $order->payment_status = PaymentStatus::UNPAID;
-                        $order->save();
                     }
+                    $order->save();
                 });
                 return $order;
             } catch ( Exception $exception ) {

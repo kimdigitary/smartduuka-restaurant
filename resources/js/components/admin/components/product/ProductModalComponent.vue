@@ -20,21 +20,21 @@
                         <label class="db-field-title required">{{
                             $t("label.quantity")
                         }}</label>
-                        <input v-model="item.quantity" v-on:keypress="onlyNumber($event)" min="1" type="number"
+                        <input v-model="item.quantity" v-on:keypress="onlyNumber($event)"  type="number"
                             class="db-field-control" />
                     </div>
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title">
                             {{ $t("label.discount") }}
                         </label>
-                        <input v-model="item.discount" type="number" v-on:keypress="floatNumber($event)" min="0"
+                        <input v-model="item.discount" type="number" v-on:keypress="floatNumber($event)"
                             class="db-field-control" />
                     </div>
                     <div class="form-col-12 sm:form-col-6">
                         <label class="db-field-title required">
                             {{ $t("label.unit_cost") }}
                         </label>
-                        <input v-model="item.price" type="number" v-on:keypress="floatNumber($event)" min="0"
+                        <input v-model="item.price" type="number" v-on:keypress="floatNumber($event)"
                             class="db-field-control" />
                     </div>
                 </div>

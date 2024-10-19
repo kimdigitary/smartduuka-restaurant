@@ -103,7 +103,6 @@ class StockService
         if (!blank($stocks)) {
             $stocks->groupBy('item_id')?->map(function ($item) {
                 $item->groupBy('item_id')?->map(function ($item) {
-                    info($item);
 //                    $stock_item = [
 //                        'item_id'      => $item->first()['item_id'],
 //                        'product_name' => $item->first()['item']['name'],

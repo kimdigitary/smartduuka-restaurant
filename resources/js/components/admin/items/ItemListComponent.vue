@@ -135,7 +135,7 @@
                                 {{ textShortener(item.name, 40) }}
                             </td>
                             <td class="db-table-body-td">{{ item.category_name }}</td>
-                            <td class="db-table-body-td">{{ item.flat_price }}</td>
+                            <td class="db-table-body-td">{{ item.currency_price }}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(item.status)">
                                     {{ enums.statusEnumArray[item.status] }}

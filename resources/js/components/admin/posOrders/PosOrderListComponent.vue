@@ -70,7 +70,7 @@
                         <td class="db-table-body-td">{{ order.customer.name }}</td>
                         <td class="db-table-body-td">{{ order.dining_table ? order.dining_table.name : 'NA' }}</td>
                         <td class="db-table-body-td">{{ order.created_by ? order.created_by.name : 'NA' }}</td>
-                        <td class="db-table-body-td">{{ order.total_amount_price }}</td>
+                        <td class="db-table-body-td">{{ order.total_amount_price_currency }}</td>
                         <td class="db-table-body-td">{{ enums.paymentStatusEnumArray[order.payment_status] }}</td>
                         <td class="db-table-body-td">{{ order.order_datetime }}</td>
                         <td class="db-table-body-td">
@@ -83,7 +83,7 @@
                                 <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                                      v-if="permissionChecker('pos-orders')"/>
                                 <SmIconEditComponent @click="edit(order)" :link="'admin.pos.orders.edit'" :id="order.id"
-                                                     v-if="permissionChecker('pos-orders')"/>
+                                                     v-if="permissionChecker('pos_orders_edit')"/>
                                 <SmIconDeleteComponent @click="destroy(order.id)"
                                                        v-if="permissionChecker('pos_orders_delete')"/>
                                 <SmAddPaymentComponent @click="addPayment(order)" data-modal="#purchasePayment"
@@ -220,7 +220,8 @@ export default {
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
-                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid")
+                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid"),
+                    [paymentStatusEnum.PARTIALLY_PAID]: this.$t("label.partially_paid")
                 },
             },
             printLoading: true,
@@ -333,6 +334,7 @@ export default {
             this.loading.isActive = false;
         },
         addPayment: function (order) {
+            this.$store.dispatch("purchase/showReceiptModal", false);
             appService.modalShow('#purchasePayment');
             this.loading.isActive = true;
             this.order = order;

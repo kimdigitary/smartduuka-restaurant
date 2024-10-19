@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="db-card">
             <div class="db-card-header border-none">
-                <h3 class="db-card-title">{{ $t('label.purchases') }}</h3>
+                <h3 class="db-card-title">Item Purchases</h3>
                 <div class="db-card-filter">
                     <TableLimitComponent :method="list" :search="props.search" :page="paginationPage" />
                     <FilterComponent />
@@ -102,8 +102,8 @@
                             <td class="db-table-body-td"><span class="db-table-badge"
                                     :class="purchaseStatusClass(purchase.status)">{{
                                         enums.statusEnumObj[purchase.status] }}</span></td>
-                            <td class="db-table-body-td">{{ purchase.total_flat_price }}</td>
-                            <td class="db-table-body-td">{{ purchase.balance }}</td>
+                            <td class="db-table-body-td">{{ purchase.total_currency_price }}</td>
+                            <td class="db-table-body-td">{{ purchase.balance_currency }}</td>
                             <td class="db-table-body-td">
                                 <span class="db-table-badge" :class="purchasePaymentStatusClass(purchase.payment_status)">
                                     {{ enums.purchasePaymentStatusEnumArray[purchase.payment_status] }}
@@ -146,7 +146,6 @@
         </div>
     </div>
 </template>
-
 
 <script lang="js">
 import Datepicker from "@vuepic/vue-datepicker";
@@ -202,7 +201,7 @@ export default {
             },
             printObj: {
                 id: "print",
-                popTitle: this.$t('menu.purchase')
+                popTitle: 'Item Purchases',
             },
             enums: {
                 purchasePaymentStatusEnum: purchasePaymentStatusEnum,

@@ -17,6 +17,7 @@
          */
         public function toArray($request) : array
         {
+            $order = Order::with('paymentMethods.paymenMethod')->find($this->id);
             return [
                 'id'                                  => $this->id ,
                 'order_serial_no'                     => $this->order_serial_no ,
@@ -39,7 +40,15 @@
                 'order_time'                          => AppLibrary::time($this->order_datetime) ,
                 'delivery_date'                       => $this->is_advance_order == Ask::YES ? AppLibrary::increaseDate($this->order_datetime , 1) : AppLibrary::date($this->order_datetime) ,
                 'delivery_time'                       => AppLibrary::deliveryTime($this->delivery_time) ,
-                'payment_method'                      => Order::find($this->id)->paymentMethod ,
+                'payment_method'                      => $order->paymentMethod ,
+                'is_multi'                            => count($this->paymentMethods) > 1 ? 1 : 0 ,
+                'payment_methods'                     => $this->paymentMethods
+                    ->map(function ($paymentMethod) {
+                        return $paymentMethod->paymenMethod ? ucfirst($paymentMethod->paymenMethod->name) : null;
+                    })
+                    ->filter()
+                    ->unique()
+                    ->implode(' and ') ,
                 'payment_status'                      => $this->payment_status ,
                 'is_advance_order'                    => $this->is_advance_order ,
                 'preparation_time'                    => $this->preparation_time ,
