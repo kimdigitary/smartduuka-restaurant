@@ -163,7 +163,6 @@
                 </button>
             </div>
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
-
 <!--            <div class="mt-2">-->
 <!--                <div class="flex h-[38px] mb-4">-->
 <!--                    <div class="db-field-down-arrow">-->
