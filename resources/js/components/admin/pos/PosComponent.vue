@@ -164,25 +164,25 @@
             </div>
             <small class="db-field-alert" v-if="discountErrorMessage">{{ discountErrorMessage }}</small>
 
-            <div class="mt-2">
-                <div class="flex h-[38px] mb-4">
-                    <div class="db-field-down-arrow">
-                        <select v-model="paymentMethod" @change="handlePaymentMethodChange"
-                                class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">
-                            <option value="4">Cash</option>
-                            <option value="2">Mobile Money</option>
-                            <option value="1">Cash on Delivery</option>
-                        </select>
-                    </div>
-                    <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"
-                           v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"
-                           class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">
-                    <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"
-                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">
-                        {{ $t('button.apply') }}
-                    </button>
-                </div>
-            </div>
+<!--            <div class="mt-2">-->
+<!--                <div class="flex h-[38px] mb-4">-->
+<!--                    <div class="db-field-down-arrow">-->
+<!--                        <select v-model="paymentMethod" @change="handlePaymentMethodChange"-->
+<!--                                class="w-[120px] h-full cursor-pointer text-sm font-client ltr:rounded-tl ltr:rounded-bl rtl:rounded-tr rtl:rounded-br appearance-none border ltr:pl-3 rtl:pr-3 text-heading border-[#EFF0F6]">-->
+<!--                            <option value="4">Cash</option>-->
+<!--                            <option value="2">Mobile Money</option>-->
+<!--                            <option value="1">Cash on Delivery</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <input v-if="showDeliveryCharge" v-model="deliveryCharge" type="text"-->
+<!--                           v-on:keypress="floatNumber($event)" placeholder="Add delivery charge"-->
+<!--                           class="w-full h-full border-t border-b px-3 border-[#EFF0F6]">-->
+<!--                    <button v-if="showDeliveryCharge" @click.prevent="applyDeliveryCharge" type="submit"-->
+<!--                            class="flex-shrink-0 w-16 h-full text-sm font-medium font-client capitalize ltr:rounded-tr ltr:rounded-br rtl:rounded-tl rtl:rounded-bl text-white bg-[#008BBA]">-->
+<!--                        {{ $t('button.apply') }}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <ul class="flex flex-col gap-1.5 mb-4 mt-4">
                 <li class="flex items-center justify-between">
