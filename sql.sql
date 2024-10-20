@@ -1,4 +1,1 @@
-select *
-from expenses;
-select *
-from purchase_payments ;
+update  orders set paid = token where paid IS NULL;
