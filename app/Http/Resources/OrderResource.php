@@ -45,8 +45,8 @@
                     ->filter()
                     ->unique()
                     ->implode(' and ') ,
-//                'payment_status'                 => $this->total == $this->paid ? Paymentstatus::PAID : Paymentstatus::PARTIALLY_PAID ,
-                'payment_status'                 => $this->paymentStatus() ,
+                'payment_status'                 => $this->payment_status ,
+//                'payment_status'                 => $this->paymentStatus() ,
                 'preparation_time'               => $this->preparation_time ,
                 'order_type'                     => $this->order_type ,
                 'order_datetime'                 => AppLibrary::datetime($this->order_datetime) ,
