@@ -285,6 +285,7 @@ export default {
                     [orderStatusEnum.DELIVERED]: this.$t("label.delivered"),
                     [orderStatusEnum.CANCELED]: this.$t("label.canceled"),
                     [orderStatusEnum.PREPARED]: this.$t("label.prepared"),
+                    [orderStatusEnum.PENDING]: this.$t("label.pending"),
                 },
                 paymentStatusEnumArray: {
                     [paymentStatusEnum.PAID]: this.$t("label.paid"),
