@@ -387,6 +387,7 @@
         "prepared": "Prepared",
         "delivery": "Delivery",
         "delivery": "Delivery",
+        "pending": "Pending",
         "delivery_address": "Delivery Address",
         "delivery_boy": "Delivery Boy",
         "delivery_charge": "Delivery Charge",
