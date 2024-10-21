@@ -75,6 +75,8 @@
     use App\Http\Controllers\Frontend\TokenStoreController;
     use App\Http\Controllers\MeatPriceController;
     use App\Http\Controllers\PaymentMethodController;
+    use App\Http\Controllers\RoyaltyPackageBenefitController;
+    use App\Http\Controllers\RoyaltyPackageController;
     use App\Http\Controllers\SubscriptionController;
     use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
     use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
@@ -351,6 +353,8 @@
             Route::match([ 'put' , 'patch' ] , '/address/{customer}/{address}' , [ CustomerAddressController::class , 'update' ]);
             Route::delete('/address/{customer}/{address}' , [ CustomerAddressController::class , 'destroy' ]);
         });
+        Route::resource('royaltyPackages' , RoyaltyPackageController::class);
+        Route::resource('royaltyBenefits' , RoyaltyPackageBenefitController::class);
 
         Route::prefix('my-order')->name('my-order.')->group(function () {
             Route::get('/show/{user}/{order}' , [ MyOrderDetailsController::class , 'orderDetails' ]);
