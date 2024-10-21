@@ -29,6 +29,5 @@ jobs:
             composer update --ignore-platform-reqs
             php artisan migrate:rollback
             php artisan migrate
-
             npm update
             npm run production
