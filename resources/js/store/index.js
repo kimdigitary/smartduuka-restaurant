@@ -82,6 +82,8 @@ import {purchase} from "./modules/purchase";
 import {ingredientPurchase} from "./modules/ingredientPurchase";
 import {ingredientProduct} from "./modules/ingredientProduct";
 import {itemIngredients} from "./modules/itemIngredients";
+import {royalty} from "./modules/royalty";
+import {benefits} from "./modules/benefits";
 
 
 export default new createStore({
@@ -113,6 +115,8 @@ export default new createStore({
         administratorAddress,
         productVariation,
         license,
+        royalty,
+        benefits,
         analytic,
         supplier,
         stock,

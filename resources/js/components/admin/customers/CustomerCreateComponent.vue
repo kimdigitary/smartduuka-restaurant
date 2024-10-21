@@ -1,6 +1,6 @@
 <template>
-    <LoadingComponent :props="loading" />
-    <SmSidebarModalCreateComponent :props="addButton" />
+    <LoadingComponent :props="loading"/>
+    <SmSidebarModalCreateComponent :props="addButton"/>
 
     <div id="sidebar" class="drawer">
         <div class="drawer-header">
@@ -12,24 +12,24 @@
                 <div class="form-row">
                     <div class="form-col-12 sm:form-col-6">
                         <label for="name" class="db-field-title required">{{
-        $t("label.name")
-    }}</label>
+                                $t("label.name")
+                            }}</label>
                         <input v-model="props.form.name" v-bind:class="errors.name ? 'invalid' : ''" type="text"
-                            id="name" class="db-field-control" />
+                               id="name" class="db-field-control"/>
                         <small class="db-field-alert" v-if="errors.name">{{
-        errors.name[0]
-    }}</small>
+                                errors.name[0]
+                            }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
                         <label for="email" class="db-field-title">{{
-            $t("label.email")
-        }}</label>
+                                $t("label.email")
+                            }}</label>
                         <input v-model="props.form.email" v-bind:class="errors.email ? 'invalid' : ''" type="text"
-                            id="email" class="db-field-control" />
+                               id="email" class="db-field-control"/>
                         <small class="db-field-alert" v-if="errors.email">{{
-        errors.email[0]
-    }}</small>
+                                errors.email[0]
+                            }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
@@ -45,11 +45,42 @@
                                 </button>
                             </div>
                             <input v-model="props.form.phone" v-on:keypress="phoneNumber($event)" v-bind:class="errors.phone
-        ? 'invalid' : ''" type="text" id="phone" class="pl-2 text-sm w-full h-full" />
+        ? 'invalid' : ''" type="text" id="phone" class="pl-2 text-sm w-full h-full"/>
                         </div>
                         <small class="db-field-alert" v-if="errors.phone">
                             {{ errors.phone[0] }}
                         </small>
+                    </div>
+
+                    <div class="form-col-12 sm:form-col-6">
+                        <label class="db-field-title required">Date of Birth</label>
+                        <Datepicker hideInputIcon autoApply v-model="props.form.date" :enableTimePicker="false"
+                                    :is24="false" :monthChangeOnScroll="false" utc="false"
+                                    :input-class-name="errors.date ? 'invalid' : ''">
+                            <template #am-pm-button="{ toggle, value }">
+                                <button @click="toggle">{{ value }}</button>
+                            </template>
+                        </Datepicker>
+                        <small class="db-field-alert" v-if="errors.date">
+                            {{ errors.date[0] }}
+                        </small>
+                    </div>
+
+                    <div class="form-col-12 sm:form-col-6">
+                        <label for="city" class="db-field-title">City/Town</label>
+                        <input v-model="props.form.city" v-bind:class="errors.city ? 'invalid' : ''" type="text"
+                               id="city" class="db-field-control"/>
+                        <small class="db-field-alert" v-if="errors.city">{{
+                                errors.city[0]
+                            }}</small>
+                    </div>
+                    <div class="form-col-12 sm:form-col-6">
+                        <label class="db-field-title required">Preferred Location for Rewards:</label>
+                        <vue-select v-model="props.form.status" class="db-field-control f-b-custom-select"
+                                    :options="['Mophyz Churrasco Rodizio Kampala']" label-by="statusKey" value-by="statusValue"
+                                    :closeOnSelect="true" :searchable="true" :clearOnClose="true" placeholder="--"
+                                    search-placeholder="--"/>
+                        <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
@@ -60,27 +91,27 @@
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input :value="enums.statusEnum.ACTIVE" v-model="props.form.status" id="active"
-                                        type="radio" class="custom-radio-field" />
+                                           type="radio" class="custom-radio-field"/>
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="active" class="db-field-label">{{
-        $t("label.active")
-    }}</label>
+                                        $t("label.active")
+                                    }}</label>
                             </div>
                             <div class="db-field-radio">
                                 <div class="custom-radio">
                                     <input :value="enums.statusEnum.INACTIVE" v-model="props.form.status" type="radio"
-                                        id="inactive" class="custom-radio-field" />
+                                           id="inactive" class="custom-radio-field"/>
                                     <span class="custom-radio-span"></span>
                                 </div>
                                 <label for="inactive" class="db-field-label">{{
-        $t("label.inactive")
-    }}</label>
+                                        $t("label.inactive")
+                                    }}</label>
                             </div>
                         </div>
                         <small class="db-field-alert" v-if="errors.status">{{
-        errors.status[0]
-    }}</small>
+                                errors.status[0]
+                            }}</small>
                     </div>
                     <!-- <div class="form-col-12 sm:form-col-6">
                         <label for="password" class="db-field-title required">{{
@@ -125,10 +156,11 @@ import LoadingComponent from "../components/LoadingComponent";
 import statusEnum from "../../../enums/modules/statusEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
+import Datepicker from "@vuepic/vue-datepicker";
 
 export default {
     name: "CustomerCreateComponent",
-    components: { SmSidebarModalCreateComponent, LoadingComponent },
+    components: {Datepicker, SmSidebarModalCreateComponent, LoadingComponent},
     props: ["props"],
     data() {
         return {
@@ -169,7 +201,7 @@ export default {
     },
     computed: {
         addButton: function () {
-            return { title: this.$t('button.add_customer') };
+            return {title: this.$t('button.add_customer')};
         },
     },
 

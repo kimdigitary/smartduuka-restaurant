@@ -31,6 +31,8 @@ import ingredientsStockRoutes from "./modules/ingredientsStockRoutes";
 import purchaseRoutes from "./modules/purchaseRoutes";
 import {purchaseIngredientsRoutes} from "./modules/purchaseIngredientsRoutes";
 import {settingRoutes} from "./modules/settingRoutes";
+import royaltyRoutes from "./modules/royaltyRoutes";
+import benefits from "./modules/benefits";
 
 
 const baseRoutes = [
@@ -103,6 +105,7 @@ const routes = baseRoutes.concat(
     transactionRoutes,
     creditBalanceReportRoutes,
     tableOrderRoutes,
+    benefits,
     // purchaseRoutes,
     adminTableOrderRoutes,
     // diningTableRoutes,
@@ -110,7 +113,8 @@ const routes = baseRoutes.concat(
     expensesRoutes, categoriesRoutes,
     kitchenOrderRoutes,
     ingredientsRoutes,
-    ingredientsStockRoutes
+    ingredientsStockRoutes,
+    royaltyRoutes
 );
 
 const permission = store.getters.authPermission;

@@ -5,6 +5,11 @@ password: piExVVK8j47xWM0
 DB: moodbox_smartduuka
 cd /home/moodbox.smartduuka/public_html
 
+2020_09_10_080029_create_menus_table.php
+php artisan migrate:refresh --path=/database/migrations/2020_09_10_080029_create_menus_table.php
+pa db:seed --class=MenuTableSeeder
+pa make:model RoyaltyPackageBenefit --api --migration  --requests --resource --force
+
 api resource
 parent::toArray($request)
 

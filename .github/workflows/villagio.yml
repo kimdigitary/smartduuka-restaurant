@@ -2,7 +2,7 @@ name: Deployment
 
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ villagio ]
 
 jobs:
   deploy:
@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           username: ${{ secrets.SSH_USERNAME }}
           script: |
-            cd /home/restaurant@smartduuka/public_html
+            cd /home/villagio@smartduuka/public_html
             git fetch origin
             git reset --hard origin/dev
             git pull origin dev
