@@ -204,6 +204,7 @@
                                 setting.site_currency_position)
                         }}</span>
                 </li>
+
                 <li v-if="showDeliveryCharge" class="flex items-center justify-between">
                     <span class="text-sm font-client capitalize leading-6">Delivery Charge</span>
                     <span class="text-sm font-client capitalize leading-6">
